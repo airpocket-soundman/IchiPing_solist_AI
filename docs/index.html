@@ -101,6 +101,7 @@
     <a href="#spec"><span class="n">6</span>実機実装仕様</a>
     <a href="#hw"><span class="n">7</span>実機ハードウェア構成</a>
     <a href="#next"><span class="n">8</span>実機での進め方</a>
+    <a href="#value"><span class="n">9</span>移植の意義・技術的価値</a>
   </nav>
   <div class="foot">
     対象: ROHM Solist-AI (ML63Q2557)<br>
@@ -147,7 +148,7 @@
     <li><b>能動音響センシング</b>：スピーカから <b>PRBS</b>（Pseudo-Random Binary Sequence＝擬似ランダム2値系列。M系列とも呼ぶ、白色雑音に近い「既知の探査信号」）を再生し、部屋の音響応答（<b>RIR</b>＝Room Impulse Response、室内インパルス応答）をマイクで収録する。</li>
     <li><b>baseline 差分特徴</b>：全閉状態の応答（＝<b>baseline</b>、基準波形）を差し引いてから <b>FFT</b>（Fast Fourier Transform＝高速フーリエ変換。信号を周波数成分に分解する処理）。室内の共通応答が相殺され、開閉による差分だけが際立つ。</li>
     <li><b>1D-CNN による分類</b>：<b>1D-CNN</b>（1次元の畳み込みニューラルネットワーク）でスペクトルから状態を分類。</li>
-    <li><b>観測限界の理解（32→14）</b>：扉が閉じるとその先の部屋は音響的に「聞こえない」。よって 32 真状態のうち一部は原理的に区別できず、<b>14 個の観測等価クラス</b>に集約される（下図）。これは IchiPing の精度上限を決める物理的な根拠。</li>
+    <li><b>観測限界の理解（32→14）</b>：扉が閉じるとその先の部屋は音響的に「聞こえない」。よって 32 真状態のうち一部は原理的に区別できず、<b>14 個の観測等価クラス</b>に集約される（下図）。これは IchiPing の精度上限を決める物理的な根拠だが、<b>移植版は現地校正により、この壁を越えて閉扉越しの透過音まで識別する</b>（→ §5）。</li>
   </ul>
   <figure class="fig">
     <img src="img/observability.svg" alt="観測可能性と観測等価クラス" style="width:100%;max-width:880px;display:block;margin:0 auto;border-radius:8px">
@@ -322,6 +323,7 @@
   <h3 style="margin-top:0">なぜ baseline 差分か</h3>
   <p>同一 PRBS 系列がサンプル整列して再生されるため、全閉時の波形を基準に時間領域で引くと、部屋・スピーカ・マイクに由来する共通応答が高い一致度で相殺される。残るのは扉/窓の開閉で変わる成分だけ。これにより小さな状態差が際立ち、浅い ELM でも分離できる。</p>
   </div>
+  <div class="note"><b>用語</b>：<b>Hann窓</b>＝FFT 前に波形の両端をなめらかに減衰させる窓関数（スペクトル漏れを低減）。<b>NFFT</b>＝1 回の FFT の点数（=1024）。<b>Fisher比</b>＝クラス間分散 ÷ クラス内分散。大きい周波数ほど状態差が出やすく、情報帯域の選定に使用。<b>z-score（標準化）</b>＝各周波数次元を平均0・標準偏差1に正規化（ELM の飽和を防ぐ）。</div>
   <div class="pager"><a href="#model">← モデル構造</a><a href="#train">次：学習パイプライン →</a></div>
 </section>
 
@@ -330,7 +332,7 @@
   <div class="crumb">レポート ／ 学習パイプライン</div>
   <h1>学習パイプライン（PC 自作）</h1>
   <div class="note">
-  <b>PC 自作パイプラインの採用理由：</b> 公式シミュレータのオンデバイス学習（逐次 OS-ELM）は本データで安定収束しなかったため、<b>PC 側で β を最小二乗（batch-LS）で直接計算</b>し、その β をモデルにロードして推論検証した。OS-ELM は forget=1 で最小二乗解に収束するため、自作 batch-LS は実機オンデバイス学習の「収束後の到達点」と等価。実機では同じ β を焼込（または現場で再計算）する。
+  <b>PC 自作パイプラインの採用理由：</b> 公式シミュレータのオンデバイス学習（逐次 <b>OS-ELM</b>＝Online Sequential ELM。データを1件ずつ与えて β を逐次更新する学習法）は本データで安定収束しなかったため、PC 側で β を <b>batch-LS</b>（バッチ最小二乗＝全データを一括で解いて最適 β を求める方式）で直接計算し、その β をモデルにロードして推論検証した。OS-ELM は <b>forget</b>（忘却係数）＝1（過去データを等しく重視）で最小二乗解に収束するため、自作 batch-LS は実機オンデバイス学習の「収束後の到達点」と等価。実機では同じ β を焼込（または現場で再計算）する。
   </div>
 
   <figure class="fig">
@@ -363,7 +365,7 @@
     <tr><td>現地校正（32cls）</td><td>設置環境で各状態を少量採取して β を再計算</td><td>10 frame / 状態</td></tr>
   </table>
   <div class="card" style="padding:12px 18px">
-  <b>クロスベースライン</b>と<b>オーグメンテーション</b>の狙いは、いずれも「<i>別の日・別環境でも崩れない β</i>」を作る正則化。クロスベースラインは基準波形のばらつきを、オーグメンテーションは収録ノイズ・レベル変動を学習時に模擬する。
+  <b>クロスベースライン</b>と<b>オーグメンテーション</b>（データ拡張）の狙いは、いずれも「<i>別の日・別環境でも崩れない β</i>」を作る正則化。クロスベースラインは基準波形のばらつきを、オーグメンテーションは収録ノイズ・レベル変動を学習時に模擬する。β の最小二乗には <b>ridge</b>（過学習を抑えるための正則化項）を併用。
   </div>
   <div class="pager"><a href="#feature">← 特徴抽出</a><a href="#result">次：シミュレーション結果 →</a></div>
 </section>
@@ -383,6 +385,14 @@
     <div class="card"><h3 style="margin-top:0">14cls — 校正不要で完成</h3><p>入力スケール調整で別セッション汎化が成立し、<b>工場 β を焼くだけで 99.4% / 投票100%</b>。観測等価クラスは環境変化に頑健で、校正工程が不要。</p></div>
     <div class="card"><h3 style="margin-top:0">32cls — 現地校正で完成</h3><p>32 状態は環境固有の微差で区別するため、出荷時 77.8% → <b>現地で各状態を約10フレーム校正すると 99.1% / 投票100%</b>。校正済み環境では観測等価とされた状態も 99.6% 区別できた。</p></div>
   </div>
+
+  <div class="card" style="border-left:5px solid var(--accent2)">
+    <h3 style="margin-top:0">★ 観測等価の壁を越えた — 閉扉越しの「透過音」を識別</h3>
+    <p>本来、扉が閉じるとその先は音響的に観測できず、32 真状態の一部は原理的に区別不能で <b>14cls が上限</b>のはずだった（§1 観測等価）。ところが現地校正した 32cls は、<b>その「区別できないはず」の等価状態どうしも 99.6% 区別</b>できた。</p>
+    <p>内訳：v12 holdout 1,280 フレーム中、32cls の誤りは <b>12 件のみ</b>。うち観測等価グループ内での取り違え（物理的に曖昧なはずの混同）は <b>わずか 5 件</b>。残り 7 件は等価をまたぐ単純な残差ノイズだった。</p>
+    <p>これは、閉じた扉をわずかに透過・回折する音（<b>透過音</b>）の微細なスペクトル差を ELM が拾い、現地校正でその環境固有の差分を学習したため。<span class="ok">単純な観測等価の上限を超える識別性能を獲得した</span>といえる。ただしこの微差は環境固有なので<b>現地校正が前提</b>（未校正の別環境では区別が崩れ 32cls factory 77.8% に低下）。</p>
+  </div>
+
   <div class="note">参考：IchiPing（1D-CNN）の 32cls 実機 LIVE 精度は約 59%、分布内好条件で 88%。本 ELM 方式は <b>14cls・32cls とも実機 LIVE を大きく上回る</b>。</div>
   <div class="pager"><a href="#train">← 学習パイプライン</a><a href="#spec">次：実機実装仕様 →</a></div>
 </section>
@@ -406,6 +416,7 @@
   <h3 style="margin-top:0">パラメータ規模（IchiPing CNN 比）</h3>
   <p>IchiPing v1 CNN（32cls）≈ 173,000 パラメータ（全学習）。本 ELM（D=167, m=32）= 総 ≈ 12,700（α 10,688 は乱数固定で保存0 ＋ β 2,048）。<b>学習・保存対象は β のみ</b>＝ IchiPing 比で学習パラメータ約 1/84。これが軽量なオンデバイス学習を可能にする。</p>
   </div>
+  <div class="note"><b>用語</b>：<b>AxlCORE-ODL</b>＝Solist-AI のオンデバイス学習用 AI アクセラレータ（<b>ODL</b>＝On-Device Learning）。<b>FPU</b>＝浮動小数点演算器（本 MCU は非搭載）。<b>SRAM</b>＝高速な作業用メモリ（16KB、推論/学習の作業領域）。<b>Flash</b>＝不揮発メモリ（256KB、プログラム・重みの保存）。<b>bfloat16</b>＝16bit 浮動小数フォーマット。<b>hard sigmoid</b>＝sigmoid を区分線形で近似した活性化関数。</div>
   <div class="pager"><a href="#result">← シミュレーション結果</a><a href="#hw">次：実機ハードウェア →</a></div>
 </section>
 
@@ -457,6 +468,7 @@
     <span><span class="sw" style="background:#b5781a"></span>励振（本命 SPI DAC）</span>
     <span><span class="sw" style="background:#557"></span>最終手段（I2S 別MCU）</span>
   </div>
+  <div class="note"><b>用語</b>：<b>ADC</b>＝アナログ-デジタル変換器（マイク信号の取込）。<b>DAC</b>＝デジタル-アナログ変換器（音の出力）。<b>I2S</b>＝デジタル音声伝送インタフェース。<b>SPI</b>＝高速シリアル周辺機器インタフェース。<b>UART</b>＝調歩同期シリアル通信。<b>CN6</b>＝評価ボードのアナログ入力コネクタ。</div>
   <div class="pager"><a href="#spec">← 実機実装仕様</a><a href="#next">次：実機での進め方 →</a></div>
 </section>
 
@@ -476,13 +488,51 @@
   <div class="note">
   <b>未検証点（明示）：</b>「MCU のオンデバイス校正 ＝ PC の batch-LS 校正」は資料で明文確認できておらず、公式 Sim の学習は収束しなかった。理論上は等価（OS-ELM forget=1 → 最小二乗）だが、実機での収束は要確認。<b>そのため自前 β 計算のフォールバックを用意</b>しており、どちらでも 99% は達成できる設計。
   </div>
-  <div class="pager"><a href="#hw">← 実機ハードウェア</a><a class="empty">&nbsp;</a></div>
+  <div class="pager"><a href="#hw">← 実機ハードウェア</a><a href="#value">次：移植の意義・技術的価値 →</a></div>
+</section>
+
+<!-- 9. 移植の意義・技術的価値 -->
+<section id="value" class="article">
+  <div class="crumb">レポート ／ 移植の意義・技術的価値</div>
+  <h1>移植の意義と技術的価値</h1>
+  <p>「自由に設計できる深層 CNN」から「制約の強い Solist-AI」へ——一見すると“格下げ”の移植に見える。しかし<b>この強い制約の中で同等以上の性能を引き出すこと、そして Solist-AI でしか得られない強みを活かし切ること</b>にこそ、本プロジェクトの技術的価値と面白さがある。</p>
+
+  <h2>移植の難しさ：自由 → 制約</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0">移植元（自由なモデル構築）</h3>
+      <p>MCXN947 + 1D-CNN は、層・チャネル・パラメータを自由に設計し <b>全層を誤差逆伝播で学習</b>できる。特徴抽出器そのものをデータから獲得でき、約 173,000 パラメータの深いモデルが組めた。</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">移植先（限定的なモデル構成）</h3>
+      <ul>
+        <li>入力→中間の重み <b>α は乱数固定で学習できない</b>（＝特徴抽出器を学習で持てない）</li>
+        <li>学習できるのは出力側の <b>β だけ</b></li>
+        <li>隠れ層は実機 SRAM 16KB の制約で <b>~32 程度</b>が上限</li>
+        <li><b>bfloat16・FPU 無</b>の小型 MCU（Cortex-M0+ 48MHz）</li>
+      </ul>
+    </div>
+  </div>
+  <p>つまり<b>深い CNN をそのまま移植することはできない</b>。「自由に組めるモデル」を「限られた器」へ作り直す再設計が、本移植の最大の難所だった。</p>
+
+  <h2>制約を武器に変えた解法</h2>
+  <p>CNN が学習で獲得していた特徴抽出の役割を、<b>①賢い前処理</b>（baseline 差分＋情報帯域クロップ＋標準化）と <b>②現場での β 校正</b>に肩代わりさせ、さらに<b>入力スケール調整</b>で別環境への汎化を確保した（14cls 86%→99%）。結果、深い CNN なしで <b>14cls 99.4% / 32cls 99.1%</b> に到達。</p>
+
+  <h2>Solist-AI だからこそ得られる価値</h2>
+  <div class="grid3">
+    <div class="card"><h3 style="margin-top:0">① 極少パラメータ</h3><p>学習・保存するのは <b>β のみ ≈ 2,048</b>（IchiPing CNN 比 <b>約 1/84</b>）。α は seed 再生成で<b>保存ゼロ</b>。モデルは数 KB で完結し、16KB RAM・256KB Flash に余裕で載る。</p></div>
+    <div class="card"><h3 style="margin-top:0">② 追加学習で精度向上</h3><p>クラウド不要で<b>設置現場が自分で学習</b>し環境へ適応。これにより<b>観測等価の壁を越え、閉扉越しの透過音まで識別</b>（§5）。大 CNN ＋ クラウド学習では届かない、オンデバイス学習が本質的に効く領域。</p></div>
+    <div class="card"><h3 style="margin-top:0">③ スタンドアロン</h3><p>ネット不要・低遅延・低消費・プライバシー保全。設置してその場で賢くなり続ける、自己完結のセンサになる。</p></div>
+  </div>
+  <div class="note"><b>面白さの核：</b>「α を学習できない」という最大の制約を、<b>前処理＋ランダム特徴＋現場校正</b>という発想で逆手に取り、むしろ <span class="ok">「現場で学習して賢くなり続けるセンサ」</span> を極少パラメータで実現した点。<b>Solist-AI のオンデバイス学習という特性を、課題（環境依存で精度が落ちる）の解決そのものに使い切った</b>ところに、このアプローチの技術的価値がある。</div>
+
+  <div class="pager"><a href="#next">← 実機での進め方</a><a class="empty">&nbsp;</a></div>
 </section>
 
 </main>
 
 <script>
-  var ids=["overview","model","feature","train","result","spec","hw","next"];
+  var ids=["overview","model","feature","train","result","spec","hw","next","value"];
   function route(){
     var h=(location.hash||"#overview").replace("#","");
     if(ids.indexOf(h)<0)h="overview";

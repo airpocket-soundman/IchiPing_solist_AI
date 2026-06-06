@@ -400,13 +400,39 @@
   </div>
 
   <div class="card" style="border-left:5px solid var(--accent2)">
-    <h3 style="margin-top:0">⬇ ベストモデルのダウンロード</h3>
-    <p>公式 Solist-AI Sim（SLV1.00.04）に「Using loaded AI model ＋ Test only」でロードできる <code>model1.xlsx</code>（seed=1, m=32, β 焼込済）。</p>
+    <h3 style="margin-top:0">⬇ ベストモデル＆テストデータのダウンロード</h3>
+    <p>公式 Solist-AI Sim（SLV1.00.04）にそのままロード／投入できる一式（<code>model1.xlsx</code>＝seed=1, m=32, β 焼込済 ／ テスト CSV＝入力スケール適用済）。</p>
+    <table>
+      <tr><th>クラス</th><th>モデル</th><th>テストデータ</th></tr>
+      <tr><td><b>14cls</b><br>追加学習不要 99.4%</td><td><a href="models/model1_BEST_14cls.xlsx" download>model1_BEST_14cls.xlsx</a><br><span style="color:var(--muted);font-size:12px">出力14 / β=32×14</span></td><td><a href="models/test_BEST_14cls.csv" download>test_BEST_14cls.csv</a><br><span style="color:var(--muted);font-size:12px">1600行×181列 / 入力×0.5</span></td></tr>
+      <tr><td><b>32cls</b><br>MCU追加学習後 99.1%</td><td><a href="models/model1_BEST_32cls_ondevice.xlsx" download>model1_BEST_32cls_ondevice.xlsx</a><br><span style="color:var(--muted);font-size:12px">出力32 / β=32×32</span></td><td><a href="models/test_BEST_32cls_ondevice.csv" download>test_BEST_32cls_ondevice.csv</a><br><span style="color:var(--muted);font-size:12px">1280行×199列 / 入力×1.0</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Sim で推論を再現する手順</h3>
+    <h3>① テスト CSV のデータ構造</h3>
     <ul>
-      <li><a href="models/model1_BEST_14cls.xlsx" download><b>14cls モデル</b>（追加学習不要・99.4%）</a> — 出力14 / β=32×14</li>
-      <li><a href="models/model1_BEST_32cls_ondevice.xlsx" download><b>32cls モデル</b>（MCU追加学習後・99.1%）</a> — 出力32 / β=32×32</li>
+      <li><b>1 行 = 1 フレーム</b>（2 秒キャプチャ）、ヘッダ行あり、カンマ区切り。</li>
+      <li><b>列構成</b>：先頭 <b>167 列</b> = 入力特徴 <code>f1…f167</code>（FFT(audio−baseline) 400–3000Hz、z-score 標準化済、<b>学習時の入力スケール適用済</b>＝14cls:×0.5 / 32cls:×1.0）、続く <b>C 列</b> = 正解 one-hot <code>c0…c{C−1}</code>（C=14 または 32）。</li>
+      <li><b>サイズ</b>：14cls = 1600 行 × 181 列（167+14）、32cls = 1280 行 × 199 列（167+32）。</li>
     </ul>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:0">対応する検証用テスト（CSV）はリポジトリの <code>sim_export/</code> に同梱。</p>
+    <h3>② Sim パラメータ（推論のみ＝Test only）</h3>
+    <table>
+      <tr><th>タブ</th><th>設定</th></tr>
+      <tr><td>1. Training（ダミー）</td><td>次元合わせのみ。任意の同形 CSV（テストを流用可）。Input: 先頭列 <b>1</b> / 1行 / <b>167</b>列、Expected: 先頭列 <b>168</b> / 1行 / <b>C</b>列</td></tr>
+      <tr><td>2. Test</td><td>上記テスト CSV。Input <b>1 / 1 / 167</b>、Expected <b>168 / 1 / C</b>、chunks = Automatic</td></tr>
+      <tr><td>3. AI 設定</td><td>Input <b>167</b> / Hidden <b>32</b> / Output <b>C</b>（ロードで自動）、Activation = <b>Sigmoid</b>、Loss = <b>MSE</b>、Forgetting = <b>1</b>、Seed = <b>1</b></td></tr>
+      <tr><td>3. 実行</td><td><b>「Using loaded AI model」ON</b> → 該当 model1.xlsx を Load、<b>「Test only」ON</b> → <code>Sim</code></td></tr>
+    </table>
+    <p style="margin-bottom:0"><b>C = 14 または 32</b>（モデルに合わせる。14cls は Expected 列数を必ず 14 に）。</p>
+    <h3>③ 結果の読み方</h3>
+    <ul>
+      <li>出力ファイル <code>data_*_2_test.xlsx</code> に各フレームの <code>y_expected_*</code> と <code>y_actual_*</code>。</li>
+      <li><b>予測クラス = y_actual の argmax</b>。フレーム精度 = 一致率。多数決精度 = 同一状態の全フレームで y_actual を合算して argmax。</li>
+      <li>期待値：14cls フレーム 99.38% / 32cls フレーム 99.06%（各 多数決 100%）。</li>
+    </ul>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:0">モデル諸元：ni=167, m=32, no=C, seed=1, scaleAlpha≈0.205, hard sigmoid, bfloat16（α は seed 再生成・β 焼込済）。生成スクリプトは <code>sim/build_best_mcu.py</code> / <code>sim/emit_best.py</code>。</p>
   </div>
 
   <div class="pager"><a href="#train">← 学習パイプライン</a><a href="#spec">次：実機実装仕様 →</a></div>

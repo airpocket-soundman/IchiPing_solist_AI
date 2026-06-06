@@ -115,23 +115,58 @@
 <section id="overview" class="article">
   <div class="crumb">レポート ／ 概要</div>
   <h1>IchiPing → Solist-AI 移植 検証レポート</h1>
-  <div class="lead">能動音響による扉/窓の開閉状態センシングを ROHM Solist-AI (ML63Q2557) へ移植するための事前検証</div>
+  <div class="lead">能動音響（スピーカで音を出し、その反響を聴いて状態を推定する方式）による扉/窓の開閉センシングを、ROHM Solist-AI (ML63Q2557) へ移植するための事前検証</div>
   <div style="margin:10px 0 6px">
-    <span class="tag">14cls / 32cls</span>
-    <span class="tag">ELM (Extreme Learning Machine)</span>
+    <span class="tag">14cls / 32cls（識別する状態クラス数）</span>
+    <span class="tag">ELM（軽量学習機）</span>
     <span class="tag">公式Sim 実証済</span>
     <span class="tag">実機16KB RAM 適合</span>
   </div>
+
+  <p style="margin-top:14px">外出先で空が暗くなり雨——「窓、閉めてきたっけ？」。戻る時間はない。<b>IchiPing は 1 個のマイクで家中の窓・扉の状態を一発で確認し、スマホへ通知する</b>。これがこのプロジェクトの出発点となるユースケース。</p>
+  <figure class="fig">
+    <img src="img/ichiping_usecase.png" alt="IchiPing のユースケース（雨・窓の確認）" style="width:100%;max-width:760px;display:block;margin:0 auto;border-radius:8px">
+    <figcaption>図. ユースケース：「雨だ、窓は大丈夫？」を外出先から IchiPing で確認。</figcaption>
+  </figure>
+
+  <figure class="fig">
+    <img src="img/ichiping_infographic.png" alt="IchiPing 全体像インフォグラフィック" style="width:100%;max-width:1000px;display:block;margin:0 auto;border-radius:8px">
+    <figcaption>図. IchiPing 全体像（移植元）。コンセプト・システム構成・処理フロー・音響特徴を一枚に集約。</figcaption>
+  </figure>
+
+  <h2>IchiPing とは（移植元）</h2>
+  <p><b>IchiPing</b> は「<b>1 個のマイクと 1 発の Ping（探査音）だけで、家中の窓・扉の開閉状態をまとめて推定する</b>」エッジAIデバイス。部屋の反響は窓や扉の開閉で変化するため、既知の音を出して反響を分析すれば、複数の開口部の状態を 1 回の観測で同時に当てられる、という発想。</p>
+  <p>窓 3・扉 2 の計 5 箇所、それぞれ開/閉 → 組合せは 2⁵ = <b>32 状態</b>。これを 1 マイク＋1 スピーカで識別する。「<b>cls（class＝クラス）</b>」は識別する状態の種類数で、<b>32cls</b>＝32 状態すべて、<b>14cls</b>＝後述の観測等価でまとめた 14 種を指す。</p>
+  <figure class="fig">
+    <img src="img/system_overview.svg" alt="IchiPing システム構成" style="width:100%;max-width:880px;display:block;margin:0 auto;border-radius:8px">
+    <figcaption>図. IchiPing のシステム構成（移植元）。1 マイク＋1 スピーカで探査音を出し、エッジ AI で 32 状態を推定。</figcaption>
+  </figure>
+
+  <h2>IchiPing が実現している技術</h2>
+  <ul>
+    <li><b>能動音響センシング</b>：スピーカから <b>PRBS</b>（Pseudo-Random Binary Sequence＝擬似ランダム2値系列。M系列とも呼ぶ、白色雑音に近い「既知の探査信号」）を再生し、部屋の音響応答（<b>RIR</b>＝Room Impulse Response、室内インパルス応答）をマイクで収録する。</li>
+    <li><b>baseline 差分特徴</b>：全閉状態の応答（＝<b>baseline</b>、基準波形）を差し引いてから <b>FFT</b>（Fast Fourier Transform＝高速フーリエ変換。信号を周波数成分に分解する処理）。室内の共通応答が相殺され、開閉による差分だけが際立つ。</li>
+    <li><b>1D-CNN による分類</b>：<b>1D-CNN</b>（1次元の畳み込みニューラルネットワーク）でスペクトルから状態を分類。</li>
+    <li><b>観測限界の理解（32→14）</b>：扉が閉じるとその先の部屋は音響的に「聞こえない」。よって 32 真状態のうち一部は原理的に区別できず、<b>14 個の観測等価クラス</b>に集約される（下図）。これは IchiPing の精度上限を決める物理的な根拠。</li>
+  </ul>
+  <figure class="fig">
+    <img src="img/observability.svg" alt="観測可能性と観測等価クラス" style="width:100%;max-width:880px;display:block;margin:0 auto;border-radius:8px">
+    <figcaption>図. 観測可能性：扉が閉じると向こう側は観測不能になり、複数の真状態が 1 つの等価クラスに集約される（32 → 14）。</figcaption>
+  </figure>
+
+  <h2>Solist-AI への移植</h2>
+  <p>移植先の <b>Solist-AI（ML63Q2557）</b> は <b>オンデバイス学習IC</b>＝クラウドや再プログラムなしに<b>機器の現場で学習・再学習できる</b>エッジ AI チップ。IchiPing は設置環境が変わると精度が落ちる課題（実機ライブ環境で 32cls 約 59%）があったが、Solist-AI なら<b>設置したその場で校正</b>して精度を取り戻せるのが利点。</p>
+  <p>ただしアルゴリズムは、IchiPing の深い 1D-CNN から Solist-AI の浅い <b>ELM</b>（Extreme Learning Machine。入力→中間層の重みは乱数で固定し、出力側の重みだけを学習する軽量な学習機。詳細は §2）へ置き換わる。本レポートは<b>この移植が成立するか</b>の検証結果である。</p>
+
   <div class="grid3" style="margin-top:18px">
     <div class="kpi"><div class="big">99.4<span style="font-size:18px">%</span></div><div class="l">14cls フレーム精度<br>（校正不要・投票100%）</div></div>
     <div class="kpi"><div class="big">99.1<span style="font-size:18px">%</span></div><div class="l">32cls フレーム精度<br>（現地校正後・投票100%）</div></div>
     <div class="kpi"><div class="big">~11<span style="font-size:18px">KB</span></div><div class="l">AI RAM 使用量<br>（実機16KB に収まる）</div></div>
   </div>
   <div class="card">
-    <p>FRDM-MCXN947 + 1D-CNN で動作していた IchiPing（PRBS 励振音を出し、室内応答の差分から扉/窓の開閉状態を推定）を、オンデバイス学習IC <b>ROHM Solist-AI（ML63Q2557）</b> へ移植する。本書は実機入手前に行った推論・学習シミュレーションの検証結果と、実装フェーズの仕様をまとめたもの。</p>
-    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AI シミュレータで目標精度を実証</span>。14cls は工場出荷の重みを焼くだけ（校正不要）で 99.4%、32cls は設置環境での少量校正で 99.1%。いずれも実機メモリ枠（RAM 16KB / Flash 256KB）に収まる。</p>
+    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AI シミュレータ（SLV1.00.04）で目標精度を実証</span>。14cls は工場出荷の重みを焼くだけ（校正不要）で 99.4%、32cls は設置環境での少量校正で 99.1%。いずれも実機メモリ枠（SRAM 16KB / Flash 256KB）に収まり、IchiPing のライブ精度（59%）を両粒度で大きく上回る。</p>
   </div>
-  <div class="note">本レポートは IchiPing 既収集データ（v6–v12）での結果。<b>実機ではスピーカ／マイクが変更されるため β を再学習</b>する（手順は §4・§7 参照）。</div>
+  <div class="note">本レポートは IchiPing の既収集データ（収録セッション v6–v12）での結果。<b>実機ではスピーカ／マイクが変更されるため、出力側の重み β を再学習</b>する（手順は §4・§7 参照）。</div>
   <div class="pager"><a class="empty">&nbsp;</a><a href="#model">次：モデル構造 →</a></div>
 </section>
 

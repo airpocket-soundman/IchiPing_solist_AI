@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" font-family="Hiragino Sans, Yu Gothic UI, Segoe UI, sans-serif">
+  <defs>
+    <style>
+      .title  { font-size: 18px; font-weight: 800; fill: #1a1d23; }
+      .sub    { font-size: 12px; fill: #6b7280; }
+
+      .scene-bg { fill: #f8fafa; stroke: #cbd5e1; stroke-width: 1; }
+      .scene-title { font-size: 13px; font-weight: 800; fill: #1a1d23; }
+
+      .room-fill-on  { fill: #d2efe2; }
+      .room-fill-off { fill: #e5e7eb; }
+
+      .wall-on  { stroke: #1a1d23; stroke-width: 1.6; fill: none; }
+      .wall-off { stroke: #9ca3af; stroke-width: 1.2; stroke-dasharray: 4 3; fill: none; }
+
+      .room-on-label  { font-size: 11px; font-weight: 700; fill: #006b6b; }
+      .room-off-label { font-size: 11px; font-weight: 700; fill: #9ca3af; }
+
+      .door-closed { stroke: #c2185b; stroke-width: 3.4; }
+      .door-open-hint { stroke: #2ec4b6; stroke-width: 2; stroke-dasharray: 3 3; opacity: 0.55; }
+
+      .window-mark { fill: #ff9f1c; stroke: #1a1d23; stroke-width: 0.8; }
+      .window-mask { fill: #d1d5db; stroke: #9ca3af; stroke-width: 0.8; }
+      .mic-mark    { fill: #006b6b; stroke: #1a1d23; stroke-width: 1; }
+      .spk-mark    { fill: #1a1d23; stroke: #1a1d23; stroke-width: 1; }
+
+      .legend-pill { font-size: 11px; font-weight: 700; fill: #1a1d23; }
+      .count-big   { font-size: 28px; font-weight: 900; fill: #006b6b; }
+      .count-sub   { font-size: 11px; fill: #4b5563; }
+
+      .summary-bg { fill: #fff7ed; stroke: #fed7aa; stroke-width: 1.5; }
+      .summary-title { font-size: 13px; font-weight: 800; fill: #9a3412; }
+      .summary-eq    { font-size: 22px; font-weight: 800; fill: #9a3412; }
+    </style>
+  </defs>
+
+  <text class="title" x="540" y="30" text-anchor="middle">
+    観測可能性: 扉が閉じると向こう側は「聞こえない」
+  </text>
+  <text class="sub" x="540" y="48" text-anchor="middle">
+    全 32 状態 (2⁵) のうち、扉を挟んだ先の窓・扉は音響的に遮断され区別不能になる
+  </text>
+
+  <!-- ============ 場面 1: AB 閉 (BC は問わず) ============
+       Room A on, Room B/C off. No open doors.
+       Walls: full perimeter + full internal walls.
+  -->
+  <g transform="translate(30,80)">
+    <rect class="scene-bg" x="0" y="0" width="330" height="395" rx="10"/>
+    <text class="scene-title" x="165" y="22" text-anchor="middle">扉 AB = 閉</text>
+    <text class="sub" x="165" y="38" text-anchor="middle">(扉 BC の状態は問わず観測不能)</text>
+
+    <!-- Room fills (no stroke) -->
+    <rect class="room-fill-on"  x="20"  y="60" width="90" height="170"/>
+    <rect class="room-fill-off" x="110" y="60" width="90" height="170"/>
+    <rect class="room-fill-off" x="200" y="60" width="90" height="170"/>
+
+    <!-- Walls (drawn explicitly with gaps where doors are open) -->
+    <!-- Outer perimeter -->
+    <path class="wall-on"  d="M20,60 L110,60"/>          <!-- top of Room A -->
+    <path class="wall-off" d="M110,60 L290,60"/>         <!-- top of Room B+C -->
+    <path class="wall-on"  d="M20,230 L110,230"/>        <!-- bottom of Room A -->
+    <path class="wall-off" d="M110,230 L290,230"/>       <!-- bottom of Room B+C -->
+    <path class="wall-on"  d="M20,60 L20,230"/>          <!-- left of Room A -->
+    <path class="wall-off" d="M290,60 L290,230"/>        <!-- right of Room C -->
+    <!-- Inner walls -->
+    <path class="wall-on"  d="M110,60 L110,230"/>        <!-- AB wall (closed = full) -->
+    <path class="wall-off" d="M200,60 L200,230"/>        <!-- BC wall (closed) -->
+
+    <!-- Door indicators -->
+    <line class="door-closed" x1="110" y1="70" x2="110" y2="130"/>
+    <text x="116" y="105" font-size="9" fill="#c2185b" font-weight="700">扉 AB</text>
+    <text x="116" y="118" font-size="9" fill="#c2185b" font-weight="700">閉</text>
+
+    <!-- Window marks on top walls -->
+    <rect class="window-mark" x="50"  y="56" width="30" height="8"/>
+    <rect class="window-mask" x="140" y="56" width="30" height="8"/>
+    <rect class="window-mask" x="230" y="56" width="30" height="8"/>
+    <text x="65"  y="50" font-size="10" text-anchor="middle" fill="#1a1d23">窓 a</text>
+    <text x="155" y="50" font-size="10" text-anchor="middle" fill="#9ca3af">窓 b</text>
+    <text x="245" y="50" font-size="10" text-anchor="middle" fill="#9ca3af">窓 c</text>
+
+    <!-- Room labels -->
+    <text class="room-on-label"  x="65"  y="220" text-anchor="middle">Room A</text>
+    <text class="room-off-label" x="155" y="220" text-anchor="middle">Room B</text>
+    <text class="room-off-label" x="245" y="220" text-anchor="middle">Room C</text>
+
+    <!-- mic (Room A 中央床) + SPK (窓と対面壁) -->
+    <circle class="mic-mark" cx="65" cy="145" r="6"/>
+    <text x="65" y="160" font-size="9" text-anchor="middle" fill="#1a1d23">mic</text>
+    <rect class="spk-mark" x="48" y="218" width="34" height="12" rx="2"/>
+    <circle cx="65" cy="224" r="4" fill="#fff"/>
+    <text x="65" y="244" font-size="9" text-anchor="middle" fill="#1a1d23">SPK</text>
+
+    <!-- ? marks in masked rooms -->
+    <text x="155" y="148" font-size="20" text-anchor="middle" fill="#9ca3af">？</text>
+    <text x="245" y="148" font-size="20" text-anchor="middle" fill="#9ca3af">？</text>
+
+    <!-- 観測可能 -->
+    <text x="165" y="282" font-size="11" text-anchor="middle" fill="#1a1d23">音響的に観測できる変数</text>
+    <text x="165" y="300" font-size="12" font-weight="700" text-anchor="middle" fill="#006b6b">窓 a のみ</text>
+    <text x="165" y="334" font-size="11" text-anchor="middle" fill="#1a1d23">区別できる状態数</text>
+    <text x="165" y="368" class="count-big" text-anchor="middle">2</text>
+    <text x="165" y="386" class="count-sub" text-anchor="middle">真状態 16 配置がここに集約</text>
+  </g>
+
+  <!-- ============ 場面 2: AB 開, BC 閉 ============
+       Room A+B on (coupled), Room C off.
+       AB wall has a GAP at the door (y=70..130).
+       BC wall is intact (closed).
+  -->
+  <g transform="translate(375,80)">
+    <rect class="scene-bg" x="0" y="0" width="330" height="395" rx="10"/>
+    <text class="scene-title" x="165" y="22" text-anchor="middle">扉 AB = 開, 扉 BC = 閉</text>
+    <text class="sub" x="165" y="38" text-anchor="middle">(Room C は遮断、Room A+B のみカップリング)</text>
+
+    <!-- Room fills -->
+    <rect class="room-fill-on"  x="20"  y="60" width="90" height="170"/>
+    <rect class="room-fill-on"  x="110" y="60" width="90" height="170"/>
+    <rect class="room-fill-off" x="200" y="60" width="90" height="170"/>
+
+    <!-- Walls -->
+    <!-- Outer perimeter (top/bottom split where rooms meet to match wall style) -->
+    <path class="wall-on"  d="M20,60 L200,60"/>          <!-- top of A+B (both on) -->
+    <path class="wall-off" d="M200,60 L290,60"/>         <!-- top of C -->
+    <path class="wall-on"  d="M20,230 L200,230"/>        <!-- bottom of A+B -->
+    <path class="wall-off" d="M200,230 L290,230"/>       <!-- bottom of C -->
+    <path class="wall-on"  d="M20,60 L20,230"/>          <!-- left of A -->
+    <path class="wall-off" d="M290,60 L290,230"/>        <!-- right of C -->
+    <!-- AB inner wall: GAP at y=70..130 (door open) -->
+    <path class="wall-on" d="M110,60 L110,70  M110,130 L110,230"/>
+    <!-- BC inner wall: full (closed) -->
+    <path class="wall-on" d="M200,60 L200,230"/>
+
+    <!-- Door indicators -->
+    <!-- AB open: dashed teal hint inside the gap -->
+    <line class="door-open-hint" x1="110" y1="70" x2="110" y2="130"/>
+    <text x="116" y="105" font-size="9" fill="#006b6b" font-weight="700">扉 AB</text>
+    <text x="116" y="118" font-size="9" fill="#006b6b" font-weight="700">開</text>
+    <!-- BC closed -->
+    <line class="door-closed" x1="200" y1="160" x2="200" y2="220"/>
+    <text x="206" y="195" font-size="9" fill="#c2185b" font-weight="700">扉 BC</text>
+    <text x="206" y="208" font-size="9" fill="#c2185b" font-weight="700">閉</text>
+
+    <!-- Windows -->
+    <rect class="window-mark" x="50"  y="56" width="30" height="8"/>
+    <rect class="window-mark" x="140" y="56" width="30" height="8"/>
+    <rect class="window-mask" x="230" y="56" width="30" height="8"/>
+    <text x="65"  y="50" font-size="10" text-anchor="middle" fill="#1a1d23">窓 a</text>
+    <text x="155" y="50" font-size="10" text-anchor="middle" fill="#1a1d23">窓 b</text>
+    <text x="245" y="50" font-size="10" text-anchor="middle" fill="#9ca3af">窓 c</text>
+
+    <!-- Room labels -->
+    <text class="room-on-label"  x="65"  y="220" text-anchor="middle">Room A</text>
+    <text class="room-on-label"  x="155" y="220" text-anchor="middle">Room B</text>
+    <text class="room-off-label" x="245" y="220" text-anchor="middle">Room C</text>
+
+    <!-- mic + SPK in Room A -->
+    <circle class="mic-mark" cx="65" cy="145" r="6"/>
+    <text x="65" y="160" font-size="9" text-anchor="middle" fill="#1a1d23">mic</text>
+    <rect class="spk-mark" x="48" y="218" width="34" height="12" rx="2"/>
+    <circle cx="65" cy="224" r="4" fill="#fff"/>
+    <text x="65" y="244" font-size="9" text-anchor="middle" fill="#1a1d23">SPK</text>
+
+    <!-- ? mark in masked Room C -->
+    <text x="245" y="148" font-size="20" text-anchor="middle" fill="#9ca3af">？</text>
+
+    <text x="165" y="282" font-size="11" text-anchor="middle" fill="#1a1d23">音響的に観測できる変数</text>
+    <text x="165" y="300" font-size="12" font-weight="700" text-anchor="middle" fill="#006b6b">窓 a × 窓 b</text>
+    <text x="165" y="334" font-size="11" text-anchor="middle" fill="#1a1d23">区別できる状態数</text>
+    <text x="165" y="368" class="count-big" text-anchor="middle">4</text>
+    <text x="165" y="386" class="count-sub" text-anchor="middle">真状態 8 配置がここに集約</text>
+  </g>
+
+  <!-- ============ 場面 3: AB 開, BC 開 ============
+       All rooms on. Both inner walls have gaps at door positions.
+  -->
+  <g transform="translate(720,80)">
+    <rect class="scene-bg" x="0" y="0" width="330" height="395" rx="10"/>
+    <text class="scene-title" x="165" y="22" text-anchor="middle">扉 AB = 開, 扉 BC = 開</text>
+    <text class="sub" x="165" y="38" text-anchor="middle">(全室カップリング、全変数観測可)</text>
+
+    <!-- Room fills -->
+    <rect class="room-fill-on" x="20"  y="60" width="90" height="170"/>
+    <rect class="room-fill-on" x="110" y="60" width="90" height="170"/>
+    <rect class="room-fill-on" x="200" y="60" width="90" height="170"/>
+
+    <!-- Walls -->
+    <path class="wall-on" d="M20,60 L290,60"/>         <!-- top -->
+    <path class="wall-on" d="M20,230 L290,230"/>       <!-- bottom -->
+    <path class="wall-on" d="M20,60 L20,230"/>         <!-- left -->
+    <path class="wall-on" d="M290,60 L290,230"/>       <!-- right -->
+    <!-- AB inner wall: GAP at y=70..130 -->
+    <path class="wall-on" d="M110,60 L110,70  M110,130 L110,230"/>
+    <!-- BC inner wall: GAP at y=160..220 -->
+    <path class="wall-on" d="M200,60 L200,160  M200,220 L200,230"/>
+
+    <!-- Door indicators -->
+    <line class="door-open-hint" x1="110" y1="70" x2="110" y2="130"/>
+    <text x="116" y="105" font-size="9" fill="#006b6b" font-weight="700">扉 AB</text>
+    <text x="116" y="118" font-size="9" fill="#006b6b" font-weight="700">開</text>
+    <line class="door-open-hint" x1="200" y1="160" x2="200" y2="220"/>
+    <text x="206" y="195" font-size="9" fill="#006b6b" font-weight="700">扉 BC</text>
+    <text x="206" y="208" font-size="9" fill="#006b6b" font-weight="700">開</text>
+
+    <!-- Windows (all visible) -->
+    <rect class="window-mark" x="50"  y="56" width="30" height="8"/>
+    <rect class="window-mark" x="140" y="56" width="30" height="8"/>
+    <rect class="window-mark" x="230" y="56" width="30" height="8"/>
+    <text x="65"  y="50" font-size="10" text-anchor="middle" fill="#1a1d23">窓 a</text>
+    <text x="155" y="50" font-size="10" text-anchor="middle" fill="#1a1d23">窓 b</text>
+    <text x="245" y="50" font-size="10" text-anchor="middle" fill="#1a1d23">窓 c</text>
+
+    <!-- Room labels -->
+    <text class="room-on-label" x="65"  y="220" text-anchor="middle">Room A</text>
+    <text class="room-on-label" x="155" y="220" text-anchor="middle">Room B</text>
+    <text class="room-on-label" x="245" y="220" text-anchor="middle">Room C</text>
+
+    <!-- mic + SPK in Room A -->
+    <circle class="mic-mark" cx="65" cy="145" r="6"/>
+    <text x="65" y="160" font-size="9" text-anchor="middle" fill="#1a1d23">mic</text>
+    <rect class="spk-mark" x="48" y="218" width="34" height="12" rx="2"/>
+    <circle cx="65" cy="224" r="4" fill="#fff"/>
+    <text x="65" y="244" font-size="9" text-anchor="middle" fill="#1a1d23">SPK</text>
+
+    <text x="165" y="282" font-size="11" text-anchor="middle" fill="#1a1d23">音響的に観測できる変数</text>
+    <text x="165" y="300" font-size="12" font-weight="700" text-anchor="middle" fill="#006b6b">窓 a × 窓 b × 窓 c</text>
+    <text x="165" y="334" font-size="11" text-anchor="middle" fill="#1a1d23">区別できる状態数</text>
+    <text x="165" y="368" class="count-big" text-anchor="middle">8</text>
+    <text x="165" y="386" class="count-sub" text-anchor="middle">真状態 8 配置と一対一</text>
+  </g>
+
+  <!-- ============ 凡例 + 集計 ============ -->
+  <g transform="translate(30,493)">
+    <rect x="0" y="0" width="660" height="70" rx="8" fill="#fff" stroke="#cbd5e1"/>
+    <g transform="translate(14,20)">
+      <rect class="room-fill-on" x="0" y="0" width="22" height="14" stroke="#1a1d23" stroke-width="1.4"/>
+      <text class="legend-pill" x="30" y="12">可聴域</text>
+    </g>
+    <g transform="translate(14,46)">
+      <rect class="room-fill-off" x="0" y="0" width="22" height="14" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <text class="legend-pill" x="30" y="12">遮断域</text>
+    </g>
+    <g transform="translate(120,20)">
+      <line class="door-closed" x1="0" y1="6" x2="22" y2="6"/>
+      <text class="legend-pill" x="30" y="10">扉 閉（壁あり）</text>
+    </g>
+    <g transform="translate(120,46)">
+      <line class="door-open-hint" x1="0" y1="6" x2="22" y2="6"/>
+      <text class="legend-pill" x="30" y="10">扉 開（壁にギャップ）</text>
+    </g>
+    <g transform="translate(320,20)">
+      <rect class="window-mark" x="0" y="3" width="22" height="8"/>
+      <text class="legend-pill" x="30" y="12">観測可能な窓</text>
+    </g>
+    <g transform="translate(320,46)">
+      <rect class="window-mask" x="0" y="3" width="22" height="8"/>
+      <text class="legend-pill" x="30" y="12">観測不能な窓</text>
+    </g>
+    <g transform="translate(470,20)">
+      <circle class="mic-mark" cx="10" cy="7" r="5"/>
+      <text class="legend-pill" x="22" y="11">マイク（Room A 中央床）</text>
+    </g>
+    <g transform="translate(470,46)">
+      <rect class="spk-mark" x="0" y="3" width="22" height="9" rx="2"/>
+      <text class="legend-pill" x="30" y="12">スピーカ（窓と対面壁）</text>
+    </g>
+  </g>
+
+  <g transform="translate(710,493)">
+    <rect class="summary-bg" x="0" y="0" width="340" height="70" rx="8"/>
+    <text class="summary-title" x="16" y="24">実効的に区別できる状態数</text>
+    <text class="summary-eq"    x="16" y="56">2 + 4 + 8 = 14 / 32</text>
+  </g>
+</svg>

@@ -398,6 +398,17 @@
     <h3 style="margin-top:0">本移植版の位置づけ（公平な比較）</h3>
     <p>精度は IchiPing CNN（現地校正後 32cls 100%）と<b>同等クラス</b>。差は<b>手段</b>にある——IchiPing は新環境への適応に <b>PC での再学習</b>（現環境データを足して CNN を学習し直す）を要するのに対し、Solist-AI は<b>環境適応の重み学習（β）をデバイス上で完結</b>でき、しかも<b>学習パラメータ約 1/84（β≈2,048 vs 173,000）・SRAM 16KB</b> の小型 MCU で動く（→ §9）。</p>
   </div>
+
+  <div class="card" style="border-left:5px solid var(--accent2)">
+    <h3 style="margin-top:0">⬇ ベストモデルのダウンロード</h3>
+    <p>公式 Solist-AI Sim（SLV1.00.04）に「Using loaded AI model ＋ Test only」でロードできる <code>model1.xlsx</code>（seed=1, m=32, β 焼込済）。</p>
+    <ul>
+      <li><a href="models/model1_BEST_14cls.xlsx" download><b>14cls モデル</b>（追加学習不要・99.4%）</a> — 出力14 / β=32×14</li>
+      <li><a href="models/model1_BEST_32cls_ondevice.xlsx" download><b>32cls モデル</b>（MCU追加学習後・99.1%）</a> — 出力32 / β=32×32</li>
+    </ul>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:0">対応する検証用テスト（CSV）はリポジトリの <code>sim_export/</code> に同梱。</p>
+  </div>
+
   <div class="pager"><a href="#train">← 学習パイプライン</a><a href="#spec">次：実機実装仕様 →</a></div>
 </section>
 

@@ -1,4 +1,10 @@
-"""best modelsからロード用model1.xlsx + スケール済みtest CSVを生成(推論のみsim用)。"""
+"""best modelsからロード用model1.xlsx + スケール済みtest CSVを生成(推論のみsim用)。
+
+前提: TEMPLATE は公式Solist-AI Simで一度学習/保存して得た model1.xlsx
+(seed=1, ni=167, m=32 のα・シート構成を持つ雛形)。βシートだけを差し替える方式。
+※検証時のテンプレ(model1_260606_*)はクリーンアップ済。実機データで運用する際は
+  Simで seed=1/Hidden32 のモデルを1つ保存し、そのパスを TEMPLATE に設定すること。
+"""
 import sys; sys.path.insert(0,'sim')
 import numpy as np, pickle, shutil, os, openpyxl
 from bench_v612 import build_run, baseline_of, crop
@@ -7,7 +13,8 @@ best=pickle.load(open('sim_export/_best_models.pkl','rb'))
 Xv,yv14,yv32=build_run("full_32_train_v12",baseline_of("full_32_train_v12"),"od_v12")
 Xte,D=crop(Xv,LO,HI)
 labels={14:yv14,32:yv32}
-TEMPLATE='sim_export/model1_260606_2005_41/model1.xlsx'
+# Simで保存した雛形モデル(seed=1,m=32)のパスを指定する
+TEMPLATE='sim_export/model1_TEMPLATE/model1.xlsx'
 def oh(y,C):M=np.zeros((len(y),C));M[np.arange(len(y)),y]=1;return M
 def emit_model(path,beta,no):
     os.makedirs(os.path.dirname(path),exist_ok=True); shutil.copy(TEMPLATE,path)

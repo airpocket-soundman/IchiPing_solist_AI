@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IchiPing v1 精度向上の検証レポート</title>
+<style>
+  :root{--accent:#2b7de9;--accent2:#16a085;--warn:#e67e22;--pink:#e84393;--bg:#0f1419;--card:#1a212b;--fg:#e6edf3;--mut:#9aa7b4;--line:#2a3744;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Segoe UI",Meiryo,sans-serif;line-height:1.7;color:var(--fg);background:var(--bg);}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px;}
+  h1{font-size:1.7rem;border-bottom:3px solid var(--accent);padding-bottom:.4em;line-height:1.35}
+  h2{font-size:1.3rem;color:var(--accent);margin-top:2em;border-left:5px solid var(--accent);padding-left:.5em}
+  h3{font-size:1.05rem;color:var(--accent2);margin-top:1.5em}
+  .meta{color:var(--mut);font-size:.9rem}
+  code{background:#0b0f14;padding:.1em .4em;border-radius:4px;font-size:.88em;color:#ffd479}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.92rem;background:var(--card);border-radius:8px;overflow:hidden}
+  th,td{border:1px solid var(--line);padding:.5em .7em;text-align:left}
+  th{background:#22303d;color:var(--fg)}
+  tr:nth-child(even) td{background:#161d26}
+  .good{color:#2ecc71;font-weight:700}.bad{color:#e74c3c;font-weight:700}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:1em 0}
+  .keytake{border-left:5px solid var(--accent2)}
+  .warnbox{border-left:5px solid var(--warn)}
+  ul{padding-left:1.3em}
+  .pill{display:inline-block;background:#22303d;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8rem;color:var(--mut);margin:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>IchiPing v1 精度向上の検証レポート<br><small style="font-size:1rem;color:var(--mut)">— Solist-AI 移植で得た知見の逆輸入</small></h1>
+<p class="meta">作成日: 2026-06-06 ／ 実装: <code>sim/exp_improve.py</code>（実 IchiPing データ + 学習 MLP）</p>
+
+<div class="card keytake">
+<b>要約:</b> 移植検証で得た2原理を IchiPing v1 に転用できるか実データで検証。
+<b>原理A（時間特徴）は効かず</b>（学習モデルは single スペクトルから既に情報抽出、時間分割は逆効果 93.4%→71.1%）、
+<b>原理B（最終層の現場再校正）は劇的に有効</b>（cross-environment 32cls が <span class="bad">~53%</span> → <span class="good">~97–100%</span>、IchiPing LIVE 59% を引き上げ可能）。
+</div>
+
+<h2>1. 目的</h2>
+<p>Solist-AI（ML63Q2557, ELM）への移植検証の過程で、32cls 精度を引き上げる2つの原理を発見した。本レポートは、これらが <b>原典 IchiPing v1（FRDM-MCXN947 + Conv1D CNN）側の精度向上にも転用できるか</b>を実データで検証する。</p>
+<ul>
+<li><span class="pill">原理A</span><b>時間構造の特徴化</b>: 入力を「2秒平均スペクトル(single)」→「時間分割スペクトル(multiwin)」にし、漏洩音のサブ状態手がかり（時間構造）を明示。</li>
+<li><span class="pill">原理B</span><b>環境ごとの最終層 再校正</b>: 特徴抽出(backbone)を凍結し、最終線形ヘッドだけを設置環境の数ショットで再学習（= Solist-AI のオンデバイス学習に相当）。</li>
+</ul>
+<p>背景: IchiPing v1 は 14cls が LIVE 97% と高い一方、<b>32cls は LIVE 59%</b>（in-family 88–100%）で cross-environment が弱点。原因は移植検証で判明した「サブ状態の時間署名が環境固有」。</p>
+
+<h2>2. 方法</h2>
+<table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td>データ</td><td>実 IchiPing 録音（PRBS 2s @16kHz）。学習 v6–v12、評価 eval_quiet / eval_noise_low / eval_noise_high（別セッション）</td></tr>
+<tr><td>特徴 single</td><td>時間領域 baseline 差分 → 2秒 |FFT| 平均 → 400–3000Hz クロップ（D=167）。IchiPing 現行に相当</td></tr>
+<tr><td>特徴 multiwin</td><td>2秒を時間4分割し窓ごと |FFT|（300–3500Hz）連結（D=412）。時間構造を保持</td></tr>
+<tr><td>モデル</td><td><b>2層 MLP（256-256, dropout 0.3, Adam）</b>。"学習された特徴" を持つ代表モデル（ELM と違い入力重みも学習）。IchiPing Conv1D CNN の代理</td></tr>
+<tr><td>原理A 検証</td><td>train v6–v11 → test v12（in-family cross-run）。single vs multiwin の 32cls 精度</td></tr>
+<tr><td>原理B 検証</td><td>train v6–v12 → eval 3条件（cross-environment）。factory ヘッド vs 設置環境 N-shot 再校正ヘッド</td></tr>
+</table>
+<p class="meta">注: 本検証は IchiPing 本番 CNN（neutron 特殊アーキ）そのものではなく、<b>原理を実データ上で確認する代表モデル(MLP)</b>で実施。本番 CNN への適用は §5 推奨フォローアップ。</p>
+
+<h2>3. 結果</h2>
+
+<h3>3.1 原理A — 時間特徴（in-family v6-11 → v12, MLP）</h3>
+<table>
+<tr><th>特徴</th><th>次元</th><th>32cls strict</th><th>vote</th><th>14collapse</th></tr>
+<tr><td>single（2秒平均）</td><td>167</td><td class="good">93.4%</td><td class="good">93.8%</td><td>100.0%</td></tr>
+<tr><td>multiwin（時間4分割）</td><td>412</td><td class="bad">71.1%</td><td class="bad">71.9%</td><td>99.6%</td></tr>
+</table>
+<p>→ <b>学習モデルでは single の方が良く、時間分割は逆効果。</b></p>
+
+<h3>3.2 原理B — 再校正ヘッド（train v6-12 → cross-environment eval, MLP）</h3>
+<p><b>特徴 = single（D=167）</b></p>
+<table>
+<tr><th>eval 条件</th><th>factory（固定ヘッド）</th><th>再校正 N=3</th><th>再校正 N=5</th></tr>
+<tr><td>quiet</td><td class="bad">strict 53.8% / vote 53.1%</td><td class="good">strict 99.1% / vote 100%</td><td>vote 100% / 14c 100%</td></tr>
+<tr><td>noise_low</td><td class="bad">strict 52.8% / vote 53.1%</td><td class="good">strict 100% / vote 100%</td><td>vote 100% / 14c 100%</td></tr>
+<tr><td>noise_high</td><td class="bad">strict 55.3% / vote 59.4%</td><td class="good">strict 96.9% / vote 100%</td><td>vote 96.9% / 14c 99.4%</td></tr>
+</table>
+<p><b>特徴 = multiwin（D=412, 参考）</b></p>
+<table>
+<tr><th>eval 条件</th><th>factory</th><th>再校正 N=3</th><th>再校正 N=5</th></tr>
+<tr><td>quiet</td><td>strict 54.7% / vote 56.2% / 14c 87.5%</td><td>strict 99.1% / vote 100%</td><td>vote 100% / 14c 100%</td></tr>
+<tr><td>noise_low</td><td>strict 49.1% / vote 50.0% / 14c 87.5%</td><td>strict 100% / vote 100%</td><td>vote 100% / 14c 100%</td></tr>
+<tr><td>noise_high</td><td>strict 34.4% / vote 37.5% / 14c 76.2%</td><td>strict 96.9% / vote 100%</td><td>vote 100% / 14c 98.8%</td></tr>
+</table>
+<p>→ <b>cross-environment の 32cls が factory ~53%（IchiPing LIVE 59% とほぼ一致）から、再校正ヘッドで ~97–100% に回復。</b></p>
+
+<h2>4. 考察・結論</h2>
+<div class="card">
+<b>原理A（時間特徴）は IchiPing には効かない。</b> 時間分割は ELM（ランダム固定特徴）には有効だった（別検証で 74%→83.5%）が、それは ELM が特徴を学習できないための「補償策」。学習済みモデル（MLP / CNN）は single スペクトルから既にサブ状態情報を抽出できるため、時間分割（窓ごとに平均が減りノイズ増）はむしろ悪化（93.4%→71.1%）。IchiPing の深い CNN が in-family 88–100% を出していたのはこのため。
+</div>
+<div class="card keytake">
+<b>原理B（再校正ヘッド）は IchiPing に強く効く。</b> IchiPing v1 の弱点は cross-environment（LIVE 32cls 59%）。原因はサブ状態の時間署名が環境固有で、固定 CNN が環境に適応できないこと。<b>backbone を凍結し最終線形ヘッドだけを設置環境の数ショット（各状態 3–5 回）で再校正</b>すると、cross-env 32cls が <b>~53% → ~97–100%</b> に回復。14cls は元々 cross-env でも堅牢（~97–100%）なので、再校正は 32cls に特に効く。
+</div>
+<div class="card">
+<b>示唆（やや逆説的）:</b> Solist-AI 移植版は、その目玉「オンデバイス学習（β現場再校正）」により、<b>元の IchiPing v1（固定 CNN）より cross-environment に強くなり得る</b>。移植作業が原典の改善点（再校正ヘッドの追加）を炙り出した。
+</div>
+
+<h3>推奨（IchiPing v1 への適用）</h3>
+<ul>
+<li><b>時間特徴は導入不要</b>（single スペクトル維持。学習 CNN には不利）。</li>
+<li><b>再校正可能な最終ヘッドを追加</b>: CNN backbone を凍結し、最終線形層を設置環境の少数ショットで再学習する仕組み（few-shot / オンデバイス校正）を実装すれば、<b>LIVE 32cls を 59% → ~97–100% に引き上げ可能</b>と見込まれる。</li>
+</ul>
+
+<div class="card warnbox">
+<b>限界（正直な注記）</b>
+<ul>
+<li>代表モデルは MLP であり IchiPing 本番 CNN（neutron）そのものではない（原理検証）。本番 CNN の penultimate 埋め込みでの再現が次段。</li>
+<li>再校正の評価は <b>within-session</b>（同一 eval 録音内で校正/評価を分離、リークなし）。「設置→後日運用」の<b>経時ドリフト耐性は未測定</b>（同一環境・別時刻データが必要）。</li>
+<li>noise_high は再校正 N=3–5 推奨（N=1 では不足）。</li>
+</ul>
+</div>
+
+<h2>5. 次のステップ</h2>
+<ul>
+<li>IchiPing 本番 CNN（<code>pc/runs/.../best.pt</code>）の penultimate 埋め込みを抽出し、本レポートの再校正ヘッドを本番モデルで再現確認。</li>
+<li>経時ドリフト評価用データ収集（同一設置環境で「校正→後日運用」を別時刻録音）。</li>
+</ul>
+
+<p class="meta">関連シミュレーション: <code>sim/exp_improve.py</code>（本レポート）, <code>sim/rich_*.py</code>（Solist-AI 側 32cls 検証）, <code>sim/bench_*.py</code>（14cls/Flash）。</p>
+
+</div>
+</body>
+</html>

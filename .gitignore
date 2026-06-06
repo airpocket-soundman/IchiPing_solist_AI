@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 特徴量キャッシュ・中間バイナリ（再生成可能・巨大）
+sim/_cache/
+*.npz
+
+# 一時 / クラッシュ / ロック
+*.stackdump
+~$*
+*.tmp
+
+# ベンダー参照資料（ROHM PDF等：著作権のためローカル保管のみ）
+doc/

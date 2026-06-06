@@ -1,0 +1,31 @@
+train (86400, 167) (aug×3), test (1600, 167) D=167
+
+===== 14cls =====
+-- factory (別session汎化, 校正なし) --
+  s=1.0(effSA~0.205): frame=86.5% vote=71.4%
+  s=0.5(effSA~0.102): frame=99.4% vote=100.0%
+  s=0.35(effSA~0.072): frame=99.6% vote=100.0%
+  s=0.25(effSA~0.051): frame=99.6% vote=100.0%
+-- on-device (現地v12を10/cls校正→残りtest) --
+  s=1.0: frame=99.2% vote=100.0%
+  s=0.5: frame=99.2% vote=100.0%
+  s=0.35: frame=99.2% vote=100.0%
+  s=0.25: frame=99.2% vote=100.0%
+
+===== 32cls =====
+-- factory (別session汎化, 校正なし) --
+  s=1.0(effSA~0.205): frame=53.9% vote=53.1%
+  s=0.5(effSA~0.102): frame=70.0% vote=68.8%
+  s=0.35(effSA~0.072): frame=75.0% vote=75.0%
+  s=0.25(effSA~0.051): frame=77.8% vote=81.2%
+-- on-device (現地v12を10/cls校正→残りtest) --
+  s=1.0: frame=99.1% vote=100.0%
+  s=0.5: frame=99.1% vote=100.0%
+  s=0.35: frame=99.1% vote=100.0%
+  s=0.25: frame=99.0% vote=96.9%
+
+=== BEST ===
+(14, 'factory'): vote=100.0% frame=99.4% s=0.5
+(14, 'ondevice'): vote=100.0% frame=99.2% s=1.0
+(32, 'factory'): vote=81.2% frame=77.8% s=0.25
+(32, 'ondevice'): vote=100.0% frame=99.1% s=1.0

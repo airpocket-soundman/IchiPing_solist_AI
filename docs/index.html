@@ -156,16 +156,16 @@
   </figure>
 
   <h2>Solist-AI への移植</h2>
-  <p>移植先の <b>Solist-AI（ML63Q2557）</b> は <b>オンデバイス学習IC</b>＝クラウドや再プログラムなしに<b>機器の現場で学習・再学習できる</b>エッジ AI チップ。IchiPing は設置環境が変わると精度が落ちる課題（実機ライブ環境で 32cls 約 59%）があったが、Solist-AI なら<b>設置したその場で校正</b>して精度を取り戻せるのが利点。</p>
+  <p>移植先の <b>Solist-AI（ML63Q2557）</b> は <b>オンデバイス学習IC</b>＝クラウドや再プログラムなしに<b>機器の現場で学習・再学習できる</b>エッジ AI チップ。能動音響は設置環境に依存するため高精度には現地校正が不可欠で、IchiPing も<b>現地でのベースライン校正と現環境データの学習により 32cls を 88〜100% まで引き上げている</b>（→ §5）。Solist-AI の利点は、その<b>環境適応の「重み学習」をデバイス上で完結</b>でき、しかも極少パラメータで実現できる点にある（詳細は §9）。</p>
   <p>ただしアルゴリズムは、IchiPing の深い 1D-CNN から Solist-AI の浅い <b>ELM</b>（Extreme Learning Machine。入力→中間層の重みは乱数で固定し、出力側の重みだけを学習する軽量な学習機。詳細は §2）へ置き換わる。本レポートは<b>この移植が成立するか</b>の検証結果である。</p>
 
   <div class="grid3" style="margin-top:18px">
-    <div class="kpi"><div class="big">99.4<span style="font-size:18px">%</span></div><div class="l">14cls フレーム精度<br>（校正不要・投票100%）</div></div>
-    <div class="kpi"><div class="big">99.1<span style="font-size:18px">%</span></div><div class="l">32cls フレーム精度<br>（現地校正後・投票100%）</div></div>
+    <div class="kpi"><div class="big">99.4<span style="font-size:18px">%</span></div><div class="l">14cls フレーム精度<br>（校正不要・多数決100%）</div></div>
+    <div class="kpi"><div class="big">99.1<span style="font-size:18px">%</span></div><div class="l">32cls フレーム精度<br>（現地校正後・多数決100%）</div></div>
     <div class="kpi"><div class="big">~11<span style="font-size:18px">KB</span></div><div class="l">AI RAM 使用量<br>（実機16KB に収まる）</div></div>
   </div>
   <div class="card">
-    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AI シミュレータ（SLV1.00.04）で目標精度を実証</span>。14cls は工場出荷の重みを焼くだけ（校正不要）で 99.4%、32cls は設置環境での少量校正で 99.1%。いずれも実機メモリ枠（SRAM 16KB / Flash 256KB）に収まり、IchiPing のライブ精度（59%）を両粒度で大きく上回る。</p>
+    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AI シミュレータ（SLV1.00.04）で目標精度を実証</span>。14cls は工場出荷の重みを焼くだけ（校正不要）で 99.4%、32cls は設置環境での少量校正で 99.1%。<b>IchiPing CNN（現地校正後 32cls 最大 100%）と同等クラスの精度を、学習パラメータ約 1/84・SRAM 16KB の小型 MCU・オンデバイス学習で実現</b>した点に価値がある（→ §9）。いずれも実機メモリ枠（SRAM 16KB / Flash 256KB）に収まる。</p>
   </div>
   <div class="note">本レポートは IchiPing の既収集データ（収録セッション v6–v12）での結果。<b>実機ではスピーカ／マイクが変更されるため、出力側の重み β を再学習</b>する（手順は §4・§7 参照）。</div>
   <div class="pager"><a class="empty">&nbsp;</a><a href="#model">次：モデル構造 →</a></div>
@@ -374,16 +374,16 @@
 <section id="result" class="article">
   <div class="crumb">レポート ／ シミュレーション結果</div>
   <h1>シミュレーション結果（公式 Solist-AI Sim SLV1.00.04）</h1>
-  <p>PC で算出した β をモデルにロードし、公式シミュレータで「推論のみ（Test only）」を実行。フレーム単体精度と、状態ごとに全フレームを多数決した投票精度を測定。</p>
+  <p>PC で算出した β をモデルにロードし、公式シミュレータで「推論のみ（Test only）」を実行。指標は 2 つ：<b>フレーム精度</b>（音を 1 回（1 フレーム）測るごとの正解率）と、<b>多数決精度</b>（同じ状態を複数フレーム観測し、その多数決で 1 つの状態を判定したときの正解率＝実運用に近い判定精度）。</p>
   <table>
-    <tr><th>モデル</th><th>運用条件</th><th>フレーム精度</th><th>投票精度</th><th>テスト数</th></tr>
+    <tr><th>モデル</th><th>運用条件</th><th>フレーム精度</th><th>多数決精度</th><th>テスト数</th></tr>
     <tr><td><b>14cls factory</b></td><td>校正なし（v6–11学習→v12初見）</td><td class="ok">99.38%（1590/1600）</td><td class="ok">100%（14/14）</td><td>1,600</td></tr>
     <tr><td><b>32cls on-device</b></td><td>現地10frame/状態で校正後</td><td class="ok">99.06%（1268/1280）</td><td class="ok">100%（32/32）</td><td>1,280</td></tr>
     <tr><td>32cls factory</td><td>校正前（出荷直後の参考値）</td><td>77.8%</td><td>81.2%</td><td>1,600</td></tr>
   </table>
   <div class="grid2">
-    <div class="card"><h3 style="margin-top:0">14cls — 校正不要で完成</h3><p>入力スケール調整で別セッション汎化が成立し、<b>工場 β を焼くだけで 99.4% / 投票100%</b>。観測等価クラスは環境変化に頑健で、校正工程が不要。</p></div>
-    <div class="card"><h3 style="margin-top:0">32cls — 現地校正で完成</h3><p>32 状態は環境固有の微差で区別するため、出荷時 77.8% → <b>現地で各状態を約10フレーム校正すると 99.1% / 投票100%</b>。校正済み環境では観測等価とされた状態も 99.6% 区別できた。</p></div>
+    <div class="card"><h3 style="margin-top:0">14cls — 校正不要で完成</h3><p>入力スケール調整で別セッション汎化が成立し、<b>工場 β を焼くだけで 99.4% / 多数決100%</b>。観測等価クラスは環境変化に頑健で、校正工程が不要。</p></div>
+    <div class="card"><h3 style="margin-top:0">32cls — 現地校正で完成</h3><p>32 状態は環境固有の微差で区別するため、出荷時 77.8% → <b>現地で各状態を約10フレーム校正すると 99.1% / 多数決100%</b>。校正済み環境では観測等価とされた状態も 99.6% 区別できた。</p></div>
   </div>
 
   <div class="card" style="border-left:5px solid var(--accent2)">
@@ -393,7 +393,11 @@
     <p>これは、閉じた扉をわずかに透過・回折する音（<b>透過音</b>）の微細なスペクトル差を ELM が拾い、現地校正でその環境固有の差分を学習したため。<span class="ok">単純な観測等価の上限を超える識別性能を獲得した</span>といえる。ただしこの微差は環境固有なので<b>現地校正が前提</b>（未校正の別環境では区別が崩れ 32cls factory 77.8% に低下）。</p>
   </div>
 
-  <div class="note">参考：IchiPing（1D-CNN）の 32cls 実機 LIVE 精度は約 59%、分布内好条件で 88%。本 ELM 方式は <b>14cls・32cls とも実機 LIVE を大きく上回る</b>。</div>
+  <div class="note"><b>移植元 IchiPing（1D-CNN, MCU 実機）も同じ「現地校正」で高精度：</b> 32cls は 校正/現環境データなしで 25% → 現地ベースライン校正で 59% → 現環境データ 50frame 追加で 88% → <b>現地校正＋現環境データで 100%</b>（14cls は現環境データありなら校正なしでも 100%）。つまり<b>能動音響では現地校正が高精度の鍵</b>で、両システムに共通する性質である。</div>
+  <div class="card" style="border-left:5px solid var(--accent)">
+    <h3 style="margin-top:0">本移植版の位置づけ（公平な比較）</h3>
+    <p>精度は IchiPing CNN（現地校正後 32cls 100%）と<b>同等クラス</b>。差は<b>手段</b>にある——IchiPing は新環境への適応に <b>PC での再学習</b>（現環境データを足して CNN を学習し直す）を要するのに対し、Solist-AI は<b>環境適応の重み学習（β）をデバイス上で完結</b>でき、しかも<b>学習パラメータ約 1/84（β≈2,048 vs 173,000）・SRAM 16KB</b> の小型 MCU で動く（→ §9）。</p>
+  </div>
   <div class="pager"><a href="#train">← 学習パイプライン</a><a href="#spec">次：実機実装仕様 →</a></div>
 </section>
 
@@ -521,7 +525,7 @@
   <h2>Solist-AI だからこそ得られる価値</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">① 極少パラメータ</h3><p>学習・保存するのは <b>β のみ ≈ 2,048</b>（IchiPing CNN 比 <b>約 1/84</b>）。α は seed 再生成で<b>保存ゼロ</b>。モデルは数 KB で完結し、16KB RAM・256KB Flash に余裕で載る。</p></div>
-    <div class="card"><h3 style="margin-top:0">② 追加学習で精度向上</h3><p>クラウド不要で<b>設置現場が自分で学習</b>し環境へ適応。これにより<b>観測等価の壁を越え、閉扉越しの透過音まで識別</b>（§5）。大 CNN ＋ クラウド学習では届かない、オンデバイス学習が本質的に効く領域。</p></div>
+    <div class="card"><h3 style="margin-top:0">② 追加学習で精度向上</h3><p>クラウド不要で<b>設置現場が自分で重みを学習</b>し環境へ適応。これにより<b>観測等価の壁を越え、閉扉越しの透過音まで識別</b>（§5）。IchiPing(大CNN)は同じ適応に <b>PC での再学習</b>が要るのに対し、<b>現場で重みを更新できる</b>のが Solist-AI の本質的な強み。</p></div>
     <div class="card"><h3 style="margin-top:0">③ スタンドアロン</h3><p>ネット不要・低遅延・低消費・プライバシー保全。設置してその場で賢くなり続ける、自己完結のセンサになる。</p></div>
   </div>
   <div class="note"><b>面白さの核：</b>「α を学習できない」という最大の制約を、<b>前処理＋ランダム特徴＋現場校正</b>という発想で逆手に取り、むしろ <span class="ok">「現場で学習して賢くなり続けるセンサ」</span> を極少パラメータで実現した点。<b>Solist-AI のオンデバイス学習という特性を、課題（環境依存で精度が落ちる）の解決そのものに使い切った</b>ところに、このアプローチの技術的価値がある。</div>

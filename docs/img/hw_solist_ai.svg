@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" font-family="Hiragino Sans, Yu Gothic UI, Segoe UI, sans-serif">
+  <defs>
+    <marker id="arg" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f8a5b"/></marker>
+    <marker id="aro" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#d9822b"/></marker>
+    <marker id="ark" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5c6b7b"/></marker>
+  </defs>
+
+  <!-- タイトル -->
+  <text x="550" y="30" font-size="18" font-weight="800" text-anchor="middle" fill="#1a1d23">Solist-AI 移植版 ハードウェア構成（DT-EBML63Q2557）</text>
+  <text x="550" y="52" font-size="11" text-anchor="middle" fill="#6b7280">能動音響センシング — マイク = CN6 内蔵 12bit ADC（解決済）／ スピーカ = 外付け SPI DAC（本命）。I²S・DAC 非搭載のボードを外付けで補う。</text>
+
+  <!-- ===== MCU 評価ボード ===== -->
+  <rect x="340" y="95" width="420" height="265" rx="12" fill="#eef4fb" stroke="#1565c0" stroke-width="2"/>
+  <text x="550" y="120" font-size="15" text-anchor="middle" font-weight="800" fill="#1565c0">DT-EBML63Q2557 評価ボード</text>
+  <text x="550" y="138" font-size="11" text-anchor="middle" fill="#5c6b7b">ML63Q2557 ・ Cortex-M0+ 48MHz ・ FPU 無</text>
+
+  <!-- Row1: ADC / SPI -->
+  <rect x="360" y="152" width="178" height="42" rx="6" fill="#d8f0e1" stroke="#1f8a5b"/>
+  <text x="449" y="170" font-size="12" text-anchor="middle" fill="#1f8a5b" font-weight="700">内蔵 12bit ADC</text>
+  <text x="449" y="186" font-size="10" text-anchor="middle" fill="#4a5663">CN6 アナログ入力（収録）</text>
+
+  <rect x="562" y="152" width="178" height="42" rx="6" fill="#fff1e0" stroke="#d9822b"/>
+  <text x="651" y="170" font-size="12" text-anchor="middle" fill="#b5781a" font-weight="700">SPI マスタ</text>
+  <text x="651" y="186" font-size="10" text-anchor="middle" fill="#4a5663">外部 DAC 駆動（励振）</text>
+
+  <!-- Row2: AxlCORE-ODL -->
+  <rect x="360" y="204" width="380" height="44" rx="6" fill="#e7f6ec" stroke="#1f8a5b" stroke-width="1.6"/>
+  <text x="550" y="224" font-size="13" text-anchor="middle" fill="#1f8a5b" font-weight="700">AxlCORE-ODL（AI アクセラレータ / ODL）</text>
+  <text x="550" y="240" font-size="11" text-anchor="middle" fill="#4a5663">ELM 推論 ＋ β オンデバイス学習（α は seed 再生成）</text>
+
+  <!-- Row3: 前処理 -->
+  <rect x="360" y="258" width="380" height="38" rx="6" fill="#e3e9f2" stroke="#1565c0"/>
+  <text x="550" y="282" font-size="12" text-anchor="middle" fill="#1b2632">前処理：FFT・Hann窓・baseline 差分・z-score</text>
+
+  <!-- Row4: メモリ -->
+  <rect x="360" y="304" width="380" height="36" rx="6" fill="#f6f8fb" stroke="#9aa7b6"/>
+  <text x="550" y="326" font-size="11" text-anchor="middle" fill="#4a5663">Flash 256KB（β・baseline 保存） ／ SRAM 16KB（AI RAM ≈ 11KB）</text>
+
+  <!-- ===== 収録パス（左） ===== -->
+  <text x="166" y="140" font-size="12" text-anchor="middle" fill="#1f8a5b" font-weight="700">収録パス（解決済）</text>
+  <rect x="40" y="151" width="104" height="44" rx="8" fill="#d8f0e1" stroke="#1f8a5b"/>
+  <text x="92" y="172" font-size="12" text-anchor="middle" fill="#1f8a5b" font-weight="700">マイク</text>
+  <text x="92" y="187" font-size="9" text-anchor="middle" fill="#5c6b7b">※実機で変更</text>
+  <rect x="162" y="151" width="130" height="44" rx="8" fill="#d8f0e1" stroke="#1f8a5b"/>
+  <text x="227" y="172" font-size="12" text-anchor="middle" fill="#1b2632">マイクアンプ</text>
+  <text x="227" y="187" font-size="9" text-anchor="middle" fill="#5c6b7b">アナログ</text>
+  <line x1="144" y1="173" x2="160" y2="173" stroke="#1f8a5b" stroke-width="1.6" marker-end="url(#arg)"/>
+  <line x1="292" y1="173" x2="356" y2="173" stroke="#1f8a5b" stroke-width="1.6" marker-end="url(#arg)"/>
+  <text x="324" y="166" font-size="10" text-anchor="middle" fill="#1f8a5b">CN6</text>
+
+  <!-- ===== 励振パス（右） ===== -->
+  <text x="895" y="140" font-size="12" text-anchor="middle" fill="#b5781a" font-weight="700">励振パス（本命：SPI DAC）</text>
+  <line x1="742" y1="173" x2="796" y2="173" stroke="#d9822b" stroke-width="1.6" marker-end="url(#aro)"/>
+  <text x="770" y="166" font-size="10" text-anchor="middle" fill="#b5781a">SPI</text>
+  <rect x="800" y="151" width="104" height="44" rx="8" fill="#fff1e0" stroke="#d9822b"/>
+  <text x="852" y="172" font-size="12" text-anchor="middle" fill="#b5781a" font-weight="700">SPI DAC</text>
+  <text x="852" y="187" font-size="9" text-anchor="middle" fill="#5c6b7b">外付け</text>
+  <line x1="904" y1="173" x2="920" y2="173" stroke="#d9822b" stroke-width="1.6" marker-end="url(#aro)"/>
+  <rect x="922" y="151" width="66" height="44" rx="8" fill="#fff1e0" stroke="#d9822b"/>
+  <text x="955" y="177" font-size="12" text-anchor="middle" fill="#b5781a">アンプ</text>
+  <line x1="988" y1="173" x2="1004" y2="173" stroke="#d9822b" stroke-width="1.6" marker-end="url(#aro)"/>
+  <rect x="1006" y="151" width="66" height="44" rx="8" fill="#fff1e0" stroke="#d9822b"/>
+  <text x="1039" y="172" font-size="12" text-anchor="middle" fill="#b5781a" font-weight="700">SPK</text>
+  <text x="1039" y="187" font-size="9" text-anchor="middle" fill="#5c6b7b">※変更</text>
+
+  <!-- ===== 音響経路（SPK → 室内 → マイク） ===== -->
+  <path d="M1039,196 L1039,400 L92,400 L92,197" fill="none" stroke="#5c6b7b" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#ark)"/>
+  <text x="565" y="420" font-size="11" text-anchor="middle" fill="#5c6b7b">PRBS 励振音 → 扉/窓の開閉を含む室内音響 → マイク（能動音響センシング）</text>
+
+  <!-- ===== 最終手段（励振の代替案） ===== -->
+  <rect x="300" y="448" width="500" height="52" rx="8" fill="#eef1f5" stroke="#9aa7b6"/>
+  <text x="550" y="470" font-size="12" text-anchor="middle" fill="#5c6b7b" font-weight="700">最終手段：I²S 非搭載 → 別 MCU(I²S) を UART 接続（励振の代替）</text>
+  <text x="550" y="488" font-size="10" text-anchor="middle" fill="#5c6b7b">ML63 → UART → I²S MCU → I²S DAC → SPK（構成増のため回避）</text>
+
+  <!-- ===== 凡例 ===== -->
+  <g transform="translate(60,524)" font-size="11">
+    <rect x="0" y="0" width="22" height="12" rx="2" fill="#d8f0e1" stroke="#1f8a5b"/><text x="28" y="10" fill="#1a1d23">収録パス（CN6 ADC・解決済）</text>
+    <rect x="230" y="0" width="22" height="12" rx="2" fill="#fff1e0" stroke="#d9822b"/><text x="258" y="10" fill="#1a1d23">励振パス（外付け SPI DAC・本命）</text>
+    <rect x="490" y="0" width="22" height="12" rx="2" fill="#eef1f5" stroke="#9aa7b6"/><text x="518" y="10" fill="#1a1d23">最終手段（I²S 別MCU）</text>
+    <line x1="700" y1="6" x2="722" y2="6" stroke="#5c6b7b" stroke-width="1.5" stroke-dasharray="6,4"/><text x="728" y="10" fill="#1a1d23">音響経路</text>
+  </g>
+
+  <text x="550" y="562" font-size="10" text-anchor="middle" fill="#9aa7b6">※ 実機ではスピーカ・マイクが現行品から変更されるため、学習・追加学習データの再取得が必要。</text>
+</svg>

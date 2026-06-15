@@ -165,7 +165,7 @@
     <div class="kpi"><div class="big">~11<span style="font-size:18px">KB</span></div><div class="l">AI RAM 使用量<br>（実機16KB に収まる）</div></div>
   </div>
   <div class="card">
-    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AI シミュレータ（SLV1.00.04）で目標精度を実証</span>。14cls は工場出荷の重みを焼くだけ（追加学習不要）で 99.4%、32cls は設置環境での少量データによる MCU 追加学習で 99.1%。<b>IchiPing CNN（現地校正後 32cls 最大 100%）と同等クラスの精度を、学習パラメータ約 1/84・SRAM 16KB の小型 MCU・オンデバイス学習で実現</b>した点に価値がある（→ §9）。いずれも実機メモリ枠（SRAM 16KB / Flash 256KB）に収まる。</p>
+    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AI シミュレータ（SLV1.00.04）で目標精度を実証</span>。14cls は工場出荷の重みを焼くだけ（追加学習不要）で 99.4%、32cls は設置環境での少量データによる MCU 追加学習で 99.1%。<b>IchiPing CNN（現地校正後 32cls 最大 100%）と同等クラスの精度を、学習パラメータ約 1/51・SRAM 16KB の小型 MCU・オンデバイス学習で実現</b>した点に価値がある（→ §9）。いずれも実機メモリ枠（SRAM 16KB / Flash 256KB）に収まる。</p>
   </div>
   <div class="note">本レポートは IchiPing の既収集データ（収録セッション v6–v12）での結果。<b>実機ではスピーカ／マイクが変更されるため、出力側の重み β を再学習</b>する（手順は §4・§7 参照）。</div>
   <div class="pager"><a class="empty">&nbsp;</a><a href="#model">次：モデル構造 →</a></div>
@@ -177,45 +177,51 @@
   <h1>モデル構造（IchiPing CNN → Solist-AI ELM）</h1>
   <p>移植元の IchiPing は<b>深い 1D-CNN</b>（全層を学習）、移植先の Solist-AI は<b>浅い ELM</b>（β のみ学習）。アーキテクチャが根本的に変わるため、まず両者の構造を並べて示し、何がどう置き換わったかを説明する。</p>
 
-  <h3>移植元：IchiPing 1D-CNN（XL, 32cls ≈ 173,000 params）</h3>
-  <p>生の対数振幅スペクトル 1×1024 を入力し、Conv1D を 3 段重ねて特徴を<b>学習で抽出</b>、Flatten して全結合で 32 クラス softmax。重みは全層を誤差逆伝播で学習する。</p>
+  <h3>移植元：IchiPing CNN（Neutron 互換 XL, 32cls ≈ 104,000 params）</h3>
+  <p>生の対数振幅スペクトル 1×1024 を入力し、Conv を <b>4 段</b>重ねて特徴を<b>学習で抽出</b>、GAP（大域平均プーリング）＋1×1 Conv ヘッドで 32 クラス softmax。重みは全層を誤差逆伝播で学習する。実装は MCXN947 の <b>Neutron NPU</b> 向けに <b>Conv2D(kernel=1×K)</b> を用いる（Conv1D は TFLite で Reshape を要し NPU 不利なため）が、カーネルが 1×K のため<b>演算は実質 1D</b>。</p>
   <figure class="fig">
   <svg viewBox="0 0 980 250" font-family="Segoe UI,Meiryo,sans-serif">
     <defs><marker id="arc" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7c4dd0"/></marker></defs>
-    <text x="490" y="28" fill="#7c4dd0" font-size="15" text-anchor="middle" font-weight="700">IchiPing 1D-CNN（全層を学習 ≈ 173k params）</text>
-    <g font-size="12" text-anchor="middle">
-      <rect x="20" y="70" width="120" height="80" rx="9" fill="#eef4fb" stroke="#1565c0"/>
-      <text x="80" y="104" fill="#1b2632">入力</text><text x="80" y="122" fill="#5c6b7b" font-size="11">1 × 1024</text><text x="80" y="138" fill="#5c6b7b" font-size="10">log|FFT|スペクトル</text>
+    <text x="490" y="26" fill="#7c4dd0" font-size="15" text-anchor="middle" font-weight="700">IchiPing CNN（4 層 Conv・全層を学習 ≈ 104k params）</text>
+    <g font-size="11" text-anchor="middle">
+      <rect x="17" y="70" width="118" height="80" rx="9" fill="#eef4fb" stroke="#1565c0"/>
+      <text x="76" y="100" fill="#1b2632" font-size="12">入力</text><text x="76" y="118" fill="#5c6b7b">1 × 1024</text><text x="76" y="135" fill="#5c6b7b" font-size="10">log|FFT|スペクトル</text>
 
-      <rect x="178" y="70" width="120" height="80" rx="9" fill="#f1e9fc" stroke="#7c4dd0"/>
-      <text x="238" y="98" fill="#4a2785">Conv1D 32ch</text><text x="238" y="116" fill="#4a5663" font-size="11">32 × 253</text><text x="238" y="134" fill="#5c6b7b" font-size="10">BN + ReLU</text>
+      <rect x="155" y="70" width="118" height="80" rx="9" fill="#f1e9fc" stroke="#7c4dd0"/>
+      <text x="214" y="98" fill="#4a2785" font-size="12">Conv 32ch</text><text x="214" y="116" fill="#4a5663">32 × 253</text><text x="214" y="134" fill="#5c6b7b" font-size="10">BN + ReLU</text>
 
-      <rect x="336" y="70" width="120" height="80" rx="9" fill="#f1e9fc" stroke="#7c4dd0"/>
-      <text x="396" y="98" fill="#4a2785">Conv1D 64ch</text><text x="396" y="116" fill="#4a5663" font-size="11">64 × 62</text><text x="396" y="134" fill="#5c6b7b" font-size="10">BN + ReLU</text>
+      <rect x="293" y="70" width="118" height="80" rx="9" fill="#f1e9fc" stroke="#7c4dd0"/>
+      <text x="352" y="98" fill="#4a2785" font-size="12">Conv 64ch</text><text x="352" y="116" fill="#4a5663">64 × 62</text><text x="352" y="134" fill="#5c6b7b" font-size="10">BN + ReLU</text>
 
-      <rect x="494" y="70" width="120" height="80" rx="9" fill="#f1e9fc" stroke="#7c4dd0"/>
-      <text x="554" y="98" fill="#4a2785">Conv1D 128ch</text><text x="554" y="116" fill="#4a5663" font-size="11">128 × 30</text><text x="554" y="134" fill="#5c6b7b" font-size="10">BN + ReLU</text>
+      <rect x="431" y="70" width="118" height="80" rx="9" fill="#f1e9fc" stroke="#7c4dd0"/>
+      <text x="490" y="98" fill="#4a2785" font-size="12">Conv 128ch</text><text x="490" y="116" fill="#4a5663">128 × 15</text><text x="490" y="134" fill="#5c6b7b" font-size="10">BN + ReLU</text>
 
-      <rect x="652" y="70" width="100" height="80" rx="9" fill="#eef4fb" stroke="#1565c0"/>
-      <text x="702" y="104" fill="#1b2632">Flatten</text><text x="702" y="122" fill="#5c6b7b" font-size="11">3840</text>
+      <rect x="569" y="70" width="118" height="80" rx="9" fill="#f1e9fc" stroke="#7c4dd0"/>
+      <text x="628" y="98" fill="#4a2785" font-size="12">Conv 128ch</text><text x="628" y="116" fill="#4a5663">128 × 7</text><text x="628" y="134" fill="#5c6b7b" font-size="10">BN + ReLU</text>
 
-      <rect x="790" y="70" width="120" height="80" rx="9" fill="#e7f6ec" stroke="#1f8a5b"/>
-      <text x="850" y="98" fill="#1f8a5b">全結合</text><text x="850" y="116" fill="#4a5663" font-size="11">3840 → 32</text><text x="850" y="134" fill="#5c6b7b" font-size="10">softmax</text>
+      <rect x="707" y="70" width="118" height="80" rx="9" fill="#eef4fb" stroke="#1565c0"/>
+      <text x="766" y="98" fill="#1b2632" font-size="12">GAP + Dropout</text><text x="766" y="116" fill="#5c6b7b">128 × 1</text><text x="766" y="134" fill="#5c6b7b" font-size="10">大域平均プール</text>
+
+      <rect x="845" y="70" width="118" height="80" rx="9" fill="#e7f6ec" stroke="#1f8a5b"/>
+      <text x="904" y="98" fill="#1f8a5b" font-size="12">1×1 Conv ヘッド</text><text x="904" y="116" fill="#4a5663">128 → 32</text><text x="904" y="134" fill="#5c6b7b" font-size="10">softmax</text>
 
       <g stroke="#7c4dd0" stroke-width="1.6" fill="none">
-        <line x1="140" y1="110" x2="176" y2="110" marker-end="url(#arc)"/>
-        <line x1="298" y1="110" x2="334" y2="110" marker-end="url(#arc)"/>
-        <line x1="456" y1="110" x2="492" y2="110" marker-end="url(#arc)"/>
-        <line x1="614" y1="110" x2="650" y2="110" marker-end="url(#arc)"/>
-        <line x1="752" y1="110" x2="788" y2="110" marker-end="url(#arc)"/>
+        <line x1="137" y1="110" x2="153" y2="110" marker-end="url(#arc)"/>
+        <line x1="275" y1="110" x2="291" y2="110" marker-end="url(#arc)"/>
+        <line x1="413" y1="110" x2="429" y2="110" marker-end="url(#arc)"/>
+        <line x1="551" y1="110" x2="567" y2="110" marker-end="url(#arc)"/>
+        <line x1="689" y1="110" x2="705" y2="110" marker-end="url(#arc)"/>
+        <line x1="827" y1="110" x2="843" y2="110" marker-end="url(#arc)"/>
       </g>
-      <text x="158" y="60" fill="#5c6b7b" font-size="10" text-anchor="middle">k16 s4</text>
-      <text x="316" y="60" fill="#5c6b7b" font-size="10" text-anchor="middle">k8 s4</text>
-      <text x="474" y="60" fill="#5c6b7b" font-size="10" text-anchor="middle">k4 s2</text>
-      <text x="490" y="185" fill="#5c6b7b" font-size="11" text-anchor="middle">Conv 3層が「スペクトル特徴抽出器」を学習で獲得 → Flatten head（≈123k params）が大半を占める</text>
+      <text x="214" y="60" fill="#5c6b7b" font-size="10">k16 s4</text>
+      <text x="352" y="60" fill="#5c6b7b" font-size="10">k8 s4</text>
+      <text x="490" y="60" fill="#5c6b7b" font-size="10">k4 s4</text>
+      <text x="628" y="60" fill="#5c6b7b" font-size="10">k3 s2</text>
+      <text x="490" y="180" fill="#5c6b7b" font-size="11">4 層 Conv が特徴抽出器を学習で獲得 → GAP ＋ 1×1 Conv ヘッド（パラメータ僅少・NPU 親和）</text>
+      <text x="490" y="198" fill="#9a3412" font-size="11">Neutron NPU 都合で Conv2D(kernel 1×K) 実装＝演算は実質 1D（全層を誤差逆伝播で学習）</text>
     </g>
   </svg>
-  <figcaption>図1a. IchiPing 1D-CNN（XL）。Conv 3段＋全結合で全層を学習。パラメータの大半は Flatten→全結合（≈123k）。</figcaption>
+  <figcaption>図1a. IchiPing CNN（Neutron 互換 XL ≈ 104k params）。4 層 Conv＋GAP＋1×1 Conv ヘッドで全層を学習。Neutron NPU 向けに Conv2D(kernel 1×K) で実装されるが、カーネルが 1×K のため演算は実質 1D。</figcaption>
   </figure>
 
   <h3>移植先：Solist-AI ELM</h3>
@@ -256,16 +262,16 @@
   <h3>何が変わったか（CNN → ELM）</h3>
   <table>
     <tr><th>観点</th><th>IchiPing 1D-CNN（移植元）</th><th>Solist-AI ELM（移植先）</th></tr>
-    <tr><td>特徴抽出</td><td>Conv 3層で<b>学習</b>して獲得</td><td>α は<b>乱数固定（学習不可）</b>＋ 前処理で代替</td></tr>
-    <tr><td>学習する重み</td><td>全層 ≈ <b>173,000</b></td><td><b>β のみ ≈ 2,048</b></td></tr>
-    <tr><td>総パラメータ</td><td>≈ 173,000</td><td>≈ 12,700（α 10,688 は保存0）</td></tr>
+    <tr><td>特徴抽出</td><td>Conv 4層で<b>学習</b>して獲得</td><td>α は<b>乱数固定（学習不可）</b>＋ 前処理で代替</td></tr>
+    <tr><td>学習する重み</td><td>全層 ≈ <b>104,000</b></td><td><b>β のみ ≈ 2,048</b></td></tr>
+    <tr><td>総パラメータ</td><td>≈ 104,000</td><td>≈ 12,700（α 10,688 は保存0）</td></tr>
     <tr><td>入力</td><td>生 1×1024 log|FFT|</td><td>baseline差分FFTを <b>167bin</b> にクロップ</td></tr>
-    <tr><td>非線形性</td><td>ReLU×3 + BatchNorm（深い）</td><td>hard_sigmoid×1（浅い）</td></tr>
+    <tr><td>非線形性</td><td>ReLU×4 + BatchNorm（深い）</td><td>hard_sigmoid×1（浅い）</td></tr>
     <tr><td>学習方法</td><td>誤差逆伝播（GPU/クラウド）</td><td>最小二乗（<b>オンデバイス可</b>）</td></tr>
     <tr><td>環境適応</td><td>学習データで吸収</td><td><b>MCU 上の追加学習（β）</b>で吸収（32cls）</td></tr>
   </table>
   <div class="card">
-  <p><b>移植の核心：</b> CNN の Conv 層は実質「スペクトル特徴の抽出器」を学習で獲得していた。Solist-AI は α を学習できない制約があるため、その役割を <b>①前処理（baseline 差分＋情報帯域クロップ＋標準化）</b> と <b>②MCU 上の追加学習（β）</b> に肩代わりさせた。結果、学習パラメータを <b>173k → 2k（約 1/84）</b> に圧縮しつつ、14cls・32cls とも同等以上の精度に到達。<span class="ok">「深い特徴学習」を「賢い前処理＋ランダム特徴＋MCU 追加学習」で代替した</span>のが移植の要点。</p>
+  <p><b>移植の核心：</b> CNN の Conv 層は実質「スペクトル特徴の抽出器」を学習で獲得していた。Solist-AI は α を学習できない制約があるため、その役割を <b>①前処理（baseline 差分＋情報帯域クロップ＋標準化）</b> と <b>②MCU 上の追加学習（β）</b> に肩代わりさせた。結果、学習パラメータを <b>104k → 2k（約 1/51）</b> に圧縮しつつ、14cls・32cls とも同等以上の精度に到達。<span class="ok">「深い特徴学習」を「賢い前処理＋ランダム特徴＋MCU 追加学習」で代替した</span>のが移植の要点。</p>
   </div>
 
   <h3>順伝播の式</h3>
@@ -396,7 +402,7 @@
   <div class="note"><b>移植元 IchiPing（1D-CNN, MCU 実機）も同じ「現地校正」で高精度：</b> 32cls は 校正/現環境データなしで 25% → 現地ベースライン校正で 59% → 現環境データ 50frame 追加で 88% → <b>現地校正＋現環境データで 100%</b>（14cls は現環境データありなら校正なしでも 100%）。つまり<b>能動音響では現地校正が高精度の鍵</b>で、両システムに共通する性質である。</div>
   <div class="card" style="border-left:5px solid var(--accent)">
     <h3 style="margin-top:0">本移植版の位置づけ（公平な比較）</h3>
-    <p>精度は IchiPing CNN（現地校正後 32cls 100%）と<b>同等クラス</b>。差は<b>手段</b>にある——IchiPing は新環境への適応に <b>PC での再学習</b>（現環境データを足して CNN を学習し直す）を要するのに対し、Solist-AI は<b>環境適応の重み学習（β）をデバイス上で完結</b>でき、しかも<b>学習パラメータ約 1/84（β≈2,048 vs 173,000）・SRAM 16KB</b> の小型 MCU で動く（→ §9）。</p>
+    <p>精度は IchiPing CNN（現地校正後 32cls 100%）と<b>同等クラス</b>。差は<b>手段</b>にある——IchiPing は新環境への適応に <b>PC での再学習</b>（現環境データを足して CNN を学習し直す）を要するのに対し、Solist-AI は<b>環境適応の重み学習（β）をデバイス上で完結</b>でき、しかも<b>学習パラメータ約 1/51（β≈2,048 vs 104,000）・SRAM 16KB</b> の小型 MCU で動く（→ §9）。</p>
   </div>
 
   <div class="card" style="border-left:5px solid var(--accent2)">
@@ -455,7 +461,7 @@
   </table>
   <div class="card">
   <h3 style="margin-top:0">パラメータ規模（IchiPing CNN 比）</h3>
-  <p>IchiPing v1 CNN（32cls）≈ 173,000 パラメータ（全学習）。本 ELM（D=167, m=32）= 総 ≈ 12,700（α 10,688 は乱数固定で保存0 ＋ β 2,048）。<b>学習・保存対象は β のみ</b>＝ IchiPing 比で学習パラメータ約 1/84。これが軽量なオンデバイス学習を可能にする。</p>
+  <p>IchiPing v1 CNN（Neutron 互換 XL, 32cls）≈ 104,000 パラメータ（全学習）。本 ELM（D=167, m=32）= 総 ≈ 12,700（α 10,688 は乱数固定で保存0 ＋ β 2,048）。<b>学習・保存対象は β のみ</b>＝ IchiPing 比で学習パラメータ約 1/51。これが軽量なオンデバイス学習を可能にする。</p>
   </div>
   <div class="note"><b>用語</b>：<b>AxlCORE-ODL</b>＝Solist-AI のオンデバイス学習用 AI アクセラレータ（<b>ODL</b>＝On-Device Learning）。<b>FPU</b>＝浮動小数点演算器（本 MCU は非搭載）。<b>SRAM</b>＝高速な作業用メモリ（16KB、推論/学習の作業領域）。<b>Flash</b>＝不揮発メモリ（256KB、プログラム・重みの保存）。<b>bfloat16</b>＝16bit 浮動小数フォーマット。<b>hard sigmoid</b>＝sigmoid を区分線形で近似した活性化関数。</div>
   <div class="pager"><a href="#result">← シミュレーション結果</a><a href="#hw">次：実機ハードウェア →</a></div>
@@ -542,7 +548,7 @@
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0">移植元（自由なモデル構築）</h3>
-      <p>MCXN947 + 1D-CNN は、層・チャネル・パラメータを自由に設計し <b>全層を誤差逆伝播で学習</b>できる。特徴抽出器そのものをデータから獲得でき、約 173,000 パラメータの深いモデルが組めた。</p>
+      <p>MCXN947 + CNN は、層・チャネル・パラメータを自由に設計し <b>全層を誤差逆伝播で学習</b>できる。特徴抽出器そのものをデータから獲得でき、約 104,000 パラメータの深いモデルが組めた。</p>
     </div>
     <div class="card">
       <h3 style="margin-top:0">移植先（限定的なモデル構成）</h3>
@@ -561,7 +567,7 @@
 
   <h2>Solist-AI だからこそ得られる価値</h2>
   <div class="grid3">
-    <div class="card"><h3 style="margin-top:0">① 極少パラメータ</h3><p>学習・保存するのは <b>β のみ ≈ 2,048</b>（IchiPing CNN 比 <b>約 1/84</b>）。α は seed 再生成で<b>保存ゼロ</b>。モデルは数 KB で完結し、16KB RAM・256KB Flash に余裕で載る。</p></div>
+    <div class="card"><h3 style="margin-top:0">① 極少パラメータ</h3><p>学習・保存するのは <b>β のみ ≈ 2,048</b>（IchiPing CNN 比 <b>約 1/51</b>）。α は seed 再生成で<b>保存ゼロ</b>。モデルは数 KB で完結し、16KB RAM・256KB Flash に余裕で載る。</p></div>
     <div class="card"><h3 style="margin-top:0">② 追加学習で精度向上</h3><p>クラウド不要で<b>設置現場が自分で重みを学習</b>し環境へ適応。これにより<b>観測等価の壁を越え、閉扉越しの透過音まで識別</b>（§5）。IchiPing(大CNN)は同じ適応に <b>PC での再学習</b>が要るのに対し、<b>現場で重みを更新できる</b>のが Solist-AI の本質的な強み。</p></div>
     <div class="card"><h3 style="margin-top:0">③ スタンドアロン</h3><p>ネット不要・低遅延・低消費・プライバシー保全。設置してその場で賢くなり続ける、自己完結のセンサになる。</p></div>
   </div>

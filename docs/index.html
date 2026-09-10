@@ -70,6 +70,16 @@
   .pager a{color:var(--accent);text-decoration:none;font-size:14px;padding:8px 14px;border:1px solid var(--line);border-radius:8px}
   .pager a:hover{background:var(--panel2)}
   .pager a.empty{visibility:hidden}
+  .table-wrap{width:100%;overflow-x:auto;margin:14px 0}
+  .table-wrap table{margin:0;min-width:720px}
+  .badge{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;white-space:nowrap}
+  .badge.required{color:#17643f;background:#dff3e6;border:1px solid #9dd4b6}
+  .badge.select{color:#8c5900;background:#fff3d7;border:1px solid #edcf86}
+  .badge.optional{color:#4d5f75;background:#edf2f7;border:1px solid #cbd5e1}
+  .decision{border-left:5px solid var(--accent2)}
+  .flowline{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin:14px 0}
+  .flowline .step{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 13px}
+  .flowline .step b{display:block;color:var(--accent);margin-bottom:3px}
   /* mobile */
   .menubtn{display:none}
   @media(max-width:780px){
@@ -89,7 +99,7 @@
 <aside class="side">
   <div class="brand">
     <div class="t">IchiPing → Solist-AI</div>
-    <div class="s">移植 検証レポート ／ 2026-06</div>
+    <div class="s">移植 検証レポート ／ 2026-09</div>
   </div>
   <nav id="nav">
     <div class="navh">レポート</div>
@@ -139,8 +149,8 @@
   <p><b>IchiPing</b> は「<b>1 個のマイクと 1 発の Ping（探査音）だけで、家中の窓・扉の開閉状態をまとめて推定する</b>」エッジAIデバイス。部屋の反響は窓や扉の開閉で変化するため、既知の音を出して反響を分析すれば、複数の開口部の状態を 1 回の観測で同時に当てられる、という発想。</p>
   <p>窓 3・扉 2 の計 5 箇所、それぞれ開/閉 → 組合せは 2⁵ = <b>32 状態</b>。これを 1 マイク＋1 スピーカで識別する。「<b>cls（class＝クラス）</b>」は識別する状態の種類数で、<b>32cls</b>＝32 状態すべて、<b>14cls</b>＝後述の観測等価でまとめた 14 種を指す。</p>
   <figure class="fig">
-    <img src="img/system_overview.svg" alt="IchiPing システム構成" style="width:100%;max-width:880px;display:block;margin:0 auto;border-radius:8px">
-    <figcaption>図. IchiPing のシステム構成（移植元）。1 マイク＋1 スピーカで探査音を出し、エッジ AI で 32 状態を推定。</figcaption>
+    <img src="img/hw_solist_ai.svg" alt="Solist-AI移植版の最終システム構成" style="width:100%;max-width:960px;display:block;margin:0 auto;border-radius:8px">
+    <figcaption>図. Solist-AI 移植版の最終構成。ML63Q2557 が収録・学習・推論、Stamp-S3 が I²S 音声出力を担当する。</figcaption>
   </figure>
 
   <h2>IchiPing が実現している技術</h2>
@@ -470,52 +480,105 @@
 <!-- 7. HW -->
 <section id="hw" class="article">
   <div class="crumb">レポート ／ 実機ハードウェア構成</div>
-  <h1>実機ハードウェア構成（DT-EBML63Q2557）</h1>
-  <div class="note">
-  <b>重要：</b> 実機では<b>スピーカとマイクが現行品から変更</b>になるため、<b>学習・追加学習用のデータは実機構成で取り直しが必要</b>。モデル構造・パイプライン・データ生成手順（クロスベースライン／オーグメンテーション）はそのまま流用できるが、β は実機収録データで再学習する。
+  <h1>実機ハードウェア構成・BOM・接続仕様</h1>
+  <div class="card decision">
+    <h3 style="margin-top:0">採用構成</h3>
+    <p><b>DT-EBML63Q2557を主ボード、M5Stack Stamp-S3を音声出力用の子ボード</b>とする。両ボード間はUARTで制御・同期し、Stamp-S3からI²SデジタルアンプへPRBSを出力する。マイクはAGCなしのアナログプリアンプを介してCN6へ入力する。<b>降雨センサは搭載しない。</b></p>
   </div>
 
-  <h3>スピーカ／マイクの代替方法 検討結果</h3>
-  <p>評価ボード DT-EBML63Q2557 は<b>センサ入力主体</b>で、<b>I2S・DAC・音声出力を持たない</b>。励振音（PRBS）のスピーカ駆動と収録マイク接続を以下で解決する。</p>
-  <div class="grid2">
-    <div class="card"><h3 style="margin-top:0">🎤 マイク（収録）</h3><p><span class="ok">解決済：CN6 のアナログ入力</span>を使用し内蔵 <b>12bit ADC</b> で収録。外部マイクアンプ → CN6 → ADC。I2S 不要。</p></div>
-    <div class="card"><h3 style="margin-top:0">🔊 スピーカ（励振）</h3><p>DAC/I2S が無いため外付けで生成：</p><ul><li><b>本命：外付け SPI DAC</b>。SPI → SPI DAC → アンプ → スピーカ。PRBS を SPI で流す。</li><li><b>最終手段：I2S を持つ別MCU</b>を UART 接続し I2S DAC を駆動。構成増のため極力回避。</li></ul></div>
-  </div>
+  <h2>全体構成と役割分担</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>ブロック</th><th>担当</th><th>主な処理</th><th>接続</th></tr></thead>
+    <tbody>
+      <tr><td><b>主制御・AI</b></td><td>DT-EBML63Q2557</td><td>ADC収録、baseline差分、FFT、z-score、ELM推論、β追加学習</td><td>CN6、UART、同期GPIO</td></tr>
+      <tr><td><b>音声出力</b></td><td>M5Stack Stamp-S3</td><td>UARTコマンド受信、PRBS再生成、I²S DMA出力、アンプのミュート制御</td><td>UART、I²S、GPIO</td></tr>
+      <tr><td><b>励振</b></td><td>MAX98357A＋スピーカー</td><td>I²Sデータをアナログ音声へ変換・増幅し、室内へPRBSを放射</td><td>I²S、5V、SPK±</td></tr>
+      <tr><td><b>収録</b></td><td>アナログマイク＋プリアンプ</td><td>反射音を固定ゲインで増幅し、ML63Q2557の12bit ADCへ入力</td><td>CN6アナログ入力</td></tr>
+      <tr><td><b>モデル運用</b></td><td>ML63Q2557内Flash</td><td>工場モデルβ<sub>factory</sub>を保持し、実機学習β<sub>local</sub>を別領域へ保存</td><td>内部Flash</td></tr>
+    </tbody>
+  </table></div>
 
   <figure class="fig">
-  <svg viewBox="0 0 980 420" font-family="Segoe UI,Meiryo,sans-serif">
-    <defs><marker id="arh" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker><marker id="arw" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#b5781a"/></marker></defs>
-    <rect x="350" y="120" width="280" height="180" rx="12" fill="#eaf1fb" stroke="#1565c0" stroke-width="2"/>
-    <text x="490" y="150" fill="#1565c0" font-size="16" text-anchor="middle" font-weight="700">DT-EBML63Q2557</text>
-    <text x="490" y="170" fill="#5c6b7b" font-size="12" text-anchor="middle">ML63Q2557 + AxlCORE-ODL</text>
-    <rect x="375" y="190" width="105" height="40" rx="6" fill="#d8f0e1" stroke="#1f8a5b"/><text x="427" y="208" fill="#1f8a5b" font-size="12" text-anchor="middle">12bit ADC</text><text x="427" y="223" fill="#4a5663" font-size="10" text-anchor="middle">CN6 入力</text>
-    <rect x="500" y="190" width="105" height="40" rx="6" fill="#fff1e0" stroke="#d9822b"/><text x="552" y="208" fill="#b5781a" font-size="12" text-anchor="middle">SPI</text><text x="552" y="223" fill="#4a5663" font-size="10" text-anchor="middle">外部DAC駆動</text>
-    <rect x="375" y="245" width="230" height="38" rx="6" fill="#e3e9f2" stroke="#1565c0"/><text x="490" y="269" fill="#1b2632" font-size="12" text-anchor="middle">FFT / baseline差分 / ELM 推論・β学習</text>
-    <rect x="40" y="190" width="110" height="44" rx="8" fill="#eef4fb" stroke="#1f8a5b"/><text x="95" y="210" fill="#1f8a5b" font-size="13" text-anchor="middle">マイク</text><text x="95" y="226" fill="#5c6b7b" font-size="10" text-anchor="middle">※実機で変更</text>
-    <rect x="185" y="190" width="120" height="44" rx="8" fill="#eef4fb" stroke="#1f8a5b"/><text x="245" y="210" fill="#1b2632" font-size="12" text-anchor="middle">マイクアンプ</text><text x="245" y="226" fill="#5c6b7b" font-size="10" text-anchor="middle">アナログ</text>
-    <line x1="150" y1="212" x2="183" y2="212" stroke="#1f8a5b" stroke-width="1.6" marker-end="url(#arh)"/>
-    <line x1="305" y1="212" x2="373" y2="210" stroke="#1f8a5b" stroke-width="1.6" marker-end="url(#arh)"/><text x="335" y="200" fill="#1f8a5b" font-size="10" text-anchor="middle">CN6</text>
-    <text x="170" y="170" fill="#1f8a5b" font-size="13" text-anchor="middle" font-weight="700">収録パス（解決済）</text>
-    <rect x="680" y="190" width="95" height="44" rx="8" fill="#fff1e0" stroke="#d9822b"/><text x="727" y="210" fill="#b5781a" font-size="12" text-anchor="middle">SPI DAC</text><text x="727" y="226" fill="#4a5663" font-size="10" text-anchor="middle">外付け</text>
-    <rect x="800" y="190" width="80" height="44" rx="8" fill="#fff1e0" stroke="#d9822b"/><text x="840" y="214" fill="#b5781a" font-size="12" text-anchor="middle">アンプ</text>
-    <rect x="905" y="190" width="60" height="44" rx="8" fill="#eef4fb" stroke="#d9822b"/><text x="935" y="208" fill="#b5781a" font-size="12" text-anchor="middle">SPK</text><text x="935" y="224" fill="#5c6b7b" font-size="9" text-anchor="middle">※変更</text>
-    <line x1="605" y1="208" x2="678" y2="208" stroke="#b5781a" stroke-width="1.6" marker-end="url(#arw)"/>
-    <line x1="775" y1="212" x2="798" y2="212" stroke="#b5781a" stroke-width="1.6" marker-end="url(#arw)"/>
-    <line x1="880" y1="212" x2="903" y2="212" stroke="#b5781a" stroke-width="1.6" marker-end="url(#arw)"/>
-    <text x="820" y="170" fill="#b5781a" font-size="13" text-anchor="middle" font-weight="700">励振パス（本命：SPI DAC）</text>
-    <path d="M935,236 C935,330 490,360 95,236" fill="none" stroke="#5c6b7b" stroke-width="1.4" stroke-dasharray="5,4" marker-end="url(#arh)"/>
-    <text x="490" y="350" fill="#5c6b7b" font-size="12" text-anchor="middle">PRBS励振音 → 扉/窓の開閉状態を含む室内音響 → マイクへ（能動音響センシング）</text>
-    <rect x="640" y="300" width="325" height="56" rx="8" fill="#eef1f5" stroke="#9aa7b6"/><text x="802" y="322" fill="#5c6b7b" font-size="12" text-anchor="middle" font-weight="700">最終手段：別MCU(I2S) を UART 接続</text><text x="802" y="340" fill="#5c6b7b" font-size="11" text-anchor="middle">ML63 → UART → I2S MCU → I2S DAC → SPK（構成増のため回避）</text>
-    <line x1="552" y1="230" x2="640" y2="318" stroke="#9aa7b6" stroke-width="1.3" stroke-dasharray="4,3"/>
-  </svg>
-  <figcaption>図4. 実機ハードウェア接続図。マイク＝CN6 アナログ入力（解決済）、励振＝外付け SPI DAC（本命）。I2S 別MCU は最終手段。スピーカ・マイクは現行品から変更されるためデータ再取得が必要。</figcaption>
+    <img src="img/hw_solist_ai.svg" alt="DT-EBML63Q2557、Stamp-S3、I2Sアンプ、スピーカー、アナログマイクの接続図" style="width:100%;max-width:1040px;display:block;margin:0 auto">
+    <figcaption>図4. 最終ハードウェア構成。UARTは制御・同期専用で、生音声は転送しない。Stamp-S3が同じseedからPRBSを生成し、ML63Q2557が反射音を収録する。</figcaption>
   </figure>
-  <div class="legend" style="text-align:center">
-    <span><span class="sw" style="background:#1f8a5b"></span>収録（解決済）</span>
-    <span><span class="sw" style="background:#b5781a"></span>励振（本命 SPI DAC）</span>
-    <span><span class="sw" style="background:#557"></span>最終手段（I2S 別MCU）</span>
+
+  <h2>部品表（BOM）</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>No.</th><th>区分</th><th>部品・推奨品</th><th>数量</th><th>要求仕様・選定理由</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="badge required">必須</span></td><td><b>DT-EBML63Q2557</b></td><td>1</td><td>ML63Q2557＋AxlCORE-ODL。収録、特徴抽出、追加学習、推論を担当。</td></tr>
+      <tr><td>2</td><td><span class="badge required">必須</span></td><td><b>M5Stack Stamp-S3（S007）</b></td><td>1</td><td>ESP32-S3、8MB Flash、UART、I²S、23 GPIO。I²S音声出力と再生同期を担当。</td></tr>
+      <tr><td>3</td><td><span class="badge required">必須</span></td><td><b>MAX98357A I²S Class-Dアンプモジュール</b></td><td>1</td><td>I²S DACとモノラルアンプを1枚に集約。5V動作、BCLK/LRC/DIN入力、SD/MODE端子付き。</td></tr>
+      <tr><td>4</td><td><span class="badge select">選定</span></td><td><b>8Ω 1Wスピーカー</b></td><td>1</td><td>初期試作値。400～3000Hzで十分な音圧と再現性を実測して最終決定。</td></tr>
+      <tr><td>5</td><td><span class="badge select">選定</span></td><td><b>アナログマイク＋固定ゲインプリアンプ</b></td><td>1</td><td>AGCなしを使用。出力振幅とDCバイアスをCN6 ADC入力範囲へ合わせる。</td></tr>
+      <tr><td>6</td><td><span class="badge select">選定</span></td><td><b>5V電源</b></td><td>1</td><td>Stamp-S3とアンプ用。試作時は5V/1A以上を目安とし、最大音量時の電圧降下を確認。</td></tr>
+      <tr><td>7</td><td><span class="badge optional">条件付き</span></td><td><b>2chロジックレベル変換</b></td><td>1</td><td>ML63Q2557側UARTが3.3Vでない場合のみ使用。Stamp-S3 GPIOへ3.6Vを超えて入力しない。</td></tr>
+      <tr><td>8</td><td><span class="badge required">必須</span></td><td>配線・コネクタ・デカップリング部品</td><td>1式</td><td>UART、SYNC、I²S、電源、GND。アンプ近傍に電源デカップリングを配置。</td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead">BOMのNo.4～6は音圧、ノイズフロア、CN6入力範囲を実測後に型番を確定する。降雨センサおよび関連配線はBOM対象外。</p>
+
+  <h2>接続表</h2>
+  <h3>DT-EBML63Q2557 ⇔ Stamp-S3</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>信号</th><th>DT-EBML63Q2557側</th><th>Stamp-S3側</th><th>方向</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr><td>UART_TX</td><td>使用するUARTチャネルのTX端子</td><td>GPIO1 / UART_RX</td><td>ML63 → S3</td><td>コマンド、seed、再生長、振幅を送信。</td></tr>
+      <tr><td>UART_RX</td><td>使用するUARTチャネルのRX端子</td><td>GPIO2 / UART_TX</td><td>S3 → ML63</td><td>ACK、READY、エラー、完了通知。</td></tr>
+      <tr><td>PLAY_SYNC</td><td>外部割込み対応GPIO</td><td>GPIO3</td><td>S3 → ML63</td><td>I²S先頭サンプル直前にエッジ出力し、ADC収録を同期。</td></tr>
+      <tr><td>GND</td><td>GND</td><td>GND</td><td>共通</td><td>信号基準。必ず共通化する。</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Stamp-S3 ⇔ MAX98357A ⇔ スピーカー</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Stamp-S3</th><th>MAX98357A</th><th>機能</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr><td>GPIO5</td><td>BCLK</td><td>I²Sビットクロック</td><td>配線は短くし、GNDリターンを近づける。</td></tr>
+      <tr><td>GPIO6</td><td>LRC / WS</td><td>I²Sワード選択</td><td>16kHz、16bit、monoを初期条件とする。</td></tr>
+      <tr><td>GPIO7</td><td>DIN</td><td>I²S音声データ</td><td>Stamp-S3からアンプへの一方向。</td></tr>
+      <tr><td>GPIO8</td><td>SD / EN</td><td>ミュート制御</td><td>起動・停止時のポップノイズ抑制に使用。</td></tr>
+      <tr><td>5V</td><td>VIN</td><td>アンプ電源</td><td>Stamp-S3と同一5V系を使用可能。電源容量を確認。</td></tr>
+      <tr><td>GND</td><td>GND</td><td>共通GND</td><td>主ボードを含めて共通化。</td></tr>
+      <tr><td>—</td><td>SPK+ / SPK−</td><td>スピーカー出力</td><td>BTL出力のため、どちらもGNDへ接続しない。</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>アナログ収録系</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>接続元</th><th>接続先</th><th>信号</th><th>確認事項</th></tr></thead>
+    <tbody>
+      <tr><td>アナログマイク</td><td>固定ゲインプリアンプ</td><td>微小音声信号</td><td>AGCは使用しない。設置位置を固定する。</td></tr>
+      <tr><td>プリアンプOUT</td><td>DT-EBML63Q2557 CN6</td><td>ADC入力</td><td>最大音量でも入力範囲を超えないこと。無音時DC値も記録する。</td></tr>
+      <tr><td>プリアンプGND</td><td>システムGND</td><td>信号基準</td><td>I²Sアンプの大電流経路とアナログGND配線を分離し、一点で合流させる。</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>制御・同期シーケンス</h2>
+  <div class="flowline">
+    <div class="step"><b>1. ARM</b>ML63がseed、サンプル数、振幅をUART送信</div>
+    <div class="step"><b>2. READY</b>Stamp-S3がPRBSとI²S DMAを準備して応答</div>
+    <div class="step"><b>3. SYNC</b>Stamp-S3が同期GPIOを出力し、ML63がADC収録開始</div>
+    <div class="step"><b>4. PLAY</b>Stamp-S3がI²SでPRBSを再生</div>
+    <div class="step"><b>5. PROCESS</b>ML63がbaseline差分、FFT、推論またはβ学習を実行</div>
   </div>
-  <div class="note"><b>用語</b>：<b>ADC</b>＝アナログ-デジタル変換器（マイク信号の取込）。<b>DAC</b>＝デジタル-アナログ変換器（音の出力）。<b>I2S</b>＝デジタル音声伝送インタフェース。<b>SPI</b>＝高速シリアル周辺機器インタフェース。<b>UART</b>＝調歩同期シリアル通信。<b>CN6</b>＝評価ボードのアナログ入力コネクタ。</div>
+  <p>UARTには生PCMを流さない。両ボードが同じPRBS生成規則とseedを共有することで、低い通信量のまま再現性を確保する。</p>
+
+  <h2>学習済みモデルと実機追加学習</h2>
+  <div class="grid2">
+    <div class="card"><h3 style="margin-top:0">工場モデルを保持</h3><p>元の学習済みα・β<sub>factory</sub>は変更せず保存する。ハードウェア変更後も初期モデルおよび復旧用モデルとして使用する。</p></div>
+    <div class="card"><h3 style="margin-top:0">実機モデルを別保存</h3><p>新しいスピーカー、アンプ、マイク、筐体、設置環境でbaselineと学習データを取得し、βのみ更新してβ<sub>local</sub>へ保存する。</p></div>
+  </div>
+  <div class="note"><b>実機確認事項：</b> デバイス変更はランダムノイズだけでなく、周波数応答・遅延・ゲインの系統差を生む。PRBS、16kHzサンプリング、再生振幅、FFT条件、マイクゲイン、設置位置を固定し、各状態10～30フレームを目安に追加学習する。検証精度が基準未満ならβ<sub>factory</sub>へロールバックする。</div>
+
+  <h2>電気的注意事項</h2>
+  <ul>
+    <li><b>UART電圧：</b> Stamp-S3は3.3Vロジック。DT-EBML63Q2557の実使用電圧を測定し、3.3V以外なら適切なレベル変換を入れる。</li>
+    <li><b>電源分離：</b> アンプの瞬間電流でADC基準が揺れないよう、アンプ電源のデカップリングとアナログ系の配線分離を行う。</li>
+    <li><b>起動ノイズ：</b> GPIO8でMAX98357Aをミュートし、I²Sクロックが安定してから有効化する。</li>
+    <li><b>未確定端子：</b> DT-EBML63Q2557側のUART、外部割込みGPIO、CN6の端子番号と許容入力範囲は、評価ボード回路図・ユーザーズマニュアルで確定する。</li>
+  </ul>
   <div class="pager"><a href="#spec">← 実機実装仕様</a><a href="#next">次：実機での進め方 →</a></div>
 </section>
 
@@ -529,7 +592,7 @@
   <li><b>β を PC で再学習</b>（batch-LS、α は seed 固定）→ 14cls / 32cls の β を生成。</li>
   <li><b>β 焼込 → 推論検証</b>：14cls は追加学習なしで動作確認、32cls は MCU 追加学習（10frame/状態）。</li>
   <li><b>オンデバイス追加学習の実機確認</b>：<code>ODL_StartTrain</code> による追加学習が収束するか実測。収束しない場合は <b>32×32 連立を自前 C で解く</b>フォールバックに切替（精度は同等）。</li>
-  <li><b>I/O ブリングアップ</b>：CN6 マイク収録、SPI DAC 励振、PRBS と収録の同期。</li>
+  <li><b>I/O ブリングアップ</b>：CN6 マイク収録、UARTコマンド、Stamp-S3のI²S励振、PLAY_SYNC GPIOによるPRBSと収録の同期。</li>
   </ol>
   </div>
   <div class="note">

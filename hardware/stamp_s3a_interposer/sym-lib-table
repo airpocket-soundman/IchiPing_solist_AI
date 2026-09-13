@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "IchiPing_Interposer") (type "KiCad") (uri "${KIPRJMOD}/lib/IchiPing_Interposer.kicad_sym") (options "") (descr ""))
+)

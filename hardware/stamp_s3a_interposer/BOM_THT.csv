@@ -1,0 +1,20 @@
+Comment,Designator,Footprint,Supplier Part,Supplier URL,Manufacturer Part,Qty,Notes
+Stamp left-row carrier socket,J_STAMP_17,PinSocket_1x17_P1.27mm_Vertical,"Akizuki 103866",https://akizukidenshi.com/catalog/g/g103866/,2200SA-20G-34,1,"Cut 1x20 to 17 only after trial; top-side socket"
+Stamp left-row module header,OFFBOARD_STAMP_MALE_17,N/A,"Akizuki 103865",https://akizukidenshi.com/catalog/g/g103865/,2199SA-40G-3015-23,1,"Cut to 17; hand solder to Stamp"
+Stamp right-row carrier socket,J_STAMP_6,PinSocket_1x06_P2.54mm_Vertical,"Akizuki 110073",https://akizukidenshi.com/catalog/g/g110073/,FH2.54-40U1GF8.5-0.5,1,"Cut to 6; verify fit"
+Stamp module,OFFBOARD_STAMP,N/A,M5Stack S007-V033,,S007-V033,1,User fitted
+Solist mating socket,J_SOLIST,PinSocket_2x07_P2.54mm_Vertical,"LCSC C42431856",,PM2.54-2X7PM-H85,1,Hand solder; confirm mating gender
+JST XH 2P,"J_WIN_A J_WIN_B J_WIN_C J_DOOR_AB J_DOOR_BC J_EXEC J_PCA_OE J_SERVO_5V_OUT J_PWR_LOGIC J_PWR_SERVO",JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical,"Akizuki 112247",https://akizukidenshi.com/catalog/g/g112247/,B2B-XH-A,10,Genuine JST XH
+JST XH 3P,J_AMP_PWR,JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical,"Akizuki 112248",https://akizukidenshi.com/catalog/g/g112248/,B3B-XH-A,1,Genuine JST XH
+JST XH 4P,"J_AMP_SIG J_TFT_PWR J_SERVO_CTRL",JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical,"Akizuki 112249",https://akizukidenshi.com/catalog/g/g112249/,B4B-XH-A,3,Genuine JST XH
+JST XH 5P,J_TFT_SIG,JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical,"Akizuki 112250",https://akizukidenshi.com/catalog/g/g112250/,B5B-XH-A,1,Genuine JST XH
+JST XH 6P,J_MIC,JST_XH_B6B-XH-A_1x06_P2.50mm_Vertical,"Akizuki 112251",https://akizukidenshi.com/catalog/g/g112251/,B6B-XH-A,1,Genuine JST XH
+33 ohm 1%,"R1 R2 R3 R4 R5",R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,Generic 1/4W metal film,,33R,5,Hand solder
+10 kohm 1%,"R6 R8 R9",R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,Generic 1/4W metal film,,10k,3,Hand solder
+100 kohm 1%,R7,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,Generic 1/4W metal film,,100k,1,Hand solder
+100 nF ceramic,"C2 C4",C_Disc_D5.0mm_W2.5mm_P5.00mm,Generic leaded ceramic,,100nF,2,Hand solder
+470 uF 10V minimum,C1,CP_Radial_D10.0mm_P5.00mm,LCSC C389251,,16YXF470MFFC10X12.5,1,Observe polarity
+1000 uF 10V minimum,C3,CP_Radial_D12.5mm_P5.00mm,LCSC C5178513,,NXH35V1000M12.5*20 5.0TP,1,Observe polarity
+10 uF 10V minimum,C5,CP_Radial_D5.0mm_P2.00mm,LCSC C424097,,50YXF10MEFCT15X11,1,Observe polarity
+2P jumper header,JP_STAMP_5V,PinHeader_1x02_P2.54mm_Vertical,LCSC C51898249,,1010301122,1,"Default OPEN; shunt only after power check"
+M3 mounting hole,"H1 H2 H3 H4",MountingHole_3.2mm_M3,,,,4,No part

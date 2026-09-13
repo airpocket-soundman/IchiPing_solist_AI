@@ -11,6 +11,14 @@ sim/_cache/
 *.stackdump
 ~$*
 *.tmp
+tmp/
 
 # ベンダー参照資料（ROHM PDF等：著作権のためローカル保管のみ）
 doc/
+
+# KiCad manufacturing and validation outputs (regenerated locally)
+hardware/stamp_s3a_interposer/build/
+hardware/stamp_s3a_interposer/*.kicad_prl
+hardware/stamp_s3a_interposer/*.lck
+hardware/stamp_s3a_interposer/*-backups/
+hardware/stamp_s3a_interposer/*_check.pdf

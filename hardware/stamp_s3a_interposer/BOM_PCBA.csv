@@ -1,0 +1,21 @@
+Comment,Designator,Footprint,LCSC Part #,Manufacturer Part,Manufacturer,Qty,Assembly,Notes
+Stamp left-row carrier socket,J_STAMP_17,PinSocket_1x17_P1.27mm_Vertical,C41360907,FH1.27-01-17PZD,XUNPU,1,Wave solder,"Top-side opening; carrier is X-mirrored; verify mating before production"
+Stamp right-row carrier socket,J_STAMP_6,PinSocket_1x06_P2.54mm_Vertical,C42431861,PM2.54-1X6P-H85,JXTCONN,1,Wave solder,"Top-side opening; verify pin fit and stack height"
+Stamp left-row module header,OFFBOARD_STAMP_MALE_17,N/A,C41360852,PH1.27-01-17PZD,XUNPU,1,Hand solder to Stamp,"Long mating pins toward carrier; Stamp component side remains up"
+Stamp module,OFFBOARD_STAMP,N/A,,S007-V033,M5Stack,1,User fitted,Not assembled by JLCPCB
+Solist mating socket,J_SOLIST,PinSocket_2x07_P2.54mm_Vertical,C42431856,PM2.54-2X7PM-H85,JXTCONN,1,Wave solder,"Confirm Solist mating gender and pin 1"
+JST XH 2P,"J_WIN_A J_WIN_B J_WIN_C J_DOOR_AB J_DOOR_BC J_EXEC J_PCA_OE J_SERVO_5V_OUT J_PWR_LOGIC J_PWR_SERVO",JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical,C265283,B2B-XH-A-GU,JST,10,Wave solder,"Genuine XH; pin order is harness contract"
+JST XH 3P,J_AMP_PWR,JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical,C144394,B3B-XH-A(LF)(SN),JST,1,Wave solder,
+JST XH 4P,"J_AMP_SIG J_TFT_PWR J_SERVO_CTRL",JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical,C144395,B4B-XH-A(LF)(SN),JST,3,Wave solder,
+JST XH 5P,J_TFT_SIG,JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical,C157991,B5B-XH-A(LF)(SN),JST,1,Wave solder,
+JST XH 6P,J_MIC,JST_XH_B6B-XH-A_1x06_P2.50mm_Vertical,C144397,B6B-XH-A(LF)(SN),JST,1,Wave solder,
+33 ohm 1%,"R1 R2 R3 R4 R5",R_0603_1608Metric,C23140,0603WAF330JT5E,UNI-ROYAL,5,SMT,Basic
+10 kohm 1%,"R6 R8 R9",R_0603_1608Metric,C25804,0603WAF1002T5E,UNI-ROYAL,3,SMT,Basic
+100 kohm 1%,R7,R_0603_1608Metric,C25803,0603WAF1003T5E,UNI-ROYAL,1,SMT,Basic
+100 nF 50V X7R,"C2 C4",C_0603_1608Metric,C14663,CC0603KRX7R9BB104,Yageo,2,SMT,Basic
+470 uF 16V,C1,CP_Radial_D10.0mm_P5.00mm,C389251,16YXF470MFFC10X12.5,Rubycon,1,Wave solder,Observe polarity
+1000 uF 35V,C3,CP_Radial_D12.5mm_P5.00mm,C5178513,NXH35V1000M12.5*20 5.0TP,SamYoung,1,Wave solder,"Observe polarity and 20mm height"
+10 uF 50V,C5,CP_Radial_D5.0mm_P2.00mm,C424097,50YXF10MEFCT15X11,Rubycon,1,Wave solder,Observe polarity
+2P jumper header,JP_STAMP_5V,PinHeader_1x02_P2.54mm_Vertical,C51898249,1010301122,Liansheng,1,Wave solder,Ship OPEN
+2P shunt,OFFBOARD_JP_SHUNT,N/A,C20417885,HC-JP254-1-135-0P-L-G1,HCTL,1,Do not fit,"Fit manually only after power-source check"
+M3 mounting hole,"H1 H2 H3 H4",MountingHole_3.2mm_M3,,,,4,No part,

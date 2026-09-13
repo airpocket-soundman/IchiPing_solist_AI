@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="'Yu Gothic UI','Meiryo','Segoe UI',sans-serif">
+  <defs>
+    <style>
+      .title{font-size:27px;font-weight:800;fill:#172033}
+      .subtitle{font-size:14px;fill:#637083}
+      .panel{fill:#f8fafc;stroke:#263244;stroke-width:2}
+      .panel-title{font-size:20px;font-weight:800;fill:#172033}
+      .panel-sub{font-size:12px;fill:#637083}
+      .group{fill:#fff;stroke:#cbd5e1;stroke-width:1.4}
+      .group-title{font-size:12px;font-weight:800;fill:#465469}
+      .box{stroke-width:1.5}
+      .box-title{font-size:13px;font-weight:800}
+      .box-sub{font-size:10px}
+      .mcu{fill:#183b66;stroke:#102a49}
+      .mcu-title{fill:#fff;font-size:17px;font-weight:800}
+      .mcu-sub{fill:#d7e8ff;font-size:11px}
+      .mcu-core{fill:#dff3e6;stroke:#238657}
+      .mcu-core-title{fill:#17643f;font-size:13px;font-weight:800}
+      .mcu-core-sub{fill:#315d49;font-size:10px}
+      .ui{fill:#e9f2ff;stroke:#3678c7}.ui-t{fill:#184f91}.ui-s{fill:#496681}
+      .comm{fill:#fce8f1;stroke:#c32669}.comm-t{fill:#8d174c}.comm-s{fill:#85405e}
+      .sense{fill:#e7f7ed;stroke:#24915d}.sense-t{fill:#176b43}.sense-s{fill:#3d6f57}
+      .audio{fill:#fff1df;stroke:#db7b18}.audio-t{fill:#a75808}.audio-s{fill:#805b35}
+      .control{fill:#f2ebff;stroke:#7954c8}.control-t{fill:#55349d}.control-s{fill:#675681}
+      .rain{fill:#e5f0ff;stroke:#2769b0}.rain-t{fill:#164e88}.rain-s{fill:#446685}
+      .servo{fill:#fff3d7;stroke:#d88b00}.servo-t{fill:#8c5900}.servo-s{fill:#775f32}
+      .wire{fill:none;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+      .spi{stroke:#2878d0}.adc{stroke:#20945e}.i2c{stroke:#7a55c7}
+      .gpio{stroke:#df3d7b}.pwm{stroke:#d89000}.uart{stroke:#b32672}
+      .wifi{stroke:#6657d9;stroke-dasharray:7 5}.audio-wire{stroke:#db6d00}
+      .wire-label{font-size:10px;font-weight:800}
+      .flow{fill:#fff;stroke:#b9c5d3;stroke-width:1.2}
+      .flow-title{font-size:11px;font-weight:800;fill:#253247}
+      .flow-sub{font-size:9px;fill:#5f6d80}
+      .legend{font-size:10px;fill:#344054}
+    </style>
+    <marker id="arrow-spi" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#2878d0"/></marker>
+    <marker id="arrow-adc" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#20945e"/></marker>
+    <marker id="arrow-i2c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#7a55c7"/></marker>
+    <marker id="arrow-gpio" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#df3d7b"/></marker>
+    <marker id="arrow-pwm" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#d89000"/></marker>
+    <marker id="arrow-uart" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#b32672"/></marker>
+    <marker id="arrow-audio" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#db6d00"/></marker>
+  </defs>
+
+  <text class="title" x="600" y="38" text-anchor="middle">IchiPing システム構成 - Solist-AI 最終仕様</text>
+  <text class="subtitle" x="600" y="62" text-anchor="middle">1マイク + 1 Pingで32状態推定 / 雨検出・クラウド通知・ローカル表示・サーボ自動開閉</text>
+
+  <rect class="panel" x="35" y="90" width="690" height="570" rx="18"/>
+  <text class="panel-title" x="60" y="122">コントローラ筐体（エッジ側）</text>
+  <text class="panel-sub" x="60" y="143">推論: Stamp→I²C→Solist / 学習: Stamp→USB CDC→PC</text>
+
+  <rect class="group" x="55" y="165" width="175" height="465" rx="12"/>
+  <text class="group-title" x="72" y="188">UI・トリガー・通信</text>
+
+  <rect class="box ui" x="72" y="205" width="140" height="70" rx="9"/>
+  <text class="box-title ui-t" x="142" y="232" text-anchor="middle">ILI9341 TFT</text>
+  <text class="box-sub ui-s" x="142" y="251" text-anchor="middle">ローカル状態表示</text>
+  <rect x="103" y="258" width="78" height="6" rx="3" fill="#79aee9"/>
+
+  <rect class="box rain" x="72" y="300" width="140" height="70" rx="9"/>
+  <text class="box-title rain-t" x="142" y="327" text-anchor="middle">EXECボタン</text>
+  <text class="box-sub rain-s" x="142" y="346" text-anchor="middle">手動測定トリガー</text>
+  <circle cx="142" cy="357" r="8" fill="#fff" stroke="#2769b0" stroke-width="2"/>
+
+  <rect class="box ui" x="72" y="395" width="140" height="85" rx="9"/>
+  <text class="box-title ui-t" x="142" y="421" text-anchor="middle">トグル入力 ×5</text>
+  <text class="box-sub ui-s" x="142" y="439" text-anchor="middle">窓a / 窓b / 窓c</text>
+  <text class="box-sub ui-s" x="142" y="455" text-anchor="middle">扉AB / 扉BC</text>
+  <g fill="#263244"><circle cx="103" cy="466" r="5"/><circle cx="123" cy="466" r="5"/><circle cx="143" cy="466" r="5"/><circle cx="163" cy="466" r="5"/><circle cx="183" cy="466" r="5"/></g>
+
+  <rect class="box comm" x="72" y="505" width="140" height="90" rx="9"/>
+  <text class="box-title comm-t" x="142" y="532" text-anchor="middle">M5Stack Stamp-S3A</text>
+  <text class="box-sub comm-s" x="142" y="551" text-anchor="middle">I2S / I2C / GPIO入力×6</text>
+  <text class="box-sub comm-s" x="142" y="568" text-anchor="middle">左P1.27×17 / 右P2.54×6</text>
+  <path d="M177 578q12-12 24 0M181 582q8-8 16 0M187 587q2-2 4 0" fill="none" stroke="#b32672" stroke-width="2"/>
+
+  <rect class="group" x="250" y="165" width="270" height="465" rx="12"/>
+  <text class="group-title" x="267" y="188">固定β 推論コア</text>
+
+  <rect class="mcu box" x="270" y="205" width="230" height="190" rx="12"/>
+  <text class="mcu-title" x="385" y="238" text-anchor="middle">DT-EBML63Q2557</text>
+  <text class="mcu-sub" x="385" y="261" text-anchor="middle">ML63Q2557 / Cortex-M0+ 48MHz</text>
+  <text class="mcu-sub" x="385" y="281" text-anchor="middle">Flash 256KB / SRAM 16KB</text>
+  <rect class="mcu-core" x="290" y="304" width="190" height="70" rx="9"/>
+  <text class="mcu-core-title" x="385" y="330" text-anchor="middle">AxlCORE-ODL</text>
+  <text class="mcu-core-sub" x="385" y="349" text-anchor="middle">PC学習済みβでELM推論</text>
+  <text class="mcu-core-sub" x="385" y="364" text-anchor="middle">既定FFT / z-score / ELM</text>
+
+  <rect class="flow" x="270" y="420" width="230" height="165" rx="10"/>
+  <text class="group-title" x="287" y="446">センシング処理</text>
+  <g>
+    <rect class="flow" x="286" y="462" width="58" height="55" rx="7"/>
+    <text class="flow-title" x="315" y="483" text-anchor="middle">収録</text>
+    <text class="flow-sub" x="315" y="500" text-anchor="middle">PCM / 特徴</text>
+    <rect class="flow" x="356" y="462" width="58" height="55" rx="7"/>
+    <text class="flow-title" x="385" y="483" text-anchor="middle">特徴</text>
+    <text class="flow-sub" x="385" y="500" text-anchor="middle">400-3000Hz</text>
+    <rect class="flow" x="426" y="462" width="58" height="55" rx="7"/>
+    <text class="flow-title" x="455" y="483" text-anchor="middle">推論</text>
+    <text class="flow-sub" x="455" y="500" text-anchor="middle">32状態</text>
+    <path d="M344 489h10M414 489h10" stroke="#53657a" stroke-width="1.8" marker-end="url(#arrow-spi)"/>
+  </g>
+  <text class="flow-sub" x="385" y="544" text-anchor="middle">推論時だけPCM / D=167特徴を選択</text>
+  <text class="flow-sub" x="385" y="563" text-anchor="middle">PCで検証したβを配備</text>
+
+  <rect class="group" x="540" y="165" width="165" height="465" rx="12"/>
+  <text class="group-title" x="557" y="188">出力・駆動・PC学習</text>
+
+  <rect class="box audio" x="557" y="205" width="130" height="62" rx="9"/>
+  <text class="box-title audio-t" x="622" y="231" text-anchor="middle">I2S AMP / SPK</text>
+  <text class="box-sub audio-s" x="622" y="249" text-anchor="middle">Stamp-S3AからPRBS出力</text>
+
+  <rect class="box audio" x="557" y="285" width="130" height="55" rx="9"/>
+  <text class="box-title audio-t" x="622" y="318" text-anchor="middle">I2Sデジタルマイク</text>
+
+  <rect class="box sense" x="557" y="370" width="130" height="70" rx="9"/>
+  <text class="box-title sense-t" x="622" y="396" text-anchor="middle">音響フロントエンド</text>
+  <text class="box-sub sense-s" x="622" y="415" text-anchor="middle">48→16k / onset整列</text>
+  <text class="box-sub sense-s" x="622" y="430" text-anchor="middle">PCM16 / 条件付き特徴</text>
+
+  <rect class="box control" x="557" y="470" width="130" height="70" rx="9"/>
+  <text class="box-title control-t" x="622" y="497" text-anchor="middle">PCA9685</text>
+  <text class="box-sub control-s" x="622" y="516" text-anchor="middle">I2C / 16ch PWM</text>
+
+  <rect class="box comm" x="557" y="560" width="130" height="55" rx="9"/>
+  <text class="box-title comm-t" x="622" y="583" text-anchor="middle">PC学習</text>
+  <text class="box-sub comm-s" x="622" y="601" text-anchor="middle">USB CDC / batch-LS</text>
+
+  <path class="wire spi" d="M212 550H235V230H557" marker-end="url(#arrow-spi)"/>
+  <text class="wire-label" x="520" y="220" fill="#2878d0">I2S TX</text>
+  <path class="wire audio-wire" d="M622 267V285" marker-end="url(#arrow-audio)"/>
+  <text class="wire-label" x="632" y="279" fill="#db6d00">アナログ</text>
+  <path class="wire adc" d="M557 405H230V550H212" marker-end="url(#arrow-adc)"/>
+  <text class="wire-label" x="510" y="398" fill="#20945e">I2S RX</text>
+  <path class="wire i2c" d="M500 350H525V505H557" marker-end="url(#arrow-i2c)"/>
+  <text class="wire-label" x="511" y="463" fill="#7a55c7">I2C</text>
+
+  <path class="wire spi" d="M270 225H232V240H212" marker-end="url(#arrow-spi)"/>
+  <text class="wire-label" x="235" y="216" fill="#2878d0">SPI</text>
+  <path class="wire gpio" d="M142 370V503" marker-end="url(#arrow-gpio)"/>
+  <text class="wire-label" x="151" y="389" fill="#df3d7b">EXEC_N</text>
+  <path class="wire gpio" d="M142 480V503" marker-end="url(#arrow-gpio)"/>
+  <text class="wire-label" x="151" y="494" fill="#df3d7b">GPIO ×5</text>
+  <path class="wire i2c" d="M270 375H236V550H212" marker-end="url(#arrow-i2c)"/>
+  <text class="wire-label" x="224" y="539" fill="#7a55c7">I2C PCM / 特徴</text>
+  <path class="wire uart" d="M212 575H245V615H557" marker-end="url(#arrow-uart)"/>
+  <text class="wire-label" x="400" y="608" text-anchor="middle" fill="#b32672">TRAINING PCM + metadata / native USB CDC</text>
+  <path class="wire wifi" d="M72 610H212"/>
+  <text class="wire-label" x="142" y="624" text-anchor="middle" fill="#6657d9">Wi-Fi → クラウド（MQTT / HTTP）</text>
+
+  <rect class="panel" x="755" y="90" width="410" height="570" rx="18"/>
+  <text class="panel-title" x="780" y="122">House模型（室内・屋外側）</text>
+  <text class="panel-sub" x="780" y="143">雨検出 / 能動音響センシング / 5か所の自動開閉</text>
+
+  <rect class="box rain" x="795" y="175" width="330" height="70" rx="10"/>
+  <text class="box-title rain-t" x="960" y="203" text-anchor="middle">降雨センサ YL-83（屋外）</text>
+  <text class="box-sub rain-s" x="960" y="222" text-anchor="middle">雨を検知して測定シーケンスを開始</text>
+
+  <rect class="box audio" x="795" y="280" width="155" height="90" rx="10"/>
+  <text class="box-title audio-t" x="872" y="308" text-anchor="middle">スピーカ</text>
+  <text class="box-sub audio-s" x="872" y="327" text-anchor="middle">PRBS / Ping励振</text>
+  <circle cx="872" cy="350" r="12" fill="#29323f"/><circle cx="872" cy="350" r="5" fill="#fff"/>
+
+  <rect class="box sense" x="970" y="280" width="155" height="90" rx="10"/>
+  <text class="box-title sense-t" x="1047" y="308" text-anchor="middle">I2Sマイク</text>
+  <text class="box-sub sense-s" x="1047" y="327" text-anchor="middle">反射音を収録</text>
+  <circle cx="1047" cy="345" r="9" fill="#245c42"/><path d="M1047 354v10m-10 0h20" stroke="#245c42" stroke-width="2"/>
+
+  <rect class="box servo" x="795" y="410" width="330" height="165" rx="10"/>
+  <text class="box-title servo-t" x="960" y="440" text-anchor="middle">SG90サーボ ×5</text>
+  <text class="box-sub servo-s" x="960" y="460" text-anchor="middle">PCA9685からPWM制御</text>
+  <g>
+    <rect x="825" y="485" width="52" height="48" rx="7" fill="#e7a31d"/><text x="851" y="550" text-anchor="middle" font-size="11">窓a</text>
+    <rect x="889" y="485" width="52" height="48" rx="7" fill="#e7a31d"/><text x="915" y="550" text-anchor="middle" font-size="11">窓b</text>
+    <rect x="953" y="485" width="52" height="48" rx="7" fill="#e7a31d"/><text x="979" y="550" text-anchor="middle" font-size="11">窓c</text>
+    <rect x="1017" y="485" width="52" height="48" rx="7" fill="#e7a31d"/><text x="1043" y="550" text-anchor="middle" font-size="11">扉AB</text>
+    <rect x="1081" y="485" width="28" height="48" rx="7" fill="#e7a31d"/><text x="1095" y="550" text-anchor="middle" font-size="11">扉BC</text>
+  </g>
+
+  <path class="wire gpio" d="M795 210H740V155H515V280H500" marker-end="url(#arrow-gpio)"/>
+  <text class="wire-label" x="732" y="199" fill="#df3d7b">GPIO（雨検出）</text>
+  <path class="wire audio-wire" d="M687 312H740V325H795" marker-end="url(#arrow-audio)"/>
+  <text class="wire-label" x="719" y="302" fill="#db6d00">音声出力</text>
+  <path class="wire adc" d="M1047 370V385H740V405H687" marker-end="url(#arrow-adc)"/>
+  <text class="wire-label" x="747" y="393" fill="#20945e">アナログ収録</text>
+  <path class="wire pwm" d="M687 505H760V492H795" marker-end="url(#arrow-pwm)"/>
+  <text class="wire-label" x="714" y="494" fill="#d89000">PWM ×5</text>
+
+  <rect x="35" y="680" width="1130" height="55" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="1.2"/>
+  <g transform="translate(60 707)">
+    <line class="wire spi" x1="0" y1="0" x2="26" y2="0"/><text class="legend" x="34" y="4">SPI（TFT）/ I2S（音響）</text>
+    <line class="wire adc" x1="190" y1="0" x2="216" y2="0"/><text class="legend" x="224" y="4">I2C推論PCM / 特徴</text>
+    <line class="wire i2c" x1="355" y1="0" x2="381" y2="0"/><text class="legend" x="389" y="4">I2C（推論 / PWM / 制御）</text>
+    <line class="wire gpio" x1="555" y1="0" x2="581" y2="0"/><text class="legend" x="589" y="4">GPIO（雨 / スイッチ）</text>
+    <line class="wire pwm" x1="760" y1="0" x2="786" y2="0"/><text class="legend" x="794" y="4">PWM ×5</text>
+    <line class="wire uart" x1="885" y1="0" x2="911" y2="0"/><text class="legend" x="919" y="4">Wi-Fi（任意）</text>
+  </g>
+</svg>

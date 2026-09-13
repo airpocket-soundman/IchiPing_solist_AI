@@ -1,13 +1,16 @@
-"""IchiPing→Solist-AI 移植シミュレーション 共通基盤。
+"""IchiPing→Solist-AI 移植シミュレーションの旧1024-bin共通基盤。
 
-v1 リポ (../IchiPing) の features.py / dataset.py を再利用して、PRBS 雑音励振
-キャプチャから v1 と完全一致の noise_diff_norm 特徴 (1024-bin log-mag) を取り出す。
-ここで作るフレーム特徴キャッシュを ELM スイープが食う。
+このmoduleはv1リポ (../IchiPing) の features.py / dataset.py を再利用して、PRBS雑音励振
+キャプチャからv1互換のnoise_diff_norm特徴 (1024-bin log-mag) を取り出す。
+実配備候補D=167の正本はbench_v612.pyであり、このmoduleの特徴定義とは互換でない。
 
 設計メモ:
-- 励振方式は meta.json の pattern.name = "noise_2s_prbs"。よって特徴は noise 系。
-  v1 の最良パイプラインが noise_diff_norm (baseline 差分 + per-frame 正規化) なので
-  Solist-AI sim もこれを基準にする。実機 (SPI-DAC) では chirp 経路も後で比較可能。
+- 励振方式は meta.json の pattern.name = "noise_2s_prbs"。この旧基盤はnoise_diff_norm
+  (スペクトルbaseline差分 + per-frame正規化)を再現する。
+- 実配備D=167はbench_v612.pyの時間波形baseline差分・1024点FFTを使う。推論はPCMを
+  I2CでSolist-AIへ渡す経路を基準とし、PC golden vectorとの同値性確認後だけStampで
+  bench_v612仕様のraw dB特徴まで生成する経路も許す。
+  学習用 PCM は Stamp-S3A の USB CDC から PC へ直接保存する。
 - baseline は run ごとに s00000 平均。dataset.IchiPingDataset がこの規約を実装済み。
 - cross-run 評価のため、どの run 由来かを frame ごとに保持する。
 """

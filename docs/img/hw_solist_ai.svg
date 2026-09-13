@@ -1,96 +1,71 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc" font-family="'Yu Gothic UI','Meiryo','Segoe UI',sans-serif">
-  <title id="title">IchiPing Solist-AI 最終ハードウェア接続図</title>
-  <desc id="desc">DT-EBML63Q2557とM5Stack Stamp-S3をUARTと同期GPIOで接続し、Stamp-S3からI2Sアンプとスピーカーを駆動する。アナログマイクはプリアンプを介して主ボードのCN6へ接続する。</desc>
-  <defs>
-    <style>
-      .title{font-size:27px;font-weight:800;fill:#172033}.sub{font-size:13px;fill:#5c6b7b}
-      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.main{fill:#183b66;stroke:#102a49;stroke-width:2}
-      .child{fill:#fce8f1;stroke:#c32669;stroke-width:2}.audio{fill:#fff1df;stroke:#d9822b;stroke-width:1.7}
-      .sense{fill:#e7f7ed;stroke:#24915d;stroke-width:1.7}.power{fill:#f2ebff;stroke:#7954c8;stroke-width:1.5}
-      .head{font-size:17px;font-weight:800}.label{font-size:12px;font-weight:700}.small{font-size:10px}.white{fill:#fff}.muted{fill:#5c6b7b}
-      .wire{fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}.uart{stroke:#b32672}.sync{stroke:#1565c0}.i2s{stroke:#d9822b}.analog{stroke:#24915d}.acoustic{stroke:#687789;stroke-dasharray:7 5}
-    </style>
-    <marker id="a-uart" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#b32672"/></marker>
-    <marker id="a-blue" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#1565c0"/></marker>
-    <marker id="a-orange" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#d9822b"/></marker>
-    <marker id="a-green" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#24915d"/></marker>
-    <marker id="a-gray" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#687789"/></marker>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 690" font-family="Yu Gothic UI, Meiryo, Segoe UI, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0L9 4L0 8Z" fill="#1565c0"/></marker><style>.t{font-size:20px;font-weight:800;fill:#172033}.p{font-size:16px;font-weight:800}.b{font-size:12px;font-weight:700}.s{font-size:10px;fill:#5c6b7b}.box{stroke-width:1.4}.w{fill:none;stroke:#1565c0;stroke-width:2;marker-end:url(#a)}.l{font-size:10px;font-weight:700;fill:#1565c0}</style></defs>
+  <text class="t" x="560" y="30" text-anchor="middle">IchiPing Solist-AI 実機構成</text>
+  <text class="s" x="560" y="50" text-anchor="middle">推論: PCMを基準、条件付きでStamp FFT特徴 / 学習: Stamp USBからPCへPCM原本</text>
 
-  <rect width="1200" height="720" rx="18" fill="#f7f9fc"/>
-  <text class="title" x="600" y="42" text-anchor="middle">IchiPing → Solist-AI 最終ハードウェア構成</text>
-  <text class="sub" x="600" y="66" text-anchor="middle">主ボードで収録・追加学習・推論／Stamp-S3でPRBS生成・I²S出力／降雨センサなし</text>
-  <rect class="panel" x="34" y="92" width="1132" height="535" rx="16"/>
+  <rect x="30" y="80" width="275" height="430" rx="14" fill="#fce8f1" stroke="#c32669" stroke-width="2"/>
+  <text class="p" x="167" y="112" text-anchor="middle" fill="#8d174c">M5Stack Stamp-S3A</text>
+  <text class="s" x="167" y="132" text-anchor="middle">左1x17 P1.27 + 右1x6 P2.54 / I²C target</text>
+  <rect class="box" x="55" y="155" width="225" height="68" rx="8" fill="#fff" stroke="#d9822b"/>
+  <text class="b" x="167" y="181" text-anchor="middle" fill="#a75808">I²S TX/RX 同期</text>
+  <text class="s" x="167" y="201" text-anchor="middle">PRBS再生 + マイク収録 + shutdown</text>
+  <rect class="box" x="55" y="245" width="225" height="82" rx="8" fill="#fff" stroke="#1f8a5b"/>
+  <text class="b" x="167" y="271" text-anchor="middle" fill="#176b43">音響フロントエンド</text>
+  <text class="s" x="167" y="291" text-anchor="middle">48→16 kHz / mono / onset整列</text>
+  <text class="s" x="167" y="309" text-anchor="middle">PCM16保持 / 条件付きD=167特徴</text>
+  <rect class="box" x="55" y="350" width="225" height="62" rx="8" fill="#fff" stroke="#c32669"/>
+  <text class="b" x="167" y="376" text-anchor="middle" fill="#8d174c">5状態GPIO + EXEC</text>
+  <text class="s" x="167" y="396" text-anchor="middle">G44/G2/G4/G6/G8 + G10</text>
+  <text class="s" x="167" y="452" text-anchor="middle">INFERENCE: I²C PCM / 特徴chunk</text>
+  <text class="s" x="167" y="471" text-anchor="middle">TRAINING: USB CDC → PC</text>
 
-  <rect class="main" x="74" y="155" width="330" height="300" rx="15"/>
-  <text class="head white" x="239" y="187" text-anchor="middle">DT-EBML63Q2557</text>
-  <text x="239" y="210" text-anchor="middle" font-size="12" fill="#d7e8ff">ML63Q2557 / Cortex-M0+ 48MHz</text>
-  <rect x="96" y="231" width="286" height="67" rx="9" fill="#dff3e6" stroke="#238657"/>
-  <text x="239" y="256" text-anchor="middle" font-size="13" font-weight="800" fill="#17643f">AxlCORE-ODL</text>
-  <text x="239" y="278" text-anchor="middle" font-size="11" fill="#315d49">ELM推論・β追加学習</text>
-  <rect x="96" y="314" width="136" height="68" rx="8" fill="#eef4fb" stroke="#79aee9"/>
-  <text x="164" y="340" text-anchor="middle" class="label" fill="#184f91">12bit ADC</text>
-  <text x="164" y="362" text-anchor="middle" class="small muted">CN6 / 16kHz収録</text>
-  <rect x="246" y="314" width="136" height="68" rx="8" fill="#eef4fb" stroke="#79aee9"/>
-  <text x="314" y="340" text-anchor="middle" class="label" fill="#184f91">前処理</text>
-  <text x="314" y="362" text-anchor="middle" class="small muted">差分・FFT・z-score</text>
-  <text x="239" y="418" text-anchor="middle" font-size="11" fill="#d7e8ff">βfactory保持 ＋ βlocal別保存</text>
+  <rect x="370" y="65" width="410" height="460" rx="14" fill="#eef4fb" stroke="#1565c0" stroke-width="2"/>
+  <text class="p" x="575" y="98" text-anchor="middle" fill="#1565c0">DT-EBML63Q2557 / Solist-AI</text>
+  <text class="s" x="575" y="118" text-anchor="middle">I²C master・標準化・ELM・システム状態</text>
+  <rect class="box" x="400" y="150" width="350" height="74" rx="8" fill="#f2ebff" stroke="#7954c8"/>
+  <text class="b" x="575" y="177" text-anchor="middle" fill="#55349d">共用 I²C master（最大400 kHz）</text>
+  <text class="s" x="575" y="198" text-anchor="middle">Stamp-S3A + PCA9685 + onboard LCD</text>
+  <rect class="box" x="400" y="247" width="350" height="84" rx="8" fill="#e7f6ec" stroke="#1f8a5b"/>
+  <text class="b" x="575" y="274" text-anchor="middle" fill="#17643f">PCM → FFT → 標準化 / 特徴 → 標準化</text>
+  <text class="s" x="575" y="295" text-anchor="middle">いずれもSolist固定β ELMへ入力</text>
+  <text class="s" x="575" y="313" text-anchor="middle">PC学習済み固定βで推論のみ</text>
+  <rect class="box" x="400" y="354" width="165" height="82" rx="8" fill="#e9f2ff" stroke="#3678c7"/>
+  <text class="b" x="482" y="381" text-anchor="middle" fill="#184f91">SPI TFT</text>
+  <text class="s" x="482" y="402" text-anchor="middle">ILI9341表示</text>
+  <text class="s" x="482" y="419" text-anchor="middle">状態 / result</text>
+  <rect class="box" x="585" y="354" width="165" height="82" rx="8" fill="#fff3d7" stroke="#d88b00"/>
+  <text class="b" x="667" y="381" text-anchor="middle" fill="#8c5900">I²Cサーボ</text>
+  <text class="s" x="667" y="402" text-anchor="middle">PCA9685 → SG90×5</text>
+  <text class="s" x="667" y="419" text-anchor="middle">arming / FULL_OFF</text>
+  <text class="s" x="575" y="477" text-anchor="middle">PCM 64KBは一括保持しない</text>
+  <text class="s" x="575" y="496" text-anchor="middle">音声転送中はLCD/PCA書込みを時分割停止</text>
 
-  <rect class="child" x="472" y="155" width="270" height="300" rx="15"/>
-  <text class="head" x="607" y="187" text-anchor="middle" fill="#8d174c">M5Stack Stamp-S3</text>
-  <text x="607" y="210" text-anchor="middle" font-size="12" fill="#85405e">ESP32-S3 / 240MHz / 8MB Flash</text>
-  <rect x="494" y="231" width="226" height="63" rx="9" fill="#fff" stroke="#e3a6c0"/>
-  <text x="607" y="256" text-anchor="middle" class="label" fill="#8d174c">UART制御</text>
-  <text x="607" y="278" text-anchor="middle" class="small muted">seed・長さ・振幅・状態通知</text>
-  <rect x="494" y="309" width="226" height="63" rx="9" fill="#fff" stroke="#e3a6c0"/>
-  <text x="607" y="334" text-anchor="middle" class="label" fill="#8d174c">PRBS生成＋I²S DMA</text>
-  <text x="607" y="356" text-anchor="middle" class="small muted">16kHz / 16bit / mono</text>
-  <rect x="494" y="387" width="226" height="45" rx="8" fill="#e9f2ff" stroke="#79aee9"/>
-  <text x="607" y="415" text-anchor="middle" class="label" fill="#184f91">PLAY_SYNC生成</text>
+  <rect x="845" y="80" width="245" height="430" rx="14" fill="#fffaf2" stroke="#d9822b" stroke-width="2"/>
+  <text class="p" x="967" y="112" text-anchor="middle" fill="#a75808">音響・機構</text>
+  <rect class="box" x="870" y="155" width="195" height="68" rx="8" fill="#fff" stroke="#1f8a5b"/>
+  <text class="b" x="967" y="181" text-anchor="middle" fill="#176b43">I²Sデジタルマイク</text>
+  <text class="s" x="967" y="201" text-anchor="middle">24 significant bits</text>
+  <rect class="box" x="870" y="245" width="195" height="82" rx="8" fill="#fff" stroke="#d9822b"/>
+  <text class="b" x="967" y="271" text-anchor="middle" fill="#a75808">I²S AMP + speaker</text>
+  <text class="s" x="967" y="291" text-anchor="middle">PRBS励振</text>
+  <text class="s" x="967" y="309" text-anchor="middle">shutdown外付けpull-down</text>
+  <rect class="box" x="870" y="350" width="195" height="82" rx="8" fill="#fff" stroke="#7954c8"/>
+  <text class="b" x="967" y="376" text-anchor="middle" fill="#55349d">PCA9685 + SG90×5</text>
+  <text class="s" x="967" y="397" text-anchor="middle">I²C / PWM</text>
+  <text class="s" x="967" y="415" text-anchor="middle">外部5V + 共通GND</text>
 
-  <rect class="audio" x="813" y="155" width="190" height="125" rx="13"/>
-  <text class="head" x="908" y="187" text-anchor="middle" fill="#a75808">MAX98357A</text>
-  <text x="908" y="210" text-anchor="middle" class="label" fill="#805b35">I²S DAC＋Class-D</text>
-  <text x="908" y="235" text-anchor="middle" class="small muted">BCLK / LRC / DIN / SD</text>
-  <text x="908" y="255" text-anchor="middle" class="small muted">5V電源</text>
-  <rect class="audio" x="1032" y="155" width="100" height="125" rx="13"/>
-  <text x="1082" y="190" text-anchor="middle" class="label" fill="#a75808">スピーカー</text>
-  <text x="1082" y="214" text-anchor="middle" class="small muted">8Ω / 1W</text>
-  <circle cx="1082" cy="247" r="19" fill="#29323f"/><circle cx="1082" cy="247" r="8" fill="#fff1df"/>
-
-  <rect class="sense" x="813" y="358" width="150" height="97" rx="13"/>
-  <text x="888" y="388" text-anchor="middle" class="label" fill="#176b43">アナログマイク</text>
-  <text x="888" y="411" text-anchor="middle" class="small muted">固定ゲイン</text>
-  <text x="888" y="430" text-anchor="middle" class="small muted">AGCなし</text>
-  <rect class="sense" x="1000" y="358" width="132" height="97" rx="13"/>
-  <text x="1066" y="388" text-anchor="middle" class="label" fill="#176b43">プリアンプ</text>
-  <text x="1066" y="411" text-anchor="middle" class="small muted">ADC範囲へ調整</text>
-  <text x="1066" y="430" text-anchor="middle" class="small muted">低ノイズ</text>
-
-  <path class="wire uart" d="M404 250H472" marker-end="url(#a-uart)"/>
-  <path class="wire uart" d="M472 278H404" marker-end="url(#a-uart)"/>
-  <text x="438" y="239" text-anchor="middle" class="label" fill="#b32672">UART TX/RX</text>
-  <path class="wire sync" d="M472 410H404" marker-end="url(#a-blue)"/>
-  <text x="438" y="400" text-anchor="middle" class="label" fill="#1565c0">SYNC</text>
-  <path class="wire i2s" d="M742 217H813" marker-end="url(#a-orange)"/>
-  <text x="777" y="205" text-anchor="middle" class="label" fill="#d9822b">I²S</text>
-  <path class="wire i2s" d="M1003 217H1032" marker-end="url(#a-orange)"/>
-  <text x="1018" y="205" text-anchor="middle" class="small" fill="#d9822b">BTL</text>
-  <path class="wire analog" d="M1000 406H963" marker-end="url(#a-green)"/>
-  <path class="wire analog" d="M813 406H778V489H164V382" marker-end="url(#a-green)"/>
-  <text x="590" y="479" text-anchor="middle" class="label" fill="#24915d">アナログ音声 → CN6</text>
-  <path class="wire acoustic" d="M1082 281V318H888V356" marker-end="url(#a-gray)"/>
-  <text x="985" y="310" text-anchor="middle" class="label" fill="#687789">室内音響・反射音</text>
-
-  <rect class="power" x="74" y="518" width="1058" height="76" rx="11"/>
-  <text x="96" y="546" class="label" fill="#55349d">電源・信号基準</text>
-  <text x="96" y="570" font-size="11" fill="#675681">Stamp-S3とMAX98357Aは5V系。全ブロックのGNDを共通化し、アンプ大電流経路とADCアナログ配線を分離。ML63側UART電圧を実測し、3.3V以外ならレベル変換を追加。</text>
-
-  <g transform="translate(75 660)">
-    <line class="wire uart" x1="0" y1="0" x2="28" y2="0"/><text x="38" y="4" font-size="11" fill="#344054">UART制御</text>
-    <line class="wire sync" x1="150" y1="0" x2="178" y2="0"/><text x="188" y="4" font-size="11" fill="#344054">同期GPIO</text>
-    <line class="wire i2s" x1="300" y1="0" x2="328" y2="0"/><text x="338" y="4" font-size="11" fill="#344054">I²S / スピーカー</text>
-    <line class="wire analog" x1="500" y1="0" x2="528" y2="0"/><text x="538" y="4" font-size="11" fill="#344054">アナログ収録</text>
-    <line class="wire acoustic" x1="680" y1="0" x2="708" y2="0"/><text x="718" y="4" font-size="11" fill="#344054">音響経路</text>
-  </g>
+  <path class="w" d="M305 285H345V187H400"/><text class="l" x="316" y="274">推論I²C: PCM/特徴</text>
+  <path class="w" d="M845 189H810V188H305"/><text class="l" x="793" y="178">I²S RX</text>
+  <path class="w" d="M305 205H820V286H870"/><text class="l" x="798" y="276">I²S TX</text>
+  <path class="w" d="M750 395H870"/><text class="l" x="801" y="385">I²C</text>
+  <rect class="box" x="30" y="540" width="275" height="65" rx="10" fill="#fce8f1" stroke="#c32669"/>
+  <text class="b" x="167" y="565" text-anchor="middle" fill="#8d174c">PC collector / trainer</text>
+  <text class="s" x="167" y="584" text-anchor="middle">USB CDC: PCM16 + label + metadata</text>
+  <path class="w" d="M167 510V538"/><text class="l" x="179" y="529">USB</text>
+  <rect x="330" y="540" width="760" height="65" rx="8" fill="#fff7e6" stroke="#d9b65d"/>
+  <text class="s" x="710" y="565" text-anchor="middle">INFERENCE: 既定64KB PCM / 条件付き668B D=167特徴をI²C転送。</text>
+  <text class="s" x="710" y="584" text-anchor="middle">TRAINING: 64KB PCMを4KiB chunkのUSB CDCでPCへ直送し、PCでβを学習・検証・配備。</text>
+  <rect x="30" y="625" width="1060" height="48" rx="8" fill="#fff" stroke="#cbd5e1"/>
+  <text class="s" x="560" y="647" text-anchor="middle">学習と推論は排他。特徴転送は推論時だけで、学習用bulk PCMはI²Cへ流さない。</text>
+  <text class="s" x="560" y="664" text-anchor="middle">PC ACKまでbufferを保持し、capture ID・状態・offset・CRCで欠落と重複を検査する。</text>
 </svg>

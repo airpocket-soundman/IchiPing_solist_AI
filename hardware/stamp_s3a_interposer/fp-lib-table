@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "IchiPing_Interposer")(type "KiCad")(uri "${KIPRJMOD}/lib/IchiPing_Interposer.pretty")(options "")(descr "IchiPing Solist-AI interposer local footprints"))
+)

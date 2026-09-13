@@ -70,16 +70,6 @@
   .pager a{color:var(--accent);text-decoration:none;font-size:14px;padding:8px 14px;border:1px solid var(--line);border-radius:8px}
   .pager a:hover{background:var(--panel2)}
   .pager a.empty{visibility:hidden}
-  .table-wrap{width:100%;overflow-x:auto;margin:14px 0}
-  .table-wrap table{margin:0;min-width:720px}
-  .badge{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;white-space:nowrap}
-  .badge.required{color:#17643f;background:#dff3e6;border:1px solid #9dd4b6}
-  .badge.select{color:#8c5900;background:#fff3d7;border:1px solid #edcf86}
-  .badge.optional{color:#4d5f75;background:#edf2f7;border:1px solid #cbd5e1}
-  .decision{border-left:5px solid var(--accent2)}
-  .flowline{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin:14px 0}
-  .flowline .step{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 13px}
-  .flowline .step b{display:block;color:var(--accent);margin-bottom:3px}
   /* mobile */
   .menubtn{display:none}
   @media(max-width:780px){
@@ -99,7 +89,7 @@
 <aside class="side">
   <div class="brand">
     <div class="t">IchiPing → Solist-AI</div>
-    <div class="s">移植 検証レポート ／ 2026-09</div>
+    <div class="s">移植 検証レポート ／ 実機計画 2026-09改訂</div>
   </div>
   <nav id="nav">
     <div class="navh">レポート</div>
@@ -149,8 +139,8 @@
   <p><b>IchiPing</b> は「<b>1 個のマイクと 1 発の Ping（探査音）だけで、家中の窓・扉の開閉状態をまとめて推定する</b>」エッジAIデバイス。部屋の反響は窓や扉の開閉で変化するため、既知の音を出して反響を分析すれば、複数の開口部の状態を 1 回の観測で同時に当てられる、という発想。</p>
   <p>窓 3・扉 2 の計 5 箇所、それぞれ開/閉 → 組合せは 2⁵ = <b>32 状態</b>。これを 1 マイク＋1 スピーカで識別する。「<b>cls（class＝クラス）</b>」は識別する状態の種類数で、<b>32cls</b>＝32 状態すべて、<b>14cls</b>＝後述の観測等価でまとめた 14 種を指す。</p>
   <figure class="fig">
-    <img src="img/hw_solist_ai.svg" alt="Solist-AI移植版の最終システム構成" style="width:100%;max-width:960px;display:block;margin:0 auto;border-radius:8px">
-    <figcaption>図. Solist-AI 移植版の最終構成。ML63Q2557 が収録・学習・推論、Stamp-S3 が I²S 音声出力を担当する。</figcaption>
+    <img src="img/system_overview.svg" alt="IchiPing システム構成" style="width:100%;max-width:880px;display:block;margin:0 auto;border-radius:8px">
+    <figcaption>図. IchiPing のシステム構成（移植元）。1 マイク＋1 スピーカで探査音を出し、エッジ AI で 32 状態を推定。</figcaption>
   </figure>
 
   <h2>IchiPing が実現している技術</h2>
@@ -158,7 +148,7 @@
     <li><b>能動音響センシング</b>：スピーカから <b>PRBS</b>（Pseudo-Random Binary Sequence＝擬似ランダム2値系列。M系列とも呼ぶ、白色雑音に近い「既知の探査信号」）を再生し、部屋の音響応答（<b>RIR</b>＝Room Impulse Response、室内インパルス応答）をマイクで収録する。</li>
     <li><b>baseline 差分特徴</b>：全閉状態の応答（＝<b>baseline</b>、基準波形）を差し引いてから <b>FFT</b>（Fast Fourier Transform＝高速フーリエ変換。信号を周波数成分に分解する処理）。室内の共通応答が相殺され、開閉による差分だけが際立つ。</li>
     <li><b>1D-CNN による分類</b>：<b>1D-CNN</b>（1次元の畳み込みニューラルネットワーク）でスペクトルから状態を分類。</li>
-    <li><b>観測限界の理解（32→14）</b>：扉が閉じるとその先の部屋は音響的に「聞こえない」。よって 32 真状態のうち一部は原理的に区別できず、<b>14 個の観測等価クラス</b>に集約される（下図）——これが素朴な精度上限。<b>ただし実際には、閉じた扉をわずかに漏れる「透過音」に状態差が残る</b>。IchiPing は<b>モデルを大型化して</b>この微小な特徴まで学習し、現環境データ＋現地校正と併せて 32cls を最大 100% へ引き上げ、<b>観測等価の壁を越えた</b>。移植版（Solist-AI）も<b>MCU 上でのリアルタイム追加学習</b>により同じ壁を越え、閉扉越しの透過音まで識別する（→ §5）。</li>
+    <li><b>観測限界の理解（32→14）</b>：扉が閉じるとその先の部屋は音響的に「聞こえない」。よって 32 真状態のうち一部は原理的に区別できず、<b>14 個の観測等価クラス</b>に集約される（下図）——これが素朴な精度上限。<b>ただし実際には、閉じた扉をわずかに漏れる「透過音」に状態差が残る</b>。IchiPing は<b>モデルを大型化して</b>この微小な特徴まで学習し、現環境データ＋現地校正と併せて 32cls を最大 100% へ引き上げ、<b>観測等価の壁を越えた</b>。移植版もStamp-S3AからPCへ直接収集した現地データでβを再学習し、固定βをSolist-AIへ配備する（→ §4–5）。</li>
   </ul>
   <figure class="fig">
     <img src="img/observability.svg" alt="観測可能性と観測等価クラス" style="width:100%;max-width:880px;display:block;margin:0 auto;border-radius:8px">
@@ -166,18 +156,18 @@
   </figure>
 
   <h2>Solist-AI への移植</h2>
-  <p>移植先の <b>Solist-AI（ML63Q2557）</b> は <b>オンデバイス学習IC</b>＝クラウドや再プログラムなしに<b>機器の現場で学習・再学習できる</b>エッジ AI チップ。能動音響は設置環境に依存するため高精度には設置環境への適応が不可欠で、IchiPing も<b>現地でのベースライン校正と現環境データの学習により 32cls を 88〜100% まで引き上げている</b>（→ §5）。Solist-AI の利点は、その<b>環境適応の「重み学習」をデバイス上で完結</b>でき、しかも極少パラメータで実現できる点にある（詳細は §9）。</p>
+  <p>移植先の <b>Solist-AI（ML63Q2557）</b> はオンデバイス学習機能を持つが、本実装は再現性と収録資産管理を優先し、<b>学習・再学習をPCへ集約</b>する。能動音響は設置環境に依存するため、Stamp-S3AからPCへ現地データを直接収集し、batch-LSでβを求め、検証済みの固定βだけをSolist-AIへ配備する。</p>
   <p>ただしアルゴリズムは、IchiPing の深い 1D-CNN から Solist-AI の浅い <b>ELM</b>（Extreme Learning Machine。入力→中間層の重みは乱数で固定し、出力側の重みだけを学習する軽量な学習機。詳細は §2）へ置き換わる。本レポートは<b>この移植が成立するか</b>の検証結果である。</p>
 
   <div class="grid3" style="margin-top:18px">
     <div class="kpi"><div class="big">99.4<span style="font-size:18px">%</span></div><div class="l">14cls フレーム精度<br>（追加学習不要・多数決100%）</div></div>
-    <div class="kpi"><div class="big">99.1<span style="font-size:18px">%</span></div><div class="l">32cls フレーム精度<br>（MCU追加学習後・多数決100%）</div></div>
+    <div class="kpi"><div class="big">99.1<span style="font-size:18px">%</span></div><div class="l">32cls フレーム精度<br>（PC現地再学習後・多数決100%）</div></div>
     <div class="kpi"><div class="big">~11<span style="font-size:18px">KB</span></div><div class="l">AI RAM 使用量<br>（実機16KB に収まる）</div></div>
   </div>
   <div class="card">
-    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AI シミュレータ（SLV1.00.04）で目標精度を実証</span>。14cls は工場出荷の重みを焼くだけ（追加学習不要）で 99.4%、32cls は設置環境での少量データによる MCU 追加学習で 99.1%。<b>IchiPing CNN（現地校正後 32cls 最大 100%）と同等クラスの精度を、学習パラメータ約 1/51・SRAM 16KB の小型 MCU・オンデバイス学習で実現</b>した点に価値がある（→ §9）。いずれも実機メモリ枠（SRAM 16KB / Flash 256KB）に収まる。</p>
+    <p>結論：<span class="ok">14cls・32cls とも公式 Solist-AIシミュレータ（SLV1.00.04）で目標精度を実証</span>。14clsは固定βで99.4%、32clsは少量の現地データをPCのbatch-LSへ追加して99.1%。学習パラメータはIchiPing CNN比約1/51で、検証済みβをSRAM 16KBの小型MCUへ配備して固定推論できる。</p>
   </div>
-  <div class="note">本レポートは IchiPing の既収集データ（収録セッション v6–v12）での結果。<b>実機ではスピーカ／マイクが変更されるため、出力側の重み β を再学習</b>する（手順は §4・§7 参照）。</div>
+  <div class="note">本レポートはIchiPingの既収集データ（収録セッションv6–v12）での結果。実機では同じマイク／アンプを使うが、制御基板・配線・設置条件が変わるため、<b>Stamp-S3AからPCへデータを再収集してβを再学習</b>する（手順は§4・§7参照）。</div>
   <div class="pager"><a class="empty">&nbsp;</a><a href="#model">次：モデル構造 →</a></div>
 </section>
 
@@ -235,7 +225,7 @@
   </figure>
 
   <h3>移植先：Solist-AI ELM</h3>
-  <p>Solist-AI のアルゴリズムは <b>ELM（Extreme Learning Machine）</b>＝隠れ層1層の3層FFNN。最大の特徴は、<b>入力→隠れ層の重み α を学習せず seed 乱数で固定</b>し、<b>隠れ層→出力の重み β だけを学習</b>する点。学習・保存パラメータが激減し、現場でのオンデバイス学習が軽量に行える。</p>
+  <p>Solist-AI のアルゴリズムは <b>ELM（Extreme Learning Machine）</b>＝隠れ層1層の3層FFNN。<b>入力→隠れ層の重みαをseed乱数で固定</b>し、<b>隠れ層→出力の重みβだけをPCで学習</b>する。学習・保存対象が小さく、検証済みβだけを実機へ安全に配備できる。</p>
 
   <figure class="fig">
   <svg viewBox="0 0 980 430" font-family="Segoe UI,Meiryo,sans-serif">
@@ -277,11 +267,11 @@
     <tr><td>総パラメータ</td><td>≈ 104,000</td><td>≈ 12,700（α 10,688 は保存0）</td></tr>
     <tr><td>入力</td><td>生 1×1024 log|FFT|</td><td>baseline差分FFTを <b>167bin</b> にクロップ</td></tr>
     <tr><td>非線形性</td><td>ReLU×4 + BatchNorm（深い）</td><td>hard_sigmoid×1（浅い）</td></tr>
-    <tr><td>学習方法</td><td>誤差逆伝播（GPU/クラウド）</td><td>最小二乗（<b>オンデバイス可</b>）</td></tr>
-    <tr><td>環境適応</td><td>学習データで吸収</td><td><b>MCU 上の追加学習（β）</b>で吸収（32cls）</td></tr>
+    <tr><td>学習方法</td><td>誤差逆伝播（GPU/PC）</td><td>PC batch-LS（最小二乗）</td></tr>
+    <tr><td>環境適応</td><td>学習データで吸収</td><td>Stamp→PCの現地データでβを再計算（32cls）</td></tr>
   </table>
   <div class="card">
-  <p><b>移植の核心：</b> CNN の Conv 層は実質「スペクトル特徴の抽出器」を学習で獲得していた。Solist-AI は α を学習できない制約があるため、その役割を <b>①前処理（baseline 差分＋情報帯域クロップ＋標準化）</b> と <b>②MCU 上の追加学習（β）</b> に肩代わりさせた。結果、学習パラメータを <b>104k → 2k（約 1/51）</b> に圧縮しつつ、14cls・32cls とも同等以上の精度に到達。<span class="ok">「深い特徴学習」を「賢い前処理＋ランダム特徴＋MCU 追加学習」で代替した</span>のが移植の要点。</p>
+  <p><b>移植の核心：</b> CNNのConv層が担った特徴抽出を、<b>①前処理（baseline差分＋情報帯域クロップ＋標準化）</b>と<b>②PCでのβ最小二乗学習</b>へ置き換えた。学習パラメータを104k→2k（約1/51）へ圧縮し、Solist-AIは固定βの推論へ専念する。</p>
   </div>
 
   <h3>順伝播の式</h3>
@@ -303,8 +293,8 @@
     <tr><th>項目</th><th>14cls モデル</th><th>32cls モデル</th></tr>
     <tr><td>出力数 C</td><td>14（観測等価クラス）</td><td>32（生の5bit状態）</td></tr>
     <tr><td>β 形状</td><td>32 × 14</td><td>32 × 32</td></tr>
-    <tr><td>運用</td><td><b>追加学習不要</b>（工場βのみ）</td><td><b>設置環境で追加学習</b>（少量データ）</td></tr>
-    <tr><td>意味</td><td>扉閉で内側不可視等の観測等価をまとめた、環境に頑健な分類</td><td>全状態を区別。環境固有の微差を使うため MCU 追加学習が前提</td></tr>
+    <tr><td>運用</td><td><b>追加学習不要</b>（固定β）</td><td><b>設置環境データでPC再学習</b></td></tr>
+    <tr><td>意味</td><td>扉閉で内側不可視等の観測等価をまとめた、環境に頑健な分類</td><td>全状態を区別。環境固有の微差を使うためPCでの現地再学習が前提</td></tr>
     <tr><td>α・隠れ層</td><td colspan="2" style="text-align:center">共通（seed=1, m=32, D=167）— β のみ差し替え</td></tr>
   </table>
   <div class="pager"><a href="#overview">← 概要</a><a href="#feature">次：特徴抽出 →</a></div>
@@ -348,7 +338,7 @@
   <div class="crumb">レポート ／ 学習パイプライン</div>
   <h1>学習パイプライン（PC 自作）</h1>
   <div class="note">
-  <b>PC 自作パイプラインの採用理由：</b> 公式シミュレータのオンデバイス学習（逐次 <b>OS-ELM</b>＝Online Sequential ELM。データを1件ずつ与えて β を逐次更新する学習法）は本データで安定収束しなかったため、PC 側で β を <b>batch-LS</b>（バッチ最小二乗＝全データを一括で解いて最適 β を求める方式）で直接計算し、その β をモデルにロードして推論検証した。OS-ELM は <b>forget</b>（忘却係数）＝1（過去データを等しく重視）で最小二乗解に収束するため、自作 batch-LS は実機オンデバイス学習の「収束後の到達点」と等価。実機では同じ β を焼込（または現場で再計算）する。
+  <b>PC 自作パイプラインの採用理由：</b> 公式シミュレータの逐次OS-ELMは本データで安定収束しなかったため、PC側でβを<b>batch-LS</b>（全データを一括で解く最小二乗）により計算し、そのβをモデルへロードして推論検証した。実機でも学習はPCに限定し、検証済みβをSolist-AIへ書き込む。
   </div>
 
   <figure class="fig">
@@ -370,6 +360,8 @@
   <figcaption>図3. PC 学習パイプライン。クロスベースライン×3・オーグメンテーション×3 で 6 run を 86,400 フレームに増幅し、α 固定の最小二乗で β を求める。</figcaption>
   </figure>
 
+  <div class="note"><b>実機収集経路：</b><code>TRAINING</code> modeではStamp-S3Aが整列済み16 kHz／mono／PCM16をnative USB CDCでPCへ直接送る。4 KiB chunkごとのoffset・CRCとcapture ID、5-bit状態、PRBS、onset、RMS／clip、firmware版を保存し、検証後に既存学習器互換の <code>captures/&lt;session&gt;/sABCDE/frame_NNNNNN.wav</code> と <code>records.jsonl</code> を生成する。学習用PCMはSolist-AIや共有I²Cを経由しない。</div>
+
   <h3>学習データの内訳</h3>
   <table>
     <tr><th>要素</th><th>内容</th><th>倍率／数</th></tr>
@@ -377,8 +369,8 @@
     <tr><td>クロスベースライン</td><td>差分の基準波形を 3 種（v6 / v9 / v11 の全閉 s00000）に振り、baseline 揺らぎに頑健化</td><td>×3</td></tr>
     <tr><td>オーグメンテーション</td><td>特徴空間で ① ガウス雑音 σ=0.5dB ② 全帯域レベルジッタ σ=1.0dB（原本＋拡張2種）</td><td>×3</td></tr>
     <tr><td><b>学習フレーム合計</b></td><td>上記の積（標準化あり）</td><td><b>86,400 frame</b></td></tr>
-    <tr><td>テストフレーム</td><td>v12（14cls factory 用 1,600 ／ 32cls 追加学習後 holdout 1,280）</td><td>1,280–1,600</td></tr>
-    <tr><td>MCU 追加学習（32cls）</td><td>設置環境で各状態を少量採取して β を再計算</td><td>10 frame / 状態</td></tr>
+    <tr><td>テストフレーム</td><td>v12（14cls固定β用1,600／32cls現地データ追加後holdout 1,280）</td><td>1,280–1,600</td></tr>
+    <tr><td>PC現地再学習（32cls）</td><td>Stampから各状態を少量採取し、PCでβを再計算</td><td>10 frame / 状態</td></tr>
   </table>
   <div class="card" style="padding:12px 18px">
   <b>クロスベースライン</b>と<b>オーグメンテーション</b>（データ拡張）の狙いは、いずれも「<i>別の日・別環境でも崩れない β</i>」を作る正則化。クロスベースラインは基準波形のばらつきを、オーグメンテーションは収録ノイズ・レベル変動を学習時に模擬する。β の最小二乗には <b>ridge</b>（過学習を抑えるための正則化項）を併用。
@@ -394,25 +386,25 @@
   <table>
     <tr><th>モデル</th><th>運用条件</th><th>フレーム精度</th><th>多数決精度</th><th>テスト数</th></tr>
     <tr><td><b>14cls factory</b></td><td>追加学習なし（v6–11学習→v12初見）</td><td class="ok">99.38%（1590/1600）</td><td class="ok">100%（14/14）</td><td>1,600</td></tr>
-    <tr><td><b>32cls on-device</b></td><td>MCUで10frame/状態を追加学習後</td><td class="ok">99.06%（1268/1280）</td><td class="ok">100%（32/32）</td><td>1,280</td></tr>
-    <tr><td>32cls factory</td><td>追加学習前（出荷直後の参考値）</td><td>77.8%</td><td>81.2%</td><td>1,600</td></tr>
+    <tr><td><b>32cls 現地データ追加</b></td><td>PC batch-LSへ10frame/状態を追加</td><td class="ok">99.06%（1268/1280）</td><td class="ok">100%（32/32）</td><td>1,280</td></tr>
+    <tr><td>32cls factory</td><td>現地データ追加前の参考値</td><td>77.8%</td><td>81.2%</td><td>1,600</td></tr>
   </table>
   <div class="grid2">
     <div class="card"><h3 style="margin-top:0">14cls — 追加学習不要で完成</h3><p>入力スケール調整で別セッション汎化が成立し、<b>工場 β を焼くだけで 99.4% / 多数決100%</b>。観測等価クラスは環境変化に頑健で、追加学習が不要。</p></div>
-    <div class="card"><h3 style="margin-top:0">32cls — MCU追加学習で完成</h3><p>32 状態は環境固有の微差で区別するため、出荷時 77.8% → <b>各状態を約10フレーム与えて MCU で追加学習すると 99.1% / 多数決100%</b>。追加学習後の環境では観測等価とされた状態も 99.6% 区別できた。</p></div>
+    <div class="card"><h3 style="margin-top:0">32cls — PC現地再学習で完成</h3><p>32状態は環境固有の微差で区別するため、現地データ追加前77.8%から、<b>各状態約10フレームをPCのbatch-LSへ追加して99.1%／多数決100%</b>へ改善した。</p></div>
   </div>
 
   <div class="card" style="border-left:5px solid var(--accent2)">
     <h3 style="margin-top:0">★ 観測等価の壁を越えた — 閉扉越しの「透過音」を識別</h3>
-    <p>本来、扉が閉じるとその先は音響的に観測できず、32 真状態の一部は原理的に区別不能で <b>14cls が上限</b>のはずだった（§1 観測等価）。ところが MCU で追加学習した 32cls は、<b>その「区別できないはず」の等価状態どうしも 99.6% 区別</b>できた。</p>
+    <p>本来、扉が閉じるとその先は音響的に観測できず、32真状態の一部は原理的に区別不能で14clsが上限のはずだった。ところがPCで現地データを追加学習した32clsは、<b>その等価状態どうしも99.6%区別</b>できた。</p>
     <p>内訳：v12 holdout 1,280 フレーム中、32cls の誤りは <b>12 件のみ</b>。うち観測等価グループ内での取り違え（物理的に曖昧なはずの混同）は <b>わずか 5 件</b>。残り 7 件は等価をまたぐ単純な残差ノイズだった。</p>
-    <p>これは、閉じた扉をわずかに透過・回折する音（<b>透過音</b>）の微細なスペクトル差を ELM が拾い、MCU 上の追加学習でその環境固有の差分を取り込んだため。<span class="ok">単純な観測等価の上限を超える識別性能を獲得した</span>といえる。ただしこの微差は環境固有なので<b>MCU での追加学習が前提</b>（追加学習なしの別環境では区別が崩れ 32cls factory 77.8% に低下）。なお移植元 IchiPing は<b>大型 CNN でこの微小特徴を学習</b>して同じ壁を越えたが、本移植版は<b>極少パラメータ＋MCU 追加学習</b>で同等を達成した点が異なる。</p>
+    <p>これは閉じた扉をわずかに透過・回折する音の微細なスペクトル差をELMが拾い、PC batch-LSが環境固有の差分をβへ取り込んだため。ただしこの微差は環境固有なので、32clsはStamp→PCの現地収集とPC再学習を前提とする。</p>
   </div>
 
   <div class="note"><b>移植元 IchiPing（1D-CNN, MCU 実機）も同じ「現地校正」で高精度：</b> 32cls は 校正/現環境データなしで 25% → 現地ベースライン校正で 59% → 現環境データ 50frame 追加で 88% → <b>現地校正＋現環境データで 100%</b>（14cls は現環境データありなら校正なしでも 100%）。つまり<b>能動音響では現地校正が高精度の鍵</b>で、両システムに共通する性質である。</div>
   <div class="card" style="border-left:5px solid var(--accent)">
     <h3 style="margin-top:0">本移植版の位置づけ（公平な比較）</h3>
-    <p>精度は IchiPing CNN（現地校正後 32cls 100%）と<b>同等クラス</b>。差は<b>手段</b>にある——IchiPing は新環境への適応に <b>PC での再学習</b>（現環境データを足して CNN を学習し直す）を要するのに対し、Solist-AI は<b>環境適応の重み学習（β）をデバイス上で完結</b>でき、しかも<b>学習パラメータ約 1/51（β≈2,048 vs 104,000）・SRAM 16KB</b> の小型 MCU で動く（→ §9）。</p>
+    <p>精度はIchiPing CNN（現地校正後32cls 100%）と同等クラス。両者ともPCで現地再学習するが、本ELMは学習・配備対象がβ≈2,048だけで、CNN約104,000 parameterの約1/51。小さい固定モデルをSolist-AIで推論できる点が差になる。</p>
   </div>
 
   <div class="card" style="border-left:5px solid var(--accent2)">
@@ -421,7 +413,7 @@
     <table>
       <tr><th>クラス</th><th>モデル</th><th>テストデータ</th></tr>
       <tr><td><b>14cls</b><br>追加学習不要 99.4%</td><td><a href="models/model1_BEST_14cls.xlsx" download>model1_BEST_14cls.xlsx</a><br><span style="color:var(--muted);font-size:12px">出力14 / β=32×14</span></td><td><a href="models/test_BEST_14cls.csv" download>test_BEST_14cls.csv</a><br><span style="color:var(--muted);font-size:12px">1600行×181列 / 入力×0.5</span></td></tr>
-      <tr><td><b>32cls</b><br>MCU追加学習後 99.1%</td><td><a href="models/model1_BEST_32cls_ondevice.xlsx" download>model1_BEST_32cls_ondevice.xlsx</a><br><span style="color:var(--muted);font-size:12px">出力32 / β=32×32</span></td><td><a href="models/test_BEST_32cls_ondevice.csv" download>test_BEST_32cls_ondevice.csv</a><br><span style="color:var(--muted);font-size:12px">1280行×199列 / 入力×1.0</span></td></tr>
+      <tr><td><b>32cls</b><br>PC現地再学習後 99.1%</td><td><a href="models/model1_BEST_32cls_ondevice.xlsx" download>model1_BEST_32cls_ondevice.xlsx</a><br><span style="color:var(--muted);font-size:12px">旧検証ファイル名を保持 / β=32×32</span></td><td><a href="models/test_BEST_32cls_ondevice.csv" download>test_BEST_32cls_ondevice.csv</a><br><span style="color:var(--muted);font-size:12px">1280行×199列 / 入力×1.0</span></td></tr>
     </table>
   </div>
 
@@ -461,124 +453,91 @@
   <table>
     <tr><th>項目</th><th>仕様 / 設計値</th></tr>
     <tr><td>MCU</td><td>ML63Q2557（Cortex-M0+ 48MHz、FPU 無）+ AI アクセラレータ AxlCORE-ODL</td></tr>
+    <tr><td>制御構成</td><td><b>Solist-AI が主制御／AI</b>。M5Stack Stamp-S3A は I²S音響フロントエンド兼GPIO補完</td></tr>
+    <tr><td>I/O 方針</td><td>I²Sマイク／アンプ、PRBS再生・収録同期、5状態入力、EXECはStamp-S3A。TFT（SPI）、PCA9685／5サーボ（I²C）はSolist-AI</td></tr>
+    <tr><td>推論時通信</td><td>最大400 kHzの共用<b>I²C</b>。既定は整列済みPCM16、条件付きでStamp生成のD=167 raw dB特徴をoffset付きchunkで読み出す</td></tr>
+    <tr><td>学習時通信</td><td>Stamp-S3A native <b>USB CDC→PC直送</b>。学習用PCMはSolist／I²Cを経由しない</td></tr>
     <tr><td>メモリ</td><td>Flash 256KB ／ SRAM 16KB</td></tr>
     <tr><td>モデル</td><td>入力 D=167 ／ 隠れ m=32 ／ 出力 14 または 32 ／ hard sigmoid ／ bfloat16</td></tr>
-    <tr><td>AI RAM 使用量</td><td><b>約 11KB</b>（16KB 内）。オンデバイス学習時の共分散 P(32×32) も収まる</td></tr>
+    <tr><td>AI RAM 使用量</td><td><b>約 11KB</b>（16KB内、固定β推論）</td></tr>
     <tr><td>推論時間</td><td>約 3.4ms / フレーム（Sim 実測値）</td></tr>
     <tr><td>保存パラメータ</td><td>α は seed 再生成で <b>保存 0</b>。β のみ（14cls=32×14、32cls=32×32、bf16 で数KB）→ Flash 余裕</td></tr>
-    <tr><td>前処理</td><td>on-chip FFT（≤1024/回）、Hann 窓、baseline 差分、z-score。baseline 波形は別途 Flash 保持</td></tr>
-    <tr><td>重み更新</td><td>β のみ（α 固定）。実機 ODL での追加学習、または β を 32×32 連立で自前計算のいずれも可</td></tr>
+    <tr><td>前処理</td><td>既定はSolist上のFFT（1024点）、Hann窓、時間baseline差分、crop、z-score。条件付きでFFT～cropだけStampへ移す</td></tr>
+    <tr><td>重み更新</td><td>PCのbatch-LSでβを再計算し、holdout合格後にSolistへ配備。実機ODL学習は使用しない</td></tr>
   </table>
   <div class="card">
   <h3 style="margin-top:0">パラメータ規模（IchiPing CNN 比）</h3>
-  <p>IchiPing v1 CNN（Neutron 互換 XL, 32cls）≈ 104,000 パラメータ（全学習）。本 ELM（D=167, m=32）= 総 ≈ 12,700（α 10,688 は乱数固定で保存0 ＋ β 2,048）。<b>学習・保存対象は β のみ</b>＝ IchiPing 比で学習パラメータ約 1/51。これが軽量なオンデバイス学習を可能にする。</p>
+  <p>IchiPing v1 CNN（Neutron互換XL, 32cls）≈104,000 parameter。本ELMは総約12,700（α 10,688は乱数固定で保存0＋β 2,048）。<b>PCで学習して実機へ配備する対象はβだけ</b>で、IchiPing比約1/51となる。</p>
   </div>
-  <div class="note"><b>用語</b>：<b>AxlCORE-ODL</b>＝Solist-AI のオンデバイス学習用 AI アクセラレータ（<b>ODL</b>＝On-Device Learning）。<b>FPU</b>＝浮動小数点演算器（本 MCU は非搭載）。<b>SRAM</b>＝高速な作業用メモリ（16KB、推論/学習の作業領域）。<b>Flash</b>＝不揮発メモリ（256KB、プログラム・重みの保存）。<b>bfloat16</b>＝16bit 浮動小数フォーマット。<b>hard sigmoid</b>＝sigmoid を区分線形で近似した活性化関数。</div>
+  <div class="note"><b>用語</b>：<b>AxlCORE-ODL</b>はSolist-AIのオンデバイス学習対応AIアクセラレータだが、本実装では固定β推論だけに使用する。SRAMは16KB、Flashは256KB、演算形式はbfloat16、活性化はhard sigmoid。</div>
   <div class="pager"><a href="#result">← シミュレーション結果</a><a href="#hw">次：実機ハードウェア →</a></div>
 </section>
 
 <!-- 7. HW -->
 <section id="hw" class="article">
   <div class="crumb">レポート ／ 実機ハードウェア構成</div>
-  <h1>実機ハードウェア構成・BOM・接続仕様</h1>
-  <div class="card decision">
-    <h3 style="margin-top:0">採用構成</h3>
-    <p><b>DT-EBML63Q2557を主ボード、M5Stack Stamp-S3を音声出力用の子ボード</b>とする。両ボード間はUARTで制御・同期し、Stamp-S3からI²SデジタルアンプへPRBSを出力する。マイクはAGCなしのアナログプリアンプを介してCN6へ入力する。<b>降雨センサは搭載しない。</b></p>
+  <h1>実機ハードウェア構成（Solist-AI 主制御 + Stamp-S3A I²S音響）</h1>
+  <div class="note">
+  <b>設計原則：</b> DT-EBML63Q2557 はI²Sを持たないため、M5Stack Stamp-S3Aが<b>I²Sマイク収録とI²Sアンプ出力を同一クロックで同期</b>する。推論時は共有I²CからPCM、または条件付きでStampが生成したD=167特徴を取得して固定βで推論する。学習時は必ずPCM原本をStampからPCへUSB CDCで直接送る。TFTとI²CサーボはSolist-AIから直接制御する。
   </div>
 
-  <h2>全体構成と役割分担</h2>
-  <div class="table-wrap"><table>
-    <thead><tr><th>ブロック</th><th>担当</th><th>主な処理</th><th>接続</th></tr></thead>
-    <tbody>
-      <tr><td><b>主制御・AI</b></td><td>DT-EBML63Q2557</td><td>ADC収録、baseline差分、FFT、z-score、ELM推論、β追加学習</td><td>CN6、UART、同期GPIO</td></tr>
-      <tr><td><b>音声出力</b></td><td>M5Stack Stamp-S3</td><td>UARTコマンド受信、PRBS再生成、I²S DMA出力、アンプのミュート制御</td><td>UART、I²S、GPIO</td></tr>
-      <tr><td><b>励振</b></td><td>MAX98357A＋スピーカー</td><td>I²Sデータをアナログ音声へ変換・増幅し、室内へPRBSを放射</td><td>I²S、5V、SPK±</td></tr>
-      <tr><td><b>収録</b></td><td>アナログマイク＋プリアンプ</td><td>反射音を固定ゲインで増幅し、ML63Q2557の12bit ADCへ入力</td><td>CN6アナログ入力</td></tr>
-      <tr><td><b>モデル運用</b></td><td>ML63Q2557内Flash</td><td>工場モデルβ<sub>factory</sub>を保持し、実機学習β<sub>local</sub>を別領域へ保存</td><td>内部Flash</td></tr>
-    </tbody>
-  </table></div>
+  <h3>I/O の役割分担</h3>
+  <p>音響入出力はStamp-S3AのI²Sへ集約する。PCA9685はI²CのSDA／SCL 2本だけで5台のサーボを制御でき、ILI9341はSolist-AIのSPIで制御できるため、どちらもSolist-AI直結とする。</p>
+  <div class="grid2">
+    <div class="card"><h3 style="margin-top:0">Solist-AI：主制御／推論</h3><ul><li>SPI → ILI9341 TFT</li><li>共用I²C → PCA9685 → SG90サーボ×5</li><li>system state、arming／fault latch</li><li>Stampから状態／EXEC eventと推論PCM／特徴chunkを取得</li><li>標準化、bfloat16化、固定β ELM推論</li></ul></div>
+    <div class="card"><h3 style="margin-top:0">Stamp-S3A：I²S音響／収集・入力</h3><ul><li>I²Sマイク収録</li><li>I²SアンプへのPRBS再生、shutdown</li><li>5状態入力＋EXECをGPIOで直接読取り</li><li>48→16 kHz、mono化、PRBS onset整列</li><li>推論→I²C、学習PCM→PC USB CDC</li></ul></div>
+  </div>
+
+  <h3>採用ピン割当</h3>
+  <table>
+    <tr><th>基板</th><th>機能</th><th>割当</th></tr>
+    <tr><td>Solist-AI</td><td>共用I²C</td><td>CN3-1 P73=SCL、CN3-3 P74=SDA</td></tr>
+    <tr><td>Solist-AI</td><td>ILI9341</td><td>CN3-12 P40=SCK、9 P41=MOSI、14 P43=CS、7 P22=D/C、6 P23=RST</td></tr>
+    <tr><td>Solist-AI</td><td>PCA9685安全停止</td><td>CN3-10 P42=OE、PCA VCC=3.3 Vへ外付け10 kΩ pull-up</td></tr>
+    <tr><td>Stamp-S3A</td><td>EXEC</td><td>G10、input pull-up、active Low、30 ms debounce</td></tr>
+    <tr><td>Stamp-S3A</td><td>I²S（2.54 mm）</td><td>G43=BCLK、G5=WS、G7=DOUT、G9=DIN</td></tr>
+    <tr><td>Stamp-S3A</td><td>I²C / AMP（2.54 mm）</td><td>G13=SDA、G15=SCL、G1=AMP SD</td></tr>
+    <tr><td>Stamp-S3A</td><td>5状態入力</td><td>G44=窓a（2.54 mm）、G2/G4/G6/G8（1.27 mm）、pull-up、Low=CLOSE</td></tr>
+  </table>
+  <div class="note"><b>Stamp-S3Aのピッチ：</b>通常版S007-V033を対象とし、キャリア左列M1-1..17は1x17・1.27 mmソケット、右列M1-18/20/22/24/26/28は1x6・2.54 mmソケットとする。G2/G4/G6/G8を窓b/c・扉AB/BC、G10をEXEC_Nへ使用し、G44を窓aへ使用する。G0/G3/G46はstrappingのため不使用。キャリア上面の左右列は公式部品面PinMapに対して左右鏡像とする。</div>
+  <h3>使用デバイスの接続対応</h3>
+  <table>
+    <tr><th>デバイス</th><th>端子</th><th>接続先</th><th>固定条件／注意</th></tr>
+    <tr><td rowspan="5">INMP441 I²Sマイク</td><td>SCK</td><td>Stamp-S3A G43</td><td>2.54 mm位置、BCLK 3.072 MHz、ampと共有</td></tr>
+    <tr><td>WS</td><td>Stamp-S3A G5</td><td>2.54 mm位置、48 kHz、ampと共有</td></tr>
+    <tr><td>SD</td><td>Stamp-S3A G9</td><td>2.54 mm位置、mic→Stamp、100 kΩ pull-down推奨</td></tr>
+    <tr><td>L/R</td><td>GND</td><td>left slot固定</td></tr>
+    <tr><td>VDD / GND</td><td>Stamp 3V3 / 共通GND</td><td>5 V禁止、0.1 µFを近接配置</td></tr>
+    <tr><td rowspan="7">MAX98357A mono I²Sアンプ</td><td>BCLK</td><td>Stamp-S3A G43</td><td>2.54 mm位置、micと共有。起動時はSD=Low</td></tr>
+    <tr><td>LRC</td><td>Stamp-S3A G5</td><td>2.54 mm位置、micと共有</td></tr>
+    <tr><td>DIN</td><td>Stamp-S3A G7</td><td>2.54 mm位置、left slotへPRBS</td></tr>
+    <tr><td>SD_MODE</td><td>Stamp-S3A G1</td><td>2.54 mm位置、10 kΩ pull-down、Low=shutdown、High=left</td></tr>
+    <tr><td>GAIN</td><td>GND</td><td>現行設定12 dB</td></tr>
+    <tr><td>VIN / GND</td><td>外部5 V / 共通GND</td><td>10 µF＋0.1 µF、servo returnと分離</td></tr>
+    <tr><td>SPK+ / SPK-</td><td>8 Ω speakerの両端</td><td>BTL出力。どちらもGNDへ接続しない</td></tr>
+    <tr><td rowspan="8">ILI9341 2.4インチ TFT</td><td>CLK</td><td>CN3-12 P40</td><td>SPI SCK</td></tr>
+    <tr><td>MOSI</td><td>CN3-9 P41</td><td>SPI data</td></tr>
+    <tr><td>CS</td><td>CN3-14 P43</td><td>3.3 Vへ10 kΩ pull-up推奨</td></tr>
+    <tr><td>D/C</td><td>CN3-7 P22</td><td>data/command</td></tr>
+    <tr><td>RST</td><td>CN3-6 P23</td><td>active-low</td></tr>
+    <tr><td>MISO</td><td>未接続</td><td>write-only、P42はPCA9685 OEへ</td></tr>
+    <tr><td>Lite / BL</td><td>未接続</td><td>Adafruit 2478は既定ON。generic品は定格確認</td></tr>
+    <tr><td>Vin / GND</td><td>確認済み外部電源 / 共通GND</td><td>2478は3–5 V、現物SKU未確定なら回路確認</td></tr>
+  </table>
+  <div class="note"><b>部品確度：</b>INMP441とMAX98357AのIC型番はIchiPing UNO Qの実機記録から確定。両breakoutのメーカー／SKUとTFT現物SKUは未記録で、TFTはAdafruit Product 2478を第一候補とする。端子の物理順は現物シルクと回路で確定する。詳細、安全な電源投入順、全ピン監査は <code>docs/io_allocation.md</code> を参照。</div>
+  <div class="note"><b>Stamp-S3A端子監査：</b>左1.27 mm列へI²S WS/DOUT/DIN、I²C、AMP SD、窓b/c、扉AB/BC、EXEC_Nを収容し、右2.54 mm列のG43/G44をBCLK／窓aへ割り当てる。G43/G44のUART0は使わず、書込みと保守logはnative USBを使う。GPIO expanderは搭載しない。</div>
 
   <figure class="fig">
-    <img src="img/hw_solist_ai.svg" alt="DT-EBML63Q2557、Stamp-S3、I2Sアンプ、スピーカー、アナログマイクの接続図" style="width:100%;max-width:1040px;display:block;margin:0 auto">
-    <figcaption>図4. 最終ハードウェア構成。UARTは制御・同期専用で、生音声は転送しない。Stamp-S3が同じseedからPRBSを生成し、ML63Q2557が反射音を収録する。</figcaption>
+  <img src="img/hw_solist_ai.svg" alt="Solist-AI 主制御と M5Stack Stamp-S3A I2S音響フロントエンドのハードウェア構成" style="width:100%;display:block;margin:0 auto">
+  <figcaption>図4. Stamp-S3AがI²S音響入出力を同期する。推論はPCMまたは条件付きD=167特徴をI²CでSolist-AIへ、学習PCMはUSB CDCでPCへ直接送る。</figcaption>
   </figure>
-
-  <h2>部品表（BOM）</h2>
-  <div class="table-wrap"><table>
-    <thead><tr><th>No.</th><th>区分</th><th>部品・推奨品</th><th>数量</th><th>要求仕様・選定理由</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><span class="badge required">必須</span></td><td><b>DT-EBML63Q2557</b></td><td>1</td><td>ML63Q2557＋AxlCORE-ODL。収録、特徴抽出、追加学習、推論を担当。</td></tr>
-      <tr><td>2</td><td><span class="badge required">必須</span></td><td><b>M5Stack Stamp-S3（S007）</b></td><td>1</td><td>ESP32-S3、8MB Flash、UART、I²S、23 GPIO。I²S音声出力と再生同期を担当。</td></tr>
-      <tr><td>3</td><td><span class="badge required">必須</span></td><td><b>MAX98357A I²S Class-Dアンプモジュール</b></td><td>1</td><td>I²S DACとモノラルアンプを1枚に集約。5V動作、BCLK/LRC/DIN入力、SD/MODE端子付き。</td></tr>
-      <tr><td>4</td><td><span class="badge select">選定</span></td><td><b>8Ω 1Wスピーカー</b></td><td>1</td><td>初期試作値。400～3000Hzで十分な音圧と再現性を実測して最終決定。</td></tr>
-      <tr><td>5</td><td><span class="badge select">選定</span></td><td><b>アナログマイク＋固定ゲインプリアンプ</b></td><td>1</td><td>AGCなしを使用。出力振幅とDCバイアスをCN6 ADC入力範囲へ合わせる。</td></tr>
-      <tr><td>6</td><td><span class="badge select">選定</span></td><td><b>5V電源</b></td><td>1</td><td>Stamp-S3とアンプ用。試作時は5V/1A以上を目安とし、最大音量時の電圧降下を確認。</td></tr>
-      <tr><td>7</td><td><span class="badge optional">条件付き</span></td><td><b>2chロジックレベル変換</b></td><td>1</td><td>ML63Q2557側UARTが3.3Vでない場合のみ使用。Stamp-S3 GPIOへ3.6Vを超えて入力しない。</td></tr>
-      <tr><td>8</td><td><span class="badge required">必須</span></td><td>配線・コネクタ・デカップリング部品</td><td>1式</td><td>UART、SYNC、I²S、電源、GND。アンプ近傍に電源デカップリングを配置。</td></tr>
-    </tbody>
-  </table></div>
-  <p class="lead">BOMのNo.4～6は音圧、ノイズフロア、CN6入力範囲を実測後に型番を確定する。降雨センサおよび関連配線はBOM対象外。</p>
-
-  <h2>接続表</h2>
-  <h3>DT-EBML63Q2557 ⇔ Stamp-S3</h3>
-  <div class="table-wrap"><table>
-    <thead><tr><th>信号</th><th>DT-EBML63Q2557側</th><th>Stamp-S3側</th><th>方向</th><th>備考</th></tr></thead>
-    <tbody>
-      <tr><td>UART_TX</td><td>使用するUARTチャネルのTX端子</td><td>GPIO1 / UART_RX</td><td>ML63 → S3</td><td>コマンド、seed、再生長、振幅を送信。</td></tr>
-      <tr><td>UART_RX</td><td>使用するUARTチャネルのRX端子</td><td>GPIO2 / UART_TX</td><td>S3 → ML63</td><td>ACK、READY、エラー、完了通知。</td></tr>
-      <tr><td>PLAY_SYNC</td><td>外部割込み対応GPIO</td><td>GPIO3</td><td>S3 → ML63</td><td>I²S先頭サンプル直前にエッジ出力し、ADC収録を同期。</td></tr>
-      <tr><td>GND</td><td>GND</td><td>GND</td><td>共通</td><td>信号基準。必ず共通化する。</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>Stamp-S3 ⇔ MAX98357A ⇔ スピーカー</h3>
-  <div class="table-wrap"><table>
-    <thead><tr><th>Stamp-S3</th><th>MAX98357A</th><th>機能</th><th>備考</th></tr></thead>
-    <tbody>
-      <tr><td>GPIO5</td><td>BCLK</td><td>I²Sビットクロック</td><td>配線は短くし、GNDリターンを近づける。</td></tr>
-      <tr><td>GPIO6</td><td>LRC / WS</td><td>I²Sワード選択</td><td>16kHz、16bit、monoを初期条件とする。</td></tr>
-      <tr><td>GPIO7</td><td>DIN</td><td>I²S音声データ</td><td>Stamp-S3からアンプへの一方向。</td></tr>
-      <tr><td>GPIO8</td><td>SD / EN</td><td>ミュート制御</td><td>起動・停止時のポップノイズ抑制に使用。</td></tr>
-      <tr><td>5V</td><td>VIN</td><td>アンプ電源</td><td>Stamp-S3と同一5V系を使用可能。電源容量を確認。</td></tr>
-      <tr><td>GND</td><td>GND</td><td>共通GND</td><td>主ボードを含めて共通化。</td></tr>
-      <tr><td>—</td><td>SPK+ / SPK−</td><td>スピーカー出力</td><td>BTL出力のため、どちらもGNDへ接続しない。</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>アナログ収録系</h3>
-  <div class="table-wrap"><table>
-    <thead><tr><th>接続元</th><th>接続先</th><th>信号</th><th>確認事項</th></tr></thead>
-    <tbody>
-      <tr><td>アナログマイク</td><td>固定ゲインプリアンプ</td><td>微小音声信号</td><td>AGCは使用しない。設置位置を固定する。</td></tr>
-      <tr><td>プリアンプOUT</td><td>DT-EBML63Q2557 CN6</td><td>ADC入力</td><td>最大音量でも入力範囲を超えないこと。無音時DC値も記録する。</td></tr>
-      <tr><td>プリアンプGND</td><td>システムGND</td><td>信号基準</td><td>I²Sアンプの大電流経路とアナログGND配線を分離し、一点で合流させる。</td></tr>
-    </tbody>
-  </table></div>
-
-  <h2>制御・同期シーケンス</h2>
-  <div class="flowline">
-    <div class="step"><b>1. ARM</b>ML63がseed、サンプル数、振幅をUART送信</div>
-    <div class="step"><b>2. READY</b>Stamp-S3がPRBSとI²S DMAを準備して応答</div>
-    <div class="step"><b>3. SYNC</b>Stamp-S3が同期GPIOを出力し、ML63がADC収録開始</div>
-    <div class="step"><b>4. PLAY</b>Stamp-S3がI²SでPRBSを再生</div>
-    <div class="step"><b>5. PROCESS</b>ML63がbaseline差分、FFT、推論またはβ学習を実行</div>
+  <div class="legend" style="text-align:center">
+    <span><span class="sw" style="background:#1f8a5b"></span>Solist-AI：AI・表示・サーボ</span>
+    <span><span class="sw" style="background:#b5781a"></span>I²S 音響回路</span>
+    <span><span class="sw" style="background:#c32669"></span>Stamp-S3A：音響・GPIO</span>
   </div>
-  <p>UARTには生PCMを流さない。両ボードが同じPRBS生成規則とseedを共有することで、低い通信量のまま再現性を確保する。</p>
-
-  <h2>学習済みモデルと実機追加学習</h2>
-  <div class="grid2">
-    <div class="card"><h3 style="margin-top:0">工場モデルを保持</h3><p>元の学習済みα・β<sub>factory</sub>は変更せず保存する。ハードウェア変更後も初期モデルおよび復旧用モデルとして使用する。</p></div>
-    <div class="card"><h3 style="margin-top:0">実機モデルを別保存</h3><p>新しいスピーカー、アンプ、マイク、筐体、設置環境でbaselineと学習データを取得し、βのみ更新してβ<sub>local</sub>へ保存する。</p></div>
-  </div>
-  <div class="note"><b>実機確認事項：</b> デバイス変更はランダムノイズだけでなく、周波数応答・遅延・ゲインの系統差を生む。PRBS、16kHzサンプリング、再生振幅、FFT条件、マイクゲイン、設置位置を固定し、各状態10～30フレームを目安に追加学習する。検証精度が基準未満ならβ<sub>factory</sub>へロールバックする。</div>
-
-  <h2>電気的注意事項</h2>
-  <ul>
-    <li><b>UART電圧：</b> Stamp-S3は3.3Vロジック。DT-EBML63Q2557の実使用電圧を測定し、3.3V以外なら適切なレベル変換を入れる。</li>
-    <li><b>電源分離：</b> アンプの瞬間電流でADC基準が揺れないよう、アンプ電源のデカップリングとアナログ系の配線分離を行う。</li>
-    <li><b>起動ノイズ：</b> GPIO8でMAX98357Aをミュートし、I²Sクロックが安定してから有効化する。</li>
-    <li><b>未確定端子：</b> DT-EBML63Q2557側のUART、外部割込みGPIO、CN6の端子番号と許容入力範囲は、評価ボード回路図・ユーザーズマニュアルで確定する。</li>
-  </ul>
+  <div class="note"><b>推論I²C転送：</b>既定の<code>PCM16_LE</code>は64,000 byteで、Solist-AIが窓単位にFFTする。条件付きの<code>FEATURE167_F32_LE</code>はStampが同じ時間baseline差分、1024点対称Hann FFT、61窓の振幅平均、log、bin 26..192 cropまで行う668 byteで、Solistがμ／σ・入力scale・bfloat16化・ELMを担当する。schema／baseline ID／CRCが一致しない入力は拒否し、PC golden vectorとの同値性が確認できるまではPCMを既定とする。</div>
+  <div class="note"><b>USB学習転送：</b>TRAINING modeでは同じ64KBを4KiB chunkでPCへ直送する。capture ID、状態、PRBS、onset、health、CRCを添え、PC ACKまでbufferを保持する。Solistはサーボ状態の正本を維持するが、学習PCMを中継しない。</div>
   <div class="pager"><a href="#spec">← 実機実装仕様</a><a href="#next">次：実機での進め方 →</a></div>
 </section>
 
@@ -588,15 +547,18 @@
   <h1>実機での進め方</h1>
   <div class="card">
   <ol>
-  <li><b>実機構成でデータ再取得</b>：変更後のスピーカ／マイクで v6–v12 相当を収録。本書のクロスベースライン×3・オーグメンテーション×3 をそのまま適用。</li>
-  <li><b>β を PC で再学習</b>（batch-LS、α は seed 固定）→ 14cls / 32cls の β を生成。</li>
-  <li><b>β 焼込 → 推論検証</b>：14cls は追加学習なしで動作確認、32cls は MCU 追加学習（10frame/状態）。</li>
-  <li><b>オンデバイス追加学習の実機確認</b>：<code>ODL_StartTrain</code> による追加学習が収束するか実測。収束しない場合は <b>32×32 連立を自前 C で解く</b>フォールバックに切替（精度は同等）。</li>
-  <li><b>I/O ブリングアップ</b>：CN6 マイク収録、UARTコマンド、Stamp-S3のI²S励振、PLAY_SYNC GPIOによるPRBSと収録の同期。</li>
+  <li><b>I/O 台帳を現物照合</b>：Stamp-S3Aの左1x17・1.27 mm列と右1x6・2.54 mm列、およびSolist-AI CN3を、基板Rev、シルク、電圧、起動時状態と照合する。</li>
+  <li><b>Stamp-S3A I²S bring-up</b>：slot幅／有効bit／L/Rを確認し、zero PCM、既知tone、PRBS、マイク収録、shutdownを段階試験する。</li>
+  <li><b>音響同期と校正</b>：同一I²Sクロックで再生・収録し、48→16 kHz、onset整列、無音／clip／RMS／DMA検査を実装する。</li>
+  <li><b>I²C推論統合</b>：まず推論用64KB PCMのchunk readを検証し、次に推論限定668B特徴のschema／baseline ID、PC golden vector、判定一致を検証する。</li>
+  <li><b>USB学習収集</b>：Stamp→PC CDC、capture ID、4KiB chunk、CRC、atomic WAV／records.jsonl保存を検証する。</li>
+  <li><b>Solist-AI bring-up</b>：chunk受信、Stampの状態／EXEC event、streaming baseline差分／FFT、TFT、PCA9685／5サーボを確認する。</li>
+  <li><b>実機データ再取得</b>：独立した全閉baseline×3と32状態を複数条件で収録し、クロスbaseline・実雑音・frequency-warpを適用する。</li>
+  <li><b>PC再学習・実機評価</b>：PC batch-LSでβを算出し、holdout合格、β hash確認後にSolistへ書き込んで固定推論を評価する。</li>
   </ol>
   </div>
   <div class="note">
-  <b>未検証点（明示）：</b>「MCU 上の追加学習 ＝ PC の batch-LS 学習」は資料で明文確認できておらず、公式 Sim の学習は収束しなかった。理論上は等価（OS-ELM forget=1 → 最小二乗）だが、実機での収束は要確認。<b>そのため自前 β 計算のフォールバックを用意</b>しており、どちらでも 99% は達成できる設計。
+  <b>実機受入の考え方：</b>シミュレーションの99%級精度をそのまま実機保証値にはしない。I/O競合なし、起動／通信断時のサーボOFF、古いrequestの拒否、音響停止、baseline整合性を先に合格させ、未使用日・雑音・温度条件で再評価する。PC golden vectorと、同じ固定βを使う実機推論の一致も確認する。
   </div>
   <div class="pager"><a href="#hw">← 実機ハードウェア</a><a href="#value">次：移植の意義・技術的価値 →</a></div>
 </section>
@@ -626,15 +588,15 @@
   <p>つまり<b>深い CNN をそのまま移植することはできない</b>。「自由に組めるモデル」を「限られた器」へ作り直す再設計が、本移植の最大の難所だった。</p>
 
   <h2>制約を武器に変えた解法</h2>
-  <p>CNN が学習で獲得していた特徴抽出の役割を、<b>①賢い前処理</b>（baseline 差分＋情報帯域クロップ＋標準化）と <b>②MCU 上でのリアルタイム追加学習（β）</b>に肩代わりさせ、さらに<b>入力スケール調整</b>で別環境への汎化を確保した（14cls 86%→99%）。結果、深い CNN なしで <b>14cls 99.4% / 32cls 99.1%</b> に到達。</p>
+  <p>CNNが学習で獲得していた特徴抽出の役割を、<b>①賢い前処理</b>（baseline差分＋情報帯域クロップ＋標準化）と<b>②PC batch-LSによるβ学習</b>へ分解し、入力スケール調整で別環境への汎化を確保した。結果、深いCNNなしで14cls 99.4%／32cls 99.1%に到達した。</p>
 
   <h2>Solist-AI だからこそ得られる価値</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">① 極少パラメータ</h3><p>学習・保存するのは <b>β のみ ≈ 2,048</b>（IchiPing CNN 比 <b>約 1/51</b>）。α は seed 再生成で<b>保存ゼロ</b>。モデルは数 KB で完結し、16KB RAM・256KB Flash に余裕で載る。</p></div>
-    <div class="card"><h3 style="margin-top:0">② 追加学習で精度向上</h3><p>クラウド不要で<b>設置現場が自分で重みを学習</b>し環境へ適応。これにより<b>観測等価の壁を越え、閉扉越しの透過音まで識別</b>（§5）。IchiPing(大CNN)は同じ適応に <b>PC での再学習</b>が要るのに対し、<b>現場で重みを更新できる</b>のが Solist-AI の本質的な強み。</p></div>
-    <div class="card"><h3 style="margin-top:0">③ スタンドアロン</h3><p>ネット不要・低遅延・低消費・プライバシー保全。設置してその場で賢くなり続ける、自己完結のセンサになる。</p></div>
+    <div class="card"><h3 style="margin-top:0">② 収集と学習の分離</h3><p>Stampから学習PCMをUSBでPCへ直接保存し、再現可能なデータセット、holdout評価、βの版管理を行う。共有I²CとSolistの小容量RAMを学習データ搬送に使わない。</p></div>
+    <div class="card"><h3 style="margin-top:0">③ スタンドアロン推論</h3><p>学習済みβの配備後はPCやネットなしで低遅延・低消費・プライバシーを保った推論を継続する。</p></div>
   </div>
-  <div class="note"><b>面白さの核：</b>「α を学習できない」という最大の制約を、<b>前処理＋ランダム特徴＋MCU 追加学習</b>という発想で逆手に取り、むしろ <span class="ok">「現場で学習して賢くなり続けるセンサ」</span> を極少パラメータで実現した点。<b>Solist-AI のオンデバイス学習という特性を、課題（環境依存で精度が落ちる）の解決そのものに使い切った</b>ところに、このアプローチの技術的価値がある。</div>
+  <div class="note"><b>面白さの核：</b>「αを学習できない」という制約を、前処理＋ランダム特徴＋PCでの小規模β学習に置き換えた。学習時はデータ品質と再現性をPCで確保し、運用時はSolist-AIが小さな固定モデルで独立推論する。</div>
 
   <div class="pager"><a href="#next">← 実機での進め方</a><a class="empty">&nbsp;</a></div>
 </section>

@@ -1,0 +1,3 @@
+Variant,BOM file,Board file,Assembly
+JLCPCB PCBA,BOM_PCBA.csv,stamp_s3a_interposer_pcba.kicad_pcb,JLCPCB SMT plus wave solder THT
+Hand-solder THT,BOM_THT.csv,stamp_s3a_interposer_tht.kicad_pcb,Akizuki/LCSC parts hand soldered

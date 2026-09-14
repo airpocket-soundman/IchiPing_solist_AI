@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-09-14T21:58:51+09:00",
+  "source_board": "hardware/stamp_s3a_interposer/stamp_s3a_interposer_tht.kicad_pcb",
+  "source_bom": "hardware/stamp_s3a_interposer/BOM_THT.csv",
+  "board_stackup": "2-layer FR-4, 1.6 mm, 1 oz copper",
+  "board_size_mm": "92 x 69",
+  "assembly": "none (manual through-hole assembly)",
+  "drc_violations": 0,
+  "unconnected_pads": 0,
+  "schematic_parity_errors": 0,
+  "gerber_zip_sha256": "394B90D1A380FF8889BD16C2286AD5C086D4F0AE75F4D4BFCC0371887A98FEC4",
+  "bom_sha256": "E6B0E0D9AEC51457A42CC720B3DD18BABDDCC3411D464EE24037DAFC631DF67A"
+}

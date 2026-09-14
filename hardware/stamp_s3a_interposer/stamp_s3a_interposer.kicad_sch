@@ -110,19 +110,19 @@
     (effects (font (size 0.95 0.95)) (justify left bottom))
     (uuid acb2fb88-6d52-46bb-9e04-af021816b79f)
   )
-  (text "J_SERVO_5V_OUT  PCA9685:5V_SERVO,GND  |  1=+5V_SERVO, 2=GND"
+  (text "J_SERVO_5V_OUT  PCA9685:5V_COMMON,GND  |  1=+5V_LOGIC, 2=GND"
     (exclude_from_sim no)
     (at 148.00 76.00 0)
     (effects (font (size 0.95 0.95)) (justify left bottom))
     (uuid f3fae202-6c17-4e56-8d29-3bf3a3149d27)
   )
-  (text "J_PWR_LOGIC  INPUT:5V_LOGIC,GND  |  1=+5V_LOGIC, 2=GND"
+  (text "J_PWR_LOGIC  INPUT:COMMON_5V,GND  |  1=+5V_LOGIC, 2=GND"
     (exclude_from_sim no)
     (at 148.00 83.00 0)
     (effects (font (size 0.95 0.95)) (justify left bottom))
     (uuid 265645d6-39a6-4451-b8bb-aa8f79191bf5)
   )
-  (text "J_PWR_SERVO  INPUT:5V_SERVO,GND  |  1=+5V_SERVO, 2=GND"
+  (text "J_PWR_SERVO  INPUT:5V_COMMON,GND  |  1=+5V_LOGIC, 2=GND"
     (exclude_from_sim no)
     (at 148.00 90.00 0)
     (effects (font (size 0.95 0.95)) (justify left bottom))

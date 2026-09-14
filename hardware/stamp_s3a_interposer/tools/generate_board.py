@@ -55,12 +55,11 @@ default_class.SetViaDiameter(mm(0.80))
 default_class.SetViaDrill(mm(0.40))
 default_class.SetClearance(mm(0.20))
 add_netclass("Power3V3", 0.30)
-add_netclass("Power5V", 0.40)
+add_netclass("Power5V", 1.00)
 add_netclass("ServoPower", 1.00)
 settings.m_NetSettings.SetNetclassPatternAssignment("+3V3_STAMP", "Power3V3")
 settings.m_NetSettings.SetNetclassPatternAssignment("+5V_LOGIC", "Power5V")
 settings.m_NetSettings.SetNetclassPatternAssignment("+5V_STAMP", "Power5V")
-settings.m_NetSettings.SetNetclassPatternAssignment("+5V_SERVO", "ServoPower")
 
 
 NETS: dict[str, pcbnew.NETINFO_ITEM] = {}
@@ -178,7 +177,7 @@ xh("J_EXEC", "EXEC:1=SIG,2=GND", 2, 95, 15, 0, ["EXEC_N", "GND"])
 
 xh("J_MIC", "MIC:GND,3V3,SD,SCK,WS,LR", 6, 108, 26, 90,
    ["GND", "+3V3_STAMP", "I2S_DIN_MIC", "I2S_BCLK_MIC", "I2S_WS_MIC", "GND"])
-xh("J_AMP_SIG", "AMP:LRC,BCLK,DIN,GAIN", 4, 108, 42, 90,
+xh("J_AMP_SIG", "AMP:LRC,BCLK,DIN,GND", 4, 108, 42, 90,
    ["I2S_WS_AMP", "I2S_BCLK_AMP", "I2S_DOUT_AMP", "GND"])
 xh("J_AMP_PWR", "AMP:SD,GND,5V", 3, 108, 55, 90,
    ["AMP_SD", "GND", "+5V_LOGIC"])
@@ -191,12 +190,12 @@ xh("J_TFT_PWR", "TFT:RST,CS,GND,VCC", 4, 40, 20, 0,
 xh("J_SERVO_CTRL", "PCA:GND,SCL,SDA,3V3", 4, 47, 75, 0,
    ["GND", "I2C_SCL", "I2C_SDA", "+3V3_STAMP"])
 xh("J_PCA_OE", "PCA:OE,GND", 2, 61, 75, 0, ["PCA_OE", "GND"])
-xh("J_SERVO_5V_OUT", "SERVO:5V,GND", 2, 94, 75, 0,
-   ["+5V_SERVO", "GND"])
-xh("J_PWR_LOGIC", "INPUT:5V_LOGIC,GND", 2, 82, 75, 0,
+xh("J_SERVO_5V_OUT", "SERVO:COMMON_5V,GND", 2, 94, 75, 0,
    ["+5V_LOGIC", "GND"])
-xh("J_PWR_SERVO", "INPUT:5V_SERVO,GND", 2, 105, 75, 0,
-   ["+5V_SERVO", "GND"])
+xh("J_PWR_LOGIC", "INPUT:COMMON_5V,GND", 2, 82, 75, 0,
+   ["+5V_LOGIC", "GND"])
+xh("J_PWR_SERVO", "INPUT:COMMON_5V,GND", 2, 105, 75, 0,
+   ["+5V_LOGIC", "GND"])
 
 # Safety and source termination components.  DIN/GAIN/LR retain the UNO-Q
 # connector order while reset defaults are changed for Stamp control safety.
@@ -224,12 +223,12 @@ add_fp("JP_STAMP_5V", "OPEN WHEN USB POWERS STAMP", "Connector_PinHeader_2.54mm"
        "PinHeader_1x02_P2.54mm_Vertical", 84, 63, 0,
        {1: "+5V_LOGIC", 2: "+5V_STAMP"})
 
-add_fp("C1", "470uF/10V LOGIC", "Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
+add_fp("C1", "470uF/16V LOGIC", "Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
        94, 62, 0, {1: "+5V_LOGIC", 2: "GND"})
 add_fp("C2", "100nF LOGIC", C_LIB, C_FP, 70, 66, 0,
        {1: "+5V_LOGIC", 2: "GND"})
-add_fp("C3", "1000uF/10V SERVO", "Capacitor_THT", "CP_Radial_D12.5mm_P5.00mm",
-       108, 65, 0, {1: "+5V_SERVO", 2: "GND"})
+add_fp("C3", "1000uF/35V SERVO", "Capacitor_THT", "CP_Radial_D12.5mm_P5.00mm",
+       108, 65, 0, {1: "+5V_LOGIC", 2: "GND"})
 add_fp("C4", "100nF MIC", C_LIB, C_FP, 98, 28, 0,
        {1: "+3V3_STAMP", 2: "GND"})
 add_fp("C5", "10uF AMP", "Capacitor_THT", "CP_Radial_D5.0mm_P2.00mm",
@@ -320,8 +319,8 @@ route("J_PWR_LOGIC", 1, "J_TFT_PWR", 4, "+5V_LOGIC", pcbnew.B_Cu, 1.0, 12)
 route("J_PWR_LOGIC", 1, "J_TFT_SIG", 2, "+5V_LOGIC", pcbnew.B_Cu, 1.0, 11)
 route("J_PWR_LOGIC", 1, "JP_STAMP_5V", 1, "+5V_LOGIC", pcbnew.F_Cu, 1.0)
 route("JP_STAMP_5V", 2, "J_STAMP_17", 13, "+5V_STAMP", pcbnew.F_Cu, 0.5, 60)
-route("J_PWR_SERVO", 1, "C3", 1, "+5V_SERVO", pcbnew.F_Cu, 1.5)
-route("J_PWR_SERVO", 1, "J_SERVO_5V_OUT", 1, "+5V_SERVO", pcbnew.F_Cu, 1.5, 78)
+route("J_PWR_SERVO", 1, "C3", 1, "+5V_LOGIC", pcbnew.F_Cu, 1.5)
+route("J_PWR_SERVO", 1, "J_SERVO_5V_OUT", 1, "+5V_LOGIC", pcbnew.F_Cu, 1.5, 78)
 
 route("J_STAMP_6", 28, "J_MIC", 2, "+3V3_STAMP", pcbnew.B_Cu, 0.5, 13)
 route("J_STAMP_6", 28, "J_SERVO_CTRL", 4, "+3V3_STAMP", pcbnew.B_Cu, 0.5, 73)

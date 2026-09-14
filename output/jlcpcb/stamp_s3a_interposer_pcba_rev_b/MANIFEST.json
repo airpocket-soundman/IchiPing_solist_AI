@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-09-14T21:58:47+09:00",
+  "source_board": "hardware/stamp_s3a_interposer/stamp_s3a_interposer_pcba.kicad_pcb",
+  "source_bom": "hardware/stamp_s3a_interposer/BOM_PCBA.csv",
+  "board_stackup": "2-layer FR-4, 1.6 mm, 1 oz copper",
+  "board_size_mm": "110 x 72",
+  "assembled_bom_rows": 16,
+  "assembled_designators": 34,
+  "cpl_rows": 34,
+  "drc_warning_kinds": [
+    {
+      "kind": "silk_edge_clearance",
+      "count": 11
+    },
+    {
+      "kind": "silk_over_copper",
+      "count": 3
+    },
+    {
+      "kind": "silk_overlap",
+      "count": 133
+    }
+  ],
+  "gerber_zip_sha256": "1DDFEF56CEA422A28336106487D03ADC7C8ACFC712A895C13A2ECAB5FDAFE7D5",
+  "bom_sha256": "0A61E5BF3F6AC4585CE21C23D08B990CCAAF06B1BE4D7F5976907F41C222B7D2",
+  "cpl_sha256": "7070D6D921131C829DAAD97F8CA69DA51D4E7C3D0ACA252EF59223A8F114163A"
+}

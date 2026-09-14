@@ -20,9 +20,9 @@ EXPECTED = {
     "J_TFT_PWR": ["TFT_RST_N", "TFT_CS_N", "GND", "+5V_LOGIC"],
     "J_SERVO_CTRL": ["GND", "I2C_SCL", "I2C_SDA", "+3V3_STAMP"],
     "J_PCA_OE": ["PCA_OE", "GND"],
-    "J_SERVO_5V_OUT": ["+5V_SERVO", "GND"],
+    "J_SERVO_5V_OUT": ["+5V_LOGIC", "GND"],
     "J_PWR_LOGIC": ["+5V_LOGIC", "GND"],
-    "J_PWR_SERVO": ["+5V_SERVO", "GND"],
+    "J_PWR_SERVO": ["+5V_LOGIC", "GND"],
 }
 
 STAMP_17_EXPECTED = {

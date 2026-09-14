@@ -12,10 +12,15 @@ KiCad 10用のRev.B試作設計です。Solist-AIを主制御、Stamp-S3AをI2S�
 - `CONNECTIONS.md`: ハーネス製作時の正本
 - `BOM.csv`: 版別BOMの索引
 - `BOM_PCBA.csv` / `BOM_THT.csv`: JLCPCB実装版／手はんだ版の部品表
-- `tools/generate_board.py`: 配置・ネット・初期配線の再生成
+- `tools/generate_board.py`: Rev.B初期配置の生成用（手調整済みPCBA/THT正本には実行しない）
 - `tools/generate_schematic.py`: parity確認済みPCBA回路図からTHT回路図を再生成し、ERC／PCB parityを検証
 - `tools/import_route.py`: Specctra SESの取込みと線幅正規化
+- `tools/reroute_tht.py`: 現在のTHT配置を保持し、Stamp-S3A幾何補正後に既存配線だけを除去してDSNを生成
+- `tools/compact_tht.py`: THT正本を92 x 69 mmへ縮小し、Stamp-S3A座標とコネクタ向きを保持した再配線用DSNを生成
+- `tools/import_ses.py`: FreeroutingのSESを取り込み、分断されたGNDベタをスティッチングビアで接続
 - `validate.ps1`: ERC、DRC、Gerber、ドリル、レンダリング
+- `package_jlcpcb.ps1`: JLCPCB PCBAへ投入するGerber ZIP、BOM、CPL、検証レポートを`output/jlcpcb/`へ生成
+- `package_jlcpcb_tht.ps1`: THT裸基板用のGerber ZIP、手はんだBOM、発注設定、検証レポートを`output/jlcpcb/`へ生成
 
 ## 互換性方針
 
@@ -28,21 +33,22 @@ UNO Q基板の**ピン番号と信号順**を維持します。旧基板の外�
 
 ## 基板構成
 
-- 外形: 110 x 72 mm、2層、1.6 mm FR-4、1 oz想定
+- 外形: THT版92 x 69 mm、PCBA版110 x 72 mm。2層、1.6 mm FR-4、1 oz想定
 - 外部コネクタ: 純正JST `B?B-XH-A` 垂直THT、2.50 mm
 - Solist: 2x7、2.54 mm MILコネクタ。奇数／偶数列の向きとpin 1を現物で照合する
 - Stamp-S3A: 通常版S007-V033を左列1x17・1.27 mm雌ソケットと右列1x6・2.54 mm雌ソケットへ搭載。Stamp側に対応ピンを立て、部品面を上向きにする
 - Stampソケット: 中間基板上面から見た左右列は公式の部品面PinMapに対して左右鏡像。USB／アンテナ方向、M1 pad番号、pin 1をシルクで明示する
+- THT版のStampソケット正規座標: `J_STAMP_17=(62.9217, 33.1485, 180deg)`、`J_STAMP_6=(47.6817, 25.5285, 180deg)`。列間15.24 mmで、USBは基板上辺の外側、アンテナは基板内側を向く
 - 左列は2.54 mm 1x9と偶数接点用1.27 mm部品の樹脂干渉を避けるため、M1-1..17全体を1.27 mmへ置換する
 - 入力: Stamp G44=窓a、G2=窓b、G4=窓c、G6=扉AB、G8=扉BC、G10=EXEC_N。Stampが直接読みSolistへ通知する
-- 信号線0.20 mm、3.3 V 0.30 mm、logic 5 V 0.40 mm、servo 5 V 1.00 mm、clearance 0.20 mm
+- 信号線0.20 mm、3.3 V 0.30 mm、共通5 V 1.00 mm以上、clearance 0.20 mm
 - F.Cu/B.CuともGNDベタを設け、GNDパッドは低インピーダンス優先で直結する。Stamp antenna直下だけは両面とも銅箔・配線禁止とする
-- Servo電源とlogic/audio電源は別入力、GNDのみ共通
+- Servo電源とlogic/audio電源は同一の共通5 Vレール。2個の入力XHは並列で、異なる電源を同時接続しない
 
 ## 電源・安全条件
 
-- `J_PWR_LOGIC`: Stamp、MAX98357A、TFT用の安定化5 V
-- `J_PWR_SERVO`: PCA9685 V+／SG90用の別5 V
+- `J_PWR_LOGIC` / `J_PWR_SERVO`: 同じ安定化5 Vレールへの並列入力。電流分担が必要な場合も同一電源から配線し、別電源を同時接続しない
+- 共通5 Vは入力点からservo/C3系とlogic/audio/C1系へ太配線で分岐し、細い信号配線へサーボ電流を流さない
 - `JP_STAMP_5V`: 外部5 VでStampを給電するときだけ短絡。StampをPC USBから給電するときは必ず開放
 - `AMP_SD`: Stamp G1制御、10 kΩ GND pull-downでreset中shutdown
 - `PCA_OE`: Solist P42制御、10 kΩ Stamp 3.3 V pull-upでreset中PWM停止
@@ -75,7 +81,7 @@ JLCPCB PCBA向けの第一候補は次のとおりです。
 - 回路図ERC: 0 error / 0 warning
 - PCB connectivity: 未配線0
 - PCB electrical DRC: short、clearance、track/via、courtyard違反0
-- 残件: KiCad標準フットプリント内のシルク同士／シルクとパッドのwarningはPCBA版147件、THT版153件。電気違反ではないが、量産前に参照文字と注意書きを整理する
+- 残件: PCBA版にはKiCad標準フットプリント由来のシルクwarningが残る。THT版は発注パッケージ生成時にDRC 0件を必須とする
 
 `powershell -ExecutionPolicy Bypass -File .\validate.ps1`でレポートと製造出力を`build/`へ再生成できます。
 

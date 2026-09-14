@@ -72,11 +72,13 @@ Stamp側には左列1x17・1.27 mmと右列1x6・2.54 mmのピンヘッダを立
 | J_TFT_PWR | B4B-XH-A / XHP-4 | RST, CS, GND, VCC=+5V | 現物モジュールの5 V入力対応を確認 |
 | J_SERVO_CTRL | B4B-XH-A / XHP-4 | GND, SCL, SDA, VCC=3.3V | UNO Qと同順。VCCはPCA logic、servo V+ではない |
 | J_PCA_OE | B2B-XH-A / XHP-2 | OE, GND | 新設。PCA9685 OEへ。10kで3.3 V pull-up |
-| J_SERVO_5V_OUT | B2B-XH-A / XHP-2 | +5V_SERVO, GND | PCA9685 V+専用 |
-| J_PWR_LOGIC | B2B-XH-A / XHP-2 | +5V_LOGIC, GND | Stamp/amp/TFT用の安定化5 V入力 |
-| J_PWR_SERVO | B2B-XH-A / XHP-2 | +5V_SERVO, GND | servo専用5 V入力 |
+| J_SERVO_5V_OUT | B2B-XH-A / XHP-2 | +5V_LOGIC, GND | 共通5 VからPCA9685 V+へ出力 |
+| J_PWR_LOGIC | B2B-XH-A / XHP-2 | +5V_LOGIC, GND | 共通5 V入力（J_PWR_SERVOと並列） |
+| J_PWR_SERVO | B2B-XH-A / XHP-2 | +5V_LOGIC, GND | 共通5 V入力（J_PWR_LOGICと並列） |
 
 PCA9685の出力割当は`ch0=WIN_A, ch1=WIN_B, ch2=WIN_C, ch3=DOOR_AB, ch4=DOOR_BC`です。SG90はPCA9685モジュールの3ピン端子へ接続します。
+
+`J_PWR_LOGIC`と`J_PWR_SERVO`は基板上で同一レールです。両方を使う場合も必ず同じ5 V電源から配線し、異なる電源やUSB由来5 Vを並列接続しません。5本のサーボ電流を単一XH接点へ集中させないよう、電源容量・配線・コネクタ定格を確認します。
 
 ## PCBA部品候補
 
@@ -87,5 +89,5 @@ JLCPCB PCBAの候補LCSC番号は、33 Ω=`C23140`、10 kΩ=`C25804`、100 kΩ=`
 1. 旧2.54 mmハウジングを流用せず、純正XHPハウジングと適合SXH圧着端子を使う。
 2. 各ケーブルを両端のpin番号で記録し、色だけを根拠にしない。
 3. 無通電で全極の導通、隣接極短絡、GND、電源極性を検査する。
-4. 電流制限付き電源でlogic 5 Vのみ、次にservo 5 Vのみを確認する。
+4. 電流制限付きの単一5 V電源で共通レールを確認し、2個の入力XH間が同極性で導通することを確認する。
 5. マイクpin 2=3.3 V、PCA pin 4=3.3 V、amp pin 3=5 V、servo pin 1=5 Vを実測してからモジュールを挿す。

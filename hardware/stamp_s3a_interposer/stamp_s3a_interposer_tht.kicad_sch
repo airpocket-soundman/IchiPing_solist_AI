@@ -11,7 +11,7 @@
 		(company "IchiPing")
 		(comment 1 "Genuine JST XH; pin order is the harness contract")
 		(comment 2 "Stamp-S3A sockets are mirrored on the carrier PCB")
-		(comment 3 "Logic 5 V and servo 5 V are separate rails")
+		(comment 3 "Logic/audio and servo loads share one external 5 V rail")
 		(comment 4 "Functional schematic matched to production PCB netlist")
 	)
 	(lib_symbols
@@ -2834,7 +2834,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "INPUT:5V_LOGIC,GND"
+		(property "Value" "INPUT:COMMON_5V,GND"
 			(at 27.94 30.48 0.0000)
 			(effects
 				(font
@@ -2886,7 +2886,7 @@
 				)
 			)
 		)
-		(property "Value" "470uF/10V LOGIC"
+		(property "Value" "470uF/16V LOGIC"
 			(at 53.34 34.29 0.0000)
 			(effects
 				(hide yes)
@@ -3044,7 +3044,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "INPUT:5V_SERVO,GND"
+		(property "Value" "INPUT:COMMON_5V,GND"
 			(at 27.94 77.47 0.0000)
 			(effects
 				(font
@@ -3096,7 +3096,7 @@
 				)
 			)
 		)
-		(property "Value" "1000uF/10V SERVO"
+		(property "Value" "1000uF/35V SERVO"
 			(at 53.34 82.55 0.0000)
 			(effects
 				(hide yes)
@@ -3148,7 +3148,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "SERVO:5V,GND"
+		(property "Value" "SERVO:COMMON_5V,GND"
 			(at 87.63 77.47 0.0000)
 			(effects
 				(font
@@ -4039,7 +4039,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "AMP:LRC,BCLK,DIN,GAIN"
+		(property "Value" "AMP:LRC,BCLK,DIN,GND"
 			(at 149.86 127 0.0000)
 			(effects
 				(font
@@ -6017,7 +6017,7 @@
 		)
 		(uuid "43ac0ad4-3ad3-4c45-8c4c-e83d4bd785fb")
 	)
-	(global_label "+5V_SERVO"
+	(global_label "+5V_LOGIC"
 		(shape bidirectional)
 		(at 15.24 82.55 0)
 		(effects
@@ -6039,7 +6039,7 @@
 		)
 		(uuid "304ce6ea-9515-4ef4-a5d2-c340f7ac4a59")
 	)
-	(global_label "+5V_SERVO"
+	(global_label "+5V_LOGIC"
 		(shape bidirectional)
 		(at 53.34 71.12 0)
 		(effects
@@ -6061,7 +6061,7 @@
 		)
 		(uuid "33317add-a105-470b-8986-49ac72cbd538")
 	)
-	(global_label "+5V_SERVO"
+	(global_label "+5V_LOGIC"
 		(shape bidirectional)
 		(at 74.93 82.55 0)
 		(effects
@@ -7377,7 +7377,7 @@
 		)
 		(uuid "bc1e0975-b15c-4c1b-ae24-ebf748585482")
 	)
-	(text "Servos connect to the PCA9685 module 3-pin outputs; servo V+ is the separate +5V_SERVO rail."
+	(text "Servo V+ and logic/audio use the common +5V_LOGIC rail; both power-input XH connectors are parallel."
 		(exclude_from_sim no)
 		(at 105 241 0.0000)
 		(effects
@@ -7417,7 +7417,7 @@
 		)
 		(uuid "51340a43-1f72-4072-90b3-ac700e237bfa")
 	)
-	(text "C1  470uF/10V LOGIC"
+	(text "C1  470uF/16V LOGIC"
 		(exclude_from_sim no)
 		(at 59 28 0.0000)
 		(effects
@@ -7439,7 +7439,7 @@
 		)
 		(uuid "ce40f8d8-ad19-4d3f-8cdf-4bdfae85ed74")
 	)
-	(text "C3  1000uF/10V SERVO"
+	(text "C3  1000uF/35V SERVO"
 		(exclude_from_sim no)
 		(at 59 76 0.0000)
 		(effects

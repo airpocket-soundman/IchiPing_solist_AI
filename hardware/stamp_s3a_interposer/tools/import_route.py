@@ -44,10 +44,10 @@ for item in board.GetTracks():
         item.SetDrill(pcbnew.FromMM(0.40))
         continue
     name = item.GetNetname()
-    if name == "+5V_SERVO":
+    if name == "+5V_LOGIC":
         width = 1.00
-    elif name in {"+5V_LOGIC", "+5V_STAMP", "+3V3_STAMP", "GND"}:
-        width = 0.20 if name == "GND" else (0.40 if name == "+5V_LOGIC" else 0.30)
+    elif name in {"+5V_STAMP", "+3V3_STAMP", "GND"}:
+        width = 0.20 if name == "GND" else 0.30
     else:
         width = 0.20
     item.SetWidth(pcbnew.FromMM(width))

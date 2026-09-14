@@ -526,7 +526,7 @@
         "name": "Power5V",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.4,
+        "track_width": 1.0,
         "via_diameter": 0.8,
         "via_drill": 0.4,
         "wire_width": 6
@@ -566,10 +566,6 @@
       {
         "netclass": "Power5V",
         "pattern": "+5V_STAMP"
-      },
-      {
-        "netclass": "ServoPower",
-        "pattern": "+5V_SERVO"
       }
     ]
   },

@@ -1,0 +1,606 @@
+** Drc report for stamp_s3a_interposer_pcba.kicad_pcb **
+** Created on 2026-09-14T21:58:45 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 147 DRC violations **
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 10.0000 mm): Segment on Edge.Cuts
+    @(52.0000 mm, 35.0000 mm): Segment on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 10.0000 mm): Segment on Edge.Cuts
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 10.0000 mm): Segment on Edge.Cuts
+    @(61.0000 mm, 10.2000 mm): PCB text 'ANT' on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 10.0000 mm): Segment on Edge.Cuts
+    @(14.0000 mm, 9.8500 mm): Reference field of H1
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 82.0000 mm): Segment on Edge.Cuts
+    @(10.4500 mm, 31.7500 mm): Reference field of J_WIN_B
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 82.0000 mm): Segment on Edge.Cuts
+    @(10.4500 mm, 21.7500 mm): Reference field of J_WIN_A
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 10.0000 mm): Segment on Edge.Cuts
+    @(116.0000 mm, 9.8500 mm): Reference field of H2
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 82.0000 mm): Segment on Edge.Cuts
+    @(10.4500 mm, 41.7500 mm): Reference field of J_WIN_C
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 82.0000 mm): Segment on Edge.Cuts
+    @(10.4500 mm, 51.7500 mm): Reference field of J_DOOR_AB
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 10.0000 mm): Segment on Edge.Cuts
+    @(68.6200 mm, 9.7050 mm): Reference field of J_STAMP_17
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(10.0000 mm, 82.0000 mm): Segment on Edge.Cuts
+    @(10.4500 mm, 62.7500 mm): Reference field of J_DOOR_BC
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(20.1300 mm, 51.6700 mm): Segment of J_SOLIST on F.Silkscreen
+    @(24.0000 mm, 66.0000 mm): PCB text 'SOLIST 2x7: PIN 1 MARK' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(25.3300 mm, 54.2700 mm): Segment of J_SOLIST on F.Silkscreen
+    @(24.0000 mm, 66.0000 mm): PCB text 'SOLIST 2x7: PIN 1 MARK' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(13.8000 mm, 65.8000 mm): Segment of J_DOOR_BC on F.Silkscreen
+    @(24.0000 mm, 66.0000 mm): PCB text 'SOLIST 2x7: PIN 1 MARK' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(16.7500 mm, 65.8000 mm): Segment of J_DOOR_BC on F.Silkscreen
+    @(24.0000 mm, 66.0000 mm): PCB text 'SOLIST 2x7: PIN 1 MARK' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(11.5400 mm, 66.5600 mm): Rectangle of J_DOOR_BC on F.Silkscreen
+    @(24.0000 mm, 66.0000 mm): PCB text 'SOLIST 2x7: PIN 1 MARK' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(61.0000 mm, 11.5000 mm): PCB text 'ALL HARNESS: GENUINE JST XH 2.50mm' on F.Silkscreen
+    @(72.0000 mm, 11.8000 mm): PCB text 'M1-1' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(52.0500 mm, 20.7300 mm): Segment of J_STAMP_6 on F.Silkscreen
+    @(52.0000 mm, 35.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(52.0500 mm, 33.4900 mm): Segment of J_STAMP_6 on F.Silkscreen
+    @(52.0000 mm, 35.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(52.0500 mm, 20.7300 mm): Segment of J_STAMP_6 on F.Silkscreen
+    @(52.0000 mm, 35.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(61.0000 mm, 11.5000 mm): PCB text 'ALL HARNESS: GENUINE JST XH 2.50mm' on F.Silkscreen
+    @(52.0000 mm, 35.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(52.0000 mm, 35.0000 mm): Segment on F.Silkscreen
+    @(53.3800 mm, 16.6900 mm): Reference field of J_STAMP_6
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(68.9275 mm, 32.8550 mm): Segment of J_STAMP_17 on F.Silkscreen
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(69.9500 mm, 12.4750 mm): Segment of J_STAMP_17 on F.Silkscreen
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(68.6200 mm, 11.0800 mm): Segment of J_STAMP_17 on F.Silkscreen
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(61.0000 mm, 11.5000 mm): PCB text 'ALL HARNESS: GENUINE JST XH 2.50mm' on F.Silkscreen
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(69.9500 mm, 11.0800 mm): Segment of J_STAMP_17 on F.Silkscreen
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(69.3800 mm, 12.4750 mm): Segment of J_STAMP_17 on F.Silkscreen
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(61.0000 mm, 11.5000 mm): PCB text 'ALL HARNESS: GENUINE JST XH 2.50mm' on F.Silkscreen
+    @(68.6200 mm, 11.0800 mm): Segment of J_STAMP_17 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(69.9500 mm, 11.0800 mm): Segment of J_STAMP_17 on F.Silkscreen
+    @(61.0000 mm, 11.5000 mm): PCB text 'ALL HARNESS: GENUINE JST XH 2.50mm' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(68.6200 mm, 9.7050 mm): Reference field of J_STAMP_17
+    @(52.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(68.6200 mm, 9.7050 mm): Reference field of J_STAMP_17
+    @(70.0000 mm, 9.0000 mm): Segment on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(79.0000 mm, 60.1000 mm): PCB text 'R7 100k' on F.Silkscreen
+    @(84.0000 mm, 60.6200 mm): Reference field of JP_STAMP_5V
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.0000 mm, 29.0000 mm): PCB text 'MIC PIN2=3.3V (NOT UNO-Q 1.8V)' on F.Silkscreen
+    @(97.8594 mm, 28.5100 mm): Segment of C4 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.0000 mm, 29.0000 mm): PCB text 'MIC PIN2=3.3V (NOT UNO-Q 1.8V)' on F.Silkscreen
+    @(105.2500 mm, 28.8500 mm): Segment of J_MIC on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.0000 mm, 29.0000 mm): PCB text 'MIC PIN2=3.3V (NOT UNO-Q 1.8V)' on F.Silkscreen
+    @(105.5500 mm, 28.5500 mm): Rectangle of J_MIC on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.0000 mm, 29.0000 mm): PCB text 'MIC PIN2=3.3V (NOT UNO-Q 1.8V)' on F.Silkscreen
+    @(105.5400 mm, 28.5600 mm): Rectangle of J_MIC on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.0000 mm, 29.0000 mm): PCB text 'MIC PIN2=3.3V (NOT UNO-Q 1.8V)' on F.Silkscreen
+    @(107.8000 mm, 28.5500 mm): Segment of J_MIC on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.2600 mm, 56.9770 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.3000 mm, 56.9830 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.3400 mm, 56.9890 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.3800 mm, 56.9960 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.4200 mm, 57.0030 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.4600 mm, 57.0110 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.5000 mm, 57.0190 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.5400 mm, 57.0270 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.5800 mm, 57.0350 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.6200 mm, 57.0440 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.6600 mm, 57.0530 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.7000 mm, 57.0630 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.9000 mm, 57.1150 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.9400 mm, 57.1270 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.9800 mm, 57.1390 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.0200 mm, 57.1510 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.7800 mm, 57.0830 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.8200 mm, 57.0930 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.8600 mm, 57.1040 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.0600 mm, 57.1630 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.1000 mm, 57.1760 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.1400 mm, 57.1900 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.1800 mm, 57.2030 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.2200 mm, 57.2180 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.2600 mm, 57.2320 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.3000 mm, 57.2470 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.3400 mm, 57.2620 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.3800 mm, 57.2780 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.4200 mm, 57.2940 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.4600 mm, 57.3100 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.6200 mm, 57.3800 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.6600 mm, 57.3980 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.7000 mm, 57.4170 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.7400 mm, 57.4360 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.7800 mm, 57.4560 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(98.8200 mm, 57.4760 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.8600 mm, 57.4960 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.9000 mm, 57.5170 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.9400 mm, 57.5390 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(98.9800 mm, 57.5610 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.0200 mm, 57.5830 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.0600 mm, 57.6060 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.1000 mm, 57.6290 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.1400 mm, 57.6530 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.1800 mm, 57.6770 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.2200 mm, 57.7020 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.3400 mm, 57.7800 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.3800 mm, 57.8070 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.4200 mm, 57.8340 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.4600 mm, 57.8620 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.5000 mm, 57.8910 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.5400 mm, 57.9200 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.5800 mm, 57.9500 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.7000 mm, 58.0430 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.7400 mm, 58.0760 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.7800 mm, 58.1090 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.8200 mm, 58.1420 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.8600 mm, 58.1770 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.9000 mm, 58.2120 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.9400 mm, 58.2480 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(99.9800 mm, 58.2840 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.0200 mm, 58.3220 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.6200 mm, 57.9800 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(99.6600 mm, 58.0120 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.8200 mm, 59.2920 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(100.8600 mm, 59.3560 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.5000 mm, 62.0000 mm): Circle of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(100.9000 mm, 59.4220 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(91.0204 mm, 59.1250 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(91.4400 mm, 72.5400 mm): Rectangle of J_SERVO_5V_OUT on F.Silkscreen
+    @(105.0000 mm, 79.0000 mm): PCB text 'SERVO 5V SEPARATE' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(102.4400 mm, 72.5400 mm): Rectangle of J_PWR_SERVO on F.Silkscreen
+    @(105.0000 mm, 79.0000 mm): PCB text 'SERVO 5V SEPARATE' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(110.5000 mm, 65.0000 mm): Circle of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(110.9000 mm, 58.6830 mm): Segment of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.9400 mm, 58.6850 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(110.9800 mm, 58.6880 mm): Segment of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(111.0200 mm, 58.6910 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(111.0600 mm, 58.6950 mm): Segment of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(111.1000 mm, 58.6980 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(111.1400 mm, 58.7020 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(111.1800 mm, 58.7060 mm): Segment of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(111.2200 mm, 58.7110 mm): Segment of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(111.2600 mm, 58.7160 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.5000 mm, 58.6700 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.5400 mm, 58.6700 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.5800 mm, 58.6710 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.6200 mm, 58.6710 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.6600 mm, 58.6720 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(110.7000 mm, 58.6730 mm): Segment of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.7400 mm, 58.6750 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+    @(110.7800 mm, 58.6760 mm): Segment of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.8200 mm, 58.6780 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.8600 mm, 58.6800 mm): Segment of C3 on F.Silkscreen
+    @(106.2500 mm, 71.4500 mm): Reference field of J_PWR_SERVO
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(110.5000 mm, 65.0000 mm): Circle of C3 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(110.5000 mm, 57.5000 mm): Reference field of C3
+    @(105.5400 mm, 57.5600 mm): Rectangle of J_AMP_PWR on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.0200 mm, 56.9460 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.0600 mm, 56.9510 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.1000 mm, 56.9550 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(97.1400 mm, 56.9600 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(96.7800 mm, 56.9280 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.8200 mm, 56.9300 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(96.8600 mm, 56.9330 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(96.9000 mm, 56.9360 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.9400 mm, 56.9390 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.9800 mm, 56.9430 mm): Segment of C1 on F.Silkscreen
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.1800 mm, 56.9650 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: 基板の設定のシルクスクリーンの制約; warning
+    @(96.0000 mm, 59.0000 mm): PCB text 'JP_STAMP_5V: REMOVE WHEN USB POWERED' on F.Silkscreen
+    @(97.2200 mm, 56.9710 mm): Segment of C1 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(24.0000 mm, 66.0000 mm): PCB text 'SOLIST 2x7: PIN 1 MARK' on F.Silkscreen
+    @(21.4600 mm, 65.7000 mm): PTH pad 12 [TFT_SCK] of J_SOLIST
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(24.0000 mm, 66.0000 mm): PCB text 'SOLIST 2x7: PIN 1 MARK' on F.Silkscreen
+    @(24.0000 mm, 65.7000 mm): PTH pad 11 [GND] of J_SOLIST
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(61.0000 mm, 11.5000 mm): PCB text 'ALL HARNESS: GENUINE JST XH 2.50mm' on F.Silkscreen
+    @(68.6200 mm, 11.8400 mm): PTH pad 1 [AMP_SD] of J_STAMP_17
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

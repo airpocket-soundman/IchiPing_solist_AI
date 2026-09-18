@@ -22,3 +22,6 @@ hardware/stamp_s3a_interposer/*.kicad_prl
 hardware/stamp_s3a_interposer/*.lck
 hardware/stamp_s3a_interposer/*-backups/
 hardware/stamp_s3a_interposer/*_check.pdf
+
+# Freerouting log (written to en/ by stale tool setting)
+en/freerouting.log

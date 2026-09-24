@@ -1,0 +1,64 @@
+{
+ "variant": "unoq_feat2",
+ "sources": [
+  "unoq"
+ ],
+ "warp": "feat",
+ "n_warp": 2,
+ "warp_max": 0.035,
+ "specaug": false,
+ "seed": 0,
+ "D": 167,
+ "bins": [
+  26,
+  192
+ ],
+ "band_hz": [
+  400,
+  3000
+ ],
+ "feature_schema_id": "tdiff-rfft1024-h512-symhann-magmean-log20-floor80-bin26-192-f32-v1",
+ "train_rows": 118800,
+ "train_runs": {
+  "unoq": [
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session1_wav",
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session2_wav",
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session3_wav",
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session4_wav",
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session5_wav",
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session6_wav",
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session7_loud_wav",
+   "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_train_20260912_session8_loud_wav"
+  ]
+ },
+ "cross_baselines": {
+  "unoq": [
+   0,
+   3,
+   5
+  ]
+ },
+ "evals": {
+  "unoq_gray": {
+   "path": "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_eval_20260912_gray_wav",
+   "rows": 96
+  },
+  "unoq_evening": {
+   "path": "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_eval_20260912_evening_wav",
+   "rows": 320
+  },
+  "unoq_survey": {
+   "path": "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_eval_20260912_survey_wav",
+   "rows": 320
+  },
+  "unoq_crowd": {
+   "path": "D:\\GitHub\\IchiPing-UNO-Q\\pc\\captures\\uno_q_eval_20260912_crowd_wav",
+   "rows": 320
+  },
+  "frdm_eval_v1": {
+   "path": "D:\\GitHub\\IchiPing\\pc\\captures\\full_32_eval_v1",
+   "rows": 320
+  }
+ },
+ "csv": {}
+}

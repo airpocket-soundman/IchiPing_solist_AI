@@ -25,3 +25,10 @@ hardware/stamp_s3a_interposer/*_check.pdf
 
 # Freerouting log (written to en/ by stale tool setting)
 en/freerouting.log
+
+# Firmware staging builds (LEXIDE project copies)
+.local/
+
+# Solist-AI Sim 用の大容量 CSV (sim/make_solist_dataset.py で再生成可能, 合計 ~70 MB)
+sim_export/solist_ds/train_*.csv
+sim_export/solist_ds/test_*.csv

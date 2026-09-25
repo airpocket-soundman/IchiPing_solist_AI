@@ -100,8 +100,9 @@ static bool run_elm(const bfloat16 *input, float output[ICHI_INFERENCE_OUTPUT_CO
    int8 x int8 -> int32 accumulate, v = (float)acc * M[o] + B[o],
    v <= 0 -> 0 (ReLU), v >= 126.5 -> 127, otherwise floor(v + 0.5).
    Activations are stored channel-major ([channel][position]) in two
-   ping-pong buffers. */
-static int8_t activation[2][ICHI_FRONT_MAX_ACT];
+   ping-pong buffers.  The buffers live in ichi_shared_scratch; ichi_feature.c
+   provides a larger strong definition that doubles as its FFT work area. */
+__attribute__((weak, aligned(4))) int8_t ichi_shared_scratch[2U * ICHI_FRONT_MAX_ACT];
 static bfloat16 elm_input[ICHI_MODEL_INPUT_SIZE];
 
 static int8_t requantize(int32_t acc, float mult, float bias)
@@ -152,7 +153,7 @@ static void run_frontend(const int8_t *input)
 
     for (layer = 0U; layer < ICHI_FRONT_LAYERS; layer++)
     {
-        int8_t *dst = activation[layer & 1U];
+        int8_t *dst = &ichi_shared_scratch[(uint32_t)(layer & 1U) * ICHI_FRONT_MAX_ACT];
         conv1d(&ichi_front_layers[layer], src, dst);
         src = dst;
     }

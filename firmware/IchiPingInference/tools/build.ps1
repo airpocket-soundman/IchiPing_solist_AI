@@ -2,22 +2,32 @@
 param(
     # LEXIDE project (ROHM AIVibrationInference based) with a generated Debug makefile.
     # Only its vendor drivers/library are used; its application sources are replaced.
-    [string]$SourceProject = "C:\Users\yamas\lexide\workspace_omega_v2\AcrylicPanCollector_lowlatency",
+    [string]$SourceProject = "$env:USERPROFILE\lexide\workspace_omega_v2\AcrylicPanCollector_lowlatency",
+    # ichi_main: UART request/response firmware.  ichi_pipeline_main: Stamp I2C PCM ->
+    # on-chip N333 feature -> inference test (firmware/StampPipelineTest).
+    [ValidateSet("ichi_main", "ichi_pipeline_main")]
+    [string]$Main = "ichi_main",
+    # CMSIS Core include (ARM.CMSIS 5.9.0 pack) of this PC.
+    [string]$CmsisInclude = "$env:LOCALAPPDATA\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include",
     [string]$Configuration = "Debug",
     [string]$StagingRoot
 )
 
 # Builds the IchiPing firmware in a disposable copy of the vendor project:
-#   S_IchiPing/        <- include/*.h, src/ichi_{protocol,inference,app}.c, generated/ichiping_model.h
-#   S_System/main.c    <- src/ichi_main.c
-#   Debug/S_IchiPing/  <- tools/S_IchiPing.subdir.mk + per-source .res (from S_System/main.res)
+#   S_IchiPing/        <- include/*.h, src/<sources>.c, generated/*.h
+#   S_System/main.c    <- src/<Main>.c
+#   Debug/S_IchiPing/  <- subdir.mk (tools/S_IchiPing.subdir.mk with the source list) + per-source .res
+# The vendor project may have been generated on another PC: its absolute project
+# and CMSIS paths in the .res files and makefile are re-pointed at this PC.
 # The vendor project itself is never modified.  Do not run "make clean" (it deletes the .res files).
 
 $ErrorActionPreference = "Stop"
 $fwRoot = Split-Path -Parent $PSScriptRoot                  # firmware/IchiPingInference
 $repoRoot = Split-Path -Parent (Split-Path -Parent $fwRoot)
 $makeExe = "C:\LAPIS\LEXIDE\Utilities\Bin\make.exe"
-$sources = @("ichi_protocol", "ichi_inference", "ichi_app")
+if ($Main -eq "ichi_pipeline_main") { $sources = @("ichi_protocol", "ichi_inference", "ichi_feature", "ichi_stamp_link") }
+else { $sources = @("ichi_protocol", "ichi_inference", "ichi_app") }
+if (-not (Test-Path -LiteralPath $CmsisInclude -PathType Container)) { throw "CMSIS include not found: $CmsisInclude" }
 
 if (-not (Test-Path -LiteralPath $SourceProject -PathType Container)) { throw "Vendor project not found: $SourceProject" }
 if (-not (Test-Path -LiteralPath $makeExe -PathType Leaf)) { throw "LEXIDE make.exe not found: $makeExe" }
@@ -44,16 +54,34 @@ $ichiDir = Join-Path $staged "S_IchiPing"
 $ichiBuild = Join-Path $buildDir "S_IchiPing"
 New-Item -ItemType Directory -Path $ichiDir, $ichiBuild -Force | Out-Null
 Copy-Item -Path (Join-Path $fwRoot "include\*.h") -Destination $ichiDir -Force
-Copy-Item -LiteralPath (Join-Path $fwRoot "generated\ichiping_model.h") -Destination $ichiDir -Force
+Copy-Item -Path (Join-Path $fwRoot "generated\*.h") -Destination $ichiDir -Force
 foreach ($s in $sources) { Copy-Item -LiteralPath (Join-Path $fwRoot "src\$s.c") -Destination $ichiDir -Force }
-Copy-Item -LiteralPath (Join-Path $fwRoot "src\ichi_main.c") -Destination (Join-Path $staged "S_System\main.c") -Force
-Copy-Item -LiteralPath (Join-Path $PSScriptRoot "S_IchiPing.subdir.mk") -Destination (Join-Path $ichiBuild "subdir.mk") -Force
+Copy-Item -LiteralPath (Join-Path $fwRoot "src\$Main.c") -Destination (Join-Path $staged "S_System\main.c") -Force
+$mkLists = @{
+    "C_SRCS" = { param($s) "../S_IchiPing/$s.c" }; "RESS" = { param($s) "./S_IchiPing/$s.res" }
+    "RESS__QUOTED" = { param($s) "`"./S_IchiPing/$s.res`"" }; "ASMS" = { param($s) "./S_IchiPing/$s.asm" }
+    "ASMS__QUOTED" = { param($s) "`"./S_IchiPing/$s.asm`"" }; "OBJS" = { param($s) "./S_IchiPing/$s.o" }
+    "OBJS__QUOTED" = { param($s) "`"./S_IchiPing/$s.o`"" }
+}
+$mkText = [regex]::Replace([IO.File]::ReadAllText((Join-Path $PSScriptRoot "S_IchiPing.subdir.mk")),
+    '(?m)^(C_SRCS|RESS|RESS__QUOTED|ASMS|ASMS__QUOTED|OBJS|OBJS__QUOTED) \+=.*$',
+    { param($m) $v = $m.Groups[1].Value; "$v += " + (($sources | ForEach-Object { & $mkLists[$v] $_ }) -join " ") })
+Write-Utf8 (Join-Path $ichiBuild "subdir.mk") $mkText
 
 # 2) Compiler response files: point every .res at the staged project, and use
 #    S_IchiPing instead of S_AcrylicPan as the application include directory.
 $ichiInclude = "-I`"$stagedFwd/S_IchiPing`""
+$projRe = '[A-Za-z]:[\\/]Users[\\/][^\\/"]+[\\/]lexide[\\/]workspace_omega_v2[\\/]' + [regex]::Escape((Split-Path -Leaf $SourceProject))
+$cmsisRe = '[A-Za-z]:/Users/[^/"]+/AppData/Local/Arm/Packs/ARM/CMSIS/[^/"]+/CMSIS/Core/Include'
+$cmsisFwd = (Resolve-Path -LiteralPath $CmsisInclude).Path.Replace('\', '/')
+function Repoint([string]$text) {
+    $text = [regex]::Replace($text, $projRe, { param($m) if ($m.Value.Contains('\')) { $staged } else { $stagedFwd } })
+    return [regex]::Replace($text, $cmsisRe, { param($m) $cmsisFwd })
+}
+$mkPath = Join-Path $buildDir "makefile"
+Write-Utf8 $mkPath (Repoint ([IO.File]::ReadAllText($mkPath)))
 Get-ChildItem -LiteralPath $buildDir -Filter "*.res" -Recurse | ForEach-Object {
-    $t = [IO.File]::ReadAllText($_.FullName).Replace($srcProjFwd, $stagedFwd).Replace($SourceProject, $staged)
+    $t = Repoint ([IO.File]::ReadAllText($_.FullName).Replace($srcProjFwd, $stagedFwd).Replace($SourceProject, $staged))
     $t = $t.Replace("$stagedFwd/S_AcrylicPan`"", "$stagedFwd/S_IchiPing`"")
     if (-not $t.Contains($ichiInclude)) { $t = $t.Replace("[option_lccarm]", "[option_lccarm]$ichiInclude ") }
     Write-Utf8 $_.FullName $t

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手はんだ版 BOM</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --panel:#ffffff; --panel2:#eef3f9; --ink:#1b2632; --muted:#5c6b7b;
+    --accent:#1565c0; --accent2:#1f8a5b; --warn:#b5781a; --line:#d7dfea; --stripe:#f2f6fb;
+    --done:#e7f4ec; --codebg:#eef3f9; --code:#b5651d;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#11161d; --panel:#18202a; --panel2:#1f2a36; --ink:#e3e9f0; --muted:#98a6b5;
+      --accent:#6aa9f0; --accent2:#5cc592; --warn:#e0a652; --line:#2c3a49; --stripe:#1b242f;
+      --done:#1b3326; --codebg:#1f2a36; --code:#f0a868;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#11161d; --panel:#18202a; --panel2:#1f2a36; --ink:#e3e9f0; --muted:#98a6b5;
+    --accent:#6aa9f0; --accent2:#5cc592; --warn:#e0a652; --line:#2c3a49; --stripe:#1b242f;
+    --done:#1b3326; --codebg:#1f2a36; --code:#f0a868;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI",Meiryo,system-ui,sans-serif;line-height:1.7;font-size:15px}
+  .content{max-width:1180px;margin:0 auto;padding:34px 16px 90px}
+  .crumb{color:var(--muted);font-size:12px;margin-bottom:8px}
+  .crumb a{color:var(--accent)}
+  h1{font-size:27px;margin:0 0 6px}
+  h2{font-size:20px;margin:30px 0 12px;color:var(--accent);border-left:5px solid var(--accent);padding-left:12px}
+  p{margin:10px 0}
+  .lead{color:var(--muted)}
+  a{color:var(--accent)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .kpi .v{font-size:24px;font-weight:700;color:var(--accent2);font-variant-numeric:tabular-nums}
+  .kpi .l{color:var(--muted);font-size:12px}
+  .wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:960px}
+  th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--accent);font-weight:600;white-space:nowrap}
+  tbody tr:nth-child(even) td{background:var(--stripe)}
+  tbody tr.done td{background:var(--done)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.ck{text-align:center}
+  td.ck input{width:18px;height:18px;cursor:pointer}
+  .name{font-weight:600}
+  .ref{font-family:"Cascadia Code",Consolas,monospace;font-size:12px;color:var(--muted)}
+  code{font-family:"Cascadia Code",Consolas,monospace;background:var(--codebg);border:1px solid var(--line);
+    padding:1px 6px;border-radius:5px;color:var(--code);font-size:13px}
+  .note{font-size:13px;color:var(--muted)}
+  .warn{color:var(--warn);font-weight:600}
+  .group td{background:var(--panel2)!important;font-weight:700;color:var(--accent2);font-size:13px}
+  tfoot td{font-weight:700;background:var(--panel2)}
+  tr.sub td{font-weight:600;color:var(--muted);background:var(--panel)!important;font-size:13px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:16px 0}
+  .card ul{margin:6px 0;padding-left:20px}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+  button{font:inherit;font-size:13px;padding:4px 12px;border-radius:6px;border:1px solid var(--line);
+    background:var(--panel);color:var(--ink);cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  @media print{.bar,td.ck,th.ck{display:none} .wrap{border:none}}
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="crumb"><a href="index.html">IchiPing → Solist-AI レポート</a> ／ 手はんだ版 BOM</div>
+  <h1>Stamp-S3A 中間基板 手はんだ（THT）版 BOM</h1>
+  <p class="lead">基板 <code>stamp_s3a_interposer_tht</code> Rev.B（92 × 69 mm・2層）の部品表。出典は
+    <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/hardware/stamp_s3a_interposer/BOM_THT.csv">BOM_THT.csv</a>。
+    部品名から秋月電子の商品ページへ移動できる。</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v">24</div><div class="l">秋月の購入品目（基板18＋ケーブル6）</div></div>
+    <div class="kpi"><div class="v">38</div><div class="l">基板上の実装箇所（取付穴4を含む）</div></div>
+    <div class="kpi"><div class="v">¥2,170</div><div class="l">秋月購入の合計（税込・1枚分）</div></div>
+    <div class="kpi"><div class="v" id="progress">0 / 24</div><div class="l">購入済みチェック</div></div>
+  </div>
+
+  <div class="bar">
+    <button type="button" id="reset">チェックをすべて外す</button>
+    <span class="note">チェック状態はこのブラウザにだけ保存される。価格と販売単位は 2026-09-18 に秋月の商品ページで確認した値。</span>
+  </div>
+
+  <div class="wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="ck">済</th>
+        <th>部品（秋月ページ）</th>
+        <th>通販コード</th>
+        <th>リファレンス</th>
+        <th>メーカー型番</th>
+        <th>使用数</th>
+        <th>販売単位</th>
+        <th>購入数</th>
+        <th>小計</th>
+        <th>注意</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="group"><td colspan="10">Stamp-S3A 搭載用ソケット・ヘッダ</td></tr>
+      <tr data-id="103866"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g103866/" target="_blank" rel="noopener">1.27mmピッチ ピンソケット 1×20</a></td>
+        <td>103866</td><td class="ref">J_STAMP_17</td><td>2200SA-20G-34</td>
+        <td class="num">1</td><td>1個（20P）</td><td class="num">1</td><td class="num">¥60</td>
+        <td class="note">17Pに切断。仮組みで確認してから切る。基板上面に実装</td></tr>
+      <tr data-id="103865"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g103865/" target="_blank" rel="noopener">1.27mmピッチ ピンヘッダー 1×40</a></td>
+        <td>103865</td><td class="ref">（Stamp側・基板外）</td><td>2199SA-40G-3015-23</td>
+        <td class="num">1</td><td>1個（40P）</td><td class="num">1</td><td class="num">¥90</td>
+        <td class="note">17Pに切断し、Stamp-S3A 側にはんだ付け</td></tr>
+      <tr data-id="110073"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g110073/" target="_blank" rel="noopener">分割ロングピンソケット（細ピン用） 1×40</a></td>
+        <td>110073</td><td class="ref">J_STAMP_6</td><td>FH2.54-40U1GF8.5-0.5</td>
+        <td class="num">1</td><td>1個（40P）</td><td class="num">1</td><td class="num">¥120</td>
+        <td class="note">6Pに切断。はめ合いを確認</td></tr>
+
+      <tr class="group"><td colspan="10">Solist-AI（DT-EBML63Q2557）接続</td></tr>
+      <tr data-id="100169"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g100169/" target="_blank" rel="noopener">ピンソケット（メス） 2×7</a></td>
+        <td>100169</td><td class="ref">J_SOLIST</td><td>FH-2X7SG</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥30</td>
+        <td class="note"><span class="warn">オス/メスの組合せ・1番ピン・穴径を現物で確認</span></td></tr>
+
+      <tr class="group"><td colspan="10">外部コネクタ（純正 JST XH 2.50mm・トップ型）</td></tr>
+      <tr data-id="112247"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112247/" target="_blank" rel="noopener">XHコネクター ベース付ポスト 2P</a></td>
+        <td>112247</td><td class="ref">J_WIN_A J_WIN_B J_WIN_C J_DOOR_AB J_DOOR_BC J_EXEC J_PCA_OE J_SERVO_5V_OUT J_PWR_LOGIC J_PWR_SERVO</td><td>B2B-XH-A</td>
+        <td class="num">10</td><td>1個</td><td class="num">10</td><td class="num">¥100</td>
+        <td class="note"></td></tr>
+      <tr data-id="112248"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112248/" target="_blank" rel="noopener">XHコネクター ベース付ポスト 3P</a></td>
+        <td>112248</td><td class="ref">J_AMP_PWR</td><td>B3B-XH-A</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥10</td>
+        <td class="note"></td></tr>
+      <tr data-id="112249"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112249/" target="_blank" rel="noopener">XHコネクター ベース付ポスト 4P</a></td>
+        <td>112249</td><td class="ref">J_AMP_SIG J_TFT_PWR J_SERVO_CTRL</td><td>B4B-XH-A</td>
+        <td class="num">3</td><td>1個</td><td class="num">3</td><td class="num">¥45</td>
+        <td class="note"></td></tr>
+      <tr data-id="112250"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112250/" target="_blank" rel="noopener">XHコネクター ベース付ポスト 5P</a></td>
+        <td>112250</td><td class="ref">J_TFT_SIG</td><td>B5B-XH-A</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥15</td>
+        <td class="note"></td></tr>
+      <tr data-id="112251"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112251/" target="_blank" rel="noopener">XHコネクター ベース付ポスト 6P</a></td>
+        <td>112251</td><td class="ref">J_MIC</td><td>B6B-XH-A</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥20</td>
+        <td class="note"><span class="warn">pin 2 は 3.3V（UNO Q 音響基板の 1.8V ケーブルを流用しない）</span></td></tr>
+
+      <tr class="group"><td colspan="10">抵抗（小型金属皮膜 1/4W・1%）</td></tr>
+      <tr data-id="108517"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g108517/" target="_blank" rel="noopener">小型金属皮膜抵抗 33Ω</a></td>
+        <td>108517</td><td class="ref">R1 R2 R3 R4 R5</td><td>MFS25F33RB</td>
+        <td class="num">5</td><td>1袋100本入</td><td class="num">1袋</td><td class="num">¥300</td>
+        <td class="note">足を10.16mmピッチに曲げる（本体はフットプリントより小さい）</td></tr>
+      <tr data-id="108550"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g108550/" target="_blank" rel="noopener">小型金属皮膜抵抗 10kΩ</a></td>
+        <td>108550</td><td class="ref">R6 R8 R9</td><td>MFS25F10KB</td>
+        <td class="num">3</td><td>1袋100本入</td><td class="num">1袋</td><td class="num">¥300</td>
+        <td class="note">同上</td></tr>
+      <tr data-id="108563"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g108563/" target="_blank" rel="noopener">小型金属皮膜抵抗 100kΩ</a></td>
+        <td>108563</td><td class="ref">R7</td><td>MFS25F100KB</td>
+        <td class="num">1</td><td>1袋100本入</td><td class="num">1袋</td><td class="num">¥250</td>
+        <td class="note">同上</td></tr>
+
+      <tr class="group"><td colspan="10">コンデンサ</td></tr>
+      <tr data-id="117059"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g117059/" target="_blank" rel="noopener">積層セラミックコンデンサー 0.1μF 50V C0G</a></td>
+        <td>117059</td><td class="ref">C2 C4</td><td>RDE5C1H104J2K1H03B</td>
+        <td class="num">2</td><td>1パック10個入</td><td class="num">1パック</td><td class="num">¥250</td>
+        <td class="note">P5で適合。実寸5.5×3.15mmでフットプリントよりわずかに大きい</td></tr>
+      <tr data-id="108292"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g108292/" target="_blank" rel="noopener">OS-CON 470μF 16V</a></td>
+        <td>108292</td><td class="ref">C1</td><td>16SEPC470M</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥80</td>
+        <td class="note"><span class="warn">極性あり</span>。φ10・P5</td></tr>
+      <tr data-id="113081"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g113081/" target="_blank" rel="noopener">電解コンデンサー 1000μF 50V（ルビコンPX）</a></td>
+        <td>113081</td><td class="ref">C3</td><td>50PX1000MEFC12.5X25</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥50</td>
+        <td class="note"><span class="warn">極性あり</span>。φ12.5・P5・高さ25mm。ケースに収まるか確認</td></tr>
+      <tr data-id="117897"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g117897/" target="_blank" rel="noopener">電解コンデンサー 10μF 50V（ルビコンPX）</a></td>
+        <td>117897</td><td class="ref">C5</td><td>50PX10MEFC5X11</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥10</td>
+        <td class="note"><span class="warn">極性あり</span>。φ5・P2</td></tr>
+
+      <tr class="group"><td colspan="10">ジャンパ</td></tr>
+      <tr data-id="108593"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g108593/" target="_blank" rel="noopener">ピンヘッダー 1×2</a></td>
+        <td>108593</td><td class="ref">JP_STAMP_5V</td><td>PH-1X2SG</td>
+        <td class="num">1</td><td>1パック25個入</td><td class="num">1パック</td><td class="num">¥25</td>
+        <td class="note">出荷時はOPEN。電源確認後にだけショートする</td></tr>
+      <tr data-id="103687"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g103687/" target="_blank" rel="noopener">ジャンパーピン 黒（2.54mm）</a></td>
+        <td>103687</td><td class="ref">（JP_STAMP_5V用・基板外）</td><td>MJ-254-6BK</td>
+        <td class="num">1</td><td>1パック25個入</td><td class="num">1パック</td><td class="num">¥100</td>
+        <td class="note">通常は JP_STAMP_5V に挿さない</td></tr>
+      <tr class="sub"><td></td><td colspan="7">基板実装部品 小計</td><td class="num">¥1,855</td><td></td></tr>
+
+      <tr class="group"><td colspan="10">ケーブル側 JST XH ハウジング・コンタクト（基板側コネクタと同数）</td></tr>
+      <tr data-id="112255"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112255/" target="_blank" rel="noopener">XHコネクター ハウジング 2P</a></td>
+        <td>112255</td><td class="ref">J_WIN_A J_WIN_B J_WIN_C J_DOOR_AB J_DOOR_BC J_EXEC J_PCA_OE J_SERVO_5V_OUT J_PWR_LOGIC J_PWR_SERVO の相手</td><td>XHP-2</td>
+        <td class="num">10</td><td>1個</td><td class="num">10</td><td class="num">¥50</td>
+        <td class="note"></td></tr>
+      <tr data-id="112256"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112256/" target="_blank" rel="noopener">XHコネクター ハウジング 3P</a></td>
+        <td>112256</td><td class="ref">J_AMP_PWR の相手</td><td>XHP-3</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥5</td>
+        <td class="note"></td></tr>
+      <tr data-id="112257"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112257/" target="_blank" rel="noopener">XHコネクター ハウジング 4P</a></td>
+        <td>112257</td><td class="ref">J_AMP_SIG J_TFT_PWR J_SERVO_CTRL の相手</td><td>XHP-4</td>
+        <td class="num">3</td><td>1個</td><td class="num">3</td><td class="num">¥30</td>
+        <td class="note"></td></tr>
+      <tr data-id="112258"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112258/" target="_blank" rel="noopener">XHコネクター ハウジング 5P</a></td>
+        <td>112258</td><td class="ref">J_TFT_SIG の相手</td><td>XHP-5</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥15</td>
+        <td class="note"></td></tr>
+      <tr data-id="112259"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112259/" target="_blank" rel="noopener">XHコネクター ハウジング 6P</a></td>
+        <td>112259</td><td class="ref">J_MIC の相手</td><td>XHP-6</td>
+        <td class="num">1</td><td>1個</td><td class="num">1</td><td class="num">¥15</td>
+        <td class="note"></td></tr>
+      <tr data-id="112265"><td class="ck"><input type="checkbox"></td>
+        <td><a class="name" href="https://akizukidenshi.com/catalog/g/g112265/" target="_blank" rel="noopener">XHコネクター ハウジング用コンタクト</a></td>
+        <td>112265</td><td class="ref">上記ハウジング全ピン</td><td>SXH-001T-P0.6</td>
+        <td class="num">46</td><td>1パック100個入</td><td class="num">1パック</td><td class="num">¥200</td>
+        <td class="note">圧着ミスの予備を含めて100個入を選択（10個入 <a href="https://akizukidenshi.com/catalog/g/g112264/" target="_blank" rel="noopener">112264</a> ×5 でも可）。圧着工具が別途必要</td></tr>
+      <tr class="sub"><td></td><td colspan="7">ケーブル側 小計</td><td class="num">¥315</td><td></td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td></td><td colspan="7">秋月購入 合計（税込）</td><td class="num">¥2,170</td><td></td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <h2>秋月以外で用意するもの</h2>
+  <div class="wrap">
+  <table>
+    <thead><tr><th>品名</th><th>リファレンス</th><th>型番</th><th>数量</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr><td class="name">M5Stack Stamp-S3A（通常版）</td><td class="ref">（基板外）</td><td>S007-V033</td><td class="num">1</td>
+        <td class="note">ソケットに挿して載せる。部品面を上に向ける</td></tr>
+      <tr><td class="name">M3 取付穴</td><td class="ref">H1 H2 H3 H4</td><td>—</td><td class="num">4</td>
+        <td class="note">基板の穴のみで部品なし。スペーサ・ネジは筐体に合わせて用意</td></tr>
+      <tr><td class="name">基板（裸基板）</td><td class="ref">—</td><td>stamp_s3a_interposer_tht Rev.B</td><td class="num">1</td>
+        <td class="note">JLCPCB に <code>GERBER_JLCPCB.zip</code> だけをアップロード。2層・FR-4・1.6mm・1oz・有鉛HASL・部品実装なし</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="card">
+    <b>組立前の注意</b>
+    <ul>
+      <li>外部コネクタは純正 JST XH（2.50mm）。旧基板の 2.54mm XH 互換ハウジングは挿さらないので、ケーブル側は上表の <code>XHP-n</code> ハウジングで作り直す。導線の順番は旧基板と同じにする。</li>
+      <li>ケーブル側の数量は基板側コネクタ16個の相手分だけ。ケーブルの反対側（スイッチ・アンプ・TFT などの機器側）のコネクタと電線、圧着工具は含まない。</li>
+      <li>Stamp ソケットは、基板上面から見ると公式 PinMap の部品面に対して左右が鏡像になる。USB／アンテナの向きと pin 1 をシルクで確認する。</li>
+      <li>電解コンデンサ3個（C1・C3・C5）は極性に注意する。</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY = "bom_tht_checked_v1";
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e) { saved = {}; }
+  var rows = document.querySelectorAll("tbody tr[data-id]");
+  var prog = document.getElementById("progress");
+  function update(){
+    var n = 0;
+    rows.forEach(function(r){
+      var on = r.querySelector("input").checked;
+      r.classList.toggle("done", on);
+      if (on) n++;
+    });
+    prog.textContent = n + " / " + rows.length;
+  }
+  function save(){
+    var s = {};
+    rows.forEach(function(r){ if (r.querySelector("input").checked) s[r.dataset.id] = 1; });
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e) {}
+  }
+  rows.forEach(function(r){
+    var cb = r.querySelector("input");
+    cb.checked = !!saved[r.dataset.id];
+    cb.addEventListener("change", function(){ update(); save(); });
+  });
+  document.getElementById("reset").addEventListener("click", function(){
+    rows.forEach(function(r){ r.querySelector("input").checked = false; });
+    update(); save();
+  });
+  update();
+})();
+</script>
+</body>
+</html>

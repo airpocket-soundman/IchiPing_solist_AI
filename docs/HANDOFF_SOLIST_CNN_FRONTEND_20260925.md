@@ -61,9 +61,11 @@
 
 ### 実機試験用ファーム（2026-09-25 作成済み）
 
-`firmware/IchiPingInference/` に小型前段 T8-16-32 FC32（int8, CPU）+ ELM 167→32→32（AxlCORE）の 32 クラス版を実装し、
-ビルド済み hex（`prebuilt/IchiPing_cnn_frontend_32cls.hex`）と試験手順を README に記載した。PC から int8 特徴を送る
-`AI_INFER` 試験で、実機と PC 参照計算の一致・精度を確認する。前段は RAM 16KB の制約で小型（大型前段は KX134 系バッファ撤去後）。
+`firmware/IchiPingInference/` を IchiPing 専用に整理し（acrylic_pan 由来の KX134 取り込み・振動推論を撤去、RAM 6.6KB / Flash 76KB）、
+小型前段 T8-16-32 FC32（int8, CPU）+ ELM 167→32→32（AxlCORE）の 32 クラス版を実装した。書き込み用イメージ
+（`prebuilt/ichiping_frontend_small_32cls.flash.bin`）と試験手順は同 README。PC から int8 特徴を送る `AI_INFER` 試験で、
+実機と PC 参照計算の一致・精度を確認する。前段は seed 3 本 × {小型, 大型 B1} を検証 session の精度で比較し小型を採用
+（検証 0.804 vs 0.796、UNO Q eval 4 セット平均 約 80% vs 79%。seed 間の差の方が大きい）。
 
 ### Phase 2: 実機成立性の確認（PC + 公式 Sim）
 

@@ -5,12 +5,11 @@
 方法: x = ±c·e_i を AI_INFER で送り、α_ij = (h_j(+c) − h_j(−c)) / (0.4·c)。|0.2·c·α| < 0.5 となる c を使う。
 出力: sim_export/alpha_probe/alpha_ni<ni>_m<m>.npz (alpha, ni, m, c) と Sim 採取 α との比較。
 
-usage: C:/ProgramData/anaconda3/python.exe firmware/IchiPingInference/tools/probe_alpha.py --port COM3 --ni 167 --m 32 [--c 8]
+usage: python firmware/IchiPingInference/tools/probe_alpha.py --port COM3 --ni 167 --m 32 [--c 8]
 """
 from __future__ import annotations
 
 import argparse
-import struct
 import sys
 from pathlib import Path
 
@@ -19,9 +18,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
-from board_test import Board, AI_INFER  # noqa: E402
-sys.path.insert(0, r"D:/GitHub/acrylic_pan/pc")
-from acrylic_pan_monitor import protocol as P  # noqa: E402
+from ichi_serial import Board  # noqa: E402
 
 
 def to_bf16_bits(v):
@@ -36,14 +33,10 @@ def main():
     ap.add_argument("--m", type=int, required=True)
     ap.add_argument("--c", type=float, default=8.0)
     a = ap.parse_args()
-    fmt = struct.Struct(f"<BBH{a.m}f")
     b = Board(a.port)
 
     def infer(x):
-        fr = b.request(AI_INFER, to_bf16_bits(x).astype("<u2").tobytes())
-        if int(fr.message_type) != P.MessageType.AI_RESULT or len(fr.payload) != fmt.size:
-            raise RuntimeError(f"unexpected reply type=0x{int(fr.message_type):02X} len={len(fr.payload)} (expect {fmt.size})")
-        return np.array(fmt.unpack(fr.payload)[3:], np.float32)
+        return b.infer(to_bf16_bits(x).astype("<u2").tobytes(), a.m)["scores"]
 
     try:
         h0 = infer(np.zeros(a.ni, np.float32))

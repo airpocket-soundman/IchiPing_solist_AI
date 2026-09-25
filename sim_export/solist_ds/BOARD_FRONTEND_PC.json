@@ -1,7 +1,8 @@
 {
- "model": "ichiping_frontend_T8-16-32_FC32_elm167x32x32",
+ "model": "ichiping_frontend_small_elm167x32x32",
  "input_format": "int8_frontend",
  "input_count": 334,
+ "embedding": 32,
  "elm_input_count": 167,
  "hidden_count": 32,
  "output_count": 32,
@@ -10,39 +11,37 @@
  "loss": "mse",
  "scale_alpha_bf16": "0x3E52",
  "input_scale": 0.03409654647111893,
- "elm_scale": 1.0,
- "ridge": 0.1,
+ "elm_scale": 0.5,
+ "ridge": 10.0,
  "train_data": "UNO Q train session1-8",
+ "validation_accuracy": 0.80375,
+ "seed": 1,
  "pc_accuracy": {
   "gray": {
    "frames": 96,
-   "cnn_head_float": 0.9166666666666666,
-   "elm_float_frontend": 0.875,
-   "elm_int8_frontend_bf16_ref": 0.8645833333333334,
-   "elm_int8_frontend_f32": 0.875
+   "cnn_head_float": 0.8854166666666666,
+   "elm_float_frontend": 0.8645833333333334,
+   "elm_int8_frontend_bf16_ref": 0.875
   },
   "evening": {
    "frames": 320,
-   "cnn_head_float": 0.65625,
-   "elm_float_frontend": 0.6125,
-   "elm_int8_frontend_bf16_ref": 0.571875,
-   "elm_int8_frontend_f32": 0.56875
+   "cnn_head_float": 0.615625,
+   "elm_float_frontend": 0.65,
+   "elm_int8_frontend_bf16_ref": 0.61875
   },
   "survey": {
    "frames": 320,
-   "cnn_head_float": 0.6,
-   "elm_float_frontend": 0.615625,
-   "elm_int8_frontend_bf16_ref": 0.659375,
-   "elm_int8_frontend_f32": 0.6625
+   "cnn_head_float": 0.803125,
+   "elm_float_frontend": 0.821875,
+   "elm_int8_frontend_bf16_ref": 0.890625
   },
   "crowd": {
    "frames": 320,
-   "cnn_head_float": 0.821875,
-   "elm_float_frontend": 0.7125,
-   "elm_int8_frontend_bf16_ref": 0.703125,
-   "elm_int8_frontend_f32": 0.709375
+   "cnn_head_float": 0.825,
+   "elm_float_frontend": 0.828125,
+   "elm_int8_frontend_bf16_ref": 0.825
   }
  },
- "model_sha256": "e9dc06521e66e70f1e356a9d55098fce46ad753efc1fac19b0775bcd94e20e2e",
+ "model_sha256": "3678872f13d69630c6a8518b3e2cc159a861cff9c6dd8f69f8387f3ae1816985",
  "alpha_origin": "ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167"
 }

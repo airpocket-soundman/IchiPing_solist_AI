@@ -59,6 +59,12 @@
 | 1-C | 学習時シフト aug の幅（±2% → 実測範囲×2 など）を比較 | 同上 |
 | 1-D | seed を増やし、fold 間のばらつきと差の有意性を確認 | — |
 
+### 実機試験用ファーム（2026-09-25 作成済み）
+
+`firmware/IchiPingInference/` に小型前段 T8-16-32 FC32（int8, CPU）+ ELM 167→32→32（AxlCORE）の 32 クラス版を実装し、
+ビルド済み hex（`prebuilt/IchiPing_cnn_frontend_32cls.hex`）と試験手順を README に記載した。PC から int8 特徴を送る
+`AI_INFER` 試験で、実機と PC 参照計算の一致・精度を確認する。前段は RAM 16KB の制約で小型（大型前段は KX134 系バッファ撤去後）。
+
 ### Phase 2: 実機成立性の確認（PC + 公式 Sim）
 
 | # | 内容 |

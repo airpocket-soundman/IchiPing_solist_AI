@@ -42,7 +42,7 @@ static volatile bool pending_binary;
 static volatile uint32_t pending_sequence;
 static volatile uint8_t pending_request_type;
 static volatile uint8_t pending_case_id;
-static int16_t pending_infer_input[APAN_AI_INPUT_COUNT];
+static uint8_t pending_infer_input[APAN_AI_INFER_BYTES];
 static volatile bool pending_infer_valid;
 static volatile uint8_t pending_mode;
 static volatile uint16_t pending_retrigger_guard_ms;
@@ -243,10 +243,10 @@ static void queue_binary_command(const ApanCommandFrame *frame)
             break;
         case APAN_MESSAGE_AI_INFER:
             command = COMMAND_AI_INFER;
-            pending_infer_valid = (frame->payload_size == (APAN_AI_INPUT_COUNT * 2U));
+            pending_infer_valid = (frame->payload_size == APAN_AI_INFER_BYTES);
             if (pending_infer_valid)
             {
-                memcpy(pending_infer_input, frame->payload, APAN_AI_INPUT_COUNT * 2U);
+                memcpy(pending_infer_input, frame->payload, APAN_AI_INFER_BYTES);
             }
             break;
         case APAN_MESSAGE_SET_MODE:
@@ -837,7 +837,11 @@ void ApanCollectorAppProcess(void)
             }
             if (collector_stopped)
             {
-                result_ok = ApanAiSelfTestRun(pending_case_id, output, &class_id);
+                /* The KX134 capture buffer is idle while the collector is
+                   stopped; reuse it as the CNN front-end scratch. */
+                result_ok = ApanAiSelfTestRun(pending_case_id, (uint8_t *)&capture,
+                                              sizeof(capture), output, &class_id);
+                ApanCaptureReset(&capture);
             }
             /* The self-test replaces the accelerator's global alpha. */
             if (operating_mode == APAN_MODE_POSITION) { ApanPositionInferenceInitialize(); }
@@ -879,14 +883,17 @@ void ApanCollectorAppProcess(void)
         }
         case COMMAND_AI_INFER:
         {
-            /* IchiPing: PC-supplied standardized feature vector (167 bfloat16). */
+            /* IchiPing: PC-supplied input (bfloat16 ELM input, or int8 CNN
+               front-end input when ICHI_FRONTEND_ENABLED). */
             float output[APAN_AI_OUTPUT_COUNT];
             uint8_t class_id;
             uint8_t index;
             bool result_ok = false;
             if (pending_infer_valid && collector_stopped)
             {
-                result_ok = ApanAiInfer(pending_infer_input, output, &class_id);
+                result_ok = ApanAiInfer(pending_infer_input, (uint8_t *)&capture,
+                                        sizeof(capture), output, &class_id);
+                ApanCaptureReset(&capture);
             }
             if (operating_mode == APAN_MODE_POSITION) { ApanPositionInferenceInitialize(); }
             else { ApanInferenceInitialize(); }

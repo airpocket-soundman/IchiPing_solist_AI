@@ -38,6 +38,40 @@ hidden=64 では 63 番ユニットの出力が常に 0 になるため、`emit_
 PC 学習の ridge 線形段 (167→14, z-score) を Stamp-S3A か Solist CPU で計算し、14 値を ELM (14→64→14) に渡す。
 `board_model_<variant>_14cls.npz` に W / ms / ss / beta / alpha を保存する。
 
+## CNN 前段 + ELM ヘッド 32 クラス (2026-09-25 時点の推奨構成・実機試験用)
+
+構成の根拠は [docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md](../../docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md)。
+
+| 処理 | 実行場所 |
+|---|---|
+| N333 特徴 (log-PSD 差分 400–3000 Hz, 334 bin) の標準化と int8 量子化 | PC (`AI_INFER` で 334 B 送信。将来は Solist 上で計算) |
+| Conv1d 8/16/32 (k9/7/5, stride 2, BN 融合, ReLU) → FC 1216→32 (ReLU)、int8 重み・int8 活性化 | ML63Q2557 CPU (`apan_ai_selftest.c` の `run_frontend`) |
+| 埋め込み 32 を標準化・bf16 化し 167 入力へゼロ埋め → ELM 167→32→32 | AxlCORE (α = Sim seed1 の 167 入力 α、実機一致確認済み) |
+
+- 前段の作業領域 (int8 活性化 2 面 = 2.6 KB) は、コレクタ停止中は未使用の KX134 `capture` バッファを流用し、推論後に `ApanCaptureReset` する。
+- ビルド結果 (2026-09-25): text 104 KB / bss 13.2 KB (スタック 1.25 KB との間に約 1.9 KB の空き)。
+- 学習 = UNO Q train session1–8 (session4 を early stop・ハイパラ選択に使用)、評価 = UNO Q eval 4 セット (学習に不使用)。
+  PC 参照精度 (int8 前段 + ELM, 実機同等計算): gray 86.5% / evening 57.2% / survey 65.9% / crowd 70.3% (校正なし)。
+  小型前段 (RAM 制約) のため、全データ評価の大型前段 (約 78–81%) より低い。大型前段は KX134 系バッファを外して RAM を空けてから。
+
+### 別 PC での試験手順
+
+```powershell
+# 1) ビルド済み hex をそのまま書き込む (ビルド環境が無い場合)
+powershell -ExecutionPolicy Bypass -File D:\GitHub\acrylic_pan\scripts\flash-firmware.ps1 -FirmwareHex firmware\IchiPingInference\prebuilt\IchiPing_cnn_frontend_32cls.hex -Execute
+#    (ビルドする場合は tools\build.ps1。generated/ichiping_model.h は生成済みでコミットしてある)
+# 2) 自己テスト 32 ケース + UNO Q eval 1056 frame の送信推論
+C:/ProgramData/anaconda3/python.exe firmware/IchiPingInference/tools/board_test.py --port COM3
+#    結果: docs/board_inference_test_cnn_frontend.{md,json}
+```
+
+`board_test.py` は `generated/golden_outputs.json` の metadata (`input_format=int8_frontend`, `output_count=32`) を見て
+int8 入力・32 出力に切り替わる。確認ポイント: 自己テストのクラス一致 32/32、Board と PC bf16 参照の argmax 一致率 (≈100% が目標)、
+評価セット別正解率が上の PC 参照値と一致すること。
+
+モデルの再生成: `D:/GitHub/IchiPing/pc/.venv/Scripts/python.exe sim/emit_frontend_model.py` (GPU 学習、特徴キャッシュは `sim/eval_full_data.py` と共用)。
+以前の ELM のみのモデルに戻す場合は `python sim/emit_board_model.py ...` を実行してから build する。
+
 ## 結果
 
 - 167→32→14 (Sim α): [docs/board_inference_test.md](../../docs/board_inference_test.md) (2026-09-24) evening 64.4%

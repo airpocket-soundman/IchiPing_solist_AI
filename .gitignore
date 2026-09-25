@@ -6,6 +6,9 @@ __pycache__/
 # 特徴量キャッシュ・中間バイナリ（再生成可能・巨大）
 sim/_cache/
 *.npz
+# 実機試験に必要な生成物は追跡する (board_test.py の入力・生成モデル)
+!firmware/IchiPingInference/generated/*.npz
+!sim_export/solist_ds/board_model_*.npz
 
 # 一時 / クラッシュ / ロック
 *.stackdump

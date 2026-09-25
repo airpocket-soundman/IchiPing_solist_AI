@@ -105,8 +105,118 @@ static bool predict(const bfloat16 *input, float output[APAN_AI_OUTPUT_COUNT],
     return true;
 }
 
-bool ApanAiSelfTestRun(uint8_t case_id, float output[APAN_AI_OUTPUT_COUNT],
-                       uint8_t *class_id)
+#ifdef ICHI_FRONTEND_ENABLED
+/* ---- CNN front-end (Cortex-M0+, int8) ------------------------------------
+   Same arithmetic as sim/emit_frontend_model.py int_forward():
+   int8 x int8 -> int32 accumulate, then v = (float)acc * M[o] + B[o];
+   v <= 0 -> 0 (ReLU), v >= 126.5 -> 127, otherwise floor(v + 0.5). */
+static int8_t requantize(int32_t acc, float mult, float bias)
+{
+    float v = (float)acc * mult + bias;
+    if (v <= 0.0f) { return 0; }
+    if (v >= 126.5f) { return 127; }
+    return (int8_t)(int32_t)(v + 0.5f);
+}
+
+static void conv1d(const int8_t *in, int8_t *out, const int8_t *w, const float *mult,
+                   const float *bias, uint16_t in_ch, uint16_t out_ch, uint16_t kernel,
+                   uint16_t stride, uint16_t in_len, uint16_t out_len)
+{
+    uint16_t o, t, c, k;
+    for (o = 0U; o < out_ch; o++)
+    {
+        for (t = 0U; t < out_len; t++)
+        {
+            int32_t acc = 0;
+            for (c = 0U; c < in_ch; c++)
+            {
+                const int8_t *x = &in[(uint32_t)c * in_len + (uint32_t)t * stride];
+                const int8_t *wk = &w[((uint32_t)o * in_ch + c) * kernel];
+                for (k = 0U; k < kernel; k++)
+                {
+                    acc += (int32_t)x[k] * (int32_t)wk[k];
+                }
+            }
+            out[(uint32_t)o * out_len + t] = requantize(acc, mult[o], bias[o]);
+        }
+        wdt_clear();
+    }
+}
+
+static bfloat16 float_to_bfloat16(float value)
+{
+    union
+    {
+        uint32_t bits;
+        float value;
+    } converted;
+    converted.value = value;
+    converted.bits += 0x7FFFUL + ((converted.bits >> 16) & 1UL);   /* round to nearest even */
+    return (bfloat16)(uint16_t)(converted.bits >> 16);
+}
+
+/* int8 input (ICHI_FRONT_INPUT_SIZE) -> bfloat16 ELM input (ICHI_MODEL_INPUT_SIZE, zero padded). */
+static bool run_frontend(const int8_t *input, uint8_t *scratch, size_t scratch_size,
+                         bfloat16 elm_input[ICHI_MODEL_INPUT_SIZE])
+{
+    int8_t *a = (int8_t *)scratch;
+    int8_t *b = (int8_t *)scratch + ICHI_FRONT_MAX_ACT;
+    uint16_t o, i;
+
+    if ((scratch == NULL) || (scratch_size < APAN_AI_SCRATCH_BYTES))
+    {
+        return false;
+    }
+    conv1d(input, a, ichi_front_w0, ichi_front_m0, ichi_front_b0,
+           ICHI_FRONT_L0_IN_CH, ICHI_FRONT_L0_OUT_CH, ICHI_FRONT_L0_K,
+           ICHI_FRONT_L0_STRIDE, ICHI_FRONT_L0_IN_LEN, ICHI_FRONT_L0_OUT_LEN);
+    conv1d(a, b, ichi_front_w1, ichi_front_m1, ichi_front_b1,
+           ICHI_FRONT_L1_IN_CH, ICHI_FRONT_L1_OUT_CH, ICHI_FRONT_L1_K,
+           ICHI_FRONT_L1_STRIDE, ICHI_FRONT_L1_IN_LEN, ICHI_FRONT_L1_OUT_LEN);
+    conv1d(b, a, ichi_front_w2, ichi_front_m2, ichi_front_b2,
+           ICHI_FRONT_L2_IN_CH, ICHI_FRONT_L2_OUT_CH, ICHI_FRONT_L2_K,
+           ICHI_FRONT_L2_STRIDE, ICHI_FRONT_L2_IN_LEN, ICHI_FRONT_L2_OUT_LEN);
+    for (i = 0U; i < ICHI_MODEL_INPUT_SIZE; i++)
+    {
+        elm_input[i] = 0;
+    }
+    for (o = 0U; o < ICHI_FRONT_EMB; o++)
+    {
+        const int8_t *w = &ichi_front_fc_w[(uint32_t)o * ICHI_FRONT_FLAT];
+        int32_t acc = 0;
+        float e;
+        for (i = 0U; i < ICHI_FRONT_FLAT; i++)
+        {
+            acc += (int32_t)a[i] * (int32_t)w[i];
+        }
+        e = (float)acc * ichi_front_fc_m[o] + ichi_front_fc_b[o];
+        if (e < 0.0f) { e = 0.0f; }
+        elm_input[o] = float_to_bfloat16(e * ichi_front_emb_mul[o] + ichi_front_emb_add[o]);
+    }
+    wdt_clear();
+    return true;
+}
+#endif
+
+static bool infer_bytes(const uint8_t *input, uint8_t *scratch, size_t scratch_size,
+                        float output[APAN_AI_OUTPUT_COUNT], uint8_t *class_id)
+{
+#ifdef ICHI_FRONTEND_ENABLED
+    static bfloat16 elm_input[ICHI_MODEL_INPUT_SIZE];   /* static: keep the 1.25 KB stack free */
+    if (!run_frontend((const int8_t *)input, scratch, scratch_size, elm_input))
+    {
+        return false;
+    }
+    return predict(elm_input, output, class_id);
+#else
+    (void)scratch;
+    (void)scratch_size;
+    return predict((const bfloat16 *)input, output, class_id);
+#endif
+}
+
+bool ApanAiSelfTestRun(uint8_t case_id, uint8_t *scratch, size_t scratch_size,
+                       float output[APAN_AI_OUTPUT_COUNT], uint8_t *class_id)
 {
     if ((output == NULL) || (class_id == NULL) ||
         (case_id >= ICHI_MODEL_CASE_COUNT) ||
@@ -115,15 +225,16 @@ bool ApanAiSelfTestRun(uint8_t case_id, float output[APAN_AI_OUTPUT_COUNT],
     {
         return false;
     }
-    return predict(ichi_model_cases[case_id], output, class_id);
+    return infer_bytes((const uint8_t *)ichi_model_cases[case_id], scratch, scratch_size,
+                       output, class_id);
 }
 
-bool ApanAiInfer(const int16_t input_bf16[APAN_AI_INPUT_COUNT],
+bool ApanAiInfer(const uint8_t *input, uint8_t *scratch, size_t scratch_size,
                  float output[APAN_AI_OUTPUT_COUNT], uint8_t *class_id)
 {
-    if ((input_bf16 == NULL) || (output == NULL) || (class_id == NULL))
+    if ((input == NULL) || (output == NULL) || (class_id == NULL))
     {
         return false;
     }
-    return predict((const bfloat16 *)input_bf16, output, class_id);
+    return infer_bytes(input, scratch, scratch_size, output, class_id);
 }

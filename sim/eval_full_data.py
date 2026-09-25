@@ -224,6 +224,7 @@ def train_net(spec, fc, Xtr, ytr, Xva, yva, seed, epochs=200, patience=20):
             if stale >= patience:
                 break
     net.load_state_dict(best); net.eval()
+    net.in_mu, net.in_sd = mu.cpu().numpy(), sd.cpu().numpy()     # 実機モデル生成 (emit_frontend_model.py) 用
 
     def apply(A, fn):
         out = []

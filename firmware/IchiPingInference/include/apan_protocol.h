@@ -16,7 +16,7 @@
 #define APAN_MESSAGE_CAPTURE    (0x13U)
 #define APAN_MESSAGE_AI_SELFTEST (0x14U)
 #define APAN_MESSAGE_SET_MODE    (0x15U)
-#define APAN_MESSAGE_AI_INFER    (0x16U)   /* IchiPing: 167 bfloat16 inputs -> AI_RESULT */
+#define APAN_MESSAGE_AI_INFER    (0x16U)   /* IchiPing: 167 bfloat16 ELM inputs, or 334 int8 CNN front-end inputs -> AI_RESULT */
 #define APAN_MESSAGE_EVENT_DATA (0x20U)
 #define APAN_MESSAGE_AI_RESULT  (0x21U)
 #define APAN_MESSAGE_INFERENCE_EVENT (0x22U)

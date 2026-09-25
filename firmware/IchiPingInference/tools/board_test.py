@@ -28,9 +28,17 @@ sys.path.insert(0, r"D:/GitHub/acrylic_pan/pc")
 from acrylic_pan_monitor import protocol as P  # noqa: E402  (COBS/CRC framing shared with the firmware)
 
 AI_INFER = 0x16
+ABS_TOL, REL_TOL = 0.035, 0.05
+# 出力数・入力形式は generated/golden_outputs.json の metadata から決める
+# (ELM のみ: 14 出力・bf16 入力 / CNN 前段 + ELM: 32 出力・int8 入力)
 OUT = 14
 RESULT = struct.Struct(f"<BBH{OUT}f")
-ABS_TOL, REL_TOL = 0.035, 0.05
+
+
+def configure(meta: dict):
+    global OUT, RESULT
+    OUT = int(meta.get("output_count", 14))
+    RESULT = struct.Struct(f"<BBH{OUT}f")
 
 
 class Board:
@@ -71,9 +79,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--port", default="COM3")
     ap.add_argument("--stream-limit", type=int, default=0, help="0 = all frames")
-    ap.add_argument("--out", default=str(ROOT / "docs" / "board_inference_test"))
+    ap.add_argument("--out", default="", help="既定: docs/board_inference_test (ELM) / docs/board_inference_test_cnn_frontend (CNN 前段)")
     a = ap.parse_args()
     golden = json.loads((GEN / "golden_outputs.json").read_text(encoding="utf-8"))
+    configure(golden["metadata"])
+    frontend = golden["metadata"].get("input_format") == "int8_frontend"
+    if not a.out:
+        a.out = str(ROOT / "docs" / ("board_inference_test_cnn_frontend" if frontend else "board_inference_test"))
     stream = np.load(GEN / "stream_cases.npz")
     b = Board(a.port)
     try:
@@ -86,7 +98,7 @@ def main():
         selftest = []
         for case in golden["cases"]:
             t0 = time.perf_counter()
-            cid, cls, scores, us = parse_result(b.request(P.MessageType.AI_SELFTEST, bytes([case["board_case_id"]])))
+            cid, cls, scores, us = parse_result(b.request(P.MessageType.AI_SELFTEST, bytes([case["board_case_id"]]), timeout=10.0))
             rt = time.perf_counter() - t0
             exp = np.array(case["outputs"], np.float32)
             err = np.abs(scores - exp)
@@ -100,14 +112,16 @@ def main():
                   f"max|Δ|={err.max():.4f} {'PASS' if ok else 'FAIL'} (rt {rt*1e3:.0f} ms, infer {us} us)")
 
         # ---- streaming inference over the evaluation set
-        X = stream["inputs_bf16"]; ye = stream["expected_class"]; y32 = stream["state32"]
+        X = stream["inputs_int8"] if frontend else stream["inputs_bf16"]
+        ye = stream["expected_class"]; y32 = stream["state32"]
+        sets = stream["eval_set"] if "eval_set" in stream.files else np.array([""] * len(ye))
         P_ref = stream["outputs_ref"]; P_f32 = stream["outputs_f32"]
         n = len(X) if a.stream_limit <= 0 else min(a.stream_limit, len(X))
         board_cls = np.zeros(n, int); board_scores = np.zeros((n, OUT), np.float32); rts = []; infer_us = np.zeros(n, int)
         for i in range(n):
-            payload = X[i].astype("<u2").tobytes()
+            payload = X[i].astype(np.int8).tobytes() if frontend else X[i].astype("<u2").tobytes()
             t0 = time.perf_counter()
-            _, cls, scores, us = parse_result(b.request(AI_INFER, payload))
+            _, cls, scores, us = parse_result(b.request(AI_INFER, payload, timeout=10.0))
             rts.append(time.perf_counter() - t0)
             board_cls[i] = cls; board_scores[i] = scores; infer_us[i] = us
             if (i + 1) % 40 == 0:
@@ -122,9 +136,15 @@ def main():
             if m.any():
                 margin_rows.append(dict(margin_lo=lo, margin_hi=hi, frames=int(m.sum()), agreement=float(agree[m].mean())))
         vote_ok = vote_tot = 0
-        for s in np.unique(y32[:n]):
-            idx = np.where(y32[:n] == s)[0]
-            vote_ok += int(board_scores[idx].sum(0).argmax() == ye[idx][0]); vote_tot += 1
+        for es in np.unique(sets[:n]):
+            for s in np.unique(y32[:n]):
+                idx = np.where((y32[:n] == s) & (sets[:n] == es))[0]
+                if len(idx):
+                    vote_ok += int(board_scores[idx].sum(0).argmax() == ye[idx][0]); vote_tot += 1
+        per_set = {str(es): dict(frames=int((sets[:n] == es).sum()),
+                                 board_accuracy=float(np.mean(board_cls[sets[:n] == es] == ye[:n][sets[:n] == es])),
+                                 pc_bf16_accuracy=float(np.mean(ref_cls[sets[:n] == es] == ye[:n][sets[:n] == es])))
+                   for es in np.unique(sets[:n])}
         summary = dict(
             generated_at=dt.datetime.now().isoformat(timespec="seconds"), port=a.port,
             model=golden["metadata"], status=st,
@@ -143,7 +163,7 @@ def main():
                         within_tolerance_fraction=float(np.mean(err <= np.maximum(ABS_TOL, REL_TOL * np.abs(P_ref[:n])))),
                         roundtrip_ms_mean=float(np.mean(rts) * 1e3), roundtrip_ms_max=float(np.max(rts) * 1e3),
                         infer_us_mean=float(infer_us.mean()), infer_us_max=int(infer_us.max()),
-                        agreement_by_pc_margin=margin_rows),
+                        agreement_by_pc_margin=margin_rows, per_eval_set=per_set),
             selftest_cases=selftest)
     finally:
         b.close()
@@ -154,9 +174,9 @@ def main():
     md = summary; s, t = md["selftest"], md["stream"]
     lines = [f"# Solist-AI 実機推論テスト ({md['generated_at']})", "",
              f"- ボード: DT-EBML63Q2557 (ML63Q2557), UART {a.port} 115200 bps, MCU-Link CMSIS-DAP で書込み",
-             f"- モデル: {md['model']['model']} (D=167, hidden=32, 14cls, hard sigmoid, bfloat16), α=Sim seed1 再生成, scaleAlpha={md['model']['scale_alpha_bf16']}, 入力scale={md['model']['input_scale']}",
+             f"- モデル: {md['model']['model']} (入力 {md['model']['input_count']} {'int8 → CPU CNN 前段 → ELM ' + str(md['model'].get('elm_input_count')) if frontend else 'bf16 → ELM'}, hidden={md['model']['hidden_count']}, {OUT} 出力, hard sigmoid, bfloat16), α=Sim seed1 再生成, scaleAlpha={md['model']['scale_alpha_bf16']}",
              f"- STATUS: {st}", "",
-             "## 1. 内蔵自己テスト (AI_SELFTEST 0x14, クラス別 14 ベクトル)", "",
+             f"## 1. 内蔵自己テスト (AI_SELFTEST 0x14, クラス別 {s['cases']} ベクトル)", "",
              f"- クラス一致 {s['class_match']}/{s['cases']}, 許容内 {s['passed']}/{s['cases']}, 最大スコア誤差 {s['max_abs_err']:.4f} (許容 abs {ABS_TOL} / rel {REL_TOL})", "",
              "| case | 期待cls | PC cls | Board cls | max abs err | 判定 |", "|---|---|---|---|---|---|"]
     lines += [f"| {c['case']} | {c['expected_class']} | {c['pc_class']} | {c['board_class']} | {c['max_abs_err']:.4f} | {'PASS' if c['passed'] else 'FAIL'} |" for c in selftest]
@@ -165,9 +185,10 @@ def main():
               f"- Board vs PC(float32) argmax 一致: {t['board_vs_pc_float32_argmax_agreement']:.1%}",
               f"- 正解率 (frame): Board {t['board_accuracy_frame']:.1%} / PC bf16 {t['pc_bf16_accuracy_frame']:.1%} / PC float32 {t['pc_float32_accuracy_frame']:.1%}",
               f"- 正解率 (状態別投票): Board {t['board_accuracy_vote_per_state']:.1%}",
+              "- 評価セット別 (Board / PC bf16 参照): " + ", ".join(f"{k} {v['board_accuracy']:.1%} / {v['pc_bf16_accuracy']:.1%} (n={v['frames']})" for k, v in t['per_eval_set'].items()),
               f"- スコア誤差: max {t['score_abs_err_max']:.4f}, mean {t['score_abs_err_mean']:.4f}, p99 {t['score_err_p99']:.4f}, 許容内 {t['within_tolerance_fraction']:.1%}",
-              f"- 往復時間 (UART 334B 送信 + 推論 + 60B 受信): 平均 {t['roundtrip_ms_mean']:.1f} ms, 最大 {t['roundtrip_ms_max']:.1f} ms",
-              f"- アクセラレータ推論時間 (SysTick 実測, {md['model']['input_count']}→{md['model']['hidden_count']}→{md['model']['output_count']}): 平均 {t['infer_us_mean']:.0f} us, 最大 {t['infer_us_max']} us", "",
+              f"- 往復時間 (UART 送信 + {'CPU 前段 + ' if frontend else ''}推論 + 受信): 平均 {t['roundtrip_ms_mean']:.1f} ms, 最大 {t['roundtrip_ms_max']:.1f} ms",
+              f"- アクセラレータ推論時間 (SysTick 実測, ELM 部のみ): 平均 {t['infer_us_mean']:.0f} us, 最大 {t['infer_us_max']} us", "",
               "PC bf16 参照の top-2 マージン別 argmax 一致率 (不一致が僅差ケースに限られるかの確認):", "",
               "| margin | frames | 一致率 |", "|---|---|---|"] + [
               f"| {r['margin_lo']}-{r['margin_hi'] if r['margin_hi'] < 9 else 'inf'} | {r['frames']} | {r['agreement']:.1%} |" for r in t['agreement_by_pc_margin']] + [""]

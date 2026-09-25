@@ -1,0 +1,48 @@
+{
+ "model": "ichiping_frontend_T8-16-32_FC32_elm167x32x32",
+ "input_format": "int8_frontend",
+ "input_count": 334,
+ "elm_input_count": 167,
+ "hidden_count": 32,
+ "output_count": 32,
+ "eval_set": "unoq eval gray+evening+survey+crowd",
+ "activation": "hard_sigmoid",
+ "loss": "mse",
+ "scale_alpha_bf16": "0x3E52",
+ "input_scale": 0.03409654647111893,
+ "elm_scale": 1.0,
+ "ridge": 0.1,
+ "train_data": "UNO Q train session1-8",
+ "pc_accuracy": {
+  "gray": {
+   "frames": 96,
+   "cnn_head_float": 0.9166666666666666,
+   "elm_float_frontend": 0.875,
+   "elm_int8_frontend_bf16_ref": 0.8645833333333334,
+   "elm_int8_frontend_f32": 0.875
+  },
+  "evening": {
+   "frames": 320,
+   "cnn_head_float": 0.65625,
+   "elm_float_frontend": 0.6125,
+   "elm_int8_frontend_bf16_ref": 0.571875,
+   "elm_int8_frontend_f32": 0.56875
+  },
+  "survey": {
+   "frames": 320,
+   "cnn_head_float": 0.6,
+   "elm_float_frontend": 0.615625,
+   "elm_int8_frontend_bf16_ref": 0.659375,
+   "elm_int8_frontend_f32": 0.6625
+  },
+  "crowd": {
+   "frames": 320,
+   "cnn_head_float": 0.821875,
+   "elm_float_frontend": 0.7125,
+   "elm_int8_frontend_bf16_ref": 0.703125,
+   "elm_int8_frontend_f32": 0.709375
+  }
+ },
+ "model_sha256": "e9dc06521e66e70f1e356a9d55098fce46ad753efc1fac19b0775bcd94e20e2e",
+ "alpha_origin": "ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167"
+}

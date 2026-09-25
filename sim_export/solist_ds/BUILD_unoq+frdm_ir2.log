@@ -1,18 +1,18 @@
 [build] variant=unoq+frdm_ir2 D=167 (bins 25..191)
-  unoq run0 uno_q_train_20260912_session1_wav: 1650 frames, warp=ir, 15s
-  unoq run1 uno_q_train_20260912_session2_wav: 1650 frames, warp=ir, 11s
-  unoq run2 uno_q_train_20260912_session3_wav: 1650 frames, warp=ir, 19s
-  unoq run3 uno_q_train_20260912_session4_wav: 1650 frames, warp=ir, 16s
-  unoq run4 uno_q_train_20260912_session5_wav: 1650 frames, warp=ir, 14s
-  unoq run5 uno_q_train_20260912_session6_wav: 1650 frames, warp=ir, 11s
-  unoq run6 uno_q_train_20260912_session7_loud_wav: 1650 frames, warp=ir, 10s
-  unoq run7 uno_q_train_20260912_session8_loud_wav: 1650 frames, warp=ir, 10s
-  frdm run0 full_32_train_v21: 1600 frames, warp=feat, 6s
-  frdm run1 full_32_train_v22: 1600 frames, warp=feat, 7s
-  frdm run2 full_32_train_v23: 1600 frames, warp=feat, 9s
-  frdm run3 full_32_train_v24: 1600 frames, warp=feat, 10s
-  frdm run4 full_32_train_v25: 1600 frames, warp=feat, 9s
-  train X=(190800, 167)  warped rows=127200  classes14=[50400, 46800, 11700, 11700, 11700, 11700, 5850, 5850, 5850, 5850, 5850, 5850, 5850, 5850]
+  unoq run0 uno_q_train_20260912_session1_wav: 1650 frames, shift=ir, 15s
+  unoq run1 uno_q_train_20260912_session2_wav: 1650 frames, shift=ir, 11s
+  unoq run2 uno_q_train_20260912_session3_wav: 1650 frames, shift=ir, 19s
+  unoq run3 uno_q_train_20260912_session4_wav: 1650 frames, shift=ir, 16s
+  unoq run4 uno_q_train_20260912_session5_wav: 1650 frames, shift=ir, 14s
+  unoq run5 uno_q_train_20260912_session6_wav: 1650 frames, shift=ir, 11s
+  unoq run6 uno_q_train_20260912_session7_loud_wav: 1650 frames, shift=ir, 10s
+  unoq run7 uno_q_train_20260912_session8_loud_wav: 1650 frames, shift=ir, 10s
+  frdm run0 full_32_train_v21: 1600 frames, shift=feat, 6s
+  frdm run1 full_32_train_v22: 1600 frames, shift=feat, 7s
+  frdm run2 full_32_train_v23: 1600 frames, shift=feat, 9s
+  frdm run3 full_32_train_v24: 1600 frames, shift=feat, 10s
+  frdm run4 full_32_train_v25: 1600 frames, shift=feat, 9s
+  train X=(190800, 167)  shifted rows=127200  classes14=[50400, 46800, 11700, 11700, 11700, 11700, 5850, 5850, 5850, 5850, 5850, 5850, 5850, 5850]
   eval unoq_gray: 96 frames (baseline frames excluded=True)
   eval unoq_evening: 320 frames (baseline frames excluded=True)
   eval unoq_survey: 320 frames (baseline frames excluded=True)

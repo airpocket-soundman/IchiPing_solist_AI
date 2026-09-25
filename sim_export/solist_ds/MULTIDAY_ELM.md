@@ -1,6 +1,6 @@
 # 旧cross-baseline探索結果（運用汎化の採用判定には使用不可）
 
-> **重要:** 学習特徴に別日／別セッションのbaseline差分が含まれる。実運用では起動時に当日のbaselineを取得するため、この条件は不一致であり、以下の数値を汎化性能として採用しない。`audio_day - baseline_same_session`で特徴を作り直し、audioとbaselineを同じ率でワープする再評価が必要。
+> **重要:** 学習特徴に別日／別セッションのbaseline差分が含まれる。実運用では起動時に当日のbaselineを取得するため、この条件は不一致であり、以下の数値を汎化性能として採用しない。`audio_day - baseline_same_session`で特徴を作り直し、audioとbaselineを同じ率でシフトする再評価が必要。
 
 評価日／評価セットはハイパーパラメータ選択にも使用していない。Original IchiPing は日単位の
 leave-one-day-out、UNO Q は8学習セッションと4評価セットを分離した。値は frame accuracy /
@@ -26,22 +26,22 @@ macro F1 / 32状態別スコア合算精度。モデル選択も内側holdoutの
 | cross_baseline/elm_m128 | 2026-05-31 | elm-m128-random-s0.15 | 70.1% | 68.0% | 73.4% |
 | cross_baseline/elm_m128 | 2026-06-01 | elm-m128-random-s0.15 | 58.4% | 53.7% | 57.8% |
 | **cross_baseline/elm_m128 平均** | — | — | **64.0%** | **60.5%** | **65.3%** |
-| cross_baseline+freq_warp/linear | 2026-05-30 | linear-ridge-lam100 | 53.4% | 47.4% | 53.1% |
-| cross_baseline+freq_warp/linear | 2026-05-31 | linear-ridge-lam100 | 62.7% | 58.0% | 64.1% |
-| cross_baseline+freq_warp/linear | 2026-06-01 | linear-ridge-lam100 | 63.7% | 60.0% | 67.2% |
-| **cross_baseline+freq_warp/linear 平均** | — | — | **60.0%** | **55.1%** | **61.5%** |
-| cross_baseline+freq_warp/elm_m32 | 2026-05-30 | elm-m32-sim-s0.15 | 39.4% | 31.7% | 39.6% |
-| cross_baseline+freq_warp/elm_m32 | 2026-05-31 | elm-m32-sim-s0.15 | 48.9% | 39.4% | 48.4% |
-| cross_baseline+freq_warp/elm_m32 | 2026-06-01 | elm-m32-sim-s0.25 | 49.9% | 44.1% | 50.0% |
-| **cross_baseline+freq_warp/elm_m32 平均** | — | — | **46.1%** | **38.4%** | **46.0%** |
-| cross_baseline+freq_warp/elm_m64 | 2026-05-30 | elm-m64-random-s0.15 | 49.4% | 43.4% | 50.0% |
-| cross_baseline+freq_warp/elm_m64 | 2026-05-31 | elm-m64-random-s0.15 | 53.6% | 46.5% | 56.2% |
-| cross_baseline+freq_warp/elm_m64 | 2026-06-01 | elm-m64-random-s1 | 33.3% | 26.8% | 32.8% |
-| **cross_baseline+freq_warp/elm_m64 平均** | — | — | **45.4%** | **38.9%** | **46.4%** |
-| cross_baseline+freq_warp/elm_m128 | 2026-05-30 | elm-m128-random-s0.15 | 57.8% | 52.2% | 57.3% |
-| cross_baseline+freq_warp/elm_m128 | 2026-05-31 | elm-m128-random-s0.15 | 58.0% | 52.7% | 59.4% |
-| cross_baseline+freq_warp/elm_m128 | 2026-06-01 | elm-m128-random-s0.15 | 66.8% | 62.6% | 70.3% |
-| **cross_baseline+freq_warp/elm_m128 平均** | — | — | **60.9%** | **55.8%** | **62.3%** |
+| cross_baseline+freq_shift/linear | 2026-05-30 | linear-ridge-lam100 | 53.4% | 47.4% | 53.1% |
+| cross_baseline+freq_shift/linear | 2026-05-31 | linear-ridge-lam100 | 62.7% | 58.0% | 64.1% |
+| cross_baseline+freq_shift/linear | 2026-06-01 | linear-ridge-lam100 | 63.7% | 60.0% | 67.2% |
+| **cross_baseline+freq_shift/linear 平均** | — | — | **60.0%** | **55.1%** | **61.5%** |
+| cross_baseline+freq_shift/elm_m32 | 2026-05-30 | elm-m32-sim-s0.15 | 39.4% | 31.7% | 39.6% |
+| cross_baseline+freq_shift/elm_m32 | 2026-05-31 | elm-m32-sim-s0.15 | 48.9% | 39.4% | 48.4% |
+| cross_baseline+freq_shift/elm_m32 | 2026-06-01 | elm-m32-sim-s0.25 | 49.9% | 44.1% | 50.0% |
+| **cross_baseline+freq_shift/elm_m32 平均** | — | — | **46.1%** | **38.4%** | **46.0%** |
+| cross_baseline+freq_shift/elm_m64 | 2026-05-30 | elm-m64-random-s0.15 | 49.4% | 43.4% | 50.0% |
+| cross_baseline+freq_shift/elm_m64 | 2026-05-31 | elm-m64-random-s0.15 | 53.6% | 46.5% | 56.2% |
+| cross_baseline+freq_shift/elm_m64 | 2026-06-01 | elm-m64-random-s1 | 33.3% | 26.8% | 32.8% |
+| **cross_baseline+freq_shift/elm_m64 平均** | — | — | **45.4%** | **38.9%** | **46.4%** |
+| cross_baseline+freq_shift/elm_m128 | 2026-05-30 | elm-m128-random-s0.15 | 57.8% | 52.2% | 57.3% |
+| cross_baseline+freq_shift/elm_m128 | 2026-05-31 | elm-m128-random-s0.15 | 58.0% | 52.7% | 59.4% |
+| cross_baseline+freq_shift/elm_m128 | 2026-06-01 | elm-m128-random-s0.15 | 66.8% | 62.6% | 70.3% |
+| **cross_baseline+freq_shift/elm_m128 平均** | — | — | **60.9%** | **55.8%** | **62.3%** |
 
 ## Arduino IchiPing / UNO Q: 未使用時刻・雑音セット
 
@@ -114,7 +114,7 @@ macro F1 / 32状態別スコア合算精度。モデル選択も内側holdoutの
 - 当初のfactory 32cls約92%もv6-v11学習→v12評価で、v11とv12は同じ2026-06-01収録である。今回の日単位holdoutとは難易度が異なる。
 - 厳密なOriginal日単位holdoutでは、実αのm=32 ELMは平均frame 60.1% / macro F1 54.4%。m=128でも64.0% / 60.5%で、95%級の汎化は確認できない。
 - OriginalをUNO Qへ加えると、未使用4条件のframe / macro F1平均はm=32で34.9% / 26.8%→37.6% / 29.2%、m=128で51.2% / 43.4%→58.7% / 51.9%。複数日データは有効だが、単純混合だけでは不十分。
-- 一律±3% warpはOriginal m=32のframe / macro F1を60.1% / 54.4%→46.1% / 38.4%へ悪化させ、UNO QのIR warpも34.9% / 26.8%→28.7% / 20.1%。温度シフト対策自体ではなく、現行D=167特徴への適用方法と分布設定が合っていない。
+- 一律±3% shiftはOriginal m=32のframe / macro F1を60.1% / 54.4%→46.1% / 38.4%へ悪化させ、UNO QのIR shiftも34.9% / 26.8%→28.7% / 20.1%。温度シフト対策自体ではなく、現行D=167特徴への適用方法と分布設定が合っていない。
 - βだけを学習するELMでは固定ランダムαが捨てた識別情報を復元できない。パラメータが小さいことは実装上の長所だが、十分な汎化性能の根拠にはならない。
 
 ## 次の改善実験（優先順）
@@ -126,7 +126,7 @@ macro F1 / 32状態別スコア合算精度。モデル選択も内側holdoutの
 
 ## 解釈上の注意
 
-- Originalのfrequency warpはPRBS seedを再現できない世代のため、時間波形ではなく512-bin差分スペクトルを±3%ワープした。
+- Originalのfrequency shiftはPRBS seedを再現できない世代のため、時間波形ではなく512-bin差分スペクトルを±3%シフトした。
 - UNO Qの`unoq_ir2`は既知PRBSからIRを推定して時間伸縮後に再合成する、より物理的なaugmentationである。
 - `unoq+frdm_ir2`はUNO Q学習データへOriginal由来FRDMデータを加え、同じUNO Q未使用4セットで評価した条件である。
 - m=64/128のαは実機未プローブのため一様乱数による可能性評価。m=32だけが公式Simから採取した実αである。

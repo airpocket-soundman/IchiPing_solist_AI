@@ -1,13 +1,13 @@
 [build] variant=unoq_feat2 D=167 (bins 25..191)
-  unoq run0 uno_q_train_20260912_session1_wav: 1650 frames, warp=feat, 12s
-  unoq run1 uno_q_train_20260912_session2_wav: 1650 frames, warp=feat, 8s
-  unoq run2 uno_q_train_20260912_session3_wav: 1650 frames, warp=feat, 9s
-  unoq run3 uno_q_train_20260912_session4_wav: 1650 frames, warp=feat, 8s
-  unoq run4 uno_q_train_20260912_session5_wav: 1650 frames, warp=feat, 8s
-  unoq run5 uno_q_train_20260912_session6_wav: 1650 frames, warp=feat, 6s
-  unoq run6 uno_q_train_20260912_session7_loud_wav: 1650 frames, warp=feat, 8s
-  unoq run7 uno_q_train_20260912_session8_loud_wav: 1650 frames, warp=feat, 7s
-  train X=(118800, 167)  warped rows=79200  classes14=[32400, 28800, 7200, 7200, 7200, 7200, 3600, 3600, 3600, 3600, 3600, 3600, 3600, 3600]
+  unoq run0 uno_q_train_20260912_session1_wav: 1650 frames, shift=feat, 12s
+  unoq run1 uno_q_train_20260912_session2_wav: 1650 frames, shift=feat, 8s
+  unoq run2 uno_q_train_20260912_session3_wav: 1650 frames, shift=feat, 9s
+  unoq run3 uno_q_train_20260912_session4_wav: 1650 frames, shift=feat, 8s
+  unoq run4 uno_q_train_20260912_session5_wav: 1650 frames, shift=feat, 8s
+  unoq run5 uno_q_train_20260912_session6_wav: 1650 frames, shift=feat, 6s
+  unoq run6 uno_q_train_20260912_session7_loud_wav: 1650 frames, shift=feat, 8s
+  unoq run7 uno_q_train_20260912_session8_loud_wav: 1650 frames, shift=feat, 7s
+  train X=(118800, 167)  shifted rows=79200  classes14=[32400, 28800, 7200, 7200, 7200, 7200, 3600, 3600, 3600, 3600, 3600, 3600, 3600, 3600]
   eval unoq_gray: 96 frames (baseline frames excluded=True)
   eval unoq_evening: 320 frames (baseline frames excluded=True)
   eval unoq_survey: 320 frames (baseline frames excluded=True)

@@ -6,7 +6,7 @@ uses two equally sized views per recording:
   within_day:      self + a baseline from another run on the same day
   cross_day:       self + a baseline from the other training day
 
-All conditions share the same data-derived +/-2x frequency warp, model,
+All conditions share the same data-derived +/-2x frequency shift, model,
 validation split, number of optimizer steps, and random seed.
 """
 from __future__ import annotations
@@ -142,7 +142,7 @@ def main() -> None:
     lines = [
         "# Baseline augmentation ablation",
         "",
-        "評価は常に未知run自身の起動時baseline。学習view数・周波数ワープ・モデル・seedを揃え、baseline augmentationだけを変更した。",
+        "評価は常に未知run自身の起動時baseline。学習view数・周波数シフト・モデル・seedを揃え、baseline augmentationだけを変更した。",
         "",
         "| 学習baseline | モデル | frame | macro F1 | state vote | self比frame差 |",
         "|---|---|---:|---:|---:|---:|",

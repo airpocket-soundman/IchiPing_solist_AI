@@ -3,7 +3,7 @@
 評価 = 別時間帯/別環境の eval セット。各セットの baseline は自身の 'baseline' 群 (電源投入時校正)。
 値 = frame 精度 / 状態別投票精度。scale s は UNO Q eval 平均 frame 精度で選択。
 
-## variant `unoq_none`  (train rows=39600, warped rows=0)
+## variant `unoq_none`  (train rows=39600, shifted rows=0)
 
 | cls | model | s | frdm_eval_v1 | unoq_crowd | unoq_evening | unoq_gray | unoq_survey |
 |---|---|---|---|---|---|---|---|
@@ -12,7 +12,7 @@
 | 32 | m32(Sim α) | 0.5 | 19.4% / 18.8% | 39.4% / 43.8% | 21.9% / 21.9% | 47.9% / 50.0% | 30.3% / 31.2% |
 | 32 | m256(rand α) | 0.5 | 16.9% / 15.6% | 60.9% / 65.6% | 40.0% / 40.6% | 74.0% / 84.4% | 52.2% / 53.1% |
 
-## variant `unoq_feat2`  (train rows=118800, warped rows=79200)
+## variant `unoq_feat2`  (train rows=118800, shifted rows=79200)
 
 | cls | model | s | frdm_eval_v1 | unoq_crowd | unoq_evening | unoq_gray | unoq_survey |
 |---|---|---|---|---|---|---|---|
@@ -21,7 +21,7 @@
 | 32 | m32(Sim α) | 0.5 | 15.3% / 15.6% | 35.3% / 34.4% | 25.0% / 25.0% | 45.8% / 50.0% | 34.4% / 34.4% |
 | 32 | m256(rand α) | 0.5 | 19.4% / 21.9% | 57.2% / 59.4% | 42.8% / 43.8% | 67.7% / 84.4% | 55.3% / 56.2% |
 
-## variant `unoq_ir2`  (train rows=118800, warped rows=79200)
+## variant `unoq_ir2`  (train rows=118800, shifted rows=79200)
 
 | cls | model | s | frdm_eval_v1 | unoq_crowd | unoq_evening | unoq_gray | unoq_survey |
 |---|---|---|---|---|---|---|---|
@@ -30,7 +30,7 @@
 | 32 | m32(Sim α) | 1.0 | 12.5% / 12.5% | 32.2% / 31.2% | 27.5% / 28.1% | 43.8% / 46.9% | 31.2% / 31.2% |
 | 32 | m256(rand α) | 0.5 | 29.7% / 28.1% | 62.5% / 68.8% | 41.6% / 40.6% | 68.8% / 75.0% | 50.3% / 50.0% |
 
-## variant `unoq+frdm_ir2`  (train rows=190800, warped rows=127200)
+## variant `unoq+frdm_ir2`  (train rows=190800, shifted rows=127200)
 
 | cls | model | s | frdm_eval_v1 | unoq_crowd | unoq_evening | unoq_gray | unoq_survey |
 |---|---|---|---|---|---|---|---|

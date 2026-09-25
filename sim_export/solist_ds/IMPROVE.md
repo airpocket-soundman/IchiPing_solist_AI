@@ -1,7 +1,7 @@
 # 精度向上策の比較まとめ (2026-09-25)
 
 評価: UNO Q eval 4 セット (gray 08:29 / evening 19:36 / survey 20:44 / crowd 21:29、各セット自前 baseline 校正) の
-14cls frame 精度。学習 variant は `unoq_ir2` (UNO Q 8 セッション + IR ワープ)。全結果は
+14cls frame 精度。学習 variant は `unoq_ir2` (UNO Q 8 セッション + IR シフト)。全結果は
 [IMPROVE_ABCDE.md](IMPROVE_ABCDE.md) / [IMPROVE_FGIJK.md](IMPROVE_FGIJK.md) / [IMPROVE_L.md](IMPROVE_L.md)、
 実験コードは `sim/improve_experiments.py`。
 
@@ -29,7 +29,7 @@ ELM に入れる「線形前段 + ELM」が最良。前段は Stamp-S3A また�
 効かなかったもの: 入力 scale / ridge の調整 (±2 pt)、frame 正規化 (ELM では悪化)、PCA 前段 (16–48 で 63–79%)、
 2 インスタンス集約 (+2 pt)、ELM の β だけの現地校正 (+1 pt)。LDA13 前段は 84–86% で ridge 前段に劣る。
 
-周波数ワープ (気温差対策) は線形モデルで効く: evening が `unoq_none` 84.4 → `unoq_ir2` 86.6 → `unoq+frdm_ir2` 93.8%。
+周波数シフト (気温差対策) は線形モデルで効く: evening が `unoq_none` 84.4 → `unoq_ir2` 86.6 → `unoq+frdm_ir2` 93.8%。
 
 ## 32cls
 

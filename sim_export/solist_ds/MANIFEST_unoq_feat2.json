@@ -3,9 +3,9 @@
  "sources": [
   "unoq"
  ],
- "warp": "feat",
- "n_warp": 2,
- "warp_max": 0.035,
+ "shift": "feat",
+ "n_shift": 2,
+ "shift_max": 0.035,
  "specaug": false,
  "seed": 0,
  "D": 167,

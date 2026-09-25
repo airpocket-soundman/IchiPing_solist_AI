@@ -1,4 +1,4 @@
-"""Solist-AI 向け学習データ生成 (UNO Q + IchiPing データセット, 周波数ワープ augmentation 込み)。
+"""Solist-AI 向け学習データ生成 (UNO Q + IchiPing データセット, 周波数シフト augmentation 込み)。
 
 特徴: sim/bench_v612.py と同一の D=167
   時間波形 baseline 減算 → 1024 点 FFT (hop 512, Hann) → |X| を 61 窓平均 → 20log10 →
@@ -7,15 +7,15 @@
 
 学習ソース
   unoq : D:/GitHub/IchiPing-UNO-Q/pc/captures/uno_q_train_20260912_session{1..8}*_wav
-         (INMP441/MAX98357A, 48k→16k, PRBS seed 20260912 ⇒ IR warp 可)
-  frdm : D:/GitHub/IchiPing/pc/captures/full_32_train_v21..v25 (FRDM 世代, 励振非再現 ⇒ feature warp)
+         (INMP441/MAX98357A, 48k→16k, PRBS seed 20260912 ⇒ IR shift 可)
+  frdm : D:/GitHub/IchiPing/pc/captures/full_32_train_v21..v25 (FRDM 世代, 励振非再現 ⇒ feature shift)
 評価ソース (学習に混ぜない)
   UNO Q eval gray/evening/survey/crowd (baseline = meta.json group=="baseline" の frame)
   FRDM full_32_eval_v1 (baseline = s00000)
 
 augmentation
   cross-baseline : 各 frame を複数セッションの baseline で diff
-  freq warp      : ε ~ U(-WARP_MAX, WARP_MAX) の warped copy を N_WARP 個 (UNO Q は IR warp)
+  freq shift      : ε ~ U(-SHIFT_MAX, SHIFT_MAX) の shifted copy を N_SHIFT 個 (UNO Q は IR shift)
   specaug (任意) : SpectralJitter σ0.6 dB + LevelJitter ±2 dB
 
 出力
@@ -25,8 +25,8 @@ augmentation
   sim_export/solist_ds/norm_<variant>.npz            : mu/sd (標準化統計)
   sim_export/solist_ds/MANIFEST_<variant>.json
 
-usage: python sim/make_solist_dataset.py [--sources unoq,frdm] [--warp ir|feat|none]
-                                         [--n-warp 2] [--warp-max 0.035] [--specaug] [--selftest]
+usage: python sim/make_solist_dataset.py [--sources unoq,frdm] [--shift ir|feat|none]
+                                         [--n-shift 2] [--shift-max 0.035] [--specaug] [--selftest]
 """
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from freq_warp import IRWarper, prbs16k, warp_db_spectrum, fit_warp  # noqa: E402
+from freq_shift import IRShifter, prbs16k, shift_db_spectrum, fit_shift  # noqa: E402
 
 ROOT = HERE.parent
 CACHE = HERE / "_cache"
@@ -60,13 +60,13 @@ MAX_CELLS = 1_000_000                                     # Solist-AI Sim 制約
 
 SOURCES = {
     "unoq": {
-        "domain": "unoq", "warp": "ir", "seed": 20260912,
+        "domain": "unoq", "shift": "ir", "seed": 20260912,
         "runs": [UNOQ / f"uno_q_train_20260912_session{i}_wav" for i in range(1, 7)]
               + [UNOQ / f"uno_q_train_20260912_session{i}_loud_wav" for i in (7, 8)],
         "baselines": [0, 3, 5],       # cross-baseline に使う run index (session1/4/6)
     },
     "frdm": {
-        "domain": "frdm", "warp": "feat", "seed": None,
+        "domain": "frdm", "shift": "feat", "seed": None,
         "runs": [FRDM / f"full_32_train_v{i}" for i in (21, 22, 23, 24, 25)],
         "baselines": [0, 2, 4],
     },
@@ -162,12 +162,12 @@ def full_spec_db(audio: np.ndarray) -> np.ndarray:
 
 
 # ---------------------------------------------------------------- build
-def build_train(src: dict, warp_mode: str, n_warp: int, warp_max: float, seed: int, log):
+def build_train(src: dict, shift_mode: str, n_shift: int, shift_max: float, seed: int, log):
     """1 ソースの学習特徴を生成。returns dict of arrays."""
     runs = src["runs"]
     bls = {bi: baseline_of(runs[bi], group_only=False) for bi in src["baselines"]}
-    warper = IRWarper(prbs16k(src["seed"])) if (warp_mode == "ir" and src["seed"] is not None) else None
-    eff_mode = "none" if warp_mode == "none" else ("ir" if warper is not None else "feat")
+    shifter = IRShifter(prbs16k(src["seed"])) if (shift_mode == "ir" and src["seed"] is not None) else None
+    eff_mode = "none" if shift_mode == "none" else ("ir" if shifter is not None else "feat")
     rng = np.random.default_rng(seed)
     X, y14, y32, run_id, bl_id, eps_arr = [], [], [], [], [], []
     for ri, run in enumerate(runs):
@@ -178,21 +178,21 @@ def build_train(src: dict, warp_mode: str, n_warp: int, warp_max: float, seed: i
             c14, c32 = class14(bits), class32(bits)
             variants = [(0.0, a)]
             if eff_mode != "none":
-                for _ in range(n_warp):
-                    e = float(rng.uniform(-warp_max, warp_max))
-                    variants.append((e, warper.warp_audio(a, e) if eff_mode == "ir" else a))
+                for _ in range(n_shift):
+                    e = float(rng.uniform(-shift_max, shift_max))
+                    variants.append((e, shifter.shift_audio(a, e) if eff_mode == "ir" else a))
             for e, aw in variants:
                 for bi, bl in bls.items():
                     sp = diff_spec(aw, bl)
                     if eff_mode == "feat" and e != 0.0:
-                        sp = warp_db_spectrum(sp, e)
+                        sp = shift_db_spectrum(sp, e)
                     X.append(crop(sp)); y14.append(c14); y32.append(c32)
                     run_id.append(ri); bl_id.append(bi); eps_arr.append(e)
-        log(f"  {src['domain']} run{ri} {run.name}: {len(frames)} frames, warp={eff_mode}, "
+        log(f"  {src['domain']} run{ri} {run.name}: {len(frames)} frames, shift={eff_mode}, "
             f"{time.time()-t0:.0f}s")
     return dict(X=np.stack(X).astype(np.float32), y14=np.array(y14), y32=np.array(y32),
                 run_id=np.array(run_id), bl_id=np.array(bl_id), eps=np.array(eps_arr, dtype=np.float32),
-                warp_mode=eff_mode)
+                shift_mode=eff_mode)
 
 
 def build_eval(name: str, run: Path, domain: str, log):
@@ -225,7 +225,7 @@ def write_csv(path: Path, X: np.ndarray, y: np.ndarray, C: int, mu, sd):
 
 # ---------------------------------------------------------------- selftest
 def selftest():
-    """(1) diff_spec が bench_v612 と一致 (2) IR warp の再構成 SNR と符号 (3) 夕方ドリフトの再現。"""
+    """(1) diff_spec が bench_v612 と一致 (2) IR shift の再構成 SNR と符号 (3) 夕方ドリフトの再現。"""
     print("[selftest]")
     # bench_v612 のキャッシュ (v612_full_32_train_v12__od_v12.npz: v12 を自己 baseline で diff) と照合
     ref_npz = CACHE / "v612_full_32_train_v12__od_v12.npz"
@@ -243,35 +243,35 @@ def selftest():
     run = SOURCES["unoq"]["runs"][0]
     bl = baseline_of(run, group_only=False)
     wav = list_frames(run)[120][0]; a = load_wav(wav)[:32_000]
-    w = IRWarper(prbs16k(20260912))
-    print(f"  IR warp reconstruction SNR = {w.reconstruction_snr_db(a):.1f} dB")
-    S0 = full_spec_db(a); Sw = full_spec_db(w.warp_audio(a, +0.03))
-    print(f"  fitted ε for IR warp(+3%) = {fit_warp(S0, Sw, LO_BIN, HI_BIN):+.4f} (expect +0.030)")
+    w = IRShifter(prbs16k(20260912))
+    print(f"  IR shift reconstruction SNR = {w.reconstruction_snr_db(a):.1f} dB")
+    S0 = full_spec_db(a); Sw = full_spec_db(w.shift_audio(a, +0.03))
+    print(f"  fitted ε for IR shift(+3%) = {fit_shift(S0, Sw, LO_BIN, HI_BIN):+.4f} (expect +0.030)")
     # 夕方ドリフト: session6 (16:33 まで) baseline → evening (19:36) baseline
     s6 = baseline_of(SOURCES["unoq"]["runs"][5], group_only=False)
     ev = baseline_of(EVALS["unoq_evening"][0], group_only=True)
     sv = baseline_of(EVALS["unoq_survey"][0], group_only=True)
-    e_ev = fit_warp(full_spec_db(s6), full_spec_db(ev), LO_BIN, HI_BIN)
-    e_sv = fit_warp(full_spec_db(s6), full_spec_db(sv), LO_BIN, HI_BIN)
+    e_ev = fit_shift(full_spec_db(s6), full_spec_db(ev), LO_BIN, HI_BIN)
+    e_sv = fit_shift(full_spec_db(s6), full_spec_db(sv), LO_BIN, HI_BIN)
     print(f"  fitted drift session6→evening ε={e_ev:+.4f} (UNO Q report -0.0215), →survey ε={e_sv:+.4f} (-0.0105)")
-    # stale-baseline 効果: evening s00000 vs session6 baseline の diff レベルを IR warp が再現するか
+    # stale-baseline 効果: evening s00000 vs session6 baseline の diff レベルを IR shift が再現するか
     ev_frames = [load_wav(p)[:32_000] for p, b in list_frames(EVALS["unoq_evening"][0], exclude_baseline_group=True) if b == [0,0,0,0,0]]
     real = np.mean([crop(diff_spec(f, s6)).mean() for f in ev_frames])
     s6_frames = [load_wav(p)[:32_000] for p, b in list_frames(run)[:0]]  # placeholder
     s6_frames = [load_wav(p)[:32_000] for p, b in list_frames(SOURCES["unoq"]["runs"][5]) if b == [0,0,0,0,0]][:10]
     same = np.mean([crop(diff_spec(f, s6)).mean() for f in s6_frames])
-    sim = np.mean([crop(diff_spec(w.warp_audio(f, e_ev), s6)).mean() for f in s6_frames])
+    sim = np.mean([crop(diff_spec(w.shift_audio(f, e_ev), s6)).mean() for f in s6_frames])
     print(f"  mean diff level (dB, 400-3000Hz) of all-closed vs session6 baseline: same-session={same:.1f}, "
-          f"real evening={real:.1f}, session6 IR-warped by ε={e_ev:+.4f}: {sim:.1f}")
+          f"real evening={real:.1f}, session6 IR-shifted by ε={e_ev:+.4f}: {sim:.1f}")
 
 
 # ---------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sources", default="unoq")
-    ap.add_argument("--warp", default="ir", choices=("ir", "feat", "none"))
-    ap.add_argument("--n-warp", type=int, default=2)
-    ap.add_argument("--warp-max", type=float, default=0.035)
+    ap.add_argument("--shift", default="ir", choices=("ir", "feat", "none"))
+    ap.add_argument("--n-shift", type=int, default=2)
+    ap.add_argument("--shift-max", type=float, default=0.035)
     ap.add_argument("--specaug", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--selftest", action="store_true")
@@ -284,14 +284,14 @@ def main():
     if args.baselines == "all":
         for s_ in srcs:
             SOURCES[s_]["baselines"] = list(range(len(SOURCES[s_]["runs"])))
-    variant = f"{'+'.join(srcs)}_{args.warp}{args.n_warp if args.warp!='none' else ''}" + ("_sa" if args.specaug else "") + ("_blall" if args.baselines == "all" else "")
+    variant = f"{'+'.join(srcs)}_{args.shift}{args.n_shift if args.shift!='none' else ''}" + ("_sa" if args.specaug else "") + ("_blall" if args.baselines == "all" else "")
     CACHE.mkdir(exist_ok=True); OUT.mkdir(parents=True, exist_ok=True)
     L = []
     def log(s): print(s, flush=True); L.append(s)
     log(f"[build] variant={variant} D={D} (bins {LO_BIN}..{HI_BIN-1})")
     parts = []
     for si, s in enumerate(srcs):
-        p = build_train(SOURCES[s], args.warp, args.n_warp, args.warp_max, args.seed + si, log)
+        p = build_train(SOURCES[s], args.shift, args.n_shift, args.shift_max, args.seed + si, log)
         p["domain"] = np.full(len(p["y14"]), si); parts.append(p)
     X = np.concatenate([p["X"] for p in parts]); y14 = np.concatenate([p["y14"] for p in parts])
     y32 = np.concatenate([p["y32"] for p in parts]); eps = np.concatenate([p["eps"] for p in parts])
@@ -300,14 +300,14 @@ def main():
     if args.specaug:
         rng = np.random.default_rng(args.seed + 100)
         X = X + rng.normal(0, 0.6, X.shape).astype(np.float32) + rng.uniform(-2, 2, (len(X), 1)).astype(np.float32)
-    log(f"  train X={X.shape}  warped rows={(eps!=0).sum()}  classes14={np.bincount(y14, minlength=14).tolist()}")
+    log(f"  train X={X.shape}  shifted rows={(eps!=0).sum()}  classes14={np.bincount(y14, minlength=14).tolist()}")
     evals = {n: build_eval(n, r, d, log) for n, (r, d) in EVALS.items() if r.exists()}
     mu = X.mean(0); sd = X.std(0) + 1e-6
     np.savez_compressed(CACHE / f"solist_ds_{variant}.npz", X=X, y14=y14, y32=y32, eps=eps, domain=dom,
                         run_id=run_id, bl_id=bl_id, mu=mu, sd=sd,
                         **{f"eval_{n}_{k}": v for n, e in evals.items() for k, v in e.items()})
     np.savez(OUT / f"norm_{variant}.npz", mu=mu, sd=sd)
-    manifest = dict(variant=variant, sources=srcs, warp=args.warp, n_warp=args.n_warp, warp_max=args.warp_max,
+    manifest = dict(variant=variant, sources=srcs, shift=args.shift, n_shift=args.n_shift, shift_max=args.shift_max,
                     specaug=args.specaug, seed=args.seed, D=D, bins=[LO_BIN + 1, HI_BIN], band_hz=[LO_HZ, HI_HZ],
                     feature_schema_id="tdiff-rfft1024-h512-symhann-magmean-log20-floor80-bin26-192-f32-v1",
                     train_rows=int(len(X)), train_runs={s: [str(r) for r in SOURCES[s]["runs"]] for s in srcs},

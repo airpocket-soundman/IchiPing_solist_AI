@@ -141,7 +141,7 @@ def metrics(scores: np.ndarray, y: np.ndarray, groups: np.ndarray) -> dict[str, 
     }
 
 
-def warp_spectrum_batch(X: np.ndarray, eps: float) -> np.ndarray:
+def shift_spectrum_batch(X: np.ndarray, eps: float) -> np.ndarray:
     bins = np.arange(1, X.shape[1] + 1, dtype=np.float64)
     xp = bins / (1.0 + eps)
     lo = np.floor(xp).astype(int) - 1
@@ -164,7 +164,7 @@ def load_frdm(run: int, baseline: int) -> tuple[np.ndarray, np.ndarray]:
     return z["X"].astype(np.float32), z["y32"].astype(np.int64)
 
 
-def frdm_training(days: tuple[str, ...], warp: bool) -> tuple[np.ndarray, np.ndarray]:
+def frdm_training(days: tuple[str, ...], shift: bool) -> tuple[np.ndarray, np.ndarray]:
     Xs, ys = [], []
     baselines = [FRDM_BASELINE_REP[d] for d in days]
     for day in days:
@@ -172,8 +172,8 @@ def frdm_training(days: tuple[str, ...], warp: bool) -> tuple[np.ndarray, np.nda
             for baseline in baselines:
                 X, y = load_frdm(run, baseline)
                 Xs.append(X); ys.append(y)
-                if warp:
-                    Xs.extend((warp_spectrum_batch(X, -0.03), warp_spectrum_batch(X, 0.03)))
+                if shift:
+                    Xs.extend((shift_spectrum_batch(X, -0.03), shift_spectrum_batch(X, 0.03)))
                     ys.extend((y, y))
     X = np.concatenate(Xs)[:, LO:HI]
     return X.astype(np.float64), np.concatenate(ys)
@@ -187,11 +187,11 @@ def frdm_test(day: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     return np.concatenate(Xs).astype(np.float64), np.concatenate(ys), np.concatenate(gs)
 
 
-def select_frdm_config(train_days: tuple[str, ...], warp: bool, candidates: list[Config]) -> Config:
+def select_frdm_config(train_days: tuple[str, ...], shift: bool, candidates: list[Config]) -> Config:
     scores = {c.name: [] for c in candidates}
     for val_day in train_days:
         inner_days = tuple(d for d in train_days if d != val_day)
-        X, y = frdm_training(inner_days, warp)
+        X, y = frdm_training(inner_days, shift)
         Xe, ye, ge = frdm_test(val_day)
         for cfg in candidates:
             scores[cfg.name].append(metrics(fit_scores(X, y, Xe, cfg), ye, ge)["macro_f1"])
@@ -201,14 +201,14 @@ def select_frdm_config(train_days: tuple[str, ...], warp: bool, candidates: list
 def eval_frdm(candidates: list[Config]) -> dict:
     result = {}
     days = tuple(FRDM_DAYS)
-    for recipe, warp in (("cross_baseline", False), ("cross_baseline+freq_warp", True)):
+    for recipe, shift in (("cross_baseline", False), ("cross_baseline+freq_shift", True)):
         result[recipe] = {}
         for family, family_cfgs in config_families(candidates).items():
             folds = {}
             for holdout in days:
                 train_days = tuple(d for d in days if d != holdout)
-                cfg = select_frdm_config(train_days, warp, family_cfgs)
-                X, y = frdm_training(train_days, warp)
+                cfg = select_frdm_config(train_days, shift, family_cfgs)
+                X, y = frdm_training(train_days, shift)
                 Xe, ye, ge = frdm_test(holdout)
                 folds[holdout] = {"config": cfg.name, **metrics(fit_scores(X, y, Xe, cfg), ye, ge)}
                 print("FRDM", recipe, family, holdout, folds[holdout], flush=True)
@@ -280,7 +280,7 @@ def write_report(result: dict) -> None:
     lines = [
         "# 旧cross-baseline探索結果（運用汎化の採用判定には使用不可）",
         "",
-        "> **重要:** 学習特徴に別日／別セッションのbaseline差分が含まれる。実運用では起動時に当日のbaselineを取得するため、この条件は不一致であり、以下の数値を汎化性能として採用しない。`audio_day - baseline_same_session`で特徴を作り直し、audioとbaselineを同じ率でワープする再評価が必要。",
+        "> **重要:** 学習特徴に別日／別セッションのbaseline差分が含まれる。実運用では起動時に当日のbaselineを取得するため、この条件は不一致であり、以下の数値を汎化性能として採用しない。`audio_day - baseline_same_session`で特徴を作り直し、audioとbaselineを同じ率でシフトする再評価が必要。",
         "",
         "評価日／評価セットはハイパーパラメータ選択にも使用していない。Original IchiPing は日単位の",
         "leave-one-day-out、UNO Q は8学習セッションと4評価セットを分離した。値は frame accuracy /",
@@ -320,7 +320,7 @@ def write_report(result: dict) -> None:
         "- 当初のfactory 32cls約92%もv6-v11学習→v12評価で、v11とv12は同じ2026-06-01収録である。今回の日単位holdoutとは難易度が異なる。",
         "- 厳密なOriginal日単位holdoutでは、実αのm=32 ELMは平均frame 60.1% / macro F1 54.4%。m=128でも64.0% / 60.5%で、95%級の汎化は確認できない。",
         "- OriginalをUNO Qへ加えると、未使用4条件のframe / macro F1平均はm=32で34.9% / 26.8%→37.6% / 29.2%、m=128で51.2% / 43.4%→58.7% / 51.9%。複数日データは有効だが、単純混合だけでは不十分。",
-        "- 一律±3% warpはOriginal m=32のframe / macro F1を60.1% / 54.4%→46.1% / 38.4%へ悪化させ、UNO QのIR warpも34.9% / 26.8%→28.7% / 20.1%。温度シフト対策自体ではなく、現行D=167特徴への適用方法と分布設定が合っていない。",
+        "- 一律±3% shiftはOriginal m=32のframe / macro F1を60.1% / 54.4%→46.1% / 38.4%へ悪化させ、UNO QのIR shiftも34.9% / 26.8%→28.7% / 20.1%。温度シフト対策自体ではなく、現行D=167特徴への適用方法と分布設定が合っていない。",
         "- βだけを学習するELMでは固定ランダムαが捨てた識別情報を復元できない。パラメータが小さいことは実装上の長所だが、十分な汎化性能の根拠にはならない。",
         "",
         "## 次の改善実験（優先順）",
@@ -334,7 +334,7 @@ def write_report(result: dict) -> None:
         "",
         "## 解釈上の注意",
         "",
-        "- Originalのfrequency warpはPRBS seedを再現できない世代のため、時間波形ではなく512-bin差分スペクトルを±3%ワープした。",
+        "- Originalのfrequency shiftはPRBS seedを再現できない世代のため、時間波形ではなく512-bin差分スペクトルを±3%シフトした。",
         "- UNO Qの`unoq_ir2`は既知PRBSからIRを推定して時間伸縮後に再合成する、より物理的なaugmentationである。",
         "- `unoq+frdm_ir2`はUNO Q学習データへOriginal由来FRDMデータを加え、同じUNO Q未使用4セットで評価した条件である。",
         "- m=64/128のαは実機未プローブのため一様乱数による可能性評価。m=32だけが公式Simから採取した実αである。",

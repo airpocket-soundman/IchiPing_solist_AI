@@ -1,4 +1,4 @@
-"""Same-session baseline + data-derived frequency warp evaluation.
+"""Same-session baseline + data-derived frequency shift evaluation.
 
 Protocol
 --------
@@ -6,7 +6,7 @@ Protocol
 * Every run is differenced only against its own s00000 baseline.
 * For each outer leave-one-day-out fold, the frequency shift is estimated only
   between the two training days.  Training augmentation spans +/- twice that
-  observed shift; the held-out day is never warped or used for selection.
+  observed shift; the held-out day is never shifted or used for selection.
 * Compare a PC 1-D CNN using 1024-bin noise_diff_norm, a PC CNN using the
   current Solist 167-bin frontend, and the Solist-compatible fixed-alpha
   ELM (D=167, m=32).
@@ -123,7 +123,7 @@ def load_days_hires(days: tuple[str, ...]) -> tuple[np.ndarray, np.ndarray, np.n
     return tuple(np.concatenate([p[i] for p in parts]) for i in range(3))
 
 
-def warp_spectrum(X: np.ndarray, eps: float) -> np.ndarray:
+def shift_spectrum(X: np.ndarray, eps: float) -> np.ndarray:
     """Scale the frequency axis by 1+eps; X is DC-excluded 512-bin dB."""
     bins = np.arange(1, X.shape[1] + 1, dtype=np.float64)
     xp = bins / (1.0 + eps)
@@ -146,14 +146,14 @@ def corr_rows(A: np.ndarray, B: np.ndarray) -> np.ndarray:
 
 
 def estimate_shift(day_a: str, day_b: str) -> dict:
-    """Estimate target(day_b) ~= warp(source(day_a), eps) from class means."""
+    """Estimate target(day_b) ~= shift(source(day_a), eps) from class means."""
     A = day_class_means(day_a)
     B = day_class_means(day_b)
     grid = np.linspace(-0.06, 0.06, 241)
     objective = []
     per_class = np.empty((len(grid), 32), np.float64)
     for i, eps in enumerate(grid):
-        c = corr_rows(warp_spectrum(A, float(eps))[:, HIRES_LO:HIRES_HI],
+        c = corr_rows(shift_spectrum(A, float(eps))[:, HIRES_LO:HIRES_HI],
                       B[:, HIRES_LO:HIRES_HI])
         per_class[i] = c
         objective.append(float(np.median(c)))
@@ -171,9 +171,9 @@ def estimate_shift(day_a: str, day_b: str) -> dict:
 
 
 def augment(X: np.ndarray, y: np.ndarray, groups: np.ndarray, delta: float):
-    # Keep original data and mix observed-scale and 2x extrapolated warps.
+    # Keep original data and mix observed-scale and 2x extrapolated shifts.
     eps_values = (0.0, -delta, delta, -2.0 * delta, 2.0 * delta)
-    Xs = [X if eps == 0 else warp_spectrum(X, eps) for eps in eps_values]
+    Xs = [X if eps == 0 else shift_spectrum(X, eps) for eps in eps_values]
     # noise_diff_norm remains shape-only after interpolation.
     if X.shape[1] == 1024:
         Xs = [(z - z.mean(1, keepdims=True)) / (z.std(1, keepdims=True) + 1e-6) for z in Xs]
@@ -384,7 +384,7 @@ def pct2(x: float) -> str:
 
 def write_report(result: dict) -> None:
     lines = [
-        "# Same-baseline周波数ワープ: PC理想モデル vs Solist-AI ELM",
+        "# Same-baseline周波数シフト: PC理想モデル vs Solist-AI ELM",
         "",
         "各runは自身の起動時baselineだけで差分化した。外側leave-one-day-outの学習2日間から",
         "日間周波数シフトを推定し、その絶対値の2倍までを学習augmentationに使用した。",
@@ -427,7 +427,7 @@ def write_report(result: dict) -> None:
         "",
         "## 注意",
         "",
-        "- Original世代は励振PRBSを再現できないため、同日baseline差分後のスペクトルをワープした。PC側は1024-bin PSD差分、legacy Solist側は512-bin時間波形差分で、別日のbaselineは使っていない。",
+        "- Original世代は励振PRBSを再現できないため、同日baseline差分後のスペクトルをシフトした。PC側は1024-bin PSD差分、legacy Solist側は512-bin時間波形差分で、別日のbaselineは使っていない。",
         "- PC CNN XL/1024はUNO Qで実績のあるnoise_diff_norm特徴とXL構造による性能上限。PC CNN 167とlegacy ELMは現行の時間波形差分400–3000 Hz特徴を使う。",
         "- shape167 ELMは1024-bin noise_diff_normを167点へ補間圧縮し、公式Sim由来の同じ固定α・m=32へ入力した可能性評価。圧縮帯域は学習内validationだけで選択した。",
         "- 日数は3日だけなので信頼区間は広い。最終判断にはStamp-S3Aで最低3日、可能なら5日以上の収録が必要。",

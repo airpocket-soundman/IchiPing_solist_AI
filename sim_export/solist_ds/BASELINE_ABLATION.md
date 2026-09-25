@@ -1,6 +1,6 @@
 # Baseline augmentation ablation
 
-評価は常に未知run自身の起動時baseline。学習view数・周波数ワープ・モデル・seedを揃え、baseline augmentationだけを変更した。
+評価は常に未知run自身の起動時baseline。学習view数・周波数シフト・モデル・seedを揃え、baseline augmentationだけを変更した。
 
 | 学習baseline | モデル | frame | macro F1 | state vote | self比frame差 |
 |---|---|---:|---:|---:|---:|

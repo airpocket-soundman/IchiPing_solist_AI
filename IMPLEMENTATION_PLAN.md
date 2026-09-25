@@ -142,7 +142,7 @@ USBはESP32-S3のnative USBを用い、D−/D+に固定されたGPIO19/20を外�
 - request ID、busy、requested stateによる古い結果の拒否
 - `bit0..4 = 窓a, 窓b, 窓c, 扉AB, 扉BC`、Low=CLOSE
 - Gray code順の32状態収集、一度に動かすサーボは1台
-- cross-baseline、実雑音、frequency-warp、日付分離評価
+- cross-baseline、実雑音、frequency-shift、日付分離評価
 
 ### 流用しないもの
 

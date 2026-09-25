@@ -1,5 +1,8 @@
 # ELM 32cls 日跨ぎ汎化検証 引継ぎ（2026-09-25）
 
+> **更新:** この後の検証で方針が変わった。最新の結論と計画は [`HANDOFF_SOLIST_CNN_FRONTEND_20260925.md`](HANDOFF_SOLIST_CNN_FRONTEND_20260925.md) を参照。
+> 特に §6 の「Original での周波数シフト単独 ablation」は、Original 3 日の温度差が約 1°C しか無い（`RUN_SHIFT.md`）ため効果を測れず、UNO Q で行う計画に置き換えた。
+
 ## 1. 目的と現在の結論
 
 Original IchiPing と Arduino IchiPing / UNO Q の複数セッションデータを使い、温度に伴う周波数シフトをaugmentationへ入れたとき、PCの高容量モデルとSolist-AI互換ELMで未知日32クラス分類がどこまで可能かを検証している。
@@ -22,7 +25,7 @@ PC理想モデルから現行ELMへのframe低下は34.3ポイント。内訳は
 3. 外側分割は日単位のleave-one-day-outとする。
 4. 評価データにはaugmentationを適用しない。
 5. 日間シフトは外側foldの学習2日だけから推定する。
-6. Original世代は励振PRBSを再現できないため、同日baseline差分後のスペクトルを周波数方向へワープする。
+6. Original世代は励振PRBSを再現できないため、同日baseline差分後のスペクトルを周波数方向へシフトする。
 7. 未知条件の主指標はmacro F1。frame accuracyとrun/class単位のscore-sum voteも併記する。
 
 Originalデータの日付対応:
@@ -33,9 +36,11 @@ Originalデータの日付対応:
 
 UNO Qの学習・評価データは複数時刻／条件だが、ディレクトリ上はすべて2026-09-12であり、厳密な日跨ぎデータではない。
 
-## 3. 周波数ワープの意図
+## 3. 周波数シフトの意図
 
-ユーザーの意図は、観測された日間周波数シフトを再現するだけではない。学習日間で推定したシフト量を基準に、その約2倍までデータをワープして混ぜ、絶対周波数ではなくスペクトル形状で分類させること。
+用語: 「周波数シフト」は周波数軸の (1+ε) 倍スケーリング (比例シフト, シフト率 ε を % 表記) を指し、一定 Hz の加算シフトではない。旧称「ワープ」から改名 (`sim/freq_shift.py`, `--shift`)。
+
+ユーザーの意図は、観測された日間周波数シフトを再現するだけではない。学習日間で推定したシフト量を基準に、その約2倍までデータをシフトして混ぜ、絶対周波数ではなくスペクトル形状で分類させること。
 
 現在のOriginal 3-foldで学習日間から推定されたglobal shiftは次の通り。
 
@@ -43,11 +48,11 @@ UNO Qの学習・評価データは複数時刻／条件だが、ディレクト
 - holdout 2026-05-31: +0.30%、augmentation範囲 ±0.60%
 - holdout 2026-06-01: −0.05%、augmentation範囲 ±0.10%
 
-UNO Qでは実測ドリフトがevening −2.15%、survey −1.05%、crowd −0.80%。同条件の直接比較で、周波数ワープなし70.3%から±3%ワープ77.6%へ平均+7.3ポイント、eveningとsurveyでは約+12ポイント改善した。最終8セッションモデルは平均32cls 82.5%。根拠は `D:/GitHub/IchiPing-UNO-Q/docs/uno_q/results.md` と `pc/runs/model_comparison_20260912.md`。
+UNO Qでは実測ドリフトがevening −2.15%、survey −1.05%、crowd −0.80%。同条件の直接比較で、周波数シフトなし70.3%から±3%シフト77.6%へ平均+7.3ポイント、eveningとsurveyでは約+12ポイント改善した。最終8セッションモデルは平均32cls 82.5%。根拠は `D:/GitHub/IchiPing-UNO-Q/docs/uno_q/results.md` と `pc/runs/model_comparison_20260912.md`。
 
 ## 4. Baseline augmentationの統制実験
 
-評価は常に未知run自身のbaseline。学習view数、周波数ワープ、モデル、seedを統一し、学習baselineだけを変更した。
+評価は常に未知run自身のbaseline。学習view数、周波数シフト、モデル、seedを統一し、学習baselineだけを変更した。
 
 | 学習baseline | PC CNN XL/1024 | Solist ELM m32/shape167 |
 |---|---:|---:|
@@ -67,7 +72,7 @@ UNO Qでは実測ドリフトがevening −2.15%、survey −1.05%、crowd −0.
 ## 5. 追加されたファイル
 
 - `sim/eval_ideal_vs_solist.py`
-  - same-run baseline、日間shift推定、±2倍warp
+  - same-run baseline、日間shift推定、±2倍shift
   - PC CNN XL/1024、PC CNN/167、Solist ELM m32を比較
   - GPU決定論モードを使用
 - `sim/eval_baseline_ablation.py`
@@ -84,11 +89,11 @@ UNO Qでは実測ドリフトがevening −2.15%、survey −1.05%、crowd −0.
 
 ## 6. 次に実施する作業（最優先）
 
-周波数ワープ単独ablationを、self-baseline固定で実施する。baseline ablationでは全条件に同じワープを入れていたため、ワープ自体の寄与はまだ分離できていない。
+周波数シフト単独ablationを、self-baseline固定で実施する。baseline ablationでは全条件に同じシフトを入れていたため、シフト自体の寄与はまだ分離できていない。
 
 比較条件:
 
-1. warpなし
+1. shiftなし
 2. 学習日間global shiftの±1倍まで
 3. 学習日間global shiftの±2倍まで
 4. UNO Qと同じ固定±3%
@@ -98,7 +103,7 @@ UNO Qでは実測ドリフトがevening −2.15%、survey −1.05%、crowd −0.
 
 - self-baselineのみ
 - 各条件の学習view数とoptimizer step数を同じにする
-- no-warpは同じサンプルを複製して提示回数を合わせる
+- no-shiftは同じサンプルを複製して提示回数を合わせる
 - 同一CNN、同一seed、同一validation split
 - PC CNN XL/1024とSolist ELM m32/shape167の両方を評価
 - 評価日は常に未加工・self-baseline
@@ -113,7 +118,7 @@ UNO Qでは実測ドリフトがevening −2.15%、survey −1.05%、crowd −0.
   - ±2x: `(0, -d, +d, -2d, +2d)`
   - ±3%: `(0, -0.015, +0.015, -0.03, +0.03)`
 - `estimate_shift()` は現在global shiftとclass IQRだけを返す。クラス別epsilon列または`p90_abs_class_shift`も返すよう拡張する。
-- 新規 `sim/eval_warp_ablation.py` と `sim_export/solist_ds/WARP_ABLATION.{md,json}` を推奨。
+- 新規 `sim/eval_shift_ablation.py` と `sim_export/solist_ds/SHIFT_ABLATION.{md,json}` を推奨。
 
 ## 7. 実行環境と再現コマンド
 

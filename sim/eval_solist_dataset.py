@@ -75,7 +75,7 @@ def main():
              "値 = frame 精度 / 状態別投票精度。scale s は UNO Q eval 平均 frame 精度で選択。", ""]
     for v in variants:
         evals, rows, n, nw = evaluate(v)
-        lines += [f"## variant `{v}`  (train rows={n}, warped rows={nw})", "",
+        lines += [f"## variant `{v}`  (train rows={n}, shifted rows={nw})", "",
                   "| cls | model | s | " + " | ".join(evals) + " |",
                   "|---|---|---|" + "---|" * len(evals)]
         for C, tag, s, res in rows:

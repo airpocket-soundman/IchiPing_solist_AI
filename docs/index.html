@@ -555,7 +555,7 @@
   <li><b>I²C推論統合</b>：まず推論用64KB PCMのchunk readを検証し、次に推論限定668B特徴のschema／baseline ID、PC golden vector、判定一致を検証する。</li>
   <li><b>USB学習収集</b>：Stamp→PC CDC、capture ID、4KiB chunk、CRC、atomic WAV／records.jsonl保存を検証する。</li>
   <li><b>Solist-AI bring-up</b>：chunk受信、Stampの状態／EXEC event、streaming baseline差分／FFT、TFT、PCA9685／5サーボを確認する。</li>
-  <li><b>実機データ再取得</b>：独立した全閉baseline×3と32状態を複数条件で収録し、クロスbaseline・実雑音・frequency-warpを適用する。</li>
+  <li><b>実機データ再取得</b>：独立した全閉baseline×3と32状態を複数条件で収録し、クロスbaseline・実雑音・frequency-shiftを適用する。</li>
   <li><b>PC再学習・実機評価</b>：PC batch-LSでβを算出し、holdout合格、β hash確認後にSolistへ書き込んで固定推論を評価する。</li>
   </ol>
   </div>

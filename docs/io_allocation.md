@@ -46,6 +46,12 @@ TFTはwrite-onlyとし、MISO用だったP42をPCA9685 OEへ転用する。TFT B
 
 I²SはStamp-S3Aをmasterとし、TX/RXでBCLKとWSを物理共有する。初期値は48 kHz、stereo、32-bit slot、64 BCLK/frame、BCLK=3.072 MHzとする。INMP441のL/RはGNDでleft slot、MAX98357AはSD_MODEをG1から直接Highにしてleft wordを選ぶ。PRBSはleft slotへ出力し、right slotも同値またはzeroとする。AMP SDはDMA、clock、zero PCMが安定した後だけ有効化する。G43はreset直後にUART0 TXとしてpulseを出し得るが、その間はG1の外付けpull-downでampをshutdownする。
 
+**実機確認（2026-09-25, `firmware/StampMicTest`）: BCLK/WS/DOUTの出力駆動力は最弱（ESP32-S3 `GPIO_DRIVE_CAP_0`）にすること。**
+mic/ampでBCLKとWSを共有する配線では、既定の駆動力（CAP_2）だとリンギングでINMP441がclockを誤計数し、無音時でも
+約−25 dBFSの広帯域ノイズがmic dataに乗った。CAP_3ではMAX98357Aが無音になった。CAP_0ではmic無音時 −75 dBFS、
+1 kHz tone −40/−30 dBFS出力でmic −65.6/−55.3 dBFS（1 kHz peak、2倍音 −44 dB）、PRBS −41/−30 dBFSでmic −38.8/−28.5 dBFSと線形に動作した。
+本番のStampファームでも同じ設定を必須とする。基板側の余裕を増やすなら、33 Ω直列抵抗を68–100 Ωへ上げる、配線を短くする。
+
 通常版Stamp-S3Aは左列M1-1..17を1x17・1.27 mm、右列M1-18/20/22/24/26/28を1x6・2.54 mmの着脱コネクタで中間基板へ載せる。左側の2.54 mm 1x9と偶数接点用部品は樹脂が干渉するため併設せず、左列全体を1.27 mmへ置換する。中間基板上面から見た左右列は公式の部品面PinMapに対して**左右鏡像**であり、USB／アンテナ方向、M1 contact番号、pin 1を外観と導通の両方で照合する。
 
 | 側面位置 | M1 contact | GPIO | 今回の用途／判断 |

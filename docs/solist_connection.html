@@ -55,6 +55,33 @@ label.chk input{margin-top:.35em;flex:none}
 .cap{font-size:.84rem;color:var(--muted);margin:8px 0 0}
 .legend{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:10px}
 .pin-t{font-size:13px;font-weight:600}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:800px){.rules{grid-template-columns:1fr}}
+.rule{display:flex;gap:10px;background:var(--panel);border:2px solid var(--hi);border-radius:10px;padding:10px 12px;font-size:.92rem}
+.rn{font-size:1.6rem;line-height:1;color:var(--hi);font-weight:800}
+.body{fill:var(--body)}.cut{fill:var(--panel)}
+.lb{font-size:13px;fill:var(--muted);text-anchor:middle}
+.p1lb{font-size:14px;font-weight:800;fill:var(--hi);text-anchor:middle}
+.pc{cursor:pointer;outline:none}
+.pc rect{stroke:transparent;stroke-width:0}
+.k-scl{fill:var(--scl)}.k-sda{fill:var(--sda)}.k-gnd{fill:var(--gnd)}.k-spi{fill:var(--spi)}.k-oe{fill:var(--oe)}.k-nc{fill:var(--nc)}
+.pc rect.p1{stroke:var(--hi);stroke-width:5}
+.pn{font-size:21px;font-weight:800;fill:#fff;text-anchor:middle}
+.ps{font-size:11.5px;font-weight:700;fill:#fff;text-anchor:middle}
+.pn.dk,.ps.dk{fill:var(--ink)}
+.pc.on rect{stroke:#ff2d2d;stroke-width:6}
+tr.on td{background:color-mix(in srgb,#ff2d2d 16%,transparent)}
+tr[data-pin]{cursor:pointer}
+.mirror{display:grid;gap:4px;max-width:620px;margin:0 auto}
+.ml{font-size:.85rem;font-weight:700;margin:4px 0 2px}
+.mx{text-align:center;font-size:.9rem;color:var(--oe);padding:4px 0}
+.strip{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}
+.sl{font-size:.85rem;font-weight:700;min-width:250px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;padding:3px 10px;border-radius:8px;color:#fff;font-size:.85rem;border:3px solid transparent}
+.chip.on{border-color:#ff2d2d}
+.k-sclbg{background:var(--scl)}.k-sdabg{background:var(--sda)}.k-gndbg{background:var(--gnd)}.k-spibg{background:var(--spi)}.k-oebg{background:var(--oe)}.k-ncbg{background:var(--nc);color:var(--ink)}
+.sw{display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid var(--muted);vertical-align:-2px;margin-right:5px}
 </style>
 </head>
 <body>
@@ -62,19 +89,62 @@ label.chk input{margin-top:.35em;flex:none}
 <h1>Solist-AI ⇔ Stamp-S3A 中間基板 接続ガイド</h1>
 <p class="sub">DT-EBML63Q2557 Rev.B（Solist-AI）CN3 と IchiPing Interposer Rev.B THT の J_SOLIST。基板側の図と表は <code>hardware/stamp_s3a_interposer/stamp_s3a_interposer_tht.kicad_pcb</code> のパッド座標とnetから作成し、Solist側は <a href="https://www.datatecno.co.jp/datatecno_core/content/uploads/2025/06/DT-EBML63Q2557_hardware_users_manual_Rev.20250527.pdf">公式ハードウェアマニュアル</a> の§3 部品配置図、§7.1 ピンアサイン、§7.2 外形図に基づいています。</p>
 <nav class="toc">
-  <a href="#solist">1. Solist-AI CN3</a><a href="#interposer">2. 中間基板 J_SOLIST</a><a href="#layout">3. 中間基板レイアウト</a>
+  <a href="#compare"><b>1. ピン番号の並び比較</b></a><a href="#solist">2. Solist-AI CN3の位置</a><a href="#layout">3. 中間基板レイアウト</a>
   <a href="#cable">4. ケーブルの向き</a><a href="#table">5. 接続表</a><a href="#xh">6. 中間基板の全コネクタ</a><a href="#test">7. 接続テスト</a>
   <a href="index.html">← プロジェクトレポートへ</a>
 </nav>
 
 <div class="note ng"><b>CN3-5とCN3-8はSolistの電源出力です（JP1で3.3 V／5 Vを選択、出荷時は外してあり供給停止）。</b>中間基板側はNCなので、ここから電源を取らないでください。Stamp、サーボ、アンプの電源はCN3から取らず、GNDだけを共通にします。また、CN3の信号入力は5 Vトレラントではありません（3.6 V絶対最大）。</div>
 
-<!-- ============ 1. Solist ============ -->
-<h2 id="solist">1. Solist-AI 側：CN3 デジタルセンサーコネクタ</h2>
-<div class="grid w">
+<!-- ============ 1. Compare ============ -->
+<h2 id="compare">1. ピン番号の並び比較（接続ミス防止）</h2>
+<div class="rules">
+  <div class="rule"><span class="rn">①</span><div><b>番号どうしで合わせる</b><br>CN3のpin Nは、J_SOLISTの<b>同じpin N</b>へつなぎます。入れ替えは1本もありません。</div></div>
+  <div class="rule"><span class="rn">②</span><div><b>見た目は左右逆で正しい</b><br>オスとメスは向かい合わせで嵌合するので、嵌合面どうしを並べると必ず<b>鏡像</b>になります。見た目の位置で合わせないでください。</div></div>
+  <div class="rule"><span class="rn">③</span><div><b>pin 1の目印を先に探す</b><br>CN3：▼印とキー溝側の段の端<br>J_SOLIST：<b>角パッド＝右列の一番上</b></div></div>
+</div>
+<p class="sub" style="margin-top:10px">ピンにマウスを乗せる（スマホではタップする）と、下の図と接続表の<b>同じ番号のピン</b>が赤枠で強調されます。クリックで固定し、もう一度クリックで解除します。</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Solist-AI CN3（オス・ボックスヘッダ）</h3>
+    <p class="cap" style="margin:0 0 6px">LCD面を上にして、基板の外側から嵌合口を見た図（マニュアル§7.1と同じ向き）</p>
+    <svg id="svgA" viewBox="0 0 480 250" role="img" aria-label="CN3嵌合面のピン番号"></svg>
+  </div>
+  <div class="card">
+    <h3>中間基板 J_SOLIST（メス・ソケット）</h3>
+    <p class="cap" style="margin:0 0 6px">部品面（上面）から見た図。基板上辺（Stamp USB側）が上</p>
+    <svg id="svgB" viewBox="0 0 400 520" role="img" aria-label="J_SOLIST上面のピン番号" style="max-width:360px;margin:0 auto"></svg>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h3>同じ向きにそろえて比較（奇数段を下にした図）</h3>
+  <p class="cap" style="margin:0 0 8px">J_SOLISTの図を右へ90°回すと、CN3と同じく奇数段が下に来ます。上下の段はそろいますが、<b>左右の並び順は逆</b>になります。これが正常な状態（鏡像）です。</p>
+  <div class="mirror">
+    <div><div class="ml">Solist CN3（嵌合面）</div><svg id="svgA2" viewBox="0 0 480 190" aria-hidden="true"></svg></div>
+    <div class="mx">↕ 左右が逆（鏡像）　pin 1：CN3は<b>左下</b> ／ J_SOLISTは<b>右下</b></div>
+    <div><div class="ml">J_SOLIST（上面図を右へ90°回したもの）</div><svg id="svgC" viewBox="0 0 480 190" aria-hidden="true"></svg></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h3>各段の信号の並び（CN3とJ_SOLISTで共通）</h3>
+  <div class="strip"><span class="sl">奇数段（CN3キー溝側／J_SOLIST右列）</span><div id="rowOdd" class="chips"></div></div>
+  <div class="strip"><span class="sl">偶数段（CN3反対側／J_SOLIST左列）</span><div id="rowEven" class="chips"></div></div>
+  <p class="cap">使うのは12本です。pin 5とpin 8（NC＝Solistの電源出力）には何もつなぎません。GNDは2、4、11、13の4本とも接続します。</p>
+  <div class="legend">
+    <span class="tag t-scl">I²C SCL</span><span class="tag t-sda">I²C SDA</span><span class="tag t-spi">TFT SPI／制御</span>
+    <span class="tag t-oe">PCA9685 OE</span><span class="tag t-gnd">GND</span><span class="tag t-nc">NC（電源出力・接続禁止）</span>
+  </div>
+</div>
+
+<!-- ============ 2. Solist ============ -->
+<h2 id="solist">2. Solist-AI 側：CN3の位置</h2>
+<div>
   <div class="card">
     <h3>基板上の位置（MCU実装面＝裏面から見た図・概略）</h3>
-    <svg viewBox="0 0 600 330" role="img" aria-label="Solist-AI MCU面でのCN3の位置">
+    <svg viewBox="0 0 600 330" role="img" aria-label="Solist-AI MCU面でのCN3の位置" style="max-width:720px;margin:0 auto">
       <g transform="translate(20,40) scale(4)">
         <path d="M6.5,0 H115.5 V6.5 H124 V59.5 H115.5 V66 H6.5 V63 H0 V3 H6.5 Z" fill="var(--pcb)" stroke="var(--pcb-edge)" stroke-width=".6"/>
         <!-- top connectors -->
@@ -118,91 +188,6 @@ label.chk input{margin-top:.35em;flex:none}
     <p class="cap">CN3は、MCU面から見て右端（LCD面から見ると左端）の縁にある、横向きの14P（2x7）ボックスヘッダ（オス）です。部品配置図では▼（pin 1）と2が上側、13と14が下側にあり、<b>奇数列が基板の内側、偶数列が基板の縁側</b>に並びます。CN3の真下にはCN6（3P）があります。位置は概略です。</p>
   </div>
 
-  <div class="card">
-    <h3>CN3 嵌合面（LCD面を上にして、外側から見た図）</h3>
-    <svg viewBox="0 0 400 260" role="img" aria-label="CN3嵌合面のピン配置">
-      <rect x="20" y="40" width="360" height="130" rx="6" fill="var(--body)"/>
-      <rect x="40" y="58" width="320" height="94" rx="3" fill="#3a3a3a"/>
-      <rect x="170" y="150" width="60" height="20" fill="var(--panel)"/>
-      <text x="200" y="190" text-anchor="middle" font-size="11" fill="var(--muted)">キー溝（ノッチ）＝奇数側</text>
-      <g class="pin-t">
-        <!-- even row top: 2..14 -->
-        <g font-size="12" text-anchor="middle">
-          <rect x="62" y="72" width="16" height="16" fill="var(--pad)"/><text x="70" y="66" fill="var(--gnd)">2</text>
-          <rect x="102" y="72" width="16" height="16" fill="var(--pad)"/><text x="110" y="66" fill="var(--gnd)">4</text>
-          <rect x="142" y="72" width="16" height="16" fill="var(--pad)"/><text x="150" y="66" fill="var(--spi)">6</text>
-          <rect x="182" y="72" width="16" height="16" fill="var(--nc)"/><text x="190" y="66" fill="var(--muted)">8</text>
-          <rect x="222" y="72" width="16" height="16" fill="var(--pad)"/><text x="230" y="66" fill="var(--oe)">10</text>
-          <rect x="262" y="72" width="16" height="16" fill="var(--pad)"/><text x="270" y="66" fill="var(--spi)">12</text>
-          <rect x="302" y="72" width="16" height="16" fill="var(--pad)"/><text x="310" y="66" fill="var(--spi)">14</text>
-          <!-- odd row bottom: 1..13 -->
-          <rect x="62" y="118" width="16" height="16" fill="var(--pad)" stroke="var(--hi)" stroke-width="3"/>
-          <rect x="102" y="118" width="16" height="16" fill="var(--pad)"/>
-          <rect x="142" y="118" width="16" height="16" fill="var(--nc)"/>
-          <rect x="182" y="118" width="16" height="16" fill="var(--pad)"/>
-          <rect x="222" y="118" width="16" height="16" fill="var(--pad)"/>
-          <rect x="262" y="118" width="16" height="16" fill="var(--pad)"/>
-          <rect x="302" y="118" width="16" height="16" fill="var(--pad)"/>
-        </g>
-        <g font-size="12" text-anchor="middle">
-          <text x="70" y="148" fill="#fff">1</text><text x="110" y="148" fill="#fff">3</text><text x="150" y="148" fill="#aaa">5</text>
-          <text x="190" y="148" fill="#fff">7</text><text x="230" y="148" fill="#fff">9</text><text x="270" y="148" fill="#fff">11</text><text x="310" y="148" fill="#fff">13</text>
-        </g>
-      </g>
-      <g font-size="10.5" text-anchor="middle">
-        <text x="70" y="24" fill="var(--gnd)">GND</text><text x="110" y="24" fill="var(--gnd)">GND</text><text x="150" y="24" fill="var(--spi)">RST</text>
-        <text x="190" y="24" fill="var(--muted)">PWR</text><text x="230" y="24" fill="var(--oe)">PCA_OE</text><text x="270" y="24" fill="var(--spi)">SCK</text><text x="310" y="24" fill="var(--spi)">CS</text>
-        <text x="70" y="214" fill="var(--scl)">SCL</text><text x="110" y="214" fill="var(--sda)">SDA</text><text x="150" y="214" fill="var(--muted)">PWR</text>
-        <text x="190" y="214" fill="var(--spi)">DC</text><text x="230" y="214" fill="var(--spi)">MOSI</text><text x="270" y="214" fill="var(--gnd)">GND</text><text x="310" y="214" fill="var(--gnd)">GND</text>
-      </g>
-      <text x="200" y="244" text-anchor="middle" font-size="11" fill="var(--muted)">上段＝偶数 2〜14、下段＝奇数 1〜13、pin 1は左下（黄枠）</text>
-    </svg>
-    <p class="cap">マニュアル§7.1のピンアサイン図と同じ向きです。Solist基板のプルアップが付いているのは、pin 1、3、6、7、10、14です。</p>
-  </div>
-</div>
-
-<!-- ============ 2. Interposer J_SOLIST ============ -->
-<h2 id="interposer">2. 中間基板側：J_SOLIST（2x7・2.54 mm 雌ソケット）</h2>
-<div class="grid">
-  <div class="card">
-    <h3>上面から見たピン配置</h3>
-    <svg viewBox="0 0 360 430" role="img" aria-label="J_SOLISTの上面ピン配置">
-      <text x="180" y="14" text-anchor="middle" font-size="12" fill="var(--muted)">↑ 基板上辺（Stamp USB側）</text>
-      <rect x="125" y="24" width="110" height="372" rx="6" fill="var(--body)" stroke="var(--line)"/>
-      <g font-size="13" font-weight="600">
-        <rect x="200" y="40" width="20" height="20" fill="var(--pad)" stroke="var(--hi)" stroke-width="3"/>
-        <text x="244" y="55" fill="var(--scl)">1 SCL</text>
-        <circle cx="150" cy="50" r="10" fill="var(--pad)"/><text x="116" y="55" text-anchor="end" fill="var(--gnd)">GND 2</text>
-        <circle cx="210" cy="100" r="10" fill="var(--pad)"/><text x="244" y="105" fill="var(--sda)">3 SDA</text>
-        <circle cx="150" cy="100" r="10" fill="var(--pad)"/><text x="116" y="105" text-anchor="end" fill="var(--gnd)">GND 4</text>
-        <circle cx="210" cy="150" r="10" fill="var(--nc)"/><text x="244" y="155" fill="var(--muted)">5 NC</text>
-        <circle cx="150" cy="150" r="10" fill="var(--pad)"/><text x="116" y="155" text-anchor="end" fill="var(--spi)">TFT_RST 6</text>
-        <circle cx="210" cy="200" r="10" fill="var(--pad)"/><text x="244" y="205" fill="var(--spi)">7 TFT_DC</text>
-        <circle cx="150" cy="200" r="10" fill="var(--nc)"/><text x="116" y="205" text-anchor="end" fill="var(--muted)">NC 8</text>
-        <circle cx="210" cy="250" r="10" fill="var(--pad)"/><text x="244" y="255" fill="var(--spi)">9 MOSI</text>
-        <circle cx="150" cy="250" r="10" fill="var(--pad)"/><text x="116" y="255" text-anchor="end" fill="var(--oe)">PCA_OE 10</text>
-        <circle cx="210" cy="300" r="10" fill="var(--pad)"/><text x="244" y="305" fill="var(--gnd)">11 GND</text>
-        <circle cx="150" cy="300" r="10" fill="var(--pad)"/><text x="116" y="305" text-anchor="end" fill="var(--spi)">SCK 12</text>
-        <circle cx="210" cy="350" r="10" fill="var(--pad)"/><text x="244" y="355" fill="var(--gnd)">13 GND</text>
-        <circle cx="150" cy="350" r="10" fill="var(--pad)"/><text x="116" y="355" text-anchor="end" fill="var(--spi)">TFT_CS 14</text>
-      </g>
-      <text x="180" y="418" text-anchor="middle" font-size="11.5" fill="var(--muted)">■（黄枠）＝pin 1の角パッド　右列＝奇数、左列＝偶数</text>
-    </svg>
-  </div>
-  <div class="card">
-    <h3>両コネクタの対応</h3>
-    <ul>
-      <li>CN3のpin Nは、J_SOLISTの<b>同じpin N</b>へつなぎます（入れ替えはありません）。</li>
-      <li>J_SOLISTの向き：<b>pin 1は右列の一番上</b>（基板上辺側）で、右列（R8・R9側）が奇数、左列（XH端子側）が偶数です。</li>
-      <li>CN3の向き：<b>pin 1はキー溝側の段の端</b>で、奇数段がキー溝側です。</li>
-      <li>使うのは12本です（pin 5とpin 8は使いません）。GNDは2、4、11、13の4本とも接続します。</li>
-    </ul>
-    <div class="legend">
-      <span class="tag t-scl">I²C SCL</span><span class="tag t-sda">I²C SDA</span><span class="tag t-spi">TFT SPI / 制御</span>
-      <span class="tag t-oe">PCA9685 OE</span><span class="tag t-gnd">GND</span><span class="tag t-nc">NC（電源出力）</span>
-    </div>
-    <p class="cap">J_SOLISTのパッド座標（mm）：pin 1 = (35.73, 48.57)、pin 2 = (33.19, 48.57)で、2.54 mmピッチで下へ並び、pin 13/14 = y 63.81です。</p>
-  </div>
 </div>
 
 <!-- ============ 3. Layout ============ -->
@@ -268,23 +253,24 @@ label.chk input{margin-top:.35em;flex:none}
 
 <!-- ============ 5. Table ============ -->
 <h2 id="table">5. 接続表（CN3 pin N ⇔ J_SOLIST pin N）</h2>
+<p class="sub">線の色は推奨例です（赤は電源と紛らわしいので使いません）。1本配線するごとにチェックを入れてください。</p>
 <div class="tw">
 <table>
-  <tr><th>pin</th><th>Solist端子</th><th>中間基板net</th><th>用途</th><th>中間基板上の導通確認先</th><th>配線</th></tr>
-  <tr><td class="n">1</td><td>P73 / SCL</td><td><span class="tag t-scl">I2C_SCL</span></td><td>共有I²C SCL（LCD 0x3E、PCA 0x40/0x70、Stamp 0x42）</td><td>Stamp M1-17（G15）、J_SERVO_CTRL-2</td><td>○</td></tr>
-  <tr><td class="n">2</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>J_PWR_LOGIC-2 など全GND</td><td>○</td></tr>
-  <tr><td class="n">3</td><td>P74 / SDA</td><td><span class="tag t-sda">I2C_SDA</span></td><td>共有I²C SDA</td><td>Stamp M1-15（G13）、J_SERVO_CTRL-3</td><td>○</td></tr>
-  <tr><td class="n">4</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>全GND</td><td>○</td></tr>
-  <tr class="nc"><td class="n">5</td><td>Power Out</td><td><span class="tag t-nc">NC</span></td><td>使用しない</td><td>どこにも導通しないこと</td><td><b>×</b></td></tr>
-  <tr><td class="n">6</td><td>P23 / INT2</td><td><span class="tag t-spi">TFT_RST_N</span></td><td>ILI9341 RST（active Low）</td><td>J_TFT_PWR-1</td><td>○</td></tr>
-  <tr><td class="n">7</td><td>P22 / INT1</td><td><span class="tag t-spi">TFT_DC</span></td><td>ILI9341 D/C</td><td>J_TFT_SIG-5</td><td>○</td></tr>
-  <tr class="nc"><td class="n">8</td><td>Power Out</td><td><span class="tag t-nc">NC</span></td><td>使用しない</td><td>どこにも導通しないこと</td><td><b>×</b></td></tr>
-  <tr><td class="n">9</td><td>P41 / MOSI</td><td><span class="tag t-spi">TFT_MOSI</span></td><td>SPI0 MOSI</td><td>J_TFT_SIG-4</td><td>○</td></tr>
-  <tr><td class="n">10</td><td>P42 / MISO</td><td><span class="tag t-oe">PCA_OE</span></td><td>PCA9685 OE（High＝全PWM停止）。TFTのMISOとしては使わない</td><td>J_PCA_OE-1、R8（10 kΩ → 3V3_STAMP）</td><td>○</td></tr>
-  <tr><td class="n">11</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>全GND</td><td>○</td></tr>
-  <tr><td class="n">12</td><td>P40 / SCK</td><td><span class="tag t-spi">TFT_SCK</span></td><td>SPI0 SCK</td><td>J_TFT_SIG-3</td><td>○</td></tr>
-  <tr><td class="n">13</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>全GND</td><td>○</td></tr>
-  <tr><td class="n">14</td><td>P43 / CS</td><td><span class="tag t-spi">TFT_CS_N</span></td><td>SPI0 CS（active Low）</td><td>J_TFT_PWR-2、R9（10 kΩ → 3V3_STAMP）</td><td>○</td></tr>
+<tr><th>CN3</th><th></th><th>J_SOLIST</th><th>推奨線色</th><th>Solist端子</th><th>中間基板net</th><th>用途</th><th>中間基板上の導通確認先</th><th>済</th></tr>
+<tr data-pin="1"><td class="n">1</td><td class="n">→</td><td class="n">1</td><td><span class="sw" style="background:#f2c200"></span>黄</td><td>P73 / SCL</td><td><span class="tag t-scl">I2C_SCL</span></td><td>共有I²C SCL（LCD 0x3E、PCA 0x40/0x70、Stamp 0x42）</td><td>Stamp M1-17（G15）、J_SERVO_CTRL-2</td><td><input type="checkbox" aria-label="pin 1 配線済み"></td></tr>
+<tr data-pin="2"><td class="n">2</td><td class="n">→</td><td class="n">2</td><td><span class="sw" style="background:#111"></span>黒</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>J_PWR_LOGIC-2 など全GND</td><td><input type="checkbox" aria-label="pin 2 配線済み"></td></tr>
+<tr data-pin="3"><td class="n">3</td><td class="n">→</td><td class="n">3</td><td><span class="sw" style="background:#2f6fd6"></span>青</td><td>P74 / SDA</td><td><span class="tag t-sda">I2C_SDA</span></td><td>共有I²C SDA</td><td>Stamp M1-15（G13）、J_SERVO_CTRL-3</td><td><input type="checkbox" aria-label="pin 3 配線済み"></td></tr>
+<tr data-pin="4"><td class="n">4</td><td class="n">→</td><td class="n">4</td><td><span class="sw" style="background:#111"></span>黒</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>全GND</td><td><input type="checkbox" aria-label="pin 4 配線済み"></td></tr>
+<tr class="nc" data-pin="5"><td class="n">5</td><td class="n">✕</td><td class="n">5</td><td><b>配線しない</b></td><td>Power Out</td><td><span class="tag t-nc">NC</span></td><td>使用しない（Solistの電源出力）</td><td>どこにも導通しないこと</td><td></td></tr>
+<tr data-pin="6"><td class="n">6</td><td class="n">→</td><td class="n">6</td><td><span class="sw" style="background:#8a8f94"></span>灰</td><td>P23 / INT2</td><td><span class="tag t-spi">TFT_RST_N</span></td><td>ILI9341 RST（active Low）</td><td>J_TFT_PWR-1</td><td><input type="checkbox" aria-label="pin 6 配線済み"></td></tr>
+<tr data-pin="7"><td class="n">7</td><td class="n">→</td><td class="n">7</td><td><span class="sw" style="background:#fff"></span>白</td><td>P22 / INT1</td><td><span class="tag t-spi">TFT_DC</span></td><td>ILI9341 D/C</td><td>J_TFT_SIG-5</td><td><input type="checkbox" aria-label="pin 7 配線済み"></td></tr>
+<tr class="nc" data-pin="8"><td class="n">8</td><td class="n">✕</td><td class="n">8</td><td><b>配線しない</b></td><td>Power Out</td><td><span class="tag t-nc">NC</span></td><td>使用しない（Solistの電源出力）</td><td>どこにも導通しないこと</td><td></td></tr>
+<tr data-pin="9"><td class="n">9</td><td class="n">→</td><td class="n">9</td><td><span class="sw" style="background:#1c9a4a"></span>緑</td><td>P41 / MOSI</td><td><span class="tag t-spi">TFT_MOSI</span></td><td>SPI0 MOSI</td><td>J_TFT_SIG-4</td><td><input type="checkbox" aria-label="pin 9 配線済み"></td></tr>
+<tr data-pin="10"><td class="n">10</td><td class="n">→</td><td class="n">10</td><td><span class="sw" style="background:#7a4a24"></span>茶</td><td>P42 / MISO</td><td><span class="tag t-oe">PCA_OE</span></td><td>PCA9685 OE（High＝全PWM停止）。TFTのMISOとしては使わない</td><td>J_PCA_OE-1、R8（10 kΩ → 3V3_STAMP）</td><td><input type="checkbox" aria-label="pin 10 配線済み"></td></tr>
+<tr data-pin="11"><td class="n">11</td><td class="n">→</td><td class="n">11</td><td><span class="sw" style="background:#111"></span>黒</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>全GND</td><td><input type="checkbox" aria-label="pin 11 配線済み"></td></tr>
+<tr data-pin="12"><td class="n">12</td><td class="n">→</td><td class="n">12</td><td><span class="sw" style="background:#f07c1a"></span>橙</td><td>P40 / SCK</td><td><span class="tag t-spi">TFT_SCK</span></td><td>SPI0 SCK</td><td>J_TFT_SIG-3</td><td><input type="checkbox" aria-label="pin 12 配線済み"></td></tr>
+<tr data-pin="13"><td class="n">13</td><td class="n">→</td><td class="n">13</td><td><span class="sw" style="background:#111"></span>黒</td><td>GND</td><td><span class="tag t-gnd">GND</span></td><td>共通GND</td><td>全GND</td><td><input type="checkbox" aria-label="pin 13 配線済み"></td></tr>
+<tr data-pin="14"><td class="n">14</td><td class="n">→</td><td class="n">14</td><td><span class="sw" style="background:#8e44ad"></span>紫</td><td>P43 / CS</td><td><span class="tag t-spi">TFT_CS_N</span></td><td>SPI0 CS（active Low）</td><td>J_TFT_PWR-2、R9（10 kΩ → 3V3_STAMP）</td><td><input type="checkbox" aria-label="pin 14 配線済み"></td></tr>
 </table>
 </div>
 
@@ -333,5 +319,58 @@ label.chk input{margin-top:.35em;flex:none}
 
 <p class="cap" style="margin-top:28px">Solist側の位置は公式マニュアルの図から読み取った概略です。CN3の実寸や嵌合方向は、現物の▼印とキー溝で確認してください。中間基板の情報は <code>stamp_s3a_interposer_tht.kicad_pcb</code>（Rev.B THT）に基づいています。PCBA版もJ_SOLISTのpin対応は同じですが、配置は異なります。</p>
 </main>
+<script>
+(function(){
+  var P=[null,["SCL","scl"],["GND","gnd"],["SDA","sda"],["GND","gnd"],["NC","nc"],["RST","spi"],["DC","spi"],
+         ["NC","nc"],["MOSI","spi"],["OE","oe"],["GND","gnd"],["SCK","spi"],["GND","gnd"],["CS","spi"]];
+  var S=56;
+  function pin(n,x,y){
+    var c=P[n][1],dk=c==="nc"?" dk":"";
+    return '<g class="pc" data-pin="'+n+'" tabindex="0"><rect class="k-'+c+(n===1?" p1":"")+'" x="'+x+'" y="'+y+'" width="'+S+'" height="'+S+'" rx="7"/>'+
+      '<text class="pn'+dk+'" x="'+(x+S/2)+'" y="'+(y+27)+'">'+n+'</text><text class="ps'+dk+'" x="'+(x+S/2)+'" y="'+(y+46)+'">'+P[n][0]+'</text></g>';
+  }
+  // horizontal 2x7: top row = even, bottom row = odd. reversed=true → pin order right-to-left
+  function horiz(oy,reversed,notch){
+    var h='<rect x="16" y="'+oy+'" width="448" height="150" rx="8" class="body"/>';
+    if(notch)h+='<rect x="200" y="'+(oy+140)+'" width="80" height="12" class="cut"/>';
+    for(var i=0;i<7;i++){
+      var col=reversed?6-i:i,x=30+col*62;
+      h+=pin(2*i+2,x,oy+14)+pin(2*i+1,x,oy+80);
+    }
+    return h;
+  }
+  var A=document.getElementById("svgA");
+  A.innerHTML='<text x="240" y="16" class="lb">上段＝偶数（2〜14）</text>'+horiz(26,false,true)+
+    '<text x="240" y="196" class="lb">下段＝奇数（1〜13）　キー溝は奇数側</text>'+
+    '<text x="58" y="226" class="p1lb">▲ pin 1（左下）</text>';
+  document.getElementById("svgA2").innerHTML=horiz(10,false,true)+'<text x="58" y="182" class="p1lb">▲ pin 1</text>';
+  document.getElementById("svgC").innerHTML=horiz(10,true,false)+'<text x="430" y="182" class="p1lb">pin 1 ▲</text>';
+  var B=document.getElementById("svgB"),h='<text x="200" y="14" class="lb">↑ 基板上辺（Stamp USB側）</text>'+
+    '<text x="158" y="36" class="lb">偶数列</text><text x="220" y="36" class="lb">奇数列</text>'+
+    '<rect x="116" y="44" width="148" height="450" rx="8" class="body"/>';
+  for(var r=0;r<7;r++){h+=pin(2*r+2,130,58+r*62)+pin(2*r+1,192,58+r*62);}
+  h+='<text x="272" y="92" class="p1lb" text-anchor="start" style="text-anchor:start">◀ pin 1</text>'+
+     '<text x="272" y="110" class="lb" style="text-anchor:start">（角パッド）</text>'+
+     '<text x="272" y="280" class="lb" style="text-anchor:start">R8・R9側 →</text>'+
+     '<text x="108" y="280" class="lb" style="text-anchor:end">← XH端子側</text>'+
+     '<text x="200" y="512" class="lb">左列＝偶数、右列＝奇数</text>';
+  B.innerHTML=h;
+  function chips(id,start){
+    var o="";for(var n=start;n<=14;n+=2){var c=P[n][1];
+      o+='<span class="chip pc k-'+c+'bg" data-pin="'+n+'" tabindex="0"><b>'+n+'</b> '+P[n][0]+'</span>';}
+    document.getElementById(id).innerHTML=o;
+  }
+  chips("rowOdd",1);chips("rowEven",2);
+  var lock=null;
+  function hl(n){document.querySelectorAll("[data-pin]").forEach(function(e){e.classList.toggle("on",n!==null&&e.getAttribute("data-pin")===String(n));});}
+  document.querySelectorAll("[data-pin]").forEach(function(e){
+    var n=e.getAttribute("data-pin");
+    e.addEventListener("mouseenter",function(){if(lock===null)hl(n);});
+    e.addEventListener("mouseleave",function(){if(lock===null)hl(null);});
+    e.addEventListener("focus",function(){if(lock===null)hl(n);});
+    e.addEventListener("click",function(ev){if(ev.target.tagName==="INPUT")return;lock=(lock===n)?null:n;hl(lock===null?n:lock);});
+  });
+})();
+</script>
 </body>
 </html>

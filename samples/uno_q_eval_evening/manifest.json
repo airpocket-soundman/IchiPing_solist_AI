@@ -1,0 +1,284 @@
+{
+ "source": "D:/GitHub/IchiPing-UNO-Q/pc/captures/uno_q_eval_20260912_evening_wav",
+ "sample_rate": 16000,
+ "frame_seconds": 2.0,
+ "note": "UNO Q (INMP441 / MAX98357A), PRBS 励振, 16 kHz mono int16。状態名は扉 a b c AB BC (1=開)。",
+ "baseline": [
+  {
+   "file": "baseline/frame_000000.wav",
+   "source": "s00000/frame_000000.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000001.wav",
+   "source": "s00000/frame_000001.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000002.wav",
+   "source": "s00000/frame_000002.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000003.wav",
+   "source": "s00000/frame_000003.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000004.wav",
+   "source": "s00000/frame_000004.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000005.wav",
+   "source": "s00000/frame_000005.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000006.wav",
+   "source": "s00000/frame_000006.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000007.wav",
+   "source": "s00000/frame_000007.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000008.wav",
+   "source": "s00000/frame_000008.wav",
+   "time": "2026-09-12T19:36:24"
+  },
+  {
+   "file": "baseline/frame_000009.wav",
+   "source": "s00000/frame_000009.wav",
+   "time": "2026-09-12T19:36:24"
+  }
+ ],
+ "states": [
+  {
+   "state": "s00000",
+   "class_id": 0,
+   "file": "s00000/frame_000010.wav",
+   "source": "s00000/frame_000010.wav",
+   "time": "2026-09-12T19:36:53"
+  },
+  {
+   "state": "s00001",
+   "class_id": 16,
+   "file": "s00001/frame_000000.wav",
+   "source": "s00001/frame_000000.wav",
+   "time": "2026-09-12T19:52:28"
+  },
+  {
+   "state": "s00010",
+   "class_id": 8,
+   "file": "s00010/frame_000000.wav",
+   "source": "s00010/frame_000000.wav",
+   "time": "2026-09-12T19:44:27"
+  },
+  {
+   "state": "s00011",
+   "class_id": 24,
+   "file": "s00011/frame_000000.wav",
+   "source": "s00011/frame_000000.wav",
+   "time": "2026-09-12T19:44:57"
+  },
+  {
+   "state": "s00100",
+   "class_id": 4,
+   "file": "s00100/frame_000000.wav",
+   "source": "s00100/frame_000000.wav",
+   "time": "2026-09-12T19:40:24"
+  },
+  {
+   "state": "s00101",
+   "class_id": 20,
+   "file": "s00101/frame_000000.wav",
+   "source": "s00101/frame_000000.wav",
+   "time": "2026-09-12T19:48:59"
+  },
+  {
+   "state": "s00110",
+   "class_id": 12,
+   "file": "s00110/frame_000000.wav",
+   "source": "s00110/frame_000000.wav",
+   "time": "2026-09-12T19:40:54"
+  },
+  {
+   "state": "s00111",
+   "class_id": 28,
+   "file": "s00111/frame_000000.wav",
+   "source": "s00111/frame_000000.wav",
+   "time": "2026-09-12T19:48:29"
+  },
+  {
+   "state": "s01000",
+   "class_id": 2,
+   "file": "s01000/frame_000000.wav",
+   "source": "s01000/frame_000000.wav",
+   "time": "2026-09-12T19:38:23"
+  },
+  {
+   "state": "s01001",
+   "class_id": 18,
+   "file": "s01001/frame_000000.wav",
+   "source": "s01001/frame_000000.wav",
+   "time": "2026-09-12T19:50:58"
+  },
+  {
+   "state": "s01010",
+   "class_id": 10,
+   "file": "s01010/frame_000000.wav",
+   "source": "s01010/frame_000000.wav",
+   "time": "2026-09-12T19:42:56"
+  },
+  {
+   "state": "s01011",
+   "class_id": 26,
+   "file": "s01011/frame_000000.wav",
+   "source": "s01011/frame_000000.wav",
+   "time": "2026-09-12T19:46:28"
+  },
+  {
+   "state": "s01100",
+   "class_id": 6,
+   "file": "s01100/frame_000000.wav",
+   "source": "s01100/frame_000000.wav",
+   "time": "2026-09-12T19:38:54"
+  },
+  {
+   "state": "s01101",
+   "class_id": 22,
+   "file": "s01101/frame_000000.wav",
+   "source": "s01101/frame_000000.wav",
+   "time": "2026-09-12T19:50:28"
+  },
+  {
+   "state": "s01110",
+   "class_id": 14,
+   "file": "s01110/frame_000000.wav",
+   "source": "s01110/frame_000000.wav",
+   "time": "2026-09-12T19:42:25"
+  },
+  {
+   "state": "s01111",
+   "class_id": 30,
+   "file": "s01111/frame_000000.wav",
+   "source": "s01111/frame_000000.wav",
+   "time": "2026-09-12T19:46:58"
+  },
+  {
+   "state": "s10000",
+   "class_id": 1,
+   "file": "s10000/frame_000000.wav",
+   "source": "s10000/frame_000000.wav",
+   "time": "2026-09-12T19:37:23"
+  },
+  {
+   "state": "s10001",
+   "class_id": 17,
+   "file": "s10001/frame_000000.wav",
+   "source": "s10001/frame_000000.wav",
+   "time": "2026-09-12T19:51:58"
+  },
+  {
+   "state": "s10010",
+   "class_id": 9,
+   "file": "s10010/frame_000000.wav",
+   "source": "s10010/frame_000000.wav",
+   "time": "2026-09-12T19:43:56"
+  },
+  {
+   "state": "s10011",
+   "class_id": 25,
+   "file": "s10011/frame_000000.wav",
+   "source": "s10011/frame_000000.wav",
+   "time": "2026-09-12T19:45:28"
+  },
+  {
+   "state": "s10100",
+   "class_id": 5,
+   "file": "s10100/frame_000000.wav",
+   "source": "s10100/frame_000000.wav",
+   "time": "2026-09-12T19:39:54"
+  },
+  {
+   "state": "s10101",
+   "class_id": 21,
+   "file": "s10101/frame_000000.wav",
+   "source": "s10101/frame_000000.wav",
+   "time": "2026-09-12T19:49:29"
+  },
+  {
+   "state": "s10110",
+   "class_id": 13,
+   "file": "s10110/frame_000000.wav",
+   "source": "s10110/frame_000000.wav",
+   "time": "2026-09-12T19:41:25"
+  },
+  {
+   "state": "s10111",
+   "class_id": 29,
+   "file": "s10111/frame_000000.wav",
+   "source": "s10111/frame_000000.wav",
+   "time": "2026-09-12T19:47:58"
+  },
+  {
+   "state": "s11000",
+   "class_id": 3,
+   "file": "s11000/frame_000000.wav",
+   "source": "s11000/frame_000000.wav",
+   "time": "2026-09-12T19:37:53"
+  },
+  {
+   "state": "s11001",
+   "class_id": 19,
+   "file": "s11001/frame_000000.wav",
+   "source": "s11001/frame_000000.wav",
+   "time": "2026-09-12T19:51:28"
+  },
+  {
+   "state": "s11010",
+   "class_id": 11,
+   "file": "s11010/frame_000000.wav",
+   "source": "s11010/frame_000000.wav",
+   "time": "2026-09-12T19:43:26"
+  },
+  {
+   "state": "s11011",
+   "class_id": 27,
+   "file": "s11011/frame_000000.wav",
+   "source": "s11011/frame_000000.wav",
+   "time": "2026-09-12T19:45:58"
+  },
+  {
+   "state": "s11100",
+   "class_id": 7,
+   "file": "s11100/frame_000000.wav",
+   "source": "s11100/frame_000000.wav",
+   "time": "2026-09-12T19:39:24"
+  },
+  {
+   "state": "s11101",
+   "class_id": 23,
+   "file": "s11101/frame_000000.wav",
+   "source": "s11101/frame_000000.wav",
+   "time": "2026-09-12T19:49:59"
+  },
+  {
+   "state": "s11110",
+   "class_id": 15,
+   "file": "s11110/frame_000000.wav",
+   "source": "s11110/frame_000000.wav",
+   "time": "2026-09-12T19:41:55"
+  },
+  {
+   "state": "s11111",
+   "class_id": 31,
+   "file": "s11111/frame_000000.wav",
+   "source": "s11111/frame_000000.wav",
+   "time": "2026-09-12T19:47:29"
+  }
+ ]
+}

@@ -1,0 +1,649 @@
+{
+  "protocol": {
+    "feature": "FFT(audio-baseline), 1024-point Hann, magnitude mean, log20, 400-3000Hz, D=167",
+    "classes": 32,
+    "selection": "nested day/session holdout; final eval sets unused for selection"
+  },
+  "original_ichiping": {
+    "cross_baseline": {
+      "linear": {
+        "folds": {
+          "2026-05-30": {
+            "config": "linear-ridge-lam100",
+            "frame_accuracy": 0.6766666666666666,
+            "macro_recall": 0.6766666666666666,
+            "macro_f1": 0.650365554339404,
+            "state_vote_accuracy": 0.6666666666666666
+          },
+          "2026-05-31": {
+            "config": "linear-ridge-lam100",
+            "frame_accuracy": 0.7003125,
+            "macro_recall": 0.7003125,
+            "macro_f1": 0.6661962563539608,
+            "state_vote_accuracy": 0.71875
+          },
+          "2026-06-01": {
+            "config": "linear-ridge-lam100",
+            "frame_accuracy": 0.5140625,
+            "macro_recall": 0.5140625000000001,
+            "macro_f1": 0.48486022125047845,
+            "state_vote_accuracy": 0.515625
+          }
+        },
+        "mean_frame_accuracy": 0.6303472222222223,
+        "mean_macro_recall": 0.6303472222222223,
+        "mean_macro_f1": 0.6004740106479478,
+        "mean_state_vote_accuracy": 0.6336805555555555
+      },
+      "elm_m32": {
+        "folds": {
+          "2026-05-30": {
+            "config": "elm-m32-sim-s0.15",
+            "frame_accuracy": 0.61,
+            "macro_recall": 0.61,
+            "macro_f1": 0.5495715980430116,
+            "state_vote_accuracy": 0.625
+          },
+          "2026-05-31": {
+            "config": "elm-m32-sim-s0.15",
+            "frame_accuracy": 0.6459375,
+            "macro_recall": 0.6459375,
+            "macro_f1": 0.6013613345092382,
+            "state_vote_accuracy": 0.671875
+          },
+          "2026-06-01": {
+            "config": "elm-m32-sim-s0.15",
+            "frame_accuracy": 0.5471875,
+            "macro_recall": 0.5471874999999999,
+            "macro_f1": 0.48165135467587006,
+            "state_vote_accuracy": 0.53125
+          }
+        },
+        "mean_frame_accuracy": 0.6010416666666667,
+        "mean_macro_recall": 0.6010416666666666,
+        "mean_macro_f1": 0.5441947624093733,
+        "mean_state_vote_accuracy": 0.609375
+      },
+      "elm_m64": {
+        "folds": {
+          "2026-05-30": {
+            "config": "elm-m64-random-s0.15",
+            "frame_accuracy": 0.6777083333333334,
+            "macro_recall": 0.6777083333333334,
+            "macro_f1": 0.6603512249403312,
+            "state_vote_accuracy": 0.6875
+          },
+          "2026-05-31": {
+            "config": "elm-m64-random-s0.15",
+            "frame_accuracy": 0.631875,
+            "macro_recall": 0.631875,
+            "macro_f1": 0.5768036254329234,
+            "state_vote_accuracy": 0.625
+          },
+          "2026-06-01": {
+            "config": "elm-m64-random-s0.15",
+            "frame_accuracy": 0.51125,
+            "macro_recall": 0.51125,
+            "macro_f1": 0.4369010897896376,
+            "state_vote_accuracy": 0.53125
+          }
+        },
+        "mean_frame_accuracy": 0.6069444444444444,
+        "mean_macro_recall": 0.6069444444444444,
+        "mean_macro_f1": 0.558018646720964,
+        "mean_state_vote_accuracy": 0.6145833333333334
+      },
+      "elm_m128": {
+        "folds": {
+          "2026-05-30": {
+            "config": "elm-m128-random-s0.15",
+            "frame_accuracy": 0.6358333333333334,
+            "macro_recall": 0.6358333333333333,
+            "macro_f1": 0.5993935222064524,
+            "state_vote_accuracy": 0.6458333333333334
+          },
+          "2026-05-31": {
+            "config": "elm-m128-random-s0.15",
+            "frame_accuracy": 0.70125,
+            "macro_recall": 0.70125,
+            "macro_f1": 0.6795038074190539,
+            "state_vote_accuracy": 0.734375
+          },
+          "2026-06-01": {
+            "config": "elm-m128-random-s0.15",
+            "frame_accuracy": 0.58375,
+            "macro_recall": 0.58375,
+            "macro_f1": 0.5366858645268303,
+            "state_vote_accuracy": 0.578125
+          }
+        },
+        "mean_frame_accuracy": 0.6402777777777778,
+        "mean_macro_recall": 0.6402777777777777,
+        "mean_macro_f1": 0.6051943980507789,
+        "mean_state_vote_accuracy": 0.6527777777777778
+      }
+    },
+    "cross_baseline+freq_warp": {
+      "linear": {
+        "folds": {
+          "2026-05-30": {
+            "config": "linear-ridge-lam100",
+            "frame_accuracy": 0.5335416666666667,
+            "macro_recall": 0.5335416666666667,
+            "macro_f1": 0.47364329062133664,
+            "state_vote_accuracy": 0.53125
+          },
+          "2026-05-31": {
+            "config": "linear-ridge-lam100",
+            "frame_accuracy": 0.6275,
+            "macro_recall": 0.6275,
+            "macro_f1": 0.5797073541269142,
+            "state_vote_accuracy": 0.640625
+          },
+          "2026-06-01": {
+            "config": "linear-ridge-lam100",
+            "frame_accuracy": 0.6375,
+            "macro_recall": 0.6375,
+            "macro_f1": 0.6003640696132018,
+            "state_vote_accuracy": 0.671875
+          }
+        },
+        "mean_frame_accuracy": 0.5995138888888889,
+        "mean_macro_recall": 0.5995138888888889,
+        "mean_macro_f1": 0.5512382381204842,
+        "mean_state_vote_accuracy": 0.6145833333333334
+      },
+      "elm_m32": {
+        "folds": {
+          "2026-05-30": {
+            "config": "elm-m32-sim-s0.15",
+            "frame_accuracy": 0.39395833333333335,
+            "macro_recall": 0.39395833333333335,
+            "macro_f1": 0.31691367329976855,
+            "state_vote_accuracy": 0.3958333333333333
+          },
+          "2026-05-31": {
+            "config": "elm-m32-sim-s0.15",
+            "frame_accuracy": 0.4890625,
+            "macro_recall": 0.4890625,
+            "macro_f1": 0.3935354242110069,
+            "state_vote_accuracy": 0.484375
+          },
+          "2026-06-01": {
+            "config": "elm-m32-sim-s0.25",
+            "frame_accuracy": 0.49875,
+            "macro_recall": 0.49874999999999997,
+            "macro_f1": 0.44146377305706375,
+            "state_vote_accuracy": 0.5
+          }
+        },
+        "mean_frame_accuracy": 0.4605902777777778,
+        "mean_macro_recall": 0.4605902777777778,
+        "mean_macro_f1": 0.3839709568559464,
+        "mean_state_vote_accuracy": 0.4600694444444444
+      },
+      "elm_m64": {
+        "folds": {
+          "2026-05-30": {
+            "config": "elm-m64-random-s0.15",
+            "frame_accuracy": 0.49354166666666666,
+            "macro_recall": 0.49354166666666666,
+            "macro_f1": 0.43393148789243663,
+            "state_vote_accuracy": 0.5
+          },
+          "2026-05-31": {
+            "config": "elm-m64-random-s0.15",
+            "frame_accuracy": 0.5359375,
+            "macro_recall": 0.5359375,
+            "macro_f1": 0.4647862489547673,
+            "state_vote_accuracy": 0.5625
+          },
+          "2026-06-01": {
+            "config": "elm-m64-random-s1",
+            "frame_accuracy": 0.333125,
+            "macro_recall": 0.333125,
+            "macro_f1": 0.2679361399806628,
+            "state_vote_accuracy": 0.328125
+          }
+        },
+        "mean_frame_accuracy": 0.4542013888888888,
+        "mean_macro_recall": 0.4542013888888888,
+        "mean_macro_f1": 0.3888846256092889,
+        "mean_state_vote_accuracy": 0.4635416666666667
+      },
+      "elm_m128": {
+        "folds": {
+          "2026-05-30": {
+            "config": "elm-m128-random-s0.15",
+            "frame_accuracy": 0.5777083333333334,
+            "macro_recall": 0.5777083333333334,
+            "macro_f1": 0.5218049790878881,
+            "state_vote_accuracy": 0.5729166666666666
+          },
+          "2026-05-31": {
+            "config": "elm-m128-random-s0.15",
+            "frame_accuracy": 0.5803125,
+            "macro_recall": 0.5803125,
+            "macro_f1": 0.5271980147851143,
+            "state_vote_accuracy": 0.59375
+          },
+          "2026-06-01": {
+            "config": "elm-m128-random-s0.15",
+            "frame_accuracy": 0.668125,
+            "macro_recall": 0.6681250000000001,
+            "macro_f1": 0.6260895294780573,
+            "state_vote_accuracy": 0.703125
+          }
+        },
+        "mean_frame_accuracy": 0.6087152777777778,
+        "mean_macro_recall": 0.6087152777777779,
+        "mean_macro_f1": 0.5583641744503532,
+        "mean_state_vote_accuracy": 0.6232638888888888
+      }
+    }
+  },
+  "arduino_ichiping_uno_q": {
+    "unoq_none": {
+      "linear": {
+        "config": "linear-ridge-lam1",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.7395833333333334,
+            "macro_recall": 0.7395833333333333,
+            "macro_f1": 0.7205357142857143,
+            "state_vote_accuracy": 0.8125
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.4375,
+            "macro_recall": 0.4375,
+            "macro_f1": 0.33979922519166705,
+            "state_vote_accuracy": 0.4375
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.46875,
+            "macro_recall": 0.46875,
+            "macro_f1": 0.3650311299978146,
+            "state_vote_accuracy": 0.4375
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.584375,
+            "macro_recall": 0.5843750000000001,
+            "macro_f1": 0.5245465198392301,
+            "state_vote_accuracy": 0.65625
+          }
+        },
+        "mean_frame_accuracy": 0.5575520833333334,
+        "mean_macro_recall": 0.5575520833333334,
+        "mean_macro_f1": 0.4874781473286065,
+        "mean_state_vote_accuracy": 0.5859375
+      },
+      "elm_m32": {
+        "config": "elm-m32-sim-s0.5",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.4791666666666667,
+            "macro_recall": 0.47916666666666663,
+            "macro_f1": 0.40975378787878786,
+            "state_vote_accuracy": 0.5
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.21875,
+            "macro_recall": 0.21875,
+            "macro_f1": 0.13834542341769915,
+            "state_vote_accuracy": 0.21875
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.303125,
+            "macro_recall": 0.303125,
+            "macro_f1": 0.21112155388471177,
+            "state_vote_accuracy": 0.3125
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.39375,
+            "macro_recall": 0.39375,
+            "macro_f1": 0.3122645188134739,
+            "state_vote_accuracy": 0.4375
+          }
+        },
+        "mean_frame_accuracy": 0.34869791666666666,
+        "mean_macro_recall": 0.34869791666666666,
+        "mean_macro_f1": 0.26787132099866817,
+        "mean_state_vote_accuracy": 0.3671875
+      },
+      "elm_m64": {
+        "config": "elm-m64-random-s0.5",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.6458333333333334,
+            "macro_recall": 0.6458333333333333,
+            "macro_f1": 0.6099702380952381,
+            "state_vote_accuracy": 0.75
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.375,
+            "macro_recall": 0.375,
+            "macro_f1": 0.25507717656866297,
+            "state_vote_accuracy": 0.375
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.40625,
+            "macro_recall": 0.40625,
+            "macro_f1": 0.2892097745162211,
+            "state_vote_accuracy": 0.40625
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.371875,
+            "macro_recall": 0.37187499999999996,
+            "macro_f1": 0.3451493780116851,
+            "state_vote_accuracy": 0.40625
+          }
+        },
+        "mean_frame_accuracy": 0.44973958333333336,
+        "mean_macro_recall": 0.4497395833333333,
+        "mean_macro_f1": 0.37485164179795183,
+        "mean_state_vote_accuracy": 0.484375
+      },
+      "elm_m128": {
+        "config": "elm-m128-random-s0.25",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.6770833333333334,
+            "macro_recall": 0.6770833333333333,
+            "macro_f1": 0.6467261904761905,
+            "state_vote_accuracy": 0.8125
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.3125,
+            "macro_recall": 0.3125,
+            "macro_f1": 0.20329410173160173,
+            "state_vote_accuracy": 0.3125
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.446875,
+            "macro_recall": 0.446875,
+            "macro_f1": 0.3502744752000784,
+            "state_vote_accuracy": 0.4375
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.6125,
+            "macro_recall": 0.6125,
+            "macro_f1": 0.5346129620286721,
+            "state_vote_accuracy": 0.625
+          }
+        },
+        "mean_frame_accuracy": 0.5122395833333333,
+        "mean_macro_recall": 0.5122395833333333,
+        "mean_macro_f1": 0.4337269323591357,
+        "mean_state_vote_accuracy": 0.546875
+      }
+    },
+    "unoq_ir2": {
+      "linear": {
+        "config": "linear-ridge-lam10",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.6875,
+            "macro_recall": 0.6875,
+            "macro_f1": 0.661620670995671,
+            "state_vote_accuracy": 0.78125
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.41875,
+            "macro_recall": 0.41874999999999996,
+            "macro_f1": 0.331247153036989,
+            "state_vote_accuracy": 0.40625
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.5,
+            "macro_recall": 0.5,
+            "macro_f1": 0.38769550840893385,
+            "state_vote_accuracy": 0.5
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.659375,
+            "macro_recall": 0.659375,
+            "macro_f1": 0.5943253167527236,
+            "state_vote_accuracy": 0.71875
+          }
+        },
+        "mean_frame_accuracy": 0.56640625,
+        "mean_macro_recall": 0.56640625,
+        "mean_macro_f1": 0.49372216229857935,
+        "mean_state_vote_accuracy": 0.6015625
+      },
+      "elm_m32": {
+        "config": "elm-m32-sim-s0.15",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.3958333333333333,
+            "macro_recall": 0.3958333333333333,
+            "macro_f1": 0.3416982323232323,
+            "state_vote_accuracy": 0.46875
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.21875,
+            "macro_recall": 0.21875,
+            "macro_f1": 0.12093541015559364,
+            "state_vote_accuracy": 0.21875
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.2375,
+            "macro_recall": 0.2375,
+            "macro_f1": 0.13725857475857475,
+            "state_vote_accuracy": 0.25
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.296875,
+            "macro_recall": 0.296875,
+            "macro_f1": 0.20378812207642905,
+            "state_vote_accuracy": 0.3125
+          }
+        },
+        "mean_frame_accuracy": 0.2872395833333333,
+        "mean_macro_recall": 0.2872395833333333,
+        "mean_macro_f1": 0.20092008482845744,
+        "mean_state_vote_accuracy": 0.3125
+      },
+      "elm_m64": {
+        "config": "elm-m64-random-s1",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.53125,
+            "macro_recall": 0.53125,
+            "macro_f1": 0.4614154942279942,
+            "state_vote_accuracy": 0.59375
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.3125,
+            "macro_recall": 0.3125,
+            "macro_f1": 0.20962595843422113,
+            "state_vote_accuracy": 0.3125
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.40625,
+            "macro_recall": 0.40625,
+            "macro_f1": 0.2873183053916446,
+            "state_vote_accuracy": 0.40625
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.434375,
+            "macro_recall": 0.434375,
+            "macro_f1": 0.3528394705784411,
+            "state_vote_accuracy": 0.4375
+          }
+        },
+        "mean_frame_accuracy": 0.42109375,
+        "mean_macro_recall": 0.42109375,
+        "mean_macro_f1": 0.3277998071580753,
+        "mean_state_vote_accuracy": 0.4375
+      },
+      "elm_m128": {
+        "config": "elm-m128-random-s0.25",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.6458333333333334,
+            "macro_recall": 0.6458333333333334,
+            "macro_f1": 0.6081168831168832,
+            "state_vote_accuracy": 0.78125
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.375,
+            "macro_recall": 0.375,
+            "macro_f1": 0.2729286398467433,
+            "state_vote_accuracy": 0.375
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.35625,
+            "macro_recall": 0.35625,
+            "macro_f1": 0.24058406282982556,
+            "state_vote_accuracy": 0.375
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.609375,
+            "macro_recall": 0.609375,
+            "macro_f1": 0.5605349719448649,
+            "state_vote_accuracy": 0.65625
+          }
+        },
+        "mean_frame_accuracy": 0.49661458333333336,
+        "mean_macro_recall": 0.49661458333333336,
+        "mean_macro_f1": 0.4205411394345792,
+        "mean_state_vote_accuracy": 0.546875
+      }
+    },
+    "unoq+frdm_ir2": {
+      "linear": {
+        "config": "linear-ridge-lam10",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.6875,
+            "macro_recall": 0.6875,
+            "macro_f1": 0.6631020021645022,
+            "state_vote_accuracy": 0.8125
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.515625,
+            "macro_recall": 0.515625,
+            "macro_f1": 0.43353508666008667,
+            "state_vote_accuracy": 0.5
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.54375,
+            "macro_recall": 0.54375,
+            "macro_f1": 0.44597913451802096,
+            "state_vote_accuracy": 0.5625
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.63125,
+            "macro_recall": 0.63125,
+            "macro_f1": 0.5673896091237021,
+            "state_vote_accuracy": 0.625
+          }
+        },
+        "mean_frame_accuracy": 0.59453125,
+        "mean_macro_recall": 0.59453125,
+        "mean_macro_f1": 0.527501458116578,
+        "mean_state_vote_accuracy": 0.625
+      },
+      "elm_m32": {
+        "config": "elm-m32-sim-s0.5",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.4479166666666667,
+            "macro_recall": 0.44791666666666663,
+            "macro_f1": 0.41343682359307354,
+            "state_vote_accuracy": 0.53125
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.28125,
+            "macro_recall": 0.28125,
+            "macro_f1": 0.18712995877080058,
+            "state_vote_accuracy": 0.28125
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.434375,
+            "macro_recall": 0.434375,
+            "macro_f1": 0.3118928657091258,
+            "state_vote_accuracy": 0.4375
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.340625,
+            "macro_recall": 0.340625,
+            "macro_f1": 0.25581985272143926,
+            "state_vote_accuracy": 0.3125
+          }
+        },
+        "mean_frame_accuracy": 0.37604166666666666,
+        "mean_macro_recall": 0.37604166666666666,
+        "mean_macro_f1": 0.2920698751986098,
+        "mean_state_vote_accuracy": 0.390625
+      },
+      "elm_m64": {
+        "config": "elm-m64-random-s1",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.5833333333333334,
+            "macro_recall": 0.5833333333333333,
+            "macro_f1": 0.5413690476190476,
+            "state_vote_accuracy": 0.625
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.41875,
+            "macro_recall": 0.41875,
+            "macro_f1": 0.32434446839080455,
+            "state_vote_accuracy": 0.4375
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.46875,
+            "macro_recall": 0.46875,
+            "macro_f1": 0.34298029556650245,
+            "state_vote_accuracy": 0.46875
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.4,
+            "macro_recall": 0.39999999999999997,
+            "macro_f1": 0.3344303266178266,
+            "state_vote_accuracy": 0.40625
+          }
+        },
+        "mean_frame_accuracy": 0.4677083333333334,
+        "mean_macro_recall": 0.4677083333333333,
+        "mean_macro_f1": 0.3857810345485453,
+        "mean_state_vote_accuracy": 0.484375
+      },
+      "elm_m128": {
+        "config": "elm-m128-random-s0.25",
+        "sets": {
+          "unoq_gray": {
+            "frame_accuracy": 0.6875,
+            "macro_recall": 0.6875,
+            "macro_f1": 0.6599770021645022,
+            "state_vote_accuracy": 0.78125
+          },
+          "unoq_evening": {
+            "frame_accuracy": 0.5,
+            "macro_recall": 0.5,
+            "macro_f1": 0.4201833278072502,
+            "state_vote_accuracy": 0.5
+          },
+          "unoq_survey": {
+            "frame_accuracy": 0.565625,
+            "macro_recall": 0.565625,
+            "macro_f1": 0.47698844428053355,
+            "state_vote_accuracy": 0.5625
+          },
+          "unoq_crowd": {
+            "frame_accuracy": 0.59375,
+            "macro_recall": 0.59375,
+            "macro_f1": 0.519498737739314,
+            "state_vote_accuracy": 0.59375
+          }
+        },
+        "mean_frame_accuracy": 0.58671875,
+        "mean_macro_recall": 0.58671875,
+        "mean_macro_f1": 0.5191618779979,
+        "mean_state_vote_accuracy": 0.609375
+      }
+    }
+  }
+}

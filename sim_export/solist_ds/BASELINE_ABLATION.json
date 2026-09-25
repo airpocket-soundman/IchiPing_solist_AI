@@ -1,0 +1,296 @@
+{
+  "protocol": {
+    "evaluation_baseline": "held-out run self baseline",
+    "training_views_per_recording": 2,
+    "frequency_augmentation": "0, +/- observed shift, +/- 2x"
+  },
+  "folds": {
+    "2026-05-30": {
+      "training_days": [
+        "2026-05-31",
+        "2026-06-01"
+      ],
+      "shift": {
+        "day_a": "2026-05-31",
+        "day_b": "2026-06-01",
+        "global_shift": 0.0015000000000000013,
+        "median_class_shift": 0.0010000000000000009,
+        "class_shift_iqr": [
+          0.0005000000000000004,
+          0.0020000000000000018
+        ],
+        "median_shape_correlation": 0.8998094797134399
+      },
+      "augmentation_delta": 0.0015000000000000013,
+      "strategies": {
+        "self_only": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.9435416666666666,
+            "macro_f1": 0.942439760873075,
+            "state_vote_accuracy": 0.9583333333333334,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 1.0547360943746753e-05,
+            "epochs_trained": 34,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.5116666666666667,
+            "macro_f1": 0.4603381032865339,
+            "state_vote_accuracy": 0.5,
+            "config": {
+              "scale": 1.0,
+              "ridge": 0.01
+            }
+          }
+        },
+        "within_day": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.8927083333333333,
+            "macro_f1": 0.8811896144945065,
+            "state_vote_accuracy": 0.8958333333333334,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 7.026108505669981e-06,
+            "epochs_trained": 24,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.581875,
+            "macro_f1": 0.5368732384727268,
+            "state_vote_accuracy": 0.5833333333333334,
+            "config": {
+              "scale": 1.0,
+              "ridge": 10.0
+            }
+          }
+        },
+        "cross_day": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.8270833333333333,
+            "macro_f1": 0.7992377016993574,
+            "state_vote_accuracy": 0.8333333333333334,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 1.748984459482017e-06,
+            "epochs_trained": 29,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.61,
+            "macro_f1": 0.561003611805651,
+            "state_vote_accuracy": 0.625,
+            "config": {
+              "scale": 0.5,
+              "ridge": 1.0
+            }
+          }
+        }
+      }
+    },
+    "2026-05-31": {
+      "training_days": [
+        "2026-05-30",
+        "2026-06-01"
+      ],
+      "shift": {
+        "day_a": "2026-05-30",
+        "day_b": "2026-06-01",
+        "global_shift": 0.0030000000000000027,
+        "median_class_shift": 0.0025000000000000022,
+        "class_shift_iqr": [
+          0.0020000000000000018,
+          0.003500000000000003
+        ],
+        "median_shape_correlation": 0.9106204509735107
+      },
+      "augmentation_delta": 0.0030000000000000027,
+      "strategies": {
+        "self_only": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.935,
+            "macro_f1": 0.9249743593328544,
+            "state_vote_accuracy": 0.953125,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 1.2545368008431979e-05,
+            "epochs_trained": 25,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.6896875,
+            "macro_f1": 0.6336154920942838,
+            "state_vote_accuracy": 0.6875,
+            "config": {
+              "scale": 0.5,
+              "ridge": 0.01
+            }
+          }
+        },
+        "within_day": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.9484375,
+            "macro_f1": 0.9418881027946705,
+            "state_vote_accuracy": 0.953125,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 6.43760540697258e-06,
+            "epochs_trained": 27,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.6690625,
+            "macro_f1": 0.6333916166345352,
+            "state_vote_accuracy": 0.671875,
+            "config": {
+              "scale": 0.15,
+              "ridge": 0.01
+            }
+          }
+        },
+        "cross_day": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.993125,
+            "macro_f1": 0.9931183041694653,
+            "state_vote_accuracy": 1.0,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 9.565780601406004e-06,
+            "epochs_trained": 23,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.685,
+            "macro_f1": 0.6404092089587162,
+            "state_vote_accuracy": 0.703125,
+            "config": {
+              "scale": 0.25,
+              "ridge": 0.01
+            }
+          }
+        }
+      }
+    },
+    "2026-06-01": {
+      "training_days": [
+        "2026-05-30",
+        "2026-05-31"
+      ],
+      "shift": {
+        "day_a": "2026-05-30",
+        "day_b": "2026-05-31",
+        "global_shift": -0.0004999999999999935,
+        "median_class_shift": 0.0010000000000000009,
+        "class_shift_iqr": [
+          -0.0024999999999999953,
+          0.0015000000000000013
+        ],
+        "median_shape_correlation": 0.9641546010971069
+      },
+      "augmentation_delta": 0.0004999999999999935,
+      "strategies": {
+        "self_only": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.8834375,
+            "macro_f1": 0.8636142178951158,
+            "state_vote_accuracy": 0.875,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 4.716083822131623e-06,
+            "epochs_trained": 25,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.5303125,
+            "macro_f1": 0.4695977563652776,
+            "state_vote_accuracy": 0.5625,
+            "config": {
+              "scale": 0.5,
+              "ridge": 0.01
+            }
+          }
+        },
+        "within_day": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.89375,
+            "macro_f1": 0.8666222654933311,
+            "state_vote_accuracy": 0.90625,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 7.887753099566908e-07,
+            "epochs_trained": 32,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.57875,
+            "macro_f1": 0.5007832832797082,
+            "state_vote_accuracy": 0.625,
+            "config": {
+              "scale": 0.5,
+              "ridge": 0.01
+            }
+          }
+        },
+        "cross_day": {
+          "PC CNN XL/1024": {
+            "frame_accuracy": 0.9034375,
+            "macro_f1": 0.8739509041551963,
+            "state_vote_accuracy": 0.90625,
+            "validation_macro_f1": 1.0,
+            "validation_loss": 1.0602628208289389e-05,
+            "epochs_trained": 20,
+            "parameters": 173248,
+            "device": "cuda"
+          },
+          "Solist ELM m32/shape167": {
+            "frame_accuracy": 0.588125,
+            "macro_f1": 0.5225767140516068,
+            "state_vote_accuracy": 0.609375,
+            "config": {
+              "scale": 0.5,
+              "ridge": 1.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "means": {
+    "self_only": {
+      "PC CNN XL/1024": {
+        "frame_accuracy": 0.9206597222222221,
+        "macro_f1": 0.910342779367015,
+        "state_vote_accuracy": 0.9288194444444445
+      },
+      "Solist ELM m32/shape167": {
+        "frame_accuracy": 0.5772222222222222,
+        "macro_f1": 0.5211837839153651,
+        "state_vote_accuracy": 0.5833333333333334
+      }
+    },
+    "within_day": {
+      "PC CNN XL/1024": {
+        "frame_accuracy": 0.9116319444444446,
+        "macro_f1": 0.8965666609275026,
+        "state_vote_accuracy": 0.9184027777777778
+      },
+      "Solist ELM m32/shape167": {
+        "frame_accuracy": 0.6098958333333333,
+        "macro_f1": 0.55701604612899,
+        "state_vote_accuracy": 0.6267361111111112
+      }
+    },
+    "cross_day": {
+      "PC CNN XL/1024": {
+        "frame_accuracy": 0.9078819444444445,
+        "macro_f1": 0.8887689700080063,
+        "state_vote_accuracy": 0.9131944444444445
+      },
+      "Solist ELM m32/shape167": {
+        "frame_accuracy": 0.6277083333333333,
+        "macro_f1": 0.5746631782719912,
+        "state_vote_accuracy": 0.6458333333333334
+      }
+    }
+  }
+}

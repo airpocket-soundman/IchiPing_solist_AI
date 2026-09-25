@@ -1,0 +1,212 @@
+{
+  "protocol": {
+    "baseline": "same run only",
+    "classes": 32,
+    "augmentation": "0, +/- observed day shift, +/- 2x observed day shift"
+  },
+  "folds": {
+    "2026-05-30": {
+      "training_days": [
+        "2026-05-31",
+        "2026-06-01"
+      ],
+      "shift": {
+        "day_a": "2026-05-31",
+        "day_b": "2026-06-01",
+        "global_shift": 0.0015000000000000013,
+        "median_class_shift": 0.0010000000000000009,
+        "class_shift_iqr": [
+          0.0005000000000000004,
+          0.0020000000000000018
+        ],
+        "median_shape_correlation": 0.8998094797134399
+      },
+      "augmentation_delta": 0.0015000000000000013,
+      "models": {
+        "PC CNN XL/1024": {
+          "frame_accuracy": 0.9097916666666667,
+          "macro_f1": 0.9066171066418749,
+          "state_vote_accuracy": 0.90625,
+          "validation_macro_f1": 1.0,
+          "validation_loss": 1.3377097275224514e-05,
+          "epochs_trained": 43,
+          "parameters": 173248,
+          "device": "cuda"
+        },
+        "PC CNN 167": {
+          "frame_accuracy": 0.5402083333333333,
+          "macro_f1": 0.49848162946205143,
+          "state_vote_accuracy": 0.5416666666666666,
+          "validation_macro_f1": 0.999218627910611,
+          "validation_loss": 0.0020615234971046448,
+          "epochs_trained": 17,
+          "parameters": 277600,
+          "device": "cuda"
+        },
+        "Solist ELM m32/shape167": {
+          "frame_accuracy": 0.5116666666666667,
+          "macro_f1": 0.4603381032865339,
+          "state_vote_accuracy": 0.5,
+          "compression": "400-3000Hz",
+          "config": {
+            "scale": 1.0,
+            "ridge": 0.01
+          }
+        },
+        "Solist ELM m32/D167": {
+          "frame_accuracy": 0.5120833333333333,
+          "macro_f1": 0.4761611691281706,
+          "state_vote_accuracy": 0.53125,
+          "config": {
+            "scale": 0.5,
+            "ridge": 1.0
+          }
+        }
+      }
+    },
+    "2026-05-31": {
+      "training_days": [
+        "2026-05-30",
+        "2026-06-01"
+      ],
+      "shift": {
+        "day_a": "2026-05-30",
+        "day_b": "2026-06-01",
+        "global_shift": 0.0030000000000000027,
+        "median_class_shift": 0.0025000000000000022,
+        "class_shift_iqr": [
+          0.0020000000000000018,
+          0.003500000000000003
+        ],
+        "median_shape_correlation": 0.9106204509735107
+      },
+      "augmentation_delta": 0.0030000000000000027,
+      "models": {
+        "PC CNN XL/1024": {
+          "frame_accuracy": 0.95,
+          "macro_f1": 0.9387588787529595,
+          "state_vote_accuracy": 0.953125,
+          "validation_macro_f1": 1.0,
+          "validation_loss": 1.0173939699598122e-05,
+          "epochs_trained": 34,
+          "parameters": 173248,
+          "device": "cuda"
+        },
+        "PC CNN 167": {
+          "frame_accuracy": 0.8625,
+          "macro_f1": 0.8373056954543824,
+          "state_vote_accuracy": 0.875,
+          "validation_macro_f1": 0.9949980609548794,
+          "validation_loss": 0.019200922921299934,
+          "epochs_trained": 14,
+          "parameters": 277600,
+          "device": "cuda"
+        },
+        "Solist ELM m32/shape167": {
+          "frame_accuracy": 0.6934375,
+          "macro_f1": 0.6361267269374816,
+          "state_vote_accuracy": 0.6875,
+          "compression": "400-3000Hz",
+          "config": {
+            "scale": 0.5,
+            "ridge": 1.0
+          }
+        },
+        "Solist ELM m32/D167": {
+          "frame_accuracy": 0.6534375,
+          "macro_f1": 0.6314765206244288,
+          "state_vote_accuracy": 0.640625,
+          "config": {
+            "scale": 0.15,
+            "ridge": 0.01
+          }
+        }
+      }
+    },
+    "2026-06-01": {
+      "training_days": [
+        "2026-05-30",
+        "2026-05-31"
+      ],
+      "shift": {
+        "day_a": "2026-05-30",
+        "day_b": "2026-05-31",
+        "global_shift": -0.0004999999999999935,
+        "median_class_shift": 0.0010000000000000009,
+        "class_shift_iqr": [
+          -0.0024999999999999953,
+          0.0015000000000000013
+        ],
+        "median_shape_correlation": 0.9641546010971069
+      },
+      "augmentation_delta": 0.0004999999999999935,
+      "models": {
+        "PC CNN XL/1024": {
+          "frame_accuracy": 0.900625,
+          "macro_f1": 0.8810139460549207,
+          "state_vote_accuracy": 0.90625,
+          "validation_macro_f1": 1.0,
+          "validation_loss": 9.375365152664017e-06,
+          "epochs_trained": 31,
+          "parameters": 173248,
+          "device": "cuda"
+        },
+        "PC CNN 167": {
+          "frame_accuracy": 0.8228125,
+          "macro_f1": 0.7896310637827249,
+          "state_vote_accuracy": 0.859375,
+          "validation_macro_f1": 0.9981248124812482,
+          "validation_loss": 0.011309407651424408,
+          "epochs_trained": 16,
+          "parameters": 277600,
+          "device": "cuda"
+        },
+        "Solist ELM m32/shape167": {
+          "frame_accuracy": 0.5303125,
+          "macro_f1": 0.4695977563652776,
+          "state_vote_accuracy": 0.5625,
+          "compression": "400-3000Hz",
+          "config": {
+            "scale": 0.5,
+            "ridge": 0.01
+          }
+        },
+        "Solist ELM m32/D167": {
+          "frame_accuracy": 0.566875,
+          "macro_f1": 0.5232128784574523,
+          "state_vote_accuracy": 0.59375,
+          "config": {
+            "scale": 0.5,
+            "ridge": 0.01
+          }
+        }
+      }
+    }
+  },
+  "means": {
+    "PC CNN XL/1024": {
+      "frame_accuracy": 0.920138888888889,
+      "macro_f1": 0.908796643816585,
+      "state_vote_accuracy": 0.921875,
+      "frame_drop_from_pc_ideal": 0.0
+    },
+    "PC CNN 167": {
+      "frame_accuracy": 0.7418402777777778,
+      "macro_f1": 0.7084727962330529,
+      "state_vote_accuracy": 0.7586805555555555,
+      "frame_drop_from_pc_ideal": 0.17829861111111112
+    },
+    "Solist ELM m32/shape167": {
+      "frame_accuracy": 0.5784722222222222,
+      "macro_f1": 0.522020862196431,
+      "state_vote_accuracy": 0.5833333333333334,
+      "frame_drop_from_pc_ideal": 0.3416666666666668
+    },
+    "Solist ELM m32/D167": {
+      "frame_accuracy": 0.5774652777777778,
+      "macro_f1": 0.5436168560700173,
+      "state_vote_accuracy": 0.5885416666666666,
+      "frame_drop_from_pc_ideal": 0.34267361111111116
+    }
+  }
+}

@@ -5,7 +5,10 @@ param(
     [string]$SourceProject = "$env:USERPROFILE\lexide\workspace_omega_v2\AcrylicPanCollector_lowlatency",
     # ichi_main: UART request/response firmware.  ichi_pipeline_main: Stamp I2C PCM ->
     # on-chip N333 feature -> inference test (firmware/StampPipelineTest).
-    [ValidateSet("ichi_main", "ichi_pipeline_main")]
+    # ichi_tft_test_main: ILI9341 TFT bring-up (colour bars, text, counter).
+    # ichi_io_test_main: switch / EXEC states from the Stamp (I2C STATUS) shown on the TFT.
+    # ichi_servo_test_main: PCA9685 + SG90 one-by-one sweep started / stopped with EXEC.
+    [ValidateSet("ichi_main", "ichi_pipeline_main", "ichi_tft_test_main", "ichi_io_test_main", "ichi_servo_test_main")]
     [string]$Main = "ichi_main",
     # CMSIS Core include (ARM.CMSIS 5.9.0 pack) of this PC.
     [string]$CmsisInclude = "$env:LOCALAPPDATA\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include",
@@ -26,6 +29,9 @@ $fwRoot = Split-Path -Parent $PSScriptRoot                  # firmware/IchiPingI
 $repoRoot = Split-Path -Parent (Split-Path -Parent $fwRoot)
 $makeExe = "C:\LAPIS\LEXIDE\Utilities\Bin\make.exe"
 if ($Main -eq "ichi_pipeline_main") { $sources = @("ichi_protocol", "ichi_inference", "ichi_feature", "ichi_stamp_link") }
+elseif ($Main -eq "ichi_tft_test_main") { $sources = @("ichi_tft") }
+elseif ($Main -eq "ichi_io_test_main") { $sources = @("ichi_tft", "ichi_stamp_link") }
+elseif ($Main -eq "ichi_servo_test_main") { $sources = @("ichi_tft", "ichi_stamp_link", "ichi_servo") }
 else { $sources = @("ichi_protocol", "ichi_inference", "ichi_app") }
 if (-not (Test-Path -LiteralPath $CmsisInclude -PathType Container)) { throw "CMSIS include not found: $CmsisInclude" }
 

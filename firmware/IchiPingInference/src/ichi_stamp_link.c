@@ -20,6 +20,7 @@
 #define RETRY_LIMIT    (8U)
 #define CMD_INFO       (0x01U)
 #define CMD_CLIP       (0x02U)
+#define CMD_STATUS     (0x03U)
 #define CMD_READ       (0x10U)
 
 static uint8_t current_clip;
@@ -70,7 +71,7 @@ static void stop(void)
     (void)wait_sr(SR_MBB, false);
 }
 
-static bool write_bytes(const uint8_t *data, uint8_t size)
+static bool write_bytes(uint8_t address, const uint8_t *data, uint8_t size)
 {
     uint8_t i;
     bool ok = false;
@@ -80,7 +81,7 @@ static bool write_bytes(const uint8_t *data, uint8_t size)
     {
         set_bit(I2CF0->I2F0CTL, CTL_MTX);
         clear_bit(I2CF0->I2F0CTL, CTL_TXAK);
-        write_reg32(I2CF0->I2F0DR, (uint32_t)(ICHI_STAMP_ADDR << 1));
+        write_reg32(I2CF0->I2F0DR, (uint32_t)(address << 1));
         set_bit(I2CF0->I2F0CTL, CTL_MSTA);
         ok = true;
         for (i = 0U; ok && (i <= size); i++)
@@ -158,7 +159,7 @@ static bool exchange(const uint8_t *cmd, uint8_t cmd_size, uint16_t reply_size,
         bool match = true;
         if (attempt != 0U) { retry_count++; }
         wdt_clear();
-        if (!write_bytes(cmd, cmd_size))
+        if (!write_bytes(ICHI_STAMP_ADDR, cmd, cmd_size))
         {
             delay_us(2000UL);
             continue;
@@ -198,6 +199,16 @@ bool IchiStampGetClip(uint8_t clip, uint8_t *class_id)
     return true;
 }
 
+bool IchiStampGetSwitches(uint8_t *state, bool *exec_pressed)
+{
+    static const uint8_t cmd[1] = {CMD_STATUS};
+    static const uint8_t expect[1] = {'S'};
+    if (!exchange(cmd, 1U, 4U, expect, 1U)) { return false; }
+    *state = (uint8_t)(reply[1] & 0x1FU);
+    *exec_pressed = (reply[2] & 1U) != 0U;
+    return true;
+}
+
 void IchiStampSelectClip(uint8_t clip)
 {
     current_clip = clip;
@@ -224,6 +235,11 @@ bool IchiStampReadPcm(uint16_t offset, int16_t *dst, uint16_t count)
         count = (uint16_t)(count - n);
     }
     return true;
+}
+
+bool IchiI2cWrite(uint8_t address, const uint8_t *data, uint8_t size)
+{
+    return write_bytes(address, data, size);
 }
 
 uint32_t IchiStampRetryCount(void)

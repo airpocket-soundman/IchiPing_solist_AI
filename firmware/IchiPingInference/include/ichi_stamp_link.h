@@ -7,6 +7,7 @@
    the reply echoes the request so a stale reply is detected and retried.
      INFO  0x01              -> 'I' 'C' clips u8 baseline u8 samples u16 version u8 0
      CLIP  0x02 clip         -> clip u8 class u8 (0xFF = baseline) 0 0
+     STATUS 0x03             -> 'S' switches u8 (bit0..4 = a b c AB BC, 1 = OPEN) exec u8 (1 = pressed) seq u8
      READ  0x10 clip off n   -> off u16 clip u8 n u8 | n x int16 PCM   (n <= 64)
    (firmware/StampPipelineTest/stamp implements the Stamp side.)
 
@@ -30,9 +31,13 @@ typedef struct
 
 bool IchiStampGetInfo(IchiStampInfo *info);
 bool IchiStampGetClip(uint8_t clip, uint8_t *class_id);
+/* Door/window switches and EXEC read by the Stamp (firmware/StampMicTest implements STATUS). */
+bool IchiStampGetSwitches(uint8_t *state, bool *exec_pressed);
 /* Selects the clip read by IchiStampReadPcm (an IchiPcmReader). */
 void IchiStampSelectClip(uint8_t clip);
 bool IchiStampReadPcm(uint16_t offset, int16_t *dst, uint16_t count);
+/* Plain write to any device on the shared I2CF0 bus (e.g. PCA9685 0x40). */
+bool IchiI2cWrite(uint8_t address, const uint8_t *data, uint8_t size);
 /* Transfer statistics since boot. */
 uint32_t IchiStampRetryCount(void);
 uint32_t IchiStampByteCount(void);

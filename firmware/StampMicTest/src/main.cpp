@@ -14,7 +14,14 @@
 //   D0..D3    drive strength of BCLK/WS/DOUT (diagnostics, default 0)
 //   R<sec>    record mic: "PCM16 <n>\n" + int16 LE mono 16 kHz + "END\n" (output keeps running)
 // Every 200 ms: "LVL out=<mode> rms=..dBFS peak=..dBFS dc=.. zero=.. right_rms=..dBFS"
+//   (L1 / L0 turns these lines on / off; default off)
+// Switches (docs/io_allocation.md, INPUT_PULLUP, GPIO interrupt + 20 ms debounce), printed on change and on "W":
+//   "SW state=s<a><b><c><AB><BC> EXEC=<0|1>"  state bit 1 = OPEN (High), 0 = CLOSE (Low to GND);
+//   EXEC=1 while the button is pressed (Low).  Window a G44, b G2, c G4, door AB G6, BC G8, EXEC G10.
+// I2C slave 0x42 (G13 SDA, G15 SCL, 400 kHz) for the Solist (firmware/IchiPingInference ichi_stamp_link):
+//   write 0x03 -> read 'S' switches(bit0..4 = a b c AB BC, 1 = OPEN) exec(1 = pressed) seq
 #include <Arduino.h>
+#include <Wire.h>
 #include <math.h>
 #include "driver/gpio.h"
 #include "driver/i2s_std.h"
@@ -28,6 +35,14 @@ static constexpr uint32_t RATE = 48000;
 static constexpr size_t FRAMES = 480;              // 10 ms per transfer
 static constexpr float DEFAULT_DBFS = -41.1f;      // 0.0088 full scale
 static constexpr float MAX_DBFS = -20.0f;
+static constexpr int PIN_SW[5] = {44, 2, 4, 6, 8};                 // a, b, c, AB, BC
+static constexpr int PIN_EXEC = 10;
+static bool level_lines = false;                                  // L1 to enable LVL lines
+static constexpr uint8_t I2C_ADDR = 0x42;
+static constexpr int PIN_SDA = 13, PIN_SCL = 15;
+static volatile uint8_t sw_stable = 0;                              // bit0..4 switches, bit5 EXEC
+static volatile uint8_t i2c_reply[4];
+static volatile uint8_t i2c_reply_len = 0, i2c_seq = 0;
 
 enum class Out { Off, Prbs, Tone };
 static volatile Out out_mode = Out::Off;
@@ -153,6 +168,77 @@ static void record(uint32_t seconds)
     Serial.print("END\n");
 }
 
+static uint8_t read_switches()
+{
+    uint8_t v = 0;
+    for (int i = 0; i < 5; i++) v |= (uint8_t)(digitalRead(PIN_SW[i]) == HIGH ? 1u : 0u) << i;
+    v |= (uint8_t)(digitalRead(PIN_EXEC) == LOW ? 1u : 0u) << 5;
+    return v;
+}
+
+static void print_switches(uint8_t v)
+{
+    char bits[6];
+    for (int i = 0; i < 5; i++) bits[i] = (char)('0' + ((v >> i) & 1u));
+    bits[5] = '\0';
+    Serial.printf("SW state=s%s EXEC=%u\n", bits, (unsigned)((v >> 5) & 1u));
+}
+
+// Switch edges raise a GPIO interrupt; the loop then debounces (20 ms) and publishes the
+// stable state for the Solist's I2C STATUS request.
+static volatile bool sw_edge = true;
+static void IRAM_ATTR on_switch_edge() { sw_edge = true; }
+
+static void poll_switches_core()
+{
+    static uint8_t stable = 0xFF, candidate = 0xFF;
+    static uint32_t since = 0;
+    if (!sw_edge && candidate == stable) return;                    // nothing changed since the last edge
+    sw_edge = false;
+    uint8_t now = read_switches();
+    if (now != candidate) { candidate = now; since = millis(); sw_edge = true; }
+    else if (candidate != stable && millis() - since >= 20) { stable = candidate; sw_stable = stable; }
+    else if (candidate != stable) sw_edge = true;                   // keep checking until debounced
+}
+
+// Switch polling runs in its own task every 1 ms so it never waits for I2S reads or
+// for USB CDC output (which blocks while no host is reading the port).
+static volatile uint8_t sw_print_pending = 0xFF;
+static void switch_task(void *)
+{
+    for (;;) {
+        uint8_t before = sw_stable;
+        poll_switches_core();
+        if (sw_stable != before) sw_print_pending = sw_stable;
+        vTaskDelay(1);
+    }
+}
+
+static void i2c_receive(int len)
+{
+    uint8_t cmd = 0xFF;
+    for (int i = 0; Wire.available(); i++) {
+        int b = Wire.read();
+        if (i == 0) cmd = (uint8_t)b;
+    }
+    i2c_reply_len = 0;
+    if (cmd == 0x03) {
+        uint8_t v = sw_stable;
+        i2c_reply[0] = 'S';
+        i2c_reply[1] = v & 0x1F;
+        i2c_reply[2] = (v >> 5) & 1;
+        i2c_reply[3] = i2c_seq++;
+        i2c_reply_len = 4;
+    }
+}
+
+static void i2c_request()
+{
+    static const uint8_t none[4] = {0xEE, 0xEE, 0xEE, 0xEE};
+    if (i2c_reply_len != 0) Wire.write((const uint8_t *)i2c_reply, i2c_reply_len);
+    else Wire.write(none, sizeof(none));
+}
+
 static void handle(const String &cmd)
 {
     if (cmd.startsWith("R")) {
@@ -174,6 +260,10 @@ static void handle(const String &cmd)
         gpio_drive_cap_t cap = (gpio_drive_cap_t)constrain(cmd.substring(1).toInt(), 0, 3);
         for (int pin : {PIN_BCLK, PIN_WS, PIN_DOUT}) gpio_set_drive_capability((gpio_num_t)pin, cap);
         Serial.printf("OK DRIVE %d\n", (int)cap);
+    } else if (cmd.startsWith("W")) {
+        print_switches(read_switches());
+    } else if (cmd.startsWith("L")) {
+        level_lines = cmd.substring(1).toInt() != 0;
     } else if (cmd.startsWith("S")) {
         output_stop();
         Serial.println("OK STOP");
@@ -184,12 +274,22 @@ void setup()
 {
     pinMode(PIN_AMP_SD, OUTPUT);
     digitalWrite(PIN_AMP_SD, LOW);                                   // amplifier off during start-up
+    for (int pin : PIN_SW) pinMode(pin, INPUT_PULLUP);
+    pinMode(PIN_EXEC, INPUT_PULLUP);
+    for (int pin : PIN_SW) attachInterrupt(digitalPinToInterrupt(pin), on_switch_edge, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(PIN_EXEC), on_switch_edge, CHANGE);
+    sw_stable = read_switches();
+    Wire.begin(I2C_ADDR, PIN_SDA, PIN_SCL, 400000);
+    Wire.onReceive(i2c_receive);
+    Wire.onRequest(i2c_request);
+    xTaskCreatePinnedToCore(switch_task, "switches", 3072, nullptr, 4, nullptr, 0);
     Serial.begin(115200);
+    Serial.setTxTimeoutMs(0);                                        // never block when no host reads USB CDC
     i2s_start();
     for (int i = 0; i < SINE_N; i++) sine_table[i] = sinf(2.0f * (float)M_PI * i / SINE_N);
     xTaskCreatePinnedToCore(tx_task, "i2s_tx", 4096, nullptr, 5, nullptr, 0);
     for (int i = 0; i < 20; i++) read_frames();                      // discard start-up (>218 SCK cycles)
-    Serial.println("INMP441 + MAX98357A test ready. P[dBFS] F<Hz>[ dBFS] S R<sec>");
+    Serial.println("INMP441 + MAX98357A + switch test ready. P[dBFS] F<Hz>[ dBFS] S R<sec> W L0/L1");
 }
 
 void loop()
@@ -204,6 +304,7 @@ void loop()
         if (c == '\n') { handle(cmd); cmd = ""; }
         else if (c != '\r') { cmd += c; }
     }
+    if (sw_print_pending != 0xFF) { uint8_t v = sw_print_pending; sw_print_pending = 0xFF; print_switches(v); }
     size_t n = read_frames();
     for (size_t i = 0; i < n; i++) {
         int32_t l = sample24(rx_buf[2 * i]), r = sample24(rx_buf[2 * i + 1]);
@@ -214,12 +315,17 @@ void loop()
         zero += (l == 0);
         count++;
     }
-    if (millis() - last >= 200 && count > 0) {
+    if (millis() - last >= 200 && count > 0 && level_lines) {
         double mean = sum / count, var = sum2 / count - mean * mean;
         const char *mode = out_mode == Out::Prbs ? "prbs" : out_mode == Out::Tone ? "tone" : "off";
         Serial.printf("LVL out=%s rms=%.1fdBFS peak=%.1fdBFS dc=%ld zero=%.3f right_rms=%.1fdBFS\n",
                       mode, dbfs24(sqrt(var > 0 ? var : 0)), dbfs24(peak), (long)mean,
                       (double)zero / count, dbfs24(sqrt(sum2_r / count)));
+        sum = sum2 = sum2_r = 0;
+        peak = 0;
+        count = zero = 0;
+        last = millis();
+    } else if (!level_lines && millis() - last >= 200) {
         sum = sum2 = sum2_r = 0;
         peak = 0;
         count = zero = 0;

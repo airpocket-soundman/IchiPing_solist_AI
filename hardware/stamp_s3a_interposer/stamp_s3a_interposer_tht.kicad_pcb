@@ -2524,6 +2524,7 @@
 		(property "Value" "AMP:LRC,BCLK,DIN,GND"
 			(at 3.5 -5.5 90)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "008531f5-acba-41c7-a232-d478049929c4")
 			(effects
 				(font
@@ -2975,6 +2976,7 @@
 		(property "Value" "MIC:GND,3V3,SD,SCK,WS,LR"
 			(at 6 -4 90)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "7f2ed7f1-8147-4210-b5c2-6440070da642")
 			(effects
 				(font
@@ -10474,6 +10476,7 @@
 		(property "Value" "TFT:MISO_NC,BL,SCK,MOSI,DC"
 			(at 5 4.6 90)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "c3cafd39-2b56-4db7-8d45-fca5ba188aa1")
 			(effects
 				(font
@@ -12327,6 +12330,7 @@
 		(property "Value" "AMP:SD,GND,5V"
 			(at 2.5 -3.975 90)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "f545ac85-bf4d-4bda-b566-edcbe0e6677b")
 			(effects
 				(font
@@ -13108,6 +13112,7 @@
 		(property "Value" "TFT:RST,CS,GND,VCC"
 			(at 3.75 4.6 90)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "a91745be-d027-4a15-a6c9-978bdd7b40b1")
 			(effects
 				(font
@@ -14258,19 +14263,8 @@
 			)
 		)
 	)
-	(gr_text "1:NC 2:BL 3:SCK 4:MOSI 5:DC"
-		(at 38.6 41 90)
-		(layer "F.SilkS")
-		(uuid "b145ea58-ac56-4bc3-ade6-a3dfba6d9b17")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.13)
-			)
-		)
-	)
 	(gr_text "1:RST 2:CS 3:GND 4:5V"
-		(at 42 24.25 90)
+		(at 39 20.5 90)
 		(layer "F.SilkS")
 		(uuid "cb93e1b1-a940-4273-831d-cf4a160f7ec3")
 		(effects
@@ -14280,8 +14274,30 @@
 			)
 		)
 	)
+	(gr_text "1:NC 2:BL 3:SCK 4:MOSI 5:DC"
+		(at 39 37 90)
+		(layer "F.SilkS")
+		(uuid "b145ea58-ac56-4bc3-ade6-a3dfba6d9b17")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.13)
+			)
+		)
+	)
+	(gr_text "1:WS 2:BCLK 3:DIN 4:GND"
+		(at 100 47 90)
+		(layer "F.SilkS")
+		(uuid "4bb8d913-f49f-4b0f-829f-fc663cfa1673")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.13)
+			)
+		)
+	)
 	(gr_text "1:GND 2:3V3 3:SD 4:BCLK 5:WS 6:GND"
-		(at 99.3 35 90)
+		(at 101.5 29.5 90)
 		(layer "F.SilkS")
 		(uuid "165e1074-d9af-46dd-8eb1-efeca70aed0b")
 		(effects
@@ -14292,20 +14308,9 @@
 		)
 	)
 	(gr_text "1:SD 2:GND 3:5V"
-		(at 99.3 63 90)
+		(at 101.5 60 90)
 		(layer "F.SilkS")
 		(uuid "7292f123-ae14-4e5d-80d6-06da4ec1f08d")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.13)
-			)
-		)
-	)
-	(gr_text "1:WS 2:BCLK 3:DIN 4:GND"
-		(at 100.8 51 90)
-		(layer "F.SilkS")
-		(uuid "4bb8d913-f49f-4b0f-829f-fc663cfa1673")
 		(effects
 			(font
 				(size 0.8 0.8)

@@ -17,6 +17,11 @@ bool IchiServoInitialize(void);
 void IchiServoEnable(bool enable);
 /* Pulse width in microseconds, limited to 1000..2000 us. */
 bool IchiServoSetPulse(uint8_t channel, uint16_t pulse_us);
+/* Raw OFF count (0..4095 of the 20 ms period).  UNO Q model house: OPEN 0 deg = 102,
+   CLOSE 180 deg = 553 (IchiPing-UNO-Q sketch.ino originalServoAngleCount). */
+#define ICHI_SERVO_OPEN_COUNT  (102U)
+#define ICHI_SERVO_CLOSE_COUNT (553U)
+bool IchiServoSetCount(uint8_t channel, uint16_t count);
 /* Output fully off (servo unpowered by signal, stops holding). */
 bool IchiServoRelease(uint8_t channel);
 

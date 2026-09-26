@@ -70,11 +70,12 @@ static void draw_exec(bool pressed, uint32_t presses)
 
 static void draw_state(uint8_t state)
 {
-    char text[] = "S00000 (A B C AB BC)";
+    static const uint8_t order[5] = { 2U, 4U, 1U, 3U, 0U };   /* C, BC, B, AB, A */
+    char text[] = "h00000 (C BC B AB A)";
     uint8_t bit;
     for (bit = 0U; bit < 5U; bit++)
     {
-        text[1U + bit] = (char)('0' + ((state >> bit) & 1U));
+        text[1U + bit] = (char)('0' + ((state >> order[bit]) & 1U));
     }
     IchiTftDrawText(8U, 176U, text, ICHI_CYAN, ICHI_BLACK, 2U);
 }

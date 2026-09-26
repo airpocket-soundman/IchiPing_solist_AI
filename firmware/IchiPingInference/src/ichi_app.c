@@ -173,10 +173,11 @@ static void handle_request(const IchiFrame *frame)
     }
 }
 
-/* LCD: "S01101  cls 13  " / "T  1230ms       " (32 classes: door bits a b c AB BC). */
+/* LCD: "h01101  cls 13  " / "T  1230ms       " (32 classes: "h" + C BC B AB A, the TFT order). */
 static void draw_result(void)
 {
-    char line1[17] = "S00000  cls 00  ";
+    static const uint8_t order[5] = { 2U, 4U, 1U, 3U, 0U };   /* C, BC, B, AB, A */
+    char line1[17] = "h00000  cls 00  ";
     char line2[17] = "T 00000ms       ";
     uint8_t bit;
     uint16_t ms = lcd_total_ms;
@@ -185,7 +186,7 @@ static void draw_result(void)
     {
         for (bit = 0U; bit < 5U; bit++)
         {
-            line1[1U + bit] = (char)('0' + ((lcd_class_id >> bit) & 1U));
+            line1[1U + bit] = (char)('0' + ((lcd_class_id >> order[bit]) & 1U));
         }
     }
     else

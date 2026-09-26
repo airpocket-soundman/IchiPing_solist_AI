@@ -21,6 +21,8 @@
 #define CMD_INFO       (0x01U)
 #define CMD_CLIP       (0x02U)
 #define CMD_STATUS     (0x03U)
+#define CMD_MEASURE    (0x20U)
+#define CMD_MSTAT      (0x21U)
 #define CMD_READ       (0x10U)
 
 static uint8_t current_clip;
@@ -207,6 +209,27 @@ bool IchiStampGetSwitches(uint8_t *state, bool *exec_pressed)
     *state = (uint8_t)(reply[1] & 0x1FU);
     *exec_pressed = (reply[2] & 1U) != 0U;
     return true;
+}
+
+bool IchiStampMeasure(uint8_t mode)
+{
+    const uint8_t start[2] = {CMD_MEASURE, mode};
+    static const uint8_t poll[1] = {CMD_MSTAT};
+    static const uint8_t expect[1] = {'M'};
+    uint32_t n;
+    uint8_t id;
+    if (!exchange(start, 2U, 4U, expect, 1U)) { return false; }
+    id = reply[2];
+    for (n = 0UL; n < 1500UL; n++)                      /* 1500 x 10 ms = 15 s */
+    {
+        delay_us(10000UL);
+        wdt_clear();
+        if (!exchange(poll, 1U, 4U, expect, 1U)) { continue; }
+        if (reply[2] != id) { return false; }
+        if (reply[1] == 2U) { return true; }            /* done */
+        if (reply[1] == 3U) { return false; }           /* capture / alignment failed */
+    }
+    return false;
 }
 
 void IchiStampSelectClip(uint8_t clip)

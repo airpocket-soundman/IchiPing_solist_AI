@@ -51,20 +51,23 @@ bool IchiServoInitialize(void)
     return ok;
 }
 
-bool IchiServoSetPulse(uint8_t channel, uint16_t pulse_us)
+bool IchiServoSetCount(uint8_t channel, uint16_t counts)
 {
-    uint16_t counts;
     uint8_t data[5];
-    if (channel >= 16U) { return false; }
-    if (pulse_us < 1000U) { pulse_us = 1000U; }
-    if (pulse_us > 2000U) { pulse_us = 2000U; }
-    counts = (uint16_t)(((uint32_t)pulse_us * 4096UL + PERIOD_US / 2UL) / PERIOD_US);
+    if ((channel >= 16U) || (counts > 4095U)) { return false; }
     data[0] = (uint8_t)(REG_LED0 + 4U * channel);
     data[1] = 0U;                                                    /* ON at count 0 */
     data[2] = 0U;
     data[3] = (uint8_t)counts;                                       /* OFF at pulse end */
     data[4] = (uint8_t)(counts >> 8);
     return IchiI2cWrite(PCA_ADDR, data, 5U);
+}
+
+bool IchiServoSetPulse(uint8_t channel, uint16_t pulse_us)
+{
+    if (pulse_us < 1000U) { pulse_us = 1000U; }
+    if (pulse_us > 2000U) { pulse_us = 2000U; }
+    return IchiServoSetCount(channel, (uint16_t)(((uint32_t)pulse_us * 4096UL + PERIOD_US / 2UL) / PERIOD_US));
 }
 
 bool IchiServoRelease(uint8_t channel)

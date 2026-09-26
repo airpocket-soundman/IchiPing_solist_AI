@@ -22,7 +22,7 @@
 
 void IchiTftInitialize(void);
 void IchiTftFillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
-/* 5x7 font (space, digits, A-Z, a few symbols), each dot drawn as scale x scale pixels. */
+/* 5x7 font (space, digits, A-Z, a-z, a few symbols), each dot drawn as scale x scale pixels. */
 void IchiTftDrawText(uint16_t x, uint16_t y, const char *text, uint16_t fg, uint16_t bg, uint8_t scale);
 
 #endif

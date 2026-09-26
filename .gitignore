@@ -39,3 +39,6 @@ sim_export/solist_ds/test_*.csv
 # PlatformIO build output and generated Stamp clip image
 firmware/**/.pio/
 firmware/StampPipelineTest/stamp/data/
+
+# 実機採取セッション (巨大, 再採取可能)
+captures/

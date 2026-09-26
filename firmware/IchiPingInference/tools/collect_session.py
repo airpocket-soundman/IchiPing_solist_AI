@@ -76,26 +76,34 @@ class Stamp:
 
     def measure(self, retries=3):
         for _ in range(retries):
-            self.s.reset_input_buffer()
-            self.s.write(b"M\n")
-            l = ""
-            t = time.time()
-            while not l.startswith("MEAS") and time.time() - t < 10:
-                l = self.line(10)
-            if " ok " not in l:
-                print("   ", l, "-> retry", flush=True); continue
-            info = dict(kv.split("=") for kv in l.split() if "=" in kv)
-            self.s.write(b"D\n")
-            h = self.line(5)
-            if not h.startswith("PCM16"):
-                continue
-            n = int(h.split()[1])
-            data = self.s.read(2 * n)
-            end = self.line(5)
-            if len(data) != 2 * n or end != "END":
-                print("    short dump -> retry", flush=True); continue
-            return np.frombuffer(data, "<i2").copy(), int(info["onset"]), float(info["rms"])
+            try:
+                return self._measure_once()
+            except (TimeoutError, ValueError) as e:       # USB CDC の取りこぼし (END 未着など) は測り直す
+                print(f"    {e} -> retry", flush=True)
+                time.sleep(1.0)
+                self.s.reset_input_buffer()
         raise RuntimeError("Stamp: measurement failed")
+
+    def _measure_once(self):
+        self.s.reset_input_buffer()
+        self.s.write(b"M\n")
+        l = ""
+        t = time.time()
+        while not l.startswith("MEAS") and time.time() - t < 10:
+            l = self.line(10)
+        if " ok " not in l:
+            raise ValueError(f"{l}")
+        info = dict(kv.split("=") for kv in l.split() if "=" in kv)
+        self.s.write(b"D\n")
+        h = self.line(5)
+        if not h.startswith("PCM16"):
+            raise ValueError(f"unexpected header {h!r}")
+        n = int(h.split()[1])
+        data = self.s.read(2 * n)
+        end = self.line(5)
+        if len(data) != 2 * n or end != "END":
+            raise ValueError("short dump")
+        return np.frombuffer(data, "<i2").copy(), int(info["onset"]), float(info["rms"])
 
 
 def write_wav(p: Path, x: np.ndarray):

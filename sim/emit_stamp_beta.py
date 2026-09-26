@@ -1,4 +1,4 @@
-"""工場の前段 (int8 CNN) はそのままに、ELM β をこのハード (Stamp-S3A) のセッションで解き直して実機用に書き出す。
+"""UNO Q のみの事前学習モデルの前段 (int8 CNN) はそのままに、ELM β をこのハード (Stamp-S3A) のセッションで解き直して実機用に書き出す。
 
 sim/eval_stamp_mix.py の beta_stamp / beta_mix と同じ計算:
   stamp: β = (Σ_Stamp H^T H + λI)^-1 Σ_Stamp H^T Y
@@ -6,7 +6,7 @@ sim/eval_stamp_mix.py の beta_stamp / beta_mix と同じ計算:
 λ は与えたセッションの leave-one-session-out 平均 (32 クラス) で選ぶ。
 
 出力:
-  sim_export/solist_ds/board_model_frontend_32cls_stamp.npz   工場 npz の beta / ridge を差し替えたもの
+  sim_export/solist_ds/board_model_frontend_32cls_stamp.npz   UNO Q のみの事前学習 npz の beta / ridge を差し替えたもの
   firmware/IchiPingInference/generated/ichiping_model.h      ichi_model_beta[] だけを差し替え (前段・自己テストはそのまま)
   firmware/IchiPingInference/generated/ichi_calib_prior.h    現地校正の P0 = w (G + λI)^-1 (G = 今回 β を解いた重み付き Gram)
 

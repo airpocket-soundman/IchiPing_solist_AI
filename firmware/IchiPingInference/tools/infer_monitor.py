@@ -66,7 +66,7 @@ def main():
                     out = np.frombuffer(p, "<f4", count=32, offset=8).tolist()
                     rec.update(kind="result", actual=act, pred=pred, calibrated=bool(cal), transfer_ms=ms, outputs=out)
                     verdict = "完全一致" if pred == act else ("14クラス一致" if class14(pred) == class14(act) else "不一致")
-                    print(f"推論 実際 {label(act)} -> 推論 {label(pred)}  {verdict}  ({'校正済み' if cal else '工場モデル'}, 転送 {ms} ms)")
+                    print(f"推論 実際 {label(act)} -> 推論 {label(pred)}  {verdict}  ({'校正済み' if cal else '事前学習モデル'}, 転送 {ms} ms)")
                 elif fr.type == 0x52:
                     st, w, pred, _, ms = struct.unpack_from("<BBBBI", p)
                     rec.update(kind="cal_step", state=st, window=w, pred_before=pred, transfer_ms=ms)

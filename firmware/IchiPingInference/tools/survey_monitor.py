@@ -96,8 +96,8 @@ def main():
                     mark = lambda v: "○" if v == st else ("△" if class14(v) == class14(st) else "×")
                     acc = np.mean([r["pred"] == r["state"] for r in results])
                     accf = np.mean([r["pred_factory"] == r["state"] for r in results])
-                    print(f"  {label(st)}: 校正後 {label(pred)} {mark(pred)} / 工場 {label(pfac)} {mark(pfac)}"
-                          f"   累積 校正後 {acc:.1%} / 工場 {accf:.1%} ({len(results)})", flush=True)
+                    print(f"  {label(st)}: 校正後 {label(pred)} {mark(pred)} / 事前学習 {label(pfac)} {mark(pfac)}"
+                          f"   累積 校正後 {acc:.1%} / 事前学習 {accf:.1%} ({len(results)})", flush=True)
                 elif fr.type == CAL_STEP:
                     st, w, pred, _, ms = struct.unpack_from("<BBBBI", p)
                     cal_steps.append(dict(state=st, window=w, pred_before=pred, transfer_ms=ms))
@@ -139,19 +139,19 @@ def main():
          f"状態はサーボで作り、各状態 {info.get('repeats', '?')} 回。baseline は開始時の全閉 {info.get('baseline', '?')} frame。"]
     if cal:
         L += ["現地校正あり: baseline の後、32 状態 × 6 秒 PRBS × 5 窓 (1 秒ずらし) で AxlCORE 上の ELM β を逐次学習 (OS-ELM)。",
-              "同じ測定に対して、校正後の β (AxlCORE) と工場の β (CPU で同じ計算) の両方で推論した。",
+              "同じ測定に対して、校正後の β (AxlCORE) と事前学習の β (CPU で同じ計算) の両方で推論した。",
               f"校正: 更新前の推論の正解 {cal_done['correct_before']}/{cal_done['samples']}, {cal_done['seconds']} 秒" if cal_done else "校正: 記録なし"]
     L += ["", "| モデル | 32 クラス | 14 クラス換算 |", "|---|---:|---:|",
-          f"| {'校正後' if cal else '工場'} | **{acc32:.1%}** ({int((pr == y).sum())}/{len(y)}) | {acc14:.1%} |"]
+          f"| {'校正後' if cal else '事前学習'} | **{acc32:.1%}** ({int((pr == y).sum())}/{len(y)}) | {acc14:.1%} |"]
     if cal:
-        L += [f"| 工場 (同じ測定) | {acc32f:.1%} ({int((pf == y).sum())}/{len(y)}) | {acc14f:.1%} |"]
+        L += [f"| 事前学習 (同じ測定) | {acc32f:.1%} ({int((pf == y).sum())}/{len(y)}) | {acc14f:.1%} |"]
     L += ["", f"所要時間: {done['seconds'] if done else '-'} s, 1 frame の転送 平均 {summary['transfer_ms_mean']:.0f} ms", "",
-          "| 状態 | 正解 | 予測 |" + (" 工場の予測 |" if cal else ""), "|---|---:|---|" + ("---|" if cal else "")]
+          "| 状態 | 正解 | 予測 |" + (" 事前学習の予測 |" if cal else ""), "|---|---:|---|" + ("---|" if cal else "")]
     L += [f"| {k} | {v['correct']}/{v['n']} | {', '.join(v['preds'])} |" + (f" {', '.join(v['preds_factory'])} |" if cal else "")
           for k, v in per_state.items()]
     out.with_suffix(".md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print(f"\n32 クラス {acc32:.1%} / 14 クラス換算 {acc14:.1%}"
-          + (f"   (工場: {acc32f:.1%} / {acc14f:.1%})" if cal else "") + f"  -> {out.with_suffix('.md')}")
+          + (f"   (事前学習: {acc32f:.1%} / {acc14f:.1%})" if cal else "") + f"  -> {out.with_suffix('.md')}")
 
 
 if __name__ == "__main__":

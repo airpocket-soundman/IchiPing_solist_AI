@@ -173,7 +173,7 @@ def main():
     ap.add_argument("--seeds", type=int, default=3, help="前段の学習 seed 数 (検証精度最大を採用)")
     ap.add_argument("--stamp", nargs="*", default=[],
                     help="学習に加えるこのハード (Stamp-S3A) のセッション (captures/stamp_*)。先頭を検証 session にする")
-    ap.add_argument("--tag", default="", help="npz 名 board_model_frontend_32cls_<tag>.npz (空 = 工場名を上書き)")
+    ap.add_argument("--tag", default="", help="npz 名 board_model_frontend_32cls_<tag>.npz (空 = 既定名 board_model_frontend_32cls.npz を上書き)")
     args = ap.parse_args()
     spec, emb_dim = ARCHS[args.arch]
     train_runs = UNOQ_TRAIN + (FRDM_RUNS if args.train == "all" else []) + args.stamp

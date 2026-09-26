@@ -3,13 +3,14 @@
 評価: Stamp セッションを 1 本ずつ評価に回し (leave-one-session-out)、残りを学習側に使う。
       指標は実機と同じ int8 前段 + bf16 ELM 参照計算 (mcu_reference) の 32 クラス / 14 クラス換算。
 構成:
-  factory       工場モデル (board_model_frontend_32cls.npz) のまま
-  beta_mix      前段は工場のまま、ELM β を「UNO Q 学習 + Stamp (評価以外)」で解き直す
+  factory       UNO Q のみの事前学習モデル (board_model_frontend_32cls.npz) のまま
+  beta_mix      前段は UNO Q のみ事前学習モデルのまま、ELM β を「UNO Q 学習 + Stamp (評価以外)」で解き直す
                 (Stamp 側の重み w = UNO Q frame 数 / Stamp frame 数 × --stamp-weight)。実機は β 差し替えのみ
-  beta_stamp    前段は工場のまま、β を Stamp (評価以外) だけで解く
+  beta_stamp    前段は UNO Q のみ事前学習モデルのまま、β を Stamp (評価以外) だけで解く
   full_mix      前段 CNN (--arch) から「UNO Q 学習 + Stamp (評価以外)」で学習し直す
                 (early stop / ハイパラ選択 = 評価以外の Stamp セッション 1 本)
   full_stamp    前段 CNN から Stamp (評価以外) だけで学習
+  full_all      前段 CNN から「FRDM 全 run + UNO Q 学習 + Stamp (評価以外)」(全世代) で学習
 
 usage: python sim/eval_stamp_mix.py stamp_20260926_s1_wav stamp_20260926_s2_wav stamp_20260926_s3_wav
        [--configs factory,beta_mix,beta_stamp,full_mix,full_stamp] [--arch small] [--stamp-weight 1.0]
@@ -25,7 +26,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from eval_full_data import UNOQ_TRAIN, build_run  # noqa: E402
+from eval_full_data import FRDM_RUNS, UNOQ_TRAIN, build_run  # noqa: E402
 from emit_frontend_model import (ARCHS, ELM_HIDDEN, C, build_candidate, elm_input, emb_norm,  # noqa: E402
                                  mcu_reference, hard_sigmoid, ALPHA)
 from eval_stamp_session import load_model, class14  # noqa: E402
@@ -69,7 +70,7 @@ def main():
         xq = np.clip(np.round(xs / float(z["s_in"])), -127, 127).astype(np.int8)
         return elm_input(int_forward(xq, qm, fq), z["emb_mul"], z["emb_add"])
 
-    data = {r: build_run(r) for r in UNOQ_TRAIN + a.stamp}
+    data = {r: build_run(r) for r in UNOQ_TRAIN + a.stamp + (FRDM_RUNS if "full_all" in cfgs else [])}
     get = lambda rs, k: np.concatenate([data[r][k] for r in rs])
     Xu, yu = get(UNOQ_TRAIN, "X").astype(np.float32), get(UNOQ_TRAIN, "y")
     Zu = factory_Z(Xu) if any(c.startswith("beta") for c in cfgs) else None
@@ -100,8 +101,9 @@ def main():
                     continue
                 val = rest[0]
                 fit_stamp = [r for r in rest if r != val]
-                tr_runs = (UNOQ_TRAIN if c == "full_mix" else []) + rest
-                fit_runs = (UNOQ_TRAIN if c == "full_mix" else []) + fit_stamp
+                pre = {"full_mix": UNOQ_TRAIN, "full_all": FRDM_RUNS + UNOQ_TRAIN}.get(c, [])
+                tr_runs = pre + rest
+                fit_runs = pre + fit_stamp
                 if not fit_runs:
                     continue
                 X, y = get(tr_runs, "X").astype(np.float32), get(tr_runs, "y")

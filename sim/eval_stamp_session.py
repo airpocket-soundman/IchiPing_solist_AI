@@ -1,4 +1,4 @@
-"""このハード (Stamp-S3A 採取, captures/stamp_*) のセッションを PC 上の工場モデルで評価する。
+"""このハード (Stamp-S3A 採取, captures/stamp_*) のセッションを PC 上の事前学習モデル (既定: UNO Q のみ, --model で指定) で評価する。
 
 特徴は学習と同じ float 経路 (eval_full_data.build_run: N1024, 同セッション baseline 差) →
 int8 CNN 前段 (board_model_frontend_32cls.npz) → ELM (AxlCORE と同じ bf16 参照計算)。

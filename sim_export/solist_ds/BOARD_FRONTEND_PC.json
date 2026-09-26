@@ -10,38 +10,38 @@
  "activation": "hard_sigmoid",
  "loss": "mse",
  "scale_alpha_bf16": "0x3E52",
- "input_scale": 0.03401047736406326,
+ "input_scale": 0.03437468409538269,
  "elm_scale": 0.25,
  "ridge": 1.0,
- "train_data": "UNO Q train session1-8 + Stamp stamp_20260926_s1_wav, stamp_20260926_s2_wav, stamp_20260926_s3_wav, stamp_20260926_s4_wav, stamp_20260926_s5_wav, stamp_20260926_s6_wav, stamp_20260926_s7_wav, stamp_20260926_s8_wav, stamp_20260926_s9_wav",
+ "train_data": "UNO Q train session1-8 + Stamp stamp_20260926_s1_wav, stamp_20260926_s2_wav, stamp_20260926_s3_wav, stamp_20260926_s4_wav, stamp_20260926_s5_wav, stamp_20260926_s6_wav, stamp_20260926_s7_wav, stamp_20260926_s8_wav, stamp_20260926_s9_wav, stamp_20260926_s10_wav, stamp_20260926_s11_wav",
  "validation_accuracy": 1.0,
  "seed": 1,
  "pc_accuracy": {
   "gray": {
    "frames": 96,
    "cnn_head_float": 0.9166666666666666,
-   "elm_float_frontend": 0.90625,
-   "elm_int8_frontend_bf16_ref": 0.9166666666666666
+   "elm_float_frontend": 0.9166666666666666,
+   "elm_int8_frontend_bf16_ref": 0.90625
   },
   "evening": {
    "frames": 320,
-   "cnn_head_float": 0.846875,
-   "elm_float_frontend": 0.759375,
-   "elm_int8_frontend_bf16_ref": 0.7875
+   "cnn_head_float": 0.865625,
+   "elm_float_frontend": 0.840625,
+   "elm_int8_frontend_bf16_ref": 0.8375
   },
   "survey": {
    "frames": 320,
-   "cnn_head_float": 0.86875,
-   "elm_float_frontend": 0.84375,
-   "elm_int8_frontend_bf16_ref": 0.85
+   "cnn_head_float": 0.8625,
+   "elm_float_frontend": 0.8375,
+   "elm_int8_frontend_bf16_ref": 0.8375
   },
   "crowd": {
    "frames": 320,
-   "cnn_head_float": 0.809375,
-   "elm_float_frontend": 0.809375,
-   "elm_int8_frontend_bf16_ref": 0.8125
+   "cnn_head_float": 0.840625,
+   "elm_float_frontend": 0.828125,
+   "elm_int8_frontend_bf16_ref": 0.825
   }
  },
- "model_sha256": "7d700c3902188af7ca2970e9a074e713db0ca81eff8facfed40701a4ba1dd571",
+ "model_sha256": "2451e6ba0625d03bc9a1e80871038318c3f11ac03eb024bb5778437a511011be",
  "alpha_origin": "ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167"
 }

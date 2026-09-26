@@ -44,6 +44,7 @@ OUT = ROOT / "sim_export" / "solist_ds"
 CACHE = ROOT / "sim" / "_cache"
 FRDM = Path(r"D:/GitHub/IchiPing/pc/captures")
 UNOQ = Path(r"D:/GitHub/IchiPing-UNO-Q/pc/captures")
+STAMP = ROOT / "captures"
 DEV = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 NFFT, HOP = 2048, 1024
 BIN_HZ = 16_000 / NFFT
@@ -86,6 +87,8 @@ def norm_diff(db: np.ndarray, base: np.ndarray) -> np.ndarray:
 
 
 def run_path(name: str) -> Path:
+    if name.startswith("stamp_"):                           # このハード (Stamp-S3A) の採取: collect_session.py
+        return STAMP / name
     return (UNOQ if name.startswith("uno_q") else FRDM) / name
 
 

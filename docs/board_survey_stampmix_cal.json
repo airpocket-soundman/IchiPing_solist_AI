@@ -1,0 +1,2739 @@
+{
+ "info": {
+  "repeats": 1,
+  "baseline": 3,
+  "states": 32,
+  "calibrate": true,
+  "started": "2026-09-26T13:59:18"
+ },
+ "done": {
+  "correct": 1,
+  "total": 32,
+  "aborted": false,
+  "seconds": 2247,
+  "correct_factory": 31
+ },
+ "calibration": {
+  "correct_before": 10,
+  "samples": 160,
+  "ok": true,
+  "seconds": 1743
+ },
+ "calibration_steps": [
+  {
+   "state": 0,
+   "window": 0,
+   "pred_before": 14,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 0,
+   "window": 1,
+   "pred_before": 28,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 0,
+   "window": 2,
+   "pred_before": 0,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 0,
+   "window": 3,
+   "pred_before": 20,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 0,
+   "window": 4,
+   "pred_before": 0,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 1,
+   "window": 0,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 1,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 1,
+   "window": 2,
+   "pred_before": 7,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 1,
+   "window": 3,
+   "pred_before": 7,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 1,
+   "window": 4,
+   "pred_before": 7,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 3,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 3,
+   "window": 1,
+   "pred_before": 3,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 3,
+   "window": 2,
+   "pred_before": 3,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 3,
+   "window": 3,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 3,
+   "window": 4,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 2,
+   "window": 0,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 2,
+   "window": 1,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 2,
+   "window": 2,
+   "pred_before": 3,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 2,
+   "window": 3,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 2,
+   "window": 4,
+   "pred_before": 3,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 6,
+   "window": 0,
+   "pred_before": 3,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 6,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 6,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 6,
+   "window": 3,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 6,
+   "window": 4,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 7,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 7,
+   "window": 1,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 7,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 7,
+   "window": 3,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 7,
+   "window": 4,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 5,
+   "window": 0,
+   "pred_before": 8,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 5,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 5,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 5,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 5,
+   "window": 4,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 4,
+   "window": 0,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 4,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 4,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 4,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 4,
+   "window": 4,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 12,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 12,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 12,
+   "window": 2,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 12,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 12,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 13,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 13,
+   "window": 1,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 13,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 13,
+   "window": 3,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 13,
+   "window": 4,
+   "pred_before": 3,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 15,
+   "window": 0,
+   "pred_before": 29,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 15,
+   "window": 1,
+   "pred_before": 29,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 15,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 15,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 15,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 14,
+   "window": 0,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 14,
+   "window": 1,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 14,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 14,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 14,
+   "window": 4,
+   "pred_before": 8,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 10,
+   "window": 0,
+   "pred_before": 10,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 10,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 10,
+   "window": 2,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 10,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 10,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 11,
+   "window": 0,
+   "pred_before": 10,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 11,
+   "window": 1,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 11,
+   "window": 2,
+   "pred_before": 10,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 11,
+   "window": 3,
+   "pred_before": 10,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 11,
+   "window": 4,
+   "pred_before": 10,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 9,
+   "window": 0,
+   "pred_before": 8,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 9,
+   "window": 1,
+   "pred_before": 8,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 9,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 9,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 9,
+   "window": 4,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 8,
+   "window": 0,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 8,
+   "window": 1,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 8,
+   "window": 2,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 8,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 8,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 24,
+   "window": 0,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 24,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 24,
+   "window": 2,
+   "pred_before": 10,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 24,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 24,
+   "window": 4,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 25,
+   "window": 0,
+   "pred_before": 10,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 25,
+   "window": 1,
+   "pred_before": 10,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 25,
+   "window": 2,
+   "pred_before": 10,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 25,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 25,
+   "window": 4,
+   "pred_before": 14,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 27,
+   "window": 0,
+   "pred_before": 14,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 27,
+   "window": 1,
+   "pred_before": 14,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 27,
+   "window": 2,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 27,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 27,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 26,
+   "window": 0,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 26,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 26,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 26,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 26,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 30,
+   "window": 0,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 30,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 30,
+   "window": 2,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 30,
+   "window": 3,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 30,
+   "window": 4,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 31,
+   "window": 0,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 31,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 31,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 31,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 31,
+   "window": 4,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 29,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 29,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 29,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 29,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 29,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 28,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 28,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 28,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 28,
+   "window": 3,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 28,
+   "window": 4,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 20,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 20,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 20,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 20,
+   "window": 3,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 20,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 21,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 21,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 21,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 21,
+   "window": 3,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 21,
+   "window": 4,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 23,
+   "window": 0,
+   "pred_before": 8,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 23,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 23,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 23,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 23,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 22,
+   "window": 0,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 22,
+   "window": 1,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 22,
+   "window": 2,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 22,
+   "window": 3,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 22,
+   "window": 4,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 18,
+   "window": 0,
+   "pred_before": 11,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 18,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 18,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 18,
+   "window": 3,
+   "pred_before": 1,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 18,
+   "window": 4,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 19,
+   "window": 0,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 19,
+   "window": 1,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 19,
+   "window": 2,
+   "pred_before": 11,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 19,
+   "window": 3,
+   "pred_before": 1,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 19,
+   "window": 4,
+   "pred_before": 0,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 17,
+   "window": 0,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 17,
+   "window": 1,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 17,
+   "window": 2,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 17,
+   "window": 3,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 17,
+   "window": 4,
+   "pred_before": 0,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 16,
+   "window": 0,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 16,
+   "window": 1,
+   "pred_before": 0,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 16,
+   "window": 2,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  },
+  {
+   "state": 16,
+   "window": 3,
+   "pred_before": 0,
+   "transfer_ms": 8420
+  },
+  {
+   "state": 16,
+   "window": 4,
+   "pred_before": 0,
+   "transfer_ms": 8410
+  }
+ ],
+ "accuracy32": 0.03125,
+ "accuracy14": 0.25,
+ "accuracy32_factory": 0.96875,
+ "accuracy14_factory": 1.0,
+ "n": 32,
+ "baseline": [
+  {
+   "index": 0,
+   "exponent": 7,
+   "transfer_ms": 8420
+  },
+  {
+   "index": 1,
+   "exponent": 7,
+   "transfer_ms": 8420
+  },
+  {
+   "index": 2,
+   "exponent": 7,
+   "transfer_ms": 8410
+  }
+ ],
+ "per_state": {
+  "h00000": {
+   "n": 1,
+   "correct": 1,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h00000"
+   ]
+  },
+  "h00001": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h00001"
+   ]
+  },
+  "h00100": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h00100"
+   ]
+  },
+  "h00101": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 0,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10101"
+   ]
+  },
+  "h10000": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10000"
+   ]
+  },
+  "h10001": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10001"
+   ]
+  },
+  "h10100": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10100"
+   ]
+  },
+  "h10101": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10101"
+   ]
+  },
+  "h00010": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h00010"
+   ]
+  },
+  "h00011": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h00011"
+   ]
+  },
+  "h00110": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h00110"
+   ]
+  },
+  "h00111": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h00111"
+   ]
+  },
+  "h10010": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10010"
+   ]
+  },
+  "h10011": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10011"
+   ]
+  },
+  "h10110": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10110"
+   ]
+  },
+  "h10111": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h10111"
+   ]
+  },
+  "h01000": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01000"
+   ]
+  },
+  "h01001": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01001"
+   ]
+  },
+  "h01100": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01100"
+   ]
+  },
+  "h01101": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01101"
+   ]
+  },
+  "h11000": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11000"
+   ]
+  },
+  "h11001": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11001"
+   ]
+  },
+  "h11100": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11100"
+   ]
+  },
+  "h11101": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11101"
+   ]
+  },
+  "h01010": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01010"
+   ]
+  },
+  "h01011": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01011"
+   ]
+  },
+  "h01110": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01110"
+   ]
+  },
+  "h01111": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h01111"
+   ]
+  },
+  "h11010": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11010"
+   ]
+  },
+  "h11011": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11011"
+   ]
+  },
+  "h11110": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11110"
+   ]
+  },
+  "h11111": {
+   "n": 1,
+   "correct": 0,
+   "correct_factory": 1,
+   "preds": [
+    "h00000"
+   ],
+   "preds_factory": [
+    "h11111"
+   ]
+  }
+ },
+ "results": [
+  {
+   "state": 0,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 0,
+   "transfer_ms": 8420,
+   "feature_ms": 180,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 1,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 1,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 3,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 7,
+   "transfer_ms": 8410,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 2,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 2,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 6,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 6,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 7,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 7,
+   "transfer_ms": 8420,
+   "feature_ms": 180,
+   "infer_ms": 250,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 5,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 5,
+   "transfer_ms": 8420,
+   "feature_ms": 180,
+   "infer_ms": 250,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 4,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 4,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 12,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 12,
+   "transfer_ms": 8410,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 13,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 13,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 15,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 15,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 14,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 14,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 10,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 10,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 11,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 11,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 9,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 9,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 8,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 8,
+   "transfer_ms": 8410,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 24,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 24,
+   "transfer_ms": 8410,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 25,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 25,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 27,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 27,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 26,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 26,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 30,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 30,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 31,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 31,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 29,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 29,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 28,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 28,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 20,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 20,
+   "transfer_ms": 8410,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 21,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 21,
+   "transfer_ms": 8420,
+   "feature_ms": 180,
+   "infer_ms": 250,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 23,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 23,
+   "transfer_ms": 8410,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 22,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 22,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 18,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 18,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 19,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 19,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 17,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 17,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  },
+  {
+   "state": 16,
+   "rep": 0,
+   "pred": 0,
+   "pred_factory": 16,
+   "transfer_ms": 8420,
+   "feature_ms": 190,
+   "infer_ms": 240,
+   "outputs": [
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity
+   ]
+  }
+ ],
+ "transfer_ms_mean": 8418.125
+}

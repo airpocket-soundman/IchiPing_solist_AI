@@ -6,12 +6,16 @@ forgetting factor 1).  Starting from the factory beta and
     P0 = w (G_f + lambda I)^-1,  G_f = H_f^T H_f over the factory training frames,
 the sequential updates give exactly the batch "factory + calibration" solution
     beta = (G_f + w G_c + lambda I)^-1 (H_f^T Y_f + w H_c^T Y_c)
-with the calibration set weighted w = N_factory / N_calibration (equal total weight, the
-"mix" calibration evaluated on the PC).  Float OS-ELM matched the batch solution exactly;
-with bf16 rounding it stayed within a few points (see the session notes of 2026-09-25).
+with the calibration set weighted w = N_factory / N_calibration x --weight-scale.  Float
+OS-ELM matches the batch solution exactly when lambda equals the ridge of the factory beta.
+With that lambda (0.1) G_f has eigenvalues down to ~1e-3, P0 gets directions of ~w x 10 and
+the bf16 updates on the AxlCORE blow beta up (2026-09-26: all 32 states predicted as the
+first calibrated one, reproduced on the PC).  The defaults lambda = 10, weight x 0.1 keep
+bf16 OS-ELM stable (never below 99% during 160 updates on the PC) at the cost of a batch
+solution that is only approximately "factory + calibration".
 
-Uses the model in sim_export/solist_ds/board_model_frontend_32cls.npz (emit_frontend_model.py)
-and the same training runs (UNO Q session1-8).
+Uses the model in sim_export/solist_ds/board_model_frontend_32cls.npz (emit_frontend_model.py,
+or --model) and the same training runs (UNO Q session1-8, plus --stamp sessions).
 
 usage: D:/GitHub/IchiPing/pc/.venv/Scripts/python.exe sim/emit_calibration_prior.py [--cal-per-state 5]
 """
@@ -38,6 +42,11 @@ def main():
     ap.add_argument("--cal-per-state", type=int, default=5)
     ap.add_argument("--model", default=str(MODEL), help="前段+ELM の npz (emit_frontend_model.py の出力)")
     ap.add_argument("--stamp", nargs="*", default=[], help="そのモデルの学習に加えた Stamp セッション (G に含める)")
+    ap.add_argument("--prior-ridge", type=float, default=10.0,
+                    help="P0 の λ。β の ridge (0.1) のままだと G の小さい固有値方向で P0 が大きくなり、"
+                         "AxlCORE の bf16 更新で β が発散する (2026-09-26 実機・PC で確認)")
+    ap.add_argument("--weight-scale", type=float, default=0.1,
+                    help="校正セットの重み w = N_factory / N_calibration × この値 (1 = 等重み)")
     a = ap.parse_args()
     z = np.load(a.model, allow_pickle=True)
     n_layers = sum(1 for k in z.files if k.endswith("_wq") and k.startswith("conv"))
@@ -45,14 +54,14 @@ def main():
                s=int(z[f"conv{i}_s"])) for i in range(n_layers)]
     fq = dict(wq=z["fc_wq"], M=z["fc_M"], B=z["fc_B"])
     mu, sd, s_in = z["in_mu"], z["in_sd"], float(z["s_in"])
-    lam = float(z["ridge"])
+    lam = a.prior_ridge
 
     X = np.concatenate([build_run(r)["X"].astype(np.float32) for r in UNOQ_TRAIN + a.stamp])
     xq = np.clip(np.round(((X[:, BLO:BHI] - mu) / sd) / s_in), -127, 127).astype(np.int8)
     E = np.concatenate([int_forward(xq[i:i + 2048], qm, fq) for i in range(0, len(xq), 2048)])
     H = hard_sigmoid(elm_input(E, z["emb_mul"], z["emb_add"]).astype(np.float64) @ ALPHA.astype(np.float64))
     n_cal = 32 * a.cal_per_state
-    w = len(H) / n_cal
+    w = len(H) / n_cal * a.weight_scale
     p0 = w * np.linalg.inv(H.T @ H + lam * np.eye(H.shape[1]))
     print(f"factory frames {len(H)}, calibration samples {n_cal}, w = {w:.1f}, "
           f"P0 diag {np.diag(p0).min():.3e}..{np.diag(p0).max():.3e}")

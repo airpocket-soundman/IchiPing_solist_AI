@@ -4,17 +4,21 @@
  *
  * Behaviour follows the original IchiPing 10_inference (and its UNO Q port):
  *   power on  -> all servos CLOSE -> baseline (3 all-closed frames, "Calibrating...")
- *   switches  -> the servos follow them (manual door / window operation); a change of the
- *                actual state clears the previous result ("-----", banner cleared)
- *   EXEC      -> one inference: PRBS play + record on the Stamp (firmware/StampMeasure),
- *                N333 feature + int8 CNN front-end on the CPU, ELM head on the AxlCORE;
- *                inf / act digit rows and the Complete / Conditional Success / Failure banner
- * Solist-AI addition, on-site calibration (docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md):
+ *   switches  -> the act digits follow them at once (within ~0.1 s) and the previous result
+ *                is cleared; the servos catch up in the background (manual door / window
+ *                operation), one channel at a time without blocking the loop
+ *   EXEC      -> waits for the servos to finish and settle, then one inference: PRBS play +
+ *                record on the Stamp (firmware/StampMeasure), N333 feature + int8 CNN front-end
+ *                on the CPU, ELM head on the AxlCORE; inf / act digit rows and the
+ *                Complete / Conditional Success / Failure banner
+ * Solist-AI addition, on-site calibration (docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md), only
+ * needed after moving the device to a new place (the pre-trained model covers this rig):
  *   EXEC held 2 s -> the servos visit all 32 states (Gray code); per state one 6 s PRBS
  *                gives five 2 s windows (1 s hop) and each window is one OS-ELM update of the
- *                ELM beta on the AxlCORE, starting from the factory beta and
- *                P0 = w (G_f + lambda I)^-1 (generated/ichi_calib_prior.h).
- *                EXEC during calibration aborts and restores the factory beta.
+ *                ELM beta (float32 on the CPU, P and beta in the FRAM, see ichi_inference.c),
+ *                starting from the pre-trained beta and P0 = w (G_f + lambda I)^-1
+ *                (generated/ichi_calib_prior.h).
+ *                EXEC during calibration aborts and restores the pre-trained beta.
  *   The calibrated beta lasts until power off.
  * UART1 (tools/infer_monitor.py), frames as in ichi_protocol.h:
  *   0x50 BASE     index u8 | exponent u8 | transfer ms u32
@@ -141,6 +145,82 @@ static void wait_ticks(uint32_t n)
     }
 }
 
+/* ---- Servos following the switches without blocking --------------------------------
+   The screen shows a switch change at once (<= ~0.1 s: 10 ms STATUS poll + 20 ms debounce
+   on the Stamp + ~20 ms of TFT digits); the servos catch up in the background, one channel
+   at a time in the UNO Q order (CLOSE BC -> a, then OPEN a -> BC), each held SERVO_HOLD and
+   released.  An inference waits until the servos are idle and SETTLE has passed. */
+static int8_t moving_channel = -1;
+static uint32_t move_release_tick;
+static uint32_t settle_until;
+static uint8_t servo_target;
+static int16_t shown_actual = -1;
+
+static int8_t next_channel(uint8_t target)
+{
+    int8_t ch;
+    for (ch = 4; ch >= 0; ch--)                          /* closes first, BC -> a */
+    {
+        if ((((target >> ch) & 1U) == 0U) && (((servo_state >> ch) & 1) != 0)) { return ch; }
+    }
+    for (ch = 0; ch < 5; ch++)                           /* then opens, a -> BC */
+    {
+        if ((((target >> ch) & 1U) != 0U) && (((servo_state >> ch) & 1) == 0)) { return ch; }
+    }
+    return -1;
+}
+
+/* One step of the background servo motion; returns false on a PCA9685 error. */
+static bool servo_step(void)
+{
+    if (moving_channel >= 0)
+    {
+        if ((int32_t)(tick_10ms - move_release_tick) < 0) { return true; }
+        if (!IchiServoRelease((uint8_t)moving_channel)) { moving_channel = -1; return false; }
+        servo_state = (int16_t)(servo_state ^ (int16_t)(1 << moving_channel));
+        moving_channel = -1;
+        if ((uint8_t)servo_state == servo_target) { settle_until = tick_10ms + SETTLE; }
+    }
+    if ((servo_state >= 0) && ((uint8_t)servo_state != servo_target))
+    {
+        int8_t ch = next_channel(servo_target);
+        bool open = ((servo_target >> ch) & 1U) != 0U;
+        IchiServoEnable(true);
+        if (!IchiServoSetCount((uint8_t)ch, open ? ICHI_SERVO_OPEN_COUNT : ICHI_SERVO_CLOSE_COUNT)) { return false; }
+        moving_channel = ch;
+        move_release_tick = tick_10ms + SERVO_HOLD;
+    }
+    return true;
+}
+
+static bool servos_idle(void)
+{
+    return (moving_channel < 0) && (servo_state >= 0) && ((uint8_t)servo_state == servo_target) &&
+           ((int32_t)(tick_10ms - settle_until) >= 0);
+}
+
+/* Blocks until the background motion has finished and settled (before measuring). */
+static bool servo_finish(void)
+{
+    while (!servos_idle())
+    {
+        if (!servo_step()) { return false; }
+        wdt_clear();
+    }
+    return true;
+}
+
+static void show_switch_state(uint8_t state)
+{
+    char line1[] = "act h00000";
+    if ((int16_t)state == shown_actual) { return; }
+    IchiUiShowState(state, ICHI_UI_NONE);                /* digits first: that is what the user watches */
+    IchiUiBanner("", ICHI_BLACK, ICHI_BLACK);            /* the previous result no longer applies */
+    state_label(&line1[4], state);
+    lcd(line1, "EXEC: infer");
+    shown_actual = (int16_t)state;
+}
+
 static bool move_one(uint8_t channel, bool open)
 {
     if (!IchiServoSetCount(channel, open ? ICHI_SERVO_OPEN_COUNT : ICHI_SERVO_CLOSE_COUNT)) { return false; }
@@ -153,6 +233,7 @@ static bool drive_to(uint8_t target)
 {
     int8_t ch;
     bool moved = false;
+    servo_target = target;
     IchiServoEnable(true);
     for (ch = 4; ch >= 0; ch--)
     {
@@ -176,6 +257,7 @@ static bool drive_to(uint8_t target)
     }
     servo_state = target;
     if (moved) { wait_ticks(SETTLE); }
+    settle_until = tick_10ms;
     return true;
 }
 
@@ -225,7 +307,7 @@ static bool baseline(void)
         put_u32(&payload[2], ms);
         send(MSG_BASE, 6U);
     }
-    IchiUiInfoLine(calibrated ? "calibrated" : "factory model", ICHI_WHITE);
+    IchiUiInfoLine(calibrated ? "calibrated" : "pretrained", ICHI_WHITE);
     IchiUiBanner("Baseline ready", ICHI_GREEN, ICHI_WHITE);
     lcd("baseline ready", "EXEC: infer");
     return true;
@@ -311,7 +393,7 @@ static void calibrate(void)
     {
         IchiInferenceUseFactory();
         IchiUiBanner(abort_request ? "Calibration aborted" : "Calibration failed", ICHI_RED, ICHI_WHITE);
-        IchiUiInfoLine("factory model", ICHI_WHITE);
+        IchiUiInfoLine("pretrained", ICHI_WHITE);
     }
     else
     {
@@ -330,7 +412,7 @@ static void calibrate(void)
     put_u16(&payload[5], (tick_10ms - start) / 100UL);
     send(MSG_CAL_DONE, 7U);
     abort_request = false;
-    lcd(calibrated ? "calibrated" : "factory model", "EXEC: infer");
+    lcd(calibrated ? "calibrated" : "pretrained", "EXEC: infer");
 }
 
 int32_t main(void)
@@ -398,24 +480,20 @@ int32_t main(void)
         static uint32_t last_poll = 0U;
         if (tick_10ms != last_poll) { last_poll = tick_10ms; (void)poll_switches(); }   /* every 10 ms */
 
-        /* The servos follow the switches; a changed state clears the previous result. */
-        if ((servo_state >= 0) && (switch_state != (uint8_t)servo_state) && !exec_down)
+        /* The screen follows the switches at once; the servos catch up in the background. */
+        if ((servo_state >= 0) && !exec_down)
         {
-            IchiUiBanner("", ICHI_BLACK, ICHI_BLACK);
-            if (!drive_to(switch_state)) { report_error(6U, switch_state); }
-            IchiUiShowState((uint8_t)servo_state, ICHI_UI_NONE);
-            {
-                char line1[] = "act h00000";
-                state_label(&line1[4], (uint8_t)servo_state);
-                lcd(line1, "EXEC: infer");
-            }
+            show_switch_state(switch_state);
+            servo_target = switch_state;
         }
+        if (!servo_step()) { report_error(6U, servo_target); }
 
         /* EXEC: short press = inference, held LONG_PRESS = on-site calibration. */
         if (exec_down && !was_down) { press_start = tick_10ms; long_done = false; }
         if (exec_down && !long_done && ((tick_10ms - press_start) >= LONG_PRESS))
         {
             long_done = true;
+            if (!servo_finish()) { report_error(6U, servo_target); }
             calibrate();
             (void)poll_switches();
             if (switch_state != (uint8_t)servo_state)          /* back to the switch state */
@@ -423,11 +501,13 @@ int32_t main(void)
                 if (!drive_to(switch_state)) { report_error(6U, switch_state); }
             }
             IchiUiShowState((uint8_t)servo_state, ICHI_UI_NONE);
+            shown_actual = servo_state;
         }
         if (!exec_down && was_down && !long_done)
         {
             abort_request = false;
-            infer();
+            if (!servo_finish()) { report_error(6U, servo_target); }
+            else { infer(); }
         }
         was_down = exec_down;
         abort_request = false;

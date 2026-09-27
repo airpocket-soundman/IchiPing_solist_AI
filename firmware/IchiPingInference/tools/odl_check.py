@@ -4,6 +4,9 @@
 数回繰り返し、beta と P を UART で送る。本スクリプトは受信して、PC 上の OS-ELM (float, 同じ初期値・同じ入力)
 と各ステップで比べる。
 
+※ 2026-09-27 以降、現地校正の学習は CPU の float32 で行う (ichi_inference.c)。このツールは AxlCORE の
+   bf16 ODL を調べた記録で、今の ichi_calib_prior.h (float32 の P0) とは形式が合わない。
+
 usage: python firmware/IchiPingInference/tools/odl_check.py --port COM3   (起動してから書き込む / リセットする)
 """
 from __future__ import annotations

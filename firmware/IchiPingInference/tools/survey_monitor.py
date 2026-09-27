@@ -138,7 +138,7 @@ def main():
          "Solist-AI 単体推論 (Stamp で PRBS 再生・INMP441 録音 → I2C → Solist で N333 特徴 → int8 CNN 前段 → ELM)。",
          f"状態はサーボで作り、各状態 {info.get('repeats', '?')} 回。baseline は開始時の全閉 {info.get('baseline', '?')} frame。"]
     if cal:
-        L += ["現地校正あり: baseline の後、32 状態 × 6 秒 PRBS × 5 窓 (1 秒ずらし) で AxlCORE 上の ELM β を逐次学習 (OS-ELM)。",
+        L += ["現地校正あり: baseline の後、32 状態 × 6 秒 PRBS × 5 窓 (1 秒ずらし) で ELM β を逐次学習 (OS-ELM, CPU の float32。P と β は FRAM、更新後の β を AxlCORE へ書き込み)。",
               "同じ測定に対して、校正後の β (AxlCORE) と事前学習の β (CPU で同じ計算) の両方で推論した。",
               f"校正: 更新前の推論の正解 {cal_done['correct_before']}/{cal_done['samples']}, {cal_done['seconds']} 秒" if cal_done else "校正: 記録なし"]
     L += ["", "| モデル | 32 クラス | 14 クラス換算 |", "|---|---:|---:|",

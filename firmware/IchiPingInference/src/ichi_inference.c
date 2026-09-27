@@ -7,7 +7,11 @@
 #include "mcu.h"
 #include "smpl_common.h"
 #include "wdt.h"
+#include "Fram.h"
+#include "SoftSpi.h"
 #include "ichi_calib_prior.h"
+
+extern int8_t ichi_shared_scratch[];                    /* ichi_feature.c (4 KB, aligned) */
 
 #define AI_INSTANCE    (0U)
 #define AI_BUSY_LIMIT  (65535UL)
@@ -66,27 +70,54 @@ void IchiInferenceUseFactory(void)
     load_model();
 }
 
-static bool wait_accelerator(void)
+/* On-site calibration: the OS-ELM update runs in float32 on the CPU.  The AxlCORE's own
+   ODL (ODL_StartTrain) keeps beta and P in bf16; over 160 updates the rounding piles up and
+   beta degrades or blows up (2026-09-26 board: every state predicted as the first calibrated
+   one), while the same update in float32 stays exact (sim/eval_odl_calibration.py).
+   P (32 x 32) and beta (32 x 32) in float32 are 8 KB, more than the free RAM, so they live in
+   the on-board FRAM and are streamed row by row; the work vectors use ichi_shared_scratch,
+   which is idle once the front-end has produced elm_input.  After every update the new beta
+   is written to the AxlCORE in bf16, so inference stays on the accelerator. */
+#define CAL_FRAM_P     (100000UL)                    /* unused by the vendor firmware */
+#define CAL_FRAM_BETA  (CAL_FRAM_P + (uint32_t)ICHI_MODEL_HIDDEN_SIZE * ICHI_MODEL_HIDDEN_SIZE * 4UL)
+#define CAL_ROW_BYTES_P    ((int)(ICHI_MODEL_HIDDEN_SIZE * 4U))
+#define CAL_ROW_BYTES_BETA ((int)(ICHI_MODEL_OUTPUT_SIZE * 4U))
+
+static bool fram_ready;
+
+static bfloat16 float_to_bf16_bits(float value)
 {
-    uint32_t busy_count = 0UL;
-    while (ODL_IsBusy() != 0UL)
-    {
-        if (++busy_count >= AI_BUSY_LIMIT) { return false; }
-        wdt_clear();
-    }
-    return true;
+    union { uint32_t bits; float value; } c;
+    c.value = value;
+    c.bits += 0x7FFFUL + ((c.bits >> 16) & 1UL);
+    return (bfloat16)(c.bits >> 16);
 }
 
 bool IchiInferenceCalibrationBegin(void)
 {
-    uint16_t row;
-    load_model();                                        /* factory beta, fresh state */
-    for (row = 0U; row < ICHI_MODEL_HIDDEN_SIZE; row++)
+    float *row = (float *)(void *)ichi_shared_scratch;
+    uint16_t r, c;
+    load_model();                                        /* pre-trained beta, fresh state */
+    if (!fram_ready)
     {
-        ODL_SetWeightP(&ichi_calib_p0[row * ICHI_MODEL_HIDDEN_SIZE], AI_INSTANCE,
-                       (uint32_t)row * ICHI_MODEL_HIDDEN_SIZE * 2U, ICHI_MODEL_HIDDEN_SIZE * 2U);
+        SoftSpiPeripheralInit();
+        FramInit();
+        fram_ready = true;
     }
-    return true;
+    for (r = 0U; r < ICHI_MODEL_HIDDEN_SIZE; r++)
+    {
+        FramWriteBlock(CAL_FRAM_P + (uint32_t)r * CAL_ROW_BYTES_P, &ichi_calib_p0[r * ICHI_MODEL_HIDDEN_SIZE],
+                       CAL_ROW_BYTES_P);
+        for (c = 0U; c < ICHI_MODEL_OUTPUT_SIZE; c++)
+        {
+            row[c] = bfloat16_to_float(ichi_model_beta[r * ICHI_MODEL_OUTPUT_SIZE + c]);
+        }
+        FramWriteBlock(CAL_FRAM_BETA + (uint32_t)r * CAL_ROW_BYTES_BETA, row, CAL_ROW_BYTES_BETA);
+        wdt_clear();
+    }
+    /* read one value back: a missing / write-protected FRAM would silently corrupt the update */
+    FramReadBlock(CAL_FRAM_P, row, 4);
+    return row[0] == ichi_calib_p0[0];
 }
 
 uint32_t IchiInferenceLastAcceleratorUs(void)
@@ -229,20 +260,76 @@ bool IchiInferenceRun(const uint8_t *input, float output[ICHI_INFERENCE_OUTPUT_C
 #endif
 }
 
+/* One OS-ELM (recursive least squares, forgetting factor 1) update in float32:
+     h = hard_sigmoid(0.2 x.alpha + 0.5)      (the AxlCORE hidden layer, bf16 like the accelerator)
+     Ph = P h,  k = Ph / (1 + h.Ph),  P -= k Ph^T,  e = t - h.beta,  beta += k e^T
+   P and beta are streamed row by row from / to the FRAM (see IchiInferenceCalibrationBegin). */
 bool IchiInferenceTrain(const uint8_t *input, uint8_t class_id)
 {
-    static bfloat16 target[ICHI_MODEL_OUTPUT_SIZE];
-    uint8_t k;
-    if ((input == NULL) || (class_id >= ICHI_MODEL_OUTPUT_SIZE)) { return false; }
-    if (!model_loaded) { load_model(); }
-    for (k = 0U; k < ICHI_MODEL_OUTPUT_SIZE; k++) { target[k] = (k == class_id) ? (bfloat16)0x3F80 : 0; }
 #ifdef ICHI_FRONTEND_ENABLED
-    run_frontend((const int8_t *)input);
-    ODL_StartTrain(AI_INSTANCE, elm_input, target);
+    float *h = (float *)(void *)ichi_shared_scratch;     /* work vectors, 4 x 32 floats + bf16 row */
+    float *ph = &h[ICHI_MODEL_HIDDEN_SIZE];
+    float *e = &ph[ICHI_MODEL_HIDDEN_SIZE];
+    float *row = &e[ICHI_MODEL_OUTPUT_SIZE];
+    bfloat16 *row_bf16 = (bfloat16 *)(void *)&row[ICHI_MODEL_HIDDEN_SIZE];
+    float denom = 1.0f;
+    uint16_t i, j;
+    if ((input == NULL) || (class_id >= ICHI_MODEL_OUTPUT_SIZE) || !fram_ready) { return false; }
+    if (!model_loaded) { load_model(); }
+    run_frontend((const int8_t *)input);                 /* elm_input; the scratch is free after this */
+
+    for (j = 0U; j < ICHI_MODEL_HIDDEN_SIZE; j++)
+    {
+        float z = 0.0f;
+        for (i = 0U; i < ICHI_CAL_ALPHA_ROWS; i++)
+        {
+            z += bfloat16_to_float(elm_input[i]) *
+                 bfloat16_to_float(ichi_calib_alpha[i * ICHI_MODEL_HIDDEN_SIZE + j]);
+        }
+        z = 0.2f * z + 0.5f;
+        h[j] = bfloat16_to_float(float_to_bf16_bits((z < 0.0f) ? 0.0f : ((z > 1.0f) ? 1.0f : z)));
+    }
+    for (j = 0U; j < ICHI_MODEL_HIDDEN_SIZE; j++)       /* Ph = P h, denom = 1 + h.Ph */
+    {
+        float s = 0.0f;
+        FramReadBlock(CAL_FRAM_P + (uint32_t)j * CAL_ROW_BYTES_P, row, CAL_ROW_BYTES_P);
+        for (i = 0U; i < ICHI_MODEL_HIDDEN_SIZE; i++) { s += row[i] * h[i]; }
+        ph[j] = s;
+        denom += h[j] * s;
+    }
+    for (j = 0U; j < ICHI_MODEL_HIDDEN_SIZE; j++)       /* P -= Ph Ph^T / denom */
+    {
+        FramReadBlock(CAL_FRAM_P + (uint32_t)j * CAL_ROW_BYTES_P, row, CAL_ROW_BYTES_P);
+        for (i = 0U; i < ICHI_MODEL_HIDDEN_SIZE; i++) { row[i] -= ph[j] * ph[i] / denom; }
+        FramWriteBlock(CAL_FRAM_P + (uint32_t)j * CAL_ROW_BYTES_P, row, CAL_ROW_BYTES_P);
+        wdt_clear();
+    }
+    for (i = 0U; i < ICHI_MODEL_OUTPUT_SIZE; i++) { e[i] = (i == class_id) ? 1.0f : 0.0f; }
+    for (j = 0U; j < ICHI_MODEL_HIDDEN_SIZE; j++)       /* e = t - h.beta */
+    {
+        FramReadBlock(CAL_FRAM_BETA + (uint32_t)j * CAL_ROW_BYTES_BETA, row, CAL_ROW_BYTES_BETA);
+        for (i = 0U; i < ICHI_MODEL_OUTPUT_SIZE; i++) { e[i] -= h[j] * row[i]; }
+    }
+    for (j = 0U; j < ICHI_MODEL_HIDDEN_SIZE; j++)       /* beta += k e^T, k = Ph / denom */
+    {
+        float k = ph[j] / denom;
+        FramReadBlock(CAL_FRAM_BETA + (uint32_t)j * CAL_ROW_BYTES_BETA, row, CAL_ROW_BYTES_BETA);
+        for (i = 0U; i < ICHI_MODEL_OUTPUT_SIZE; i++)
+        {
+            row[i] += k * e[i];
+            row_bf16[i] = float_to_bf16_bits(row[i]);
+        }
+        FramWriteBlock(CAL_FRAM_BETA + (uint32_t)j * CAL_ROW_BYTES_BETA, row, CAL_ROW_BYTES_BETA);
+        ODL_SetWeightBeta(row_bf16, AI_INSTANCE, (uint32_t)j * ICHI_MODEL_OUTPUT_SIZE * 2U,
+                          ICHI_MODEL_OUTPUT_SIZE * 2U);
+        wdt_clear();
+    }
+    return true;
 #else
-    ODL_StartTrain(AI_INSTANCE, (const bfloat16 *)input, target);
+    (void)input;
+    (void)class_id;
+    return false;                                        /* calibration needs the front-end model */
 #endif
-    return wait_accelerator();
 }
 
 const int16_t *IchiInferenceElmInput(void)

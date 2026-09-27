@@ -30,9 +30,11 @@ bool IchiInferenceRun(const uint8_t *input, float output[ICHI_INFERENCE_OUTPUT_C
 /* Embedded qualification input (one per class). */
 bool IchiInferenceSelfTest(uint8_t case_id, float output[ICHI_INFERENCE_OUTPUT_COUNT],
                            uint8_t *class_id);
-/* On-site calibration (generated/ichi_calib_prior.h): loads the factory beta and
-   P0 = w (G_f + lambda I)^-1, then every IchiInferenceTrain() runs one OS-ELM update on
-   the AxlCORE (ODL_StartTrain).  The calibrated beta stays in the accelerator until
+/* On-site calibration (generated/ichi_calib_prior.h): loads the pre-trained beta and
+   P0 = w (G_f + lambda I)^-1 into the on-board FRAM (false if the FRAM does not read back),
+   then every IchiInferenceTrain() runs one OS-ELM update in float32 on the CPU and writes
+   the new beta to the AxlCORE in bf16 (the AxlCORE's own bf16 ODL drifts, see
+   ichi_inference.c).  The calibrated beta stays in the accelerator until
    IchiInferenceUseFactory() or a reset. */
 bool IchiInferenceCalibrationBegin(void);
 bool IchiInferenceTrain(const uint8_t *input, uint8_t class_id);

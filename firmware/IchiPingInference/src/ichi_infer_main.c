@@ -272,7 +272,7 @@ static void calibrate(void)
     abort_request = false;
     IchiUiBanner("On-site calibration", ICHI_MAGENTA, ICHI_WHITE);
     lcd("calibration", "EXEC: abort");
-    (void)IchiInferenceCalibrationBegin();
+    if (!IchiInferenceCalibrationBegin()) { stage = 7U; report_error(7U, 0U); }   /* FRAM not usable */
     calibrated = false;
     for (i = 0U; (i < 32U) && (stage == 0U) && !abort_request; i++)
     {

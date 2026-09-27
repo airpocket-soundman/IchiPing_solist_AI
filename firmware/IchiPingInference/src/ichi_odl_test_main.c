@@ -1,6 +1,10 @@
 /*
  * On-device learning (ODL / OS-ELM on the AxlCORE) check (tools/build.ps1 -Main ichi_odl_test_main).
  * Replaces S_System/main.c of the vendor project.
+ * Historical (2026-09-26): showed that the AxlCORE's bf16 ODL matches the PC for a few steps.
+ * Since 2026-09-27 the calibration update runs in float32 on the CPU (ichi_inference.c), so the
+ * beta / P read back here are no longer the calibration state and tools/odl_check.py (bf16 P0)
+ * does not match the current ichi_calib_prior.h.
  *
  * Runs once, 3 s after reset:
  *   step 0: IchiInferenceCalibrationBegin() (factory beta + P0 of ichi_calib_prior.h), read back

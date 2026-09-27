@@ -275,7 +275,7 @@ static uint8_t calibrate(void)
     uint16_t correct = 0U, samples = 0U;
     uint8_t i, w, stage = 0U;
     IchiUiBanner("On-site calibration", ICHI_MAGENTA, ICHI_WHITE);
-    (void)IchiInferenceCalibrationBegin();
+    if (!IchiInferenceCalibrationBegin()) { stage = 7U; report_error(7U, 0U); }   /* FRAM not usable */
     for (i = 0U; (i < SURVEY_STATES) && (stage == 0U) && !abort_request; i++)
     {
         uint8_t state = (uint8_t)(i ^ (i >> 1));

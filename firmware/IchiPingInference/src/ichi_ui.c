@@ -131,3 +131,60 @@ void IchiUiInfoLine(const char *text, uint16_t color)
     IchiTftFillRect(0U, INFO_Y, ICHI_TFT_WIDTH, 16U, ICHI_BLACK);
     IchiTftDrawText(6U, INFO_Y, text, color, ICHI_BLACK, 2U);
 }
+
+/* Banner as a progress gauge: the background turns from `back` to `fill` left to right.
+   Outside the text band the gauge advances pixel by pixel; inside it a character is redrawn
+   on the new colour once the gauge has passed its whole 12 px cell, so no glyph is cut.
+   permille == 0 (or a new text) redraws the empty gauge. */
+#define GAUGE_CHAR_W  (12U)
+#define GAUGE_TEXT_H  (16U)
+#define GAUGE_TEXT_Y  (BANNER_Y + 16U)
+
+static char gauge_text[24];
+static uint16_t gauge_px;                   /* filled width */
+static uint8_t gauge_chars;                 /* characters already on the fill colour */
+
+static void gauge_fill(uint16_t x0, uint16_t x1, uint16_t tx0, uint16_t tx1, uint16_t color)
+{
+    uint16_t a, b;
+    if (x1 <= x0) { return; }
+    IchiTftFillRect(x0, BANNER_Y, (uint16_t)(x1 - x0), (uint16_t)(GAUGE_TEXT_Y - BANNER_Y), color);
+    IchiTftFillRect(x0, GAUGE_TEXT_Y + GAUGE_TEXT_H, (uint16_t)(x1 - x0),
+                    (uint16_t)(BANNER_Y + BANNER_H - GAUGE_TEXT_Y - GAUGE_TEXT_H), color);
+    /* text band: only left of and right of the text span */
+    a = x0; b = (x1 < tx0) ? x1 : tx0;
+    if (b > a) { IchiTftFillRect(a, GAUGE_TEXT_Y, (uint16_t)(b - a), GAUGE_TEXT_H, color); }
+    a = (x0 > tx1) ? x0 : tx1; b = x1;
+    if (b > a) { IchiTftFillRect(a, GAUGE_TEXT_Y, (uint16_t)(b - a), GAUGE_TEXT_H, color); }
+}
+
+void IchiUiProgress(const char *text, uint16_t permille, uint16_t fill, uint16_t back, uint16_t fg)
+{
+    uint16_t len = (uint16_t)strlen(text);
+    uint16_t w = (uint16_t)(len * GAUGE_CHAR_W);
+    uint16_t tx0 = (uint16_t)(BANNER_X + ((w < BANNER_W) ? (BANNER_W - w) / 2U : 0U));
+    uint16_t tx1 = (uint16_t)(tx0 + w);
+    uint16_t target;
+    if (permille > 1000U) { permille = 1000U; }
+    if ((permille == 0U) || (strcmp(text, gauge_text) != 0))
+    {
+        IchiTftFillRect(BANNER_X, BANNER_Y, BANNER_W, BANNER_H, back);
+        IchiTftDrawText(tx0, GAUGE_TEXT_Y, text, fg, back, 2U);
+        strncpy(gauge_text, text, sizeof(gauge_text) - 1U);
+        gauge_px = 0U;
+        gauge_chars = 0U;
+        shown_banner[0] = '\x01';           /* the next IchiUiBanner() always redraws */
+    }
+    target = (uint16_t)(((uint32_t)BANNER_W * permille) / 1000U);
+    if (target > gauge_px)
+    {
+        gauge_fill((uint16_t)(BANNER_X + gauge_px), (uint16_t)(BANNER_X + target), tx0, tx1, fill);
+        gauge_px = target;
+    }
+    while ((gauge_chars < len) && ((BANNER_X + gauge_px) >= (tx0 + (gauge_chars + 1U) * GAUGE_CHAR_W)))
+    {
+        char one[2] = { text[gauge_chars], '\0' };
+        IchiTftDrawText((uint16_t)(tx0 + gauge_chars * GAUGE_CHAR_W), GAUGE_TEXT_Y, one, fg, fill, 2U);
+        gauge_chars++;
+    }
+}

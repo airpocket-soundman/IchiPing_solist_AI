@@ -20,7 +20,8 @@
  *                (generated/ichi_calib_prior.h).
  *                EXEC during calibration aborts and restores the pre-trained beta.
  *   The calibrated beta lasts until power off.
- * UART1 (tools/infer_monitor.py), frames as in ichi_protocol.h:
+ * UART1 (tools/infer_monitor.py): a raw 'I' byte from the PC starts one inference (like EXEC);
+ * frames as in ichi_protocol.h:
  *   0x50 BASE     index u8 | exponent u8 | transfer ms u32
  *   0x51 RESULT   actual u8 | pred u8 | calibrated u8 | exponent u8 | transfer ms u32 |
  *                 outputs float32 x 32
@@ -80,11 +81,22 @@ static bool calibrated;
 
 static void periodic_10ms(void) { tick_10ms++; }
 
+static volatile bool pc_infer_request;
+
+/* PC command, a raw byte outside the COBS frames: 'I' = one inference (same as an EXEC press). */
+static void receive_byte(uint32_t value, uint16_t error_status)
+{
+    (void)error_status;
+    if (value == (uint32_t)'I') { pc_infer_request = true; }
+}
+
 static void transmit_complete(uint32_t count, uint16_t error_status)
 {
     (void)count;
     (void)error_status;
     transmit_busy = false;
+    /* Uart1Write replaces the interrupt-enable register with TX-only bits. */
+    Uart1StartReadByte(receive_byte);
 }
 
 static void send(uint8_t type, uint16_t size)
@@ -274,12 +286,45 @@ static void report_error(uint8_t stage, uint8_t state)
     lcd(text, line);
 }
 
+/* "Inferring..." gauge: after the sound has stopped the banner fills left to right while the
+   PCM comes over I2C (0..90 %, the slow part), then feature (95 %) and inference (100 %). */
+#define GAUGE_TEXT  "Inferring..."
+#define GAUGE_BACK  ICHI_RGB565(0, 0, 72)
+#define GAUGE_FILL  ICHI_RGB565(0, 150, 255)
+#define GAUGE_CHUNK ICHI_STAMP_READ_MAX   /* one I2C READ per gauge step (~270 steps) */
+/* IchiFeatureFrame reads NFFT-sample segments every HOP samples (each sample twice):
+   the gauge follows the samples read so far, not the offset (which steps back). */
+#define GAUGE_TOTAL (((FRAME_SAMPLES - ICHI_FEAT_NFFT) / ICHI_FEAT_HOP + 1U) * ICHI_FEAT_NFFT)
+static bool gauge_on;
+static uint32_t gauge_read;
+
+static void gauge(uint16_t permille)
+{
+    IchiUiProgress(GAUGE_TEXT, permille, GAUGE_FILL, GAUGE_BACK, ICHI_WHITE);
+}
+
+/* IchiStampReadPcm in GAUGE_CHUNK pieces so the gauge moves smoothly. */
+static bool read_pcm(uint16_t offset, int16_t *dst, uint16_t count)
+{
+    while (count > 0U)
+    {
+        uint16_t n = (count > GAUGE_CHUNK) ? GAUGE_CHUNK : count;
+        if (!IchiStampReadPcm(offset, dst, n)) { return false; }
+        offset = (uint16_t)(offset + n);
+        dst += n;
+        count = (uint16_t)(count - n);
+        gauge_read += n;
+        if (gauge_on) { gauge((uint16_t)((gauge_read * 900UL) / GAUGE_TOTAL)); }
+    }
+    return true;
+}
+
 /* Reads window `clip` of the last measurement into the feature buffer (0 = ok, else stage). */
 static uint8_t read_window(uint8_t clip, uint32_t *transfer_ms)
 {
     uint32_t t0 = tick_10ms;
     IchiStampSelectClip(clip);
-    if (!IchiFeatureFrame(IchiStampReadPcm, FRAME_SAMPLES)) { return 4U; }
+    if (!IchiFeatureFrame(read_pcm, FRAME_SAMPLES)) { return 4U; }
     *transfer_ms = (tick_10ms - t0) * 10UL;
     return 0U;
 }
@@ -326,10 +371,17 @@ static void infer(void)
     IchiUiBanner("Listening...", ICHI_CYAN, ICHI_BLACK);
     lcd("Listening...", "");
     if (!IchiStampMeasure(ICHI_MEASURE_FRAME)) { report_error(3U, actual); return; }
+    gauge(0U);                                           /* the sound has stopped */
+    lcd("Inferring...", "");
+    gauge_on = true;
+    gauge_read = 0U;
     stage = read_window(0U, &ms);
+    gauge_on = false;
     if (stage != 0U) { report_error(stage, actual); return; }
     IchiFeatureInput(feature);
+    gauge(950U);
     if (!IchiInferenceRun((const uint8_t *)feature, output, &pred)) { report_error(5U, actual); return; }
+    gauge(1000U);
 
     IchiUiShowState(actual, pred);
     state_label(&line1[4], actual);
@@ -471,6 +523,7 @@ int32_t main(void)
     {
         wait_ticks(200U);
     }
+    Uart1StartReadByte(receive_byte);
     exec_down = true;                  /* ignore an EXEC held since power on */
     was_down = true;
     long_done = true;
@@ -503,8 +556,9 @@ int32_t main(void)
             IchiUiShowState((uint8_t)servo_state, ICHI_UI_NONE);
             shown_actual = servo_state;
         }
-        if (!exec_down && was_down && !long_done)
+        if ((!exec_down && was_down && !long_done) || pc_infer_request)
         {
+            pc_infer_request = false;
             abort_request = false;
             if (!servo_finish()) { report_error(6U, servo_target); }
             else { infer(); }

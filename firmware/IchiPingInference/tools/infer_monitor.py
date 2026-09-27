@@ -6,7 +6,10 @@
   0x53 CAL_DONE correct-before u16 | samples u16 | aborted u8 | seconds u16
   0x54 ERROR    stage u8 | state u8
 
+--infer N で PC から 'I' を送り、推論を N 回続けて実行させる (EXEC を押すのと同じ。結果が届くたびに次を送る)。
+
 usage: python firmware/IchiPingInference/tools/infer_monitor.py --port COM3 [--log docs/board_infer_log.jsonl] [--seconds 0]
+       [--infer N]
 """
 from __future__ import annotations
 
@@ -43,10 +46,14 @@ def main():
     ap.add_argument("--port", default="COM3")
     ap.add_argument("--log", default="")
     ap.add_argument("--seconds", type=float, default=0.0, help="0 = Ctrl+C まで")
+    ap.add_argument("--infer", type=int, default=0, help="PC から推論を N 回実行させる (終わったら終了)")
     a = ap.parse_args()
     s = serial.Serial(a.port, 115200, timeout=0.2)
     log = open(a.log, "a", encoding="utf-8") if a.log else None
     buf, t0 = bytearray(), time.time()
+    left = a.infer
+    if left > 0:
+        s.write(b"I"); t_req = time.time()
     try:
         while a.seconds <= 0 or time.time() - t0 < a.seconds:
             buf += s.read(4096)
@@ -66,7 +73,12 @@ def main():
                     out = np.frombuffer(p, "<f4", count=32, offset=8).tolist()
                     rec.update(kind="result", actual=act, pred=pred, calibrated=bool(cal), transfer_ms=ms, outputs=out)
                     verdict = "完全一致" if pred == act else ("14クラス一致" if class14(pred) == class14(act) else "不一致")
-                    print(f"推論 実際 {label(act)} -> 推論 {label(pred)}  {verdict}  ({'校正済み' if cal else '事前学習モデル'}, 転送 {ms} ms)")
+                    print(f"推論 実際 {label(act)} -> 推論 {label(pred)}  {verdict}  ({'校正済み' if cal else '事前学習モデル'}, 転送 {ms} ms)"
+                          + (f", 要求から {time.time() - t_req:.1f} s" if a.infer > 0 else ""), flush=True)
+                    if a.infer > 0:
+                        left -= 1
+                        if left > 0:
+                            s.write(b"I"); t_req = time.time()
                 elif fr.type == 0x52:
                     st, w, pred, _, ms = struct.unpack_from("<BBBBI", p)
                     rec.update(kind="cal_step", state=st, window=w, pred_before=pred, transfer_ms=ms)
@@ -80,6 +92,8 @@ def main():
                     print(f"エラー: {STAGES.get(p[0], p[0])} ({label(p[1])})")
                 if log:
                     log.write(json.dumps(rec, ensure_ascii=False) + "\n"); log.flush()
+            if a.infer > 0 and left <= 0:
+                break
     except KeyboardInterrupt:
         pass
     finally:

@@ -24,6 +24,9 @@ void IchiUiInitialize(void);
 void IchiUiShowState(uint8_t actual, uint8_t inferred);
 /* Status message in the banner (cleared by the next verdict or message). */
 void IchiUiBanner(const char *text, uint16_t background, uint16_t foreground);
+/* Banner as a progress gauge (permille 0..1000): the background turns from `back` to `fill`
+   left to right; permille 0 or a new text starts an empty gauge. */
+void IchiUiProgress(const char *text, uint16_t permille, uint16_t fill, uint16_t back, uint16_t fg);
 /* "h" + five 0/1 in screen order C, BC, B, AB, A (1 = OPEN), e.g. "h01101"; writes 6 chars. */
 void IchiUiStateLabel(char *dst, uint8_t state);
 /* One line of small text between the rows and the banner (survey progress). */

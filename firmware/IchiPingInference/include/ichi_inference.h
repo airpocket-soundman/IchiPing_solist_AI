@@ -27,9 +27,6 @@ void IchiInferenceInitialize(void);
 /* input must hold ICHI_INFERENCE_INPUT_BYTES bytes. */
 bool IchiInferenceRun(const uint8_t *input, float output[ICHI_INFERENCE_OUTPUT_COUNT],
                       uint8_t *class_id);
-/* Embedded qualification input (one per class). */
-bool IchiInferenceSelfTest(uint8_t case_id, float output[ICHI_INFERENCE_OUTPUT_COUNT],
-                           uint8_t *class_id);
 /* On-site calibration (generated/ichi_calib_prior.h): loads the pre-trained beta and
    P0 = w (G_f + lambda I)^-1 into the on-board FRAM (false if the FRAM does not read back),
    then every IchiInferenceTrain() runs one OS-ELM update in float32 on the CPU and writes

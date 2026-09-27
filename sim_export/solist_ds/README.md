@@ -1,62 +1,47 @@
-# Solist-AI 向け学習データ (UNO Q + IchiPing データセット, 周波数シフト augmentation)
+# 実機用モデル(int8 CNN 前段 + ELM)と評価結果
 
-生成: `python sim/make_solist_dataset.py --sources unoq --shift ir --n-shift 2` (2026-09-24)
-評価: `python sim/eval_solist_dataset.py` → [EVAL.md](EVAL.md)
+完成版モデルと、その構成・選定の根拠になった評価結果。経緯と設計判断は [docs/DEVELOPMENT.md](../../docs/DEVELOPMENT.md)。
 
-## 特徴量 (実機と同一)
-
-`feature_schema_id = tdiff-rfft1024-h512-symhann-magmean-log20-floor80-bin26-192-f32-v1`
-16 kHz mono 2 s PCM → **時間波形で baseline (全閉平均) を減算** → 1024 点 FFT (hop 512, Hann) →
-|X| を 61 窓平均 → 20log10 → floor −80 dB → DC 除外 → bin 26..192 (406.25..3000 Hz) の **D=167**。
-`sim/bench_v612.py` のキャッシュと完全一致 (誤差 0) を `--selftest` で確認済み。
-
-## ソース
-
-| domain | 学習 run | 評価セット (学習に混ぜない) |
-|---|---|---|
-| `unoq` | `D:/GitHub/IchiPing-UNO-Q/pc/captures/uno_q_train_20260912_session1..8*_wav` (8 セッション, 13,200 frame, 2026-09-12 08:50–19:19) | `uno_q_eval_20260912_{gray,evening,survey,crowd}_wav` (raw から `pc/uno_q_export_dataset.py` で書き出し) |
-| `frdm` | `D:/GitHub/IchiPing/pc/captures/full_32_train_v21..v25` (FRDM 世代, 8,000 frame) | `full_32_eval_v1` |
-
-評価セットの baseline は各セットの `group=="baseline"` frame (電源投入時校正の想定)。
-
-## 気温差 (周波数シフト) 対策
-
-UNO Q で有効だった「学習時に周波数を ±3 % シフトする」対策 (`pc/training/dataset.py warp_logmag_psd`,
-夕方ドリフト −2.15 %) を Solist パイプライン向けに移植した。Solist は baseline を時間波形で引くため
-dB スペクトルのシフトを流用できず、`sim/freq_shift.py` で **IR シフト** を実装した。
-
-1. 既知 PRBS (seed 20260912) で正則化逆畳み込みしてインパルス応答 h を推定 (再構成 SNR 27.6 dB)
-2. h(t) → h(t·(1+ε)) と時間伸縮 (= 共鳴周波数 (1+ε) 倍、音速変化そのもの)
-3. `a_w = a + prbs ⊛ (h_w − h)` で再合成し、**シフトしていない baseline** で diff → 「古い baseline で
-   推論する」失敗モードをそのまま再現
-
-検証 (`--selftest`): +3 % シフト後のスペクトルから推定した ε=+3.1 %。実データの session6→夕方ドリフトは
-ε=−1.8 % (UNO Q 報告 −2.15 %)、→survey −0.85 % (−1.05 %)。全閉 frame の diff レベルは同セッション −20.5 dB、
-実夕方 −5.9 dB、IR シフト後 −7.7 dB で失敗モードを再現できている。
-
-励振が再現不能な FRDM 世代は diff スペクトルの周波数軸伸縮 (`--shift feat`) を使う (stale-baseline 項は再現されない)。
-
-## ファイル
+## モデル
 
 | ファイル | 内容 |
 |---|---|
-| `train_<variant>_14cls_5k.csv` / `_32cls_5k.csv` | Solist-AI Sim 用学習 CSV (標準化済 167 特徴 + one-hot, 層化サブサンプル, ≤1,000,000 セル) |
-| `test_<evalset>_<variant>_{14,32}cls.csv` | 同形式の評価 CSV (学習統計で標準化) |
-| `norm_<variant>.npz` | 標準化統計 mu/sd (167) |
-| `MANIFEST_<variant>.json`, `BUILD_<variant>.log` | レシピと生成ログ |
-| `sim/_cache/solist_ds_<variant>.npz` (git 管理外) | 全学習行 (float32, 未標準化) + 評価セット + メタ (run/baseline/ε) |
-| `board_model_<variant>_14cls.npz` | 実機用 β / mu / sd / scale / α (`sim/emit_board_model.py`) |
+| `board_model_frontend_32cls_best_s0.005.npz` | **完成版**。UNO Q 8 セッション + Stamp 13 セッション、周波数シフト ±0.5%、cross-baseline 2、前段 small。実機 32 クラス 100% |
+| `BOARD_FRONTEND_PC.json` | 完成版の学習条件・PC 評価・sha256 |
+| `board_model_frontend_32cls.npz` | UNO Q のデータだけで学習した最初のモデル(実機 75.0%)。`sim/eval_stamp_mix.py` の比較用 |
 
-variant: `unoq_none` (シフト無し), `unoq_ir2` (IR シフト ×2 コピー, ±3.5 %), `unoq_feat2`, `unoq+frdm_ir2`。
+## 再生成
 
-Sim 設定: Input First col=1 / rows=1 / cols=167、Expected First col=168 / cols=14 (32cls は 32)、
-Normalize OFF (標準化済)、Hidden=32 (実機 α=seed1)、Hard sigmoid / MSE、scaleAlpha≈0.205。
+PyTorch が要るので IchiPing 側の GPU 用 venv(`D:/GitHub/IchiPing/pc/.venv`)で実行する。学習データは git 管理外:
+UNO Q 版の収録(`D:/GitHub/IchiPing-UNO-Q/pc/captures`)と、このハードの収録(`captures/stamp_*_wav`, `firmware/IchiPingInference/tools/collect_session.py`)。
 
-## 評価結果の要点 (EVAL.md)
+```powershell
+$S = "stamp_20260926_s1_wav stamp_20260926_s2_wav stamp_20260926_s3_wav stamp_20260926_s4_wav stamp_20260926_s5_wav " +
+     "stamp_20260926_s6_wav stamp_20260926_s7_wav stamp_20260926_s8_wav stamp_20260926_s9_wav " +
+     "stamp_20260926_s10_wav stamp_20260926_s11_wav stamp_20260927_s1_wav stamp_20260927_s2_wav"
+# 1) 前段 + ELM を学習し、generated/ichiping_model.h と ichi_feature_tables.h を書く
+python sim/emit_frontend_model.py --arch small --stamp $S.Split(" ") --val stamp_20260927_s2_wav --shift 0.005 --xbase 2 --tag best_s0.005
+# 2) 現地校正の初期 P を書く(generated/ichi_calib_prior.h)
+python sim/emit_calibration_prior.py --model sim_export/solist_ds/board_model_frontend_32cls_best_s0.005.npz --stamp $S.Split(" ")
+# 3) 固定小数点の特徴計算が PC 参照と合うか確認(--emit で ichi_feature_tables.h を書き直す)
+python sim/board_fixed_feature.py
+```
 
-- **m=32 (実機 α) の ELM では 14cls 別時間帯評価が 65–88 % に留まり、シフトの有無で差が出ない**
-  (unoq_none: gray 87.5 / evening 70.0 / survey 78.1 / crowd 71.9 %)。容量律速。
-- m=256 (乱数 α) では evening が none 85.6 % → feat 90.0 % / unoq+frdm+ir 93.8 % と改善し、
-  シフト augmentation の効果が現れる。UNO Q の CNN (104k param) は同条件で 100 %。
-- 実機ライブラリ (`SolistAi_Library_2_256_64.a`) の上限は hidden 64。m=64 の α を Sim から採取すれば
-  中間の検証ができる。
+- `--tag` を省くと `board_model_frontend_32cls.npz`(上の比較用モデル)を上書きするので必ず付ける。
+- その後 `firmware/IchiPingInference/tools/build.ps1` でビルドし、`survey_monitor.py` で実機サーベイする。
+
+## 評価結果(根拠)
+
+| ファイル | スクリプト | 内容 |
+|---|---|---|
+| [BEST_MODEL.md](BEST_MODEL.md), `best_model/results.jsonl` | `sim/eval_best_model.py` | 事前学習モデルの選定(条件グループ hold-out:データ・シフト幅・cross-baseline・前段) |
+| [STAMP_MIX.md](STAMP_MIX.md) | `sim/eval_stamp_mix.py` | このハードの収録を学習に加えた効果(セッション単位 leave-one-out) |
+| [ODL_CALIBRATION.md](ODL_CALIBRATION.md) | `sim/eval_odl_calibration.py` | 現地校正の効果と、float32 / bf16、校正する状態数の比較 |
+| [RUN_SHIFT.md](RUN_SHIFT.md), `RUN_SHIFT_drift.png` | `sim/estimate_run_shift.py` | 全閉の収録から推定したセッション・時刻ごとの周波数シフト(気温) |
+| [FULL_DATA.md](FULL_DATA.md) | `sim/eval_full_data.py` | FRDM + UNO Q 全データでの前段 + ELM(大型前段、校正 5 窓) |
+| [TINY_FRONTEND_LODO.md](TINY_FRONTEND_LODO.md) | (探索用、削除済み) | ML63Q2557 向け小型前段の比較(Flash・活性化・MAC 併記)。small を採用 |
+| [CNN_FRONTEND_LODO.md](CNN_FRONTEND_LODO.md) | (探索用、削除済み) | PC の CNN XL 前段(約 30 万パラメータ)+ ELM |
+| [IMPROVE_LODO.md](IMPROVE_LODO.md) | `sim/eval_improve_lodo.py` | 特徴(D167 / N333 / N1024)× 線形 / ELM、日単位 leave-one-out |
+| [IDEAL_VS_SOLIST.md](IDEAL_VS_SOLIST.md) | `sim/eval_ideal_vs_solist.py` | PC 理想モデルと Solist ELM の比較(周波数シフト水増し込み) |
+
+`sim/make_solist_dataset.py` は Sim 段階の D167 データセット(Solist-AI Sim 用 CSV、`sim/_cache/`)を作る。CSV は再生成できるので git 管理外。

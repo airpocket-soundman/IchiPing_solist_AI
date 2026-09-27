@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+body{margin:0;background:#fff}
+svg{font-family:"Noto Sans JP","Yu Gothic",sans-serif}
+</style></head><body>
+<svg id="c" width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+<text x="40" y="52" font-size="34" font-weight="700" fill="#102a43">実機での 32 クラス分類の正解率の推移</text>
+<text x="40" y="86" font-size="19" fill="#52606d">サーボで 32 状態を 1 回ずつ作り、Solist-AI 単体で推論した結果(各 32 回)。14 観測等価クラス換算では 3 回目以降すべて 100%</text>
+</svg>
+<script>
+const d=[
+ ["1 回目","75.0","24/32","既存データ(別ハード)","だけで事前学習",0],
+ ["2 回目","87.5","28/32","I²C 読み出しの","不具合を修正",0],
+ ["3 回目","93.8","30/32","このハードの録音で","β だけ再学習",0],
+ ["4 回目","100","32/32","CNN 前段も","再学習",0],
+ ["5 回目","96.9","31/32","気温・背景音の","異なる条件で",0],
+ ["6 回目","96.9","31/32","条件の違う","収録を追加",0],
+ ["7 回目","100","32/32","セッション hold-out","で選んだモデル",1],
+ ["8 回目","100","32/32","同モデルで","もう一度",1],
+ ["9 回目","100","32/32","現地校正","(ODL)後",1],
+];
+const s=document.getElementById('c'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;s.appendChild(e);return e};
+const x0=120,x1=1560,y0=700,yTop=170,H=y0-yTop; // 0..100 mapped
+const Y=v=>y0-v/100*H;
+for(const g of [0,25,50,75,100]){el('line',{x1:x0,x2:x1,y1:Y(g),y2:Y(g),stroke:g?'#e4e7eb':'#9aa5b1','stroke-width':g?1:1.5});el('text',{x:x0-14,y:Y(g)+6,'text-anchor':'end','font-size':17,fill:'#7b8794'},g+'%')}
+const n=d.length,slot=(x1-x0)/n,bw=slot*0.56;
+d.forEach((r,i)=>{const cx=x0+slot*(i+.5),v=+r[1];
+ const c=r[5]?'#1d5fa8':'#9cc0e8';
+ const top=Y(v),h=y0-top;
+ el('path',{d:`M${cx-bw/2} ${y0} V${top+4} Q${cx-bw/2} ${top} ${cx-bw/2+4} ${top} H${cx+bw/2-4} Q${cx+bw/2} ${top} ${cx+bw/2} ${top+4} V${y0} Z`,fill:c});
+ el('text',{x:cx,y:top-34,'text-anchor':'middle','font-size':24,'font-weight':700,fill:'#102a43'},(v==100?'100':r[1])+'%');
+ el('text',{x:cx,y:top-12,'text-anchor':'middle','font-size':15,fill:'#52606d'},r[2]);
+ el('text',{x:cx,y:y0+28,'text-anchor':'middle','font-size':16,'font-weight':700,fill:'#323f4b'},r[0]);
+ el('text',{x:cx,y:y0+54,'text-anchor':'middle','font-size':15,fill:'#52606d'},r[3]);
+ el('text',{x:cx,y:y0+76,'text-anchor':'middle','font-size':15,fill:'#52606d'},r[4]);
+});
+// bracket for final
+const bx0=x0+slot*6+8,bx1=x1-8;
+el('rect',{x:bx0,y:y0+96,width:bx1-bx0,height:52,rx:10,fill:'#eaf2fb'});
+el('text',{x:(bx0+bx1)/2,y:y0+130,'text-anchor':'middle','font-size':20,'font-weight':700,fill:'#0f3d73'},'閉じた扉の向こうも含む 32 クラスで 100%');
+el('text',{x:x0,y:y0+130,'font-size':17,fill:'#52606d'},'「データを採る → 学習し直す → 実機で採点」を何周も回せたのは、採取と採点を自動化したから');
+</script>
+</body></html>

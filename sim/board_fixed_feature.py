@@ -5,12 +5,11 @@ firmware/IchiPingInference/src/ichi_feature.c と 1 対 1 に対応させる:
   → 実 FFT 2048 = 複素 FFT 1024 (int16 ブロック浮動小数点, 段毎に条件付き 1/2) + 分離
   → パワー (float32) を 1024 bin 積算 → 平均 → dB (max(10log10(P+1e-12), -80))
   → baseline dB (int16, 1/256 dB) との差 → 1024 bin の平均・標準偏差で正規化 → float16 丸め
-  → bin 50..383 (334) を標準化・int8 量子化 (board_model_frontend_32cls.npz の in_mu/in_sd/s_in)
+  → bin 50..383 (334) を標準化・int8 量子化 (完成版 board_model_frontend_32cls_best_s0.005.npz の in_mu/in_sd/s_in)
 
 実行: python sim/board_fixed_feature.py [--emit]
-  samples/uno_q_eval_evening で自己テスト入力と比較する。--emit で次も書き出す:
+  samples/uno_q_eval_evening で、ヘッダに埋め込んだ参照入力と比較する。--emit で次も書き出す:
   firmware/IchiPingInference/generated/ichi_feature_tables.h   Q15 窓・余弦表と入力標準化 (C 用)
-  firmware/IchiPingInference/generated/pipeline_expected.json  クリップ毎の期待値 (tools/pipeline_monitor.py 用)
 """
 from __future__ import annotations
 
@@ -24,7 +23,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 SAMPLES = ROOT / "samples" / "uno_q_eval_evening"
-MODEL = ROOT / "sim_export" / "solist_ds" / "board_model_frontend_32cls.npz"
+MODEL = ROOT / "sim_export" / "solist_ds" / "board_model_frontend_32cls_best_s0.005.npz"   # 完成版モデル
 GEN = ROOT / "firmware" / "IchiPingInference" / "generated"
 HEADER = GEN / "ichiping_model.h"
 
@@ -228,7 +227,6 @@ def main():
         worst = max(worst, int(d.max()))
         print(f"  {s['state']} cls{s['class_id']:2d}: dB max|Δ| {np.abs(db - ref_db).max():.4f}  "
               f"int8 mismatch {int((d > 0).sum()):3d}/334 max {d.max()}", flush=True)
-    exp_rows = []
     print(f"total int8 mismatches {tot_diff} / {32 * 334}, worst |Δ| {worst}")
     labels = np.array([s["class_id"] for s in sorted(man["states"], key=lambda s: s["class_id"])])
     out_ref, out_fix = infer(cases, m), infer(np.array(fixed_q), m)
@@ -238,20 +236,7 @@ def main():
           f"max |Δoutput| {float(np.abs(out_ref - out_fix).max()):.4f}")
     if "--emit" in sys.argv:
         emit_tables(m)
-        states = sorted(man["states"], key=lambda s: s["class_id"])
-        rows = []
-        for i, s in enumerate(states):
-            d = np.abs(fixed_q[i].astype(int) - cases[s["class_id"]].astype(int))
-            rows.append(dict(state=s["state"], class_id=s["class_id"], file=s["file"],
-                             pred_fixed=int(c_fix[i]), pred_header=int(c_ref[i]),
-                             mismatch=int((d > 0).sum()), max_diff=int(d.max()),
-                             outputs_fixed=[float(v) for v in out_fix[i]]))
-        exp = dict(note="sim/board_fixed_feature.py の固定小数点参照 (実機と同じ整数演算)。clip 順 = baseline → class 0..31",
-                   baseline=[b["file"] for b in man["baseline"]], states=rows,
-                   fixed_correct=int((c_fix == labels).sum()), header_correct=int((c_ref == labels).sum()))
-        (GEN / "pipeline_expected.json").write_text(json.dumps(exp, indent=1), encoding="utf-8")
-        print("wrote generated/ichi_feature_tables.h and generated/pipeline_expected.json")
-
+        print("wrote generated/ichi_feature_tables.h")
 
 if __name__ == "__main__":
     main()

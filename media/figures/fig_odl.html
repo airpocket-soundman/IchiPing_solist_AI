@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>body{margin:0;background:#fff}svg{font-family:"Noto Sans JP","Yu Gothic",sans-serif}
+.t{font-size:21px;fill:#1f2933}.s{font-size:17px;fill:#52606d}.b{font-size:24px;font-weight:700;fill:#102a43}</style></head><body>
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c2410c"/></marker></defs>
+<rect x="40" y="28" width="250" height="40" rx="20" fill="#c2410c"/>
+<text x="165" y="56" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">Solist-AI の目玉機能</text>
+<text x="40" y="118" font-size="40" font-weight="700" fill="#102a43">オンデバイス学習(ODL):装置がその場で学び直す</text>
+<text x="40" y="156" font-size="20" fill="#52606d">設置場所を変えた、家具や部屋が変わった ―― 事前学習でカバーしきれない大きな変化にも、PC もクラウドも使わずに現場で追従する</text>
+
+<g>
+<rect x="40" y="200" width="330" height="270" rx="16" fill="#fff7f2" stroke="#f0b48f" stroke-width="2"/>
+<text x="205" y="244" text-anchor="middle" class="b">① 環境が変わる</text>
+<text x="205" y="290" text-anchor="middle" class="t">設置場所の変更</text>
+<text x="205" y="322" text-anchor="middle" class="t">家具や部屋の変化</text>
+<text x="205" y="376" text-anchor="middle" class="s">幅広い事前学習でも</text>
+<text x="205" y="400" text-anchor="middle" class="s">カバーしきれない変化</text>
+
+<rect x="420" y="200" width="330" height="270" rx="16" fill="#fff7f2" stroke="#f0b48f" stroke-width="2"/>
+<text x="585" y="244" text-anchor="middle" class="b">② EXEC を長押し</text>
+<text x="585" y="290" text-anchor="middle" class="t">扉と窓の開閉の組み合わせ</text>
+<text x="585" y="322" text-anchor="middle" class="t">全 32 クラスを巡回し Ping</text>
+<text x="585" y="376" text-anchor="middle" class="s">模型が正解つきデータを</text>
+<text x="585" y="400" text-anchor="middle" class="s">自分で作る(人手不要)</text>
+
+<rect x="800" y="200" width="380" height="270" rx="16" fill="#fff" stroke="#c2410c" stroke-width="3.5"/>
+<text x="990" y="244" text-anchor="middle" class="b">③ Solist-AI が β を更新</text>
+<text x="990" y="290" text-anchor="middle" class="t">OS-ELM で 1 サンプルずつ</text>
+<text x="990" y="322" text-anchor="middle" class="t">出力層 β を逐次学習</text>
+<text x="990" y="376" text-anchor="middle" class="s">CPU の float32 で計算</text>
+<text x="990" y="400" text-anchor="middle" class="s">P・β(8 KB)は評価ボードの FRAM</text>
+
+<rect x="1230" y="200" width="330" height="270" rx="16" fill="#fff7f2" stroke="#f0b48f" stroke-width="2"/>
+<text x="1395" y="244" text-anchor="middle" class="b">④ すぐ反映</text>
+<text x="1395" y="290" text-anchor="middle" class="t">新しい β を AxlCORE へ</text>
+<text x="1395" y="322" text-anchor="middle" class="t">書き戻して次の推論から</text>
+<text x="1395" y="376" text-anchor="middle" class="s">約 30 分で完了</text>
+<text x="1395" y="400" text-anchor="middle" class="s">EXEC で中断すれば元に戻る</text>
+<g stroke="#c2410c" stroke-width="3.5" marker-end="url(#r)"><path d="M372 335 H416"/><path d="M752 335 H796"/><path d="M1182 335 H1226"/></g>
+</g>
+
+<rect x="40" y="520" width="740" height="330" rx="16" fill="#eaf2fb"/>
+<text x="70" y="566" font-size="24" font-weight="700" fill="#0f3d73">効果</text>
+<text x="70" y="620" font-size="22" fill="#1f2933">事前学習に含めていない条件のデータ(PC 検証)</text>
+<text x="70" y="700" font-size="56" font-weight="700" fill="#7b8794">89.4%</text>
+<text x="290" y="700" font-size="44" font-weight="700" fill="#c2410c">→</text>
+<text x="360" y="700" font-size="56" font-weight="700" fill="#0f3d73">100%</text>
+<text x="70" y="760" font-size="22" fill="#1f2933">実機:現地校正の後も 32 クラスで 100%</text>
+<text x="70" y="810" font-size="17" fill="#52606d">32 状態すべてを校正するのが重要(一部の状態だけだと逆に悪化した)</text>
+
+<rect x="820" y="520" width="740" height="330" rx="16" fill="#f4f5f7"/>
+<text x="850" y="566" font-size="24" font-weight="700" fill="#323f4b">この構成だからできること</text>
+<text x="850" y="616" font-size="21" fill="#1f2933">・ELM は β だけ学習すればよい → 小さなマイコンで現場学習</text>
+<text x="850" y="660" font-size="21" fill="#1f2933">・α は seed から再生成 → 学習してもパラメータ数が増えない</text>
+<text x="850" y="704" font-size="21" fill="#1f2933">・CNN 前段は固定、β だけ更新 → 学習が軽く安定</text>
+<text x="850" y="748" font-size="21" fill="#1f2933">・全 32 クラスをサーボで自動で作れる → 校正も人手ゼロ</text>
+<text x="850" y="800" font-size="17" fill="#52606d">bf16 のまま逐次更新すると β が崩れたため、更新計算だけ float32 に</text>
+</svg></body></html>

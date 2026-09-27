@@ -1,6 +1,6 @@
 """On-site calibration prior for the Solist ELM head -> firmware/IchiPingInference/generated/ichi_calib_prior.h.
 
-On-site calibration (docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md: every state, one 6 s PRBS,
+On-site calibration (docs/DEVELOPMENT.md: every state, one 6 s PRBS,
 five 2 s windows with 1 s hop) retrains the ELM beta on the board (OS-ELM, forgetting
 factor 1) while the AxlCORE keeps doing the inference.  Starting from the factory beta and
     P0 = w (G_f + lambda I)^-1,  G_f = H_f^T H_f over the factory training frames,
@@ -13,7 +13,7 @@ piles up over the 160 updates and beta degrades or blows up (2026-09-26 board: e
 predicted as the first calibrated one; PC: bf16 OS-ELM 95-98% where float stays at 100%,
 sim/eval_odl_calibration.py).  lambda = 10 keeps P0 well conditioned.
 
-Uses the model in sim_export/solist_ds/board_model_frontend_32cls.npz (emit_frontend_model.py,
+Uses the model in sim_export/solist_ds/board_model_frontend_32cls_best_s0.005.npz (emit_frontend_model.py,
 or --model) and the same training runs (UNO Q session1-8, plus --stamp sessions).
 
 usage: D:/GitHub/IchiPing/pc/.venv/Scripts/python.exe sim/emit_calibration_prior.py [--cal-per-state 5]
@@ -32,7 +32,7 @@ from emit_frontend_model import ALPHA, BLO, BHI, elm_input, int_forward  # noqa:
 from eval_full_data import UNOQ_TRAIN, build_run  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-MODEL = ROOT / "sim_export" / "solist_ds" / "board_model_frontend_32cls.npz"
+MODEL = ROOT / "sim_export" / "solist_ds" / "board_model_frontend_32cls_best_s0.005.npz"   # 完成版モデル
 OUT = ROOT / "firmware" / "IchiPingInference" / "generated" / "ichi_calib_prior.h"
 
 

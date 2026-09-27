@@ -118,6 +118,12 @@
 <section id="overview" class="article">
   <div class="crumb">レポート ／ 概要</div>
   <h1>IchiPing → Solist-AI 移植 検証レポート</h1>
+  <div class="note"><b>このレポートは 2026-06 のシミュレータ段階(公式 Solist-AI Sim、ELM のみ・D167 特徴)の記録です。</b>
+  実機の完成版は、特徴を N333 に変え、int8 CNN 前段(Cortex-M0+)+ ELM(AxlCORE)+ 現地校正(float32 ODL)の構成で、
+  閉じた扉の向こうも含む 32 クラスの推論に実機で 100% 成功しました。構成・経緯・結果は
+  <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">開発記録(DEVELOPMENT.md)</a>、
+  作品の紹介は <a href="https://protopedia.net/prototype/8556">ProtoPedia</a> を参照してください。
+  本文中のハードウェア構成(SPI DAC 案など)も当時の検討で、実機では Stamp-S3A が I²S を担当しています。</div>
   <div class="lead">能動音響（スピーカで音を出し、その反響を聴いて状態を推定する方式）による扉/窓の開閉センシングを、ROHM Solist-AI (ML63Q2557) へ移植するための事前検証</div>
   <div style="margin:10px 0 6px">
     <span class="tag">14cls / 32cls（識別する状態クラス数）</span>
@@ -501,7 +507,7 @@
     <tr><td>Stamp-S3A</td><td>I²C / AMP（2.54 mm）</td><td>G13=SDA、G15=SCL、G1=AMP SD</td></tr>
     <tr><td>Stamp-S3A</td><td>5状態入力</td><td>G44=窓a（2.54 mm）、G2/G4/G6/G8（1.27 mm）、pull-up、Low=CLOSE</td></tr>
   </table>
-  <div class="note"><b>Stamp-S3Aのピッチ：</b>通常版S007-V033を対象とし、キャリア左列M1-1..17は1x17・1.27 mmソケット、右列M1-18/20/22/24/26/28は1x6・2.54 mmソケットとする。G2/G4/G6/G8を窓b/c・扉AB/BC、G10をEXEC_Nへ使用し、G44を窓aへ使用する。G0/G3/G46はstrappingのため不使用。キャリア上面の左右列は公式部品面PinMapに対して左右鏡像とする。</div>
+  <div class="note"><b>Stamp-S3Aのピッチ：</b>通常版S007-V033を対象とし、キャリア左列M1-1..17は1x17・1.27 mmソケット、右列M1-18/20/22/24/26/28は1x6・2.54 mmソケットとする。G2/G4/G6/G8を窓b/c・扉AB/BC、G10をEXEC_Nへ使用し、G44を窓aへ使用する。G0/G3/G46はstrappingのため不使用。キャリア上面から見た配置は公式部品面PinMap(天面図)を180°回転したものになる。</div>
   <h3>使用デバイスの接続対応</h3>
   <table>
     <tr><th>デバイス</th><th>端子</th><th>接続先</th><th>固定条件／注意</th></tr>

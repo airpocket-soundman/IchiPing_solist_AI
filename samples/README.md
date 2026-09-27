@@ -11,7 +11,6 @@ UNO Q (INMP441 マイク / MAX98357A アンプ, PRBS 励振) で 2026-09-12 夕�
 | `sXXXXX/` | 各状態の先頭 1 frame (32 状態)。状態名は扉 a b c AB BC の開閉 (1 = 開)、クラス番号は bit k = 2^k |
 | `manifest.json` | 元ファイル・クラス番号・収録時刻 |
 
-32 状態の frame は、実機ファーム (`firmware/IchiPingInference`) の自己テスト 32 ケースの元データ。
-`python sim/export_audio_samples.py --verify-only` で、この wav だけから計算した int8 入力が
-`generated/ichiping_model.h` の自己テスト入力と 32/32 一致することを確認できる
-(学習時の特徴キャッシュが float16 のため、検証でも float16 を経由する)。
+32 状態の frame は、完成版モデルのヘッダ (`firmware/IchiPingInference/generated/ichiping_model.h`) に埋め込んだ参照入力の元データ。
+`python sim/board_fixed_feature.py` で、この wav からファームと同じ固定小数点演算で計算した int8 入力を参照入力と比較する
+(完成版モデルでの差は int8 で最大 2、判定は 32 件中 30 件が一致)。

@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>body{margin:0;background:#fff}svg{font-family:"Noto Sans JP","Yu Gothic",sans-serif}
+.t{font-size:21px;fill:#1f2933}.s{font-size:17px;fill:#52606d}.b{font-size:26px;font-weight:700}</style></head><body>
+<svg width="1600" height="830" viewBox="0 0 1600 830" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#52606d"/></marker></defs>
+<text x="40" y="56" font-size="36" font-weight="700" fill="#102a43">反響音は環境で変わる:ばらつきへの 2 段構えの対策</text>
+<text x="40" y="94" font-size="20" fill="#52606d">同じ窓・扉の状態でも、気温や背景音が違えば反響音は少しずつ変わり、収録セッションごとにデータがばらつく</text>
+
+<g transform="translate(0,-70)">
+<path d="M60 250 H1540" stroke="#52606d" stroke-width="3" marker-end="url(#k)"/>
+<text x="60" y="226" font-size="18" fill="#52606d">環境の変化:小さい</text>
+<text x="1540" y="226" text-anchor="end" font-size="18" fill="#52606d">大きい</text>
+
+<!-- zone 1 -->
+<rect x="60" y="280" width="860" height="560" rx="18" fill="#eaf2fb" stroke="#1d5fa8" stroke-width="2.5"/>
+<text x="90" y="330" class="b" fill="#0f3d73">① 幅広いデータで事前学習(PC)</text>
+<text x="90" y="384" class="t" font-weight="700">変化の例</text>
+<text x="90" y="420" class="t">・気温:共鳴の周波数がわずかにずれる(0.1〜0.2% 程度)</text>
+<text x="90" y="456" class="t">・背景音:空調・生活音などで雑音の乗り方が変わる</text>
+<text x="90" y="492" class="t">・収録ごとの小さな揺らぎ:模型や機器のわずかなずれ</text>
+<text x="90" y="550" class="t" font-weight="700">対策</text>
+<text x="90" y="586" class="t">・条件の違う 13 セッション・4,290 フレームを自動で収録</text>
+<text x="90" y="622" class="t">・周波数シフトを模した水増しも加えて学習</text>
+<text x="90" y="658" class="t">・一部のセッション群を丸ごと除いて学習し、除いた側で採点</text>
+<rect x="90" y="700" width="800" height="110" rx="12" fill="#fff"/>
+<text x="120" y="744" font-size="20" fill="#52606d">学習外のセッションでの 32 クラス分類の正解率</text>
+<text x="120" y="792" font-size="36" font-weight="700" fill="#0f3d73">平均 98.7%</text>
+<text x="400" y="792" font-size="20" fill="#1f2933">実機では 32 クラスで 100%</text>
+
+<!-- zone 2 -->
+<rect x="960" y="280" width="580" height="560" rx="18" fill="#fff7f2" stroke="#c2410c" stroke-width="3"/>
+<text x="990" y="330" class="b" fill="#9a3412">② ODL でその場で学び直す</text>
+<text x="990" y="384" class="t" font-weight="700">変化の例</text>
+<text x="990" y="420" class="t">・装置の設置場所を変えた</text>
+<text x="990" y="456" class="t">・家具の配置や部屋が変わった</text>
+<text x="990" y="492" class="t">・事前学習で想定しきれない変化</text>
+<text x="990" y="550" class="t" font-weight="700">対策</text>
+<text x="990" y="586" class="t">・EXEC 長押しで全 32 クラスの開閉を巡回</text>
+<text x="990" y="622" class="t">・Solist-AI が出力層 β を更新</text>
+<text x="990" y="658" class="t">・PC もクラウドも不要</text>
+<rect x="990" y="700" width="520" height="110" rx="12" fill="#fff"/>
+<text x="1020" y="744" font-size="20" fill="#52606d">事前学習に含めていない条件(PC 検証)</text>
+<text x="1020" y="792" font-size="36" font-weight="700" fill="#9a3412">89.4% → 100%</text>
+</g></svg></body></html>

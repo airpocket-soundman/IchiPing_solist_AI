@@ -3,17 +3,12 @@ param(
     # LEXIDE project (ROHM AIVibrationInference based) with a generated Debug makefile.
     # Only its vendor drivers/library are used; its application sources are replaced.
     [string]$SourceProject = "$env:USERPROFILE\lexide\workspace_omega_v2\AcrylicPanCollector_lowlatency",
-    # ichi_main: UART request/response firmware.  ichi_pipeline_main: Stamp I2C PCM ->
-    # on-chip N333 feature -> inference test (firmware/StampPipelineTest).
-    # ichi_tft_test_main: ILI9341 TFT bring-up (colour bars, text, counter).
-    # ichi_io_test_main: switch / EXEC states from the Stamp (I2C STATUS) shown on the TFT.
-    # ichi_servo_test_main: PCA9685 + SG90 one-by-one sweep started / stopped with EXEC.
+    # ichi_infer_main: the inference firmware (original IchiPing behaviour + on-site calibration).
     # ichi_survey_main: servos set each of the 32 states, Stamp measures live (firmware/StampMeasure),
     # on-chip feature + inference, results to TFT / UART (tools/survey_monitor.py).
     # ichi_collect_main: PC-driven servo states for data collection (tools/collect_session.py).
-    # ichi_infer_main: the inference firmware (original IchiPing behaviour + on-site calibration).
-    [ValidateSet("ichi_main", "ichi_pipeline_main", "ichi_tft_test_main", "ichi_io_test_main", "ichi_servo_test_main", "ichi_survey_main", "ichi_infer_main", "ichi_odl_test_main", "ichi_collect_main")]
-    [string]$Main = "ichi_main",
+    [ValidateSet("ichi_infer_main", "ichi_survey_main", "ichi_collect_main")]
+    [string]$Main = "ichi_infer_main",
     # CMSIS Core include (ARM.CMSIS 5.9.0 pack) of this PC.
     [string]$CmsisInclude = "$env:LOCALAPPDATA\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include",
     [string]$Configuration = "Debug",
@@ -32,15 +27,8 @@ $ErrorActionPreference = "Stop"
 $fwRoot = Split-Path -Parent $PSScriptRoot                  # firmware/IchiPingInference
 $repoRoot = Split-Path -Parent (Split-Path -Parent $fwRoot)
 $makeExe = "C:\LAPIS\LEXIDE\Utilities\Bin\make.exe"
-if ($Main -eq "ichi_pipeline_main") { $sources = @("ichi_protocol", "ichi_inference", "ichi_feature", "ichi_stamp_link") }
-elseif ($Main -eq "ichi_tft_test_main") { $sources = @("ichi_tft") }
-elseif ($Main -eq "ichi_io_test_main") { $sources = @("ichi_tft", "ichi_stamp_link") }
-elseif ($Main -eq "ichi_servo_test_main") { $sources = @("ichi_tft", "ichi_stamp_link", "ichi_servo") }
-elseif ($Main -eq "ichi_infer_main") { $sources = @("ichi_protocol", "ichi_inference", "ichi_feature", "ichi_stamp_link", "ichi_tft", "ichi_ui", "ichi_servo") }
-elseif ($Main -eq "ichi_survey_main") { $sources = @("ichi_protocol", "ichi_inference", "ichi_feature", "ichi_stamp_link", "ichi_tft", "ichi_ui", "ichi_servo") }
-elseif ($Main -eq "ichi_collect_main") { $sources = @("ichi_protocol", "ichi_stamp_link", "ichi_tft", "ichi_ui", "ichi_servo") }
-elseif ($Main -eq "ichi_odl_test_main") { $sources = @("ichi_protocol", "ichi_inference", "ichi_feature") }
-else { $sources = @("ichi_protocol", "ichi_inference", "ichi_app") }
+if ($Main -eq "ichi_collect_main") { $sources = @("ichi_protocol", "ichi_stamp_link", "ichi_tft", "ichi_ui", "ichi_servo") }
+else { $sources = @("ichi_protocol", "ichi_inference", "ichi_feature", "ichi_stamp_link", "ichi_tft", "ichi_ui", "ichi_servo") }
 if (-not (Test-Path -LiteralPath $CmsisInclude -PathType Container)) { throw "CMSIS include not found: $CmsisInclude" }
 
 if (-not (Test-Path -LiteralPath $SourceProject -PathType Container)) { throw "Vendor project not found: $SourceProject" }

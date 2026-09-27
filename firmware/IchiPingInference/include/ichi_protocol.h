@@ -15,17 +15,7 @@
 
 #define ICHI_PROTOCOL_VERSION   (1U)
 
-#define ICHI_MSG_HELLO          (0x01U)
-#define ICHI_MSG_STATUS         (0x02U)
-#define ICHI_MSG_AI_SELFTEST    (0x14U)   /* payload: case id u8 */
-#define ICHI_MSG_AI_INFER       (0x16U)   /* payload: ICHI_INFERENCE_INPUT_BYTES */
-#define ICHI_MSG_AI_RESULT      (0x21U)
-#define ICHI_MSG_ACK            (0x70U)
-#define ICHI_MSG_NACK           (0x71U)   /* payload: request type u8, reason u8 */
-
-#define ICHI_NACK_BAD_REQUEST   (1U)
-#define ICHI_NACK_UNSUPPORTED   (2U)
-#define ICHI_NACK_INFERENCE     (3U)
+/* Message types are defined by each main (see the header comment of src/ichi_*_main.c). */
 
 #define ICHI_RX_PAYLOAD_CAPACITY (352U)   /* >= 334 int8 front-end inputs / 167 bf16 ELM inputs */
 #define ICHI_TX_PAYLOAD_CAPACITY (264U)   /* >= AI_RESULT with 64 float outputs */

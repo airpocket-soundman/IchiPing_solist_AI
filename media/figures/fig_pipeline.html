@@ -1,0 +1,117 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+body{margin:0;background:#fff}
+svg{font-family:"Noto Sans JP","Yu Gothic",sans-serif}
+.t{font-size:20px;fill:#1f2933}
+.s{font-size:16px;fill:#52606d}
+.b{font-size:21px;font-weight:700;fill:#102a43}
+.lab{font-size:17px;font-weight:700}
+</style></head><body>
+<svg width="1600" height="960" viewBox="0 0 1600 960" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#52606d"/></marker>
+ <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c2410c"/></marker>
+</defs>
+<text x="40" y="52" font-size="34" font-weight="700" fill="#102a43">Solist-AI の中で動く AI パイプライン</text>
+<text x="40" y="84" class="s" style="font-size:19px">特徴づくり(CNN 前段)と、その場で学び直せる出力層(ELM)の 2 段構成。学習するのは ELM の β だけ</text>
+
+<!-- band labels -->
+<text x="40" y="136" class="lab" fill="#1d5fa8">推論(EXEC を押すたび)</text>
+
+<!-- boxes row -->
+<g>
+<rect x="40" y="150" width="220" height="210" rx="12" fill="#fff6ec" stroke="#e07b14" stroke-width="2"/>
+<text x="150" y="186" text-anchor="middle" class="b">録音 2 秒</text>
+<text x="150" y="220" text-anchor="middle" class="t">PCM 16 kHz</text>
+<text x="150" y="248" text-anchor="middle" class="t">32,000 サンプル</text>
+<text x="150" y="288" text-anchor="middle" class="s">Stamp-S3A から</text>
+<text x="150" y="310" text-anchor="middle" class="s">I²C で受け取る</text>
+
+<rect x="300" y="150" width="240" height="210" rx="12" fill="#eaf2fb" stroke="#1d5fa8" stroke-width="2"/>
+<text x="420" y="186" text-anchor="middle" class="b">スペクトル</text>
+<text x="420" y="220" text-anchor="middle" class="t">2048 点 FFT</text>
+<text x="420" y="248" text-anchor="middle" class="t">× Welch 平均 → dB</text>
+<text x="420" y="288" text-anchor="middle" class="s">int16 ブロック浮動小数点</text>
+<text x="420" y="310" text-anchor="middle" class="s">(FPU 無しの M0+ 向け)</text>
+
+<rect x="580" y="150" width="250" height="210" rx="12" fill="#eaf2fb" stroke="#1d5fa8" stroke-width="2"/>
+<text x="705" y="186" text-anchor="middle" class="b">全閉との差分</text>
+<text x="705" y="220" text-anchor="middle" class="t">400–3000 Hz</text>
+<text x="705" y="248" text-anchor="middle" class="t">334 次元 → int8</text>
+<text x="705" y="288" text-anchor="middle" class="s">起動時に全閉を 3 回測り</text>
+<text x="705" y="310" text-anchor="middle" class="s">「何が変わったか」だけ残す</text>
+
+<rect x="870" y="150" width="250" height="210" rx="12" fill="#eaf2fb" stroke="#1d5fa8" stroke-width="2"/>
+<text x="995" y="186" text-anchor="middle" class="b">CNN 前段(int8)</text>
+<text x="995" y="220" text-anchor="middle" class="t">Conv1d 8→16→32</text>
+<text x="995" y="248" text-anchor="middle" class="t">→ FC → 32 次元</text>
+<text x="995" y="288" text-anchor="middle" class="s">int8 積算 + float32 再量子化</text>
+<text x="995" y="310" text-anchor="middle" class="s">42 KB・PC で事前学習・固定</text>
+
+<rect x="1160" y="140" width="260" height="230" rx="14" fill="#dbe9f8" stroke="#0f3d73" stroke-width="3.5"/>
+<text x="1290" y="178" text-anchor="middle" class="b">ELM ヘッド</text>
+<text x="1290" y="210" text-anchor="middle" class="t">入力 → 隠れ 32 → 32</text>
+<text x="1290" y="244" text-anchor="middle" class="s">α:乱数で固定</text>
+<text x="1290" y="266" text-anchor="middle" class="s">(チップが seed から再生成)</text>
+<text x="1290" y="300" text-anchor="middle" class="s" style="fill:#c2410c;font-weight:700">β:ここだけ学習する</text>
+<text x="1290" y="340" text-anchor="middle" class="lab" fill="#0f3d73">AxlCORE(bf16)</text>
+
+<rect x="1460" y="190" width="110" height="130" rx="12" fill="#eef8f1" stroke="#2f8a57" stroke-width="2"/>
+<text x="1515" y="236" text-anchor="middle" class="b">32 状態</text>
+<text x="1515" y="268" text-anchor="middle" class="s">窓 3 + 扉 2</text>
+<text x="1515" y="292" text-anchor="middle" class="s">= 5 bit</text>
+</g>
+<g stroke="#52606d" stroke-width="3" marker-end="url(#a)">
+<path d="M262 255 H296"/><path d="M542 255 H576"/><path d="M832 255 H866"/><path d="M1122 255 H1156"/><path d="M1422 255 H1456"/>
+</g>
+<!-- CPU span -->
+<path d="M300 382 H1120" stroke="#1d5fa8" stroke-width="2"/>
+<path d="M300 374 V390 M1120 374 V390" stroke="#1d5fa8" stroke-width="2"/>
+<text x="710" y="412" text-anchor="middle" class="lab" fill="#1d5fa8">ML63Q2557 の CPU(Cortex-M0+)― FFT 作業領域と CNN の活性化で 4 KB を共用</text>
+
+<!-- calibration -->
+<rect x="40" y="470" width="1530" height="300" rx="16" fill="#fff7f2" stroke="#c2410c" stroke-width="2.5"/>
+<text x="64" y="508" class="lab" fill="#c2410c" style="font-size:21px">その場で学び直す(現地校正):EXEC 長押しで開始、PC 不要</text>
+
+<rect x="64" y="530" width="270" height="200" rx="12" fill="#fff" stroke="#f0b48f"/>
+<text x="199" y="566" text-anchor="middle" class="b">正解つき音を集める</text>
+<text x="199" y="600" text-anchor="middle" class="t">扉と窓の開閉の</text>
+<text x="199" y="626" text-anchor="middle" class="t">全 32 クラスを巡回</text>
+<text x="199" y="664" text-anchor="middle" class="s">各状態 6 秒の PRBS を</text>
+<text x="199" y="686" text-anchor="middle" class="s">2 秒窓 × 5 本に分ける</text>
+
+<rect x="374" y="530" width="270" height="200" rx="12" fill="#fff" stroke="#f0b48f"/>
+<text x="509" y="566" text-anchor="middle" class="b">同じ前段を通す</text>
+<text x="509" y="600" text-anchor="middle" class="t">差分特徴 → CNN 前段</text>
+<text x="509" y="626" text-anchor="middle" class="t">→ ELM 隠れ層 h</text>
+<text x="509" y="664" text-anchor="middle" class="s">前段と正規化は</text>
+<text x="509" y="686" text-anchor="middle" class="s">事前学習のまま</text>
+
+<rect x="684" y="530" width="330" height="200" rx="12" fill="#fff" stroke="#c2410c" stroke-width="2.5"/>
+<text x="849" y="566" text-anchor="middle" class="b">OS-ELM で β を逐次更新</text>
+<text x="849" y="600" text-anchor="middle" class="t">1 サンプルごとに P と β を更新</text>
+<text x="849" y="626" text-anchor="middle" class="t">CPU の float32 で計算</text>
+<text x="849" y="664" text-anchor="middle" class="s">β 32×32 と P 32×32(計 8 KB)</text>
+<text x="849" y="686" text-anchor="middle" class="s">は FRAM に置く</text>
+
+<rect x="1054" y="530" width="250" height="200" rx="12" fill="#fff" stroke="#f0b48f"/>
+<text x="1179" y="566" text-anchor="middle" class="b">AxlCORE へ</text>
+<text x="1179" y="592" text-anchor="middle" class="b">書き戻す</text>
+<text x="1179" y="630" text-anchor="middle" class="t">次の推論から</text>
+<text x="1179" y="656" text-anchor="middle" class="t">新しい β で判定</text>
+
+<rect x="1344" y="530" width="202" height="200" rx="12" fill="#fff" stroke="#f0b48f"/>
+<text x="1445" y="580" text-anchor="middle" class="t">EXEC で中断すると</text>
+<text x="1445" y="606" text-anchor="middle" class="t">事前学習の β に戻る</text>
+<text x="1445" y="660" text-anchor="middle" class="s">所要 約 30 分</text>
+<g stroke="#c2410c" stroke-width="3" marker-end="url(#r)">
+<path d="M336 630 H370"/><path d="M646 630 H680"/><path d="M1016 630 H1050"/><path d="M1306 630 H1340"/>
+</g>
+<path d="M1179 530 V470 M1179 470 V374" stroke="#c2410c" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#r)"/>
+
+<!-- note -->
+<rect x="40" y="800" width="1530" height="130" rx="14" fill="#f4f5f7"/>
+<text x="64" y="840" class="lab" fill="#323f4b" style="font-size:20px">なぜ 2 段構成か</text>
+<text x="64" y="874" class="t">ELM だけでは、学習外のセッションでの 32 クラス分類の正解率が 66% どまり。小さな CNN 前段で「効く特徴」を先に作ると 90% まで上がった(PC 評価)。</text>
+<text x="64" y="906" class="t">出力層を ELM にしておくことで、重い誤差逆伝播なしに β(1,024 個)の更新だけで現場に合わせられる。</text>
+</svg></body></html>

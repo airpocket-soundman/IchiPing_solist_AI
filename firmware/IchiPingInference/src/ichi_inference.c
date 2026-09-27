@@ -340,13 +340,3 @@ const int16_t *IchiInferenceElmInput(void)
     return NULL;
 #endif
 }
-
-bool IchiInferenceSelfTest(uint8_t case_id, float output[ICHI_INFERENCE_OUTPUT_COUNT],
-                           uint8_t *class_id)
-{
-    if (case_id >= ICHI_MODEL_CASE_COUNT)
-    {
-        return false;
-    }
-    return IchiInferenceRun((const uint8_t *)ichi_model_cases[case_id], output, class_id);
-}

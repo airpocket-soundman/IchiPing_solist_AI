@@ -1,10 +1,10 @@
 """このハード (Stamp-S3A 採取, captures/stamp_*) のセッションを PC 上の事前学習モデル (既定: UNO Q のみ, --model で指定) で評価する。
 
 特徴は学習と同じ float 経路 (eval_full_data.build_run: N1024, 同セッション baseline 差) →
-int8 CNN 前段 (board_model_frontend_32cls.npz) → ELM (AxlCORE と同じ bf16 参照計算)。
+int8 CNN 前段 (既定: 完成版 board_model_frontend_32cls_best_s0.005.npz) → ELM (AxlCORE と同じ bf16 参照計算)。
 実機ファームが PC と同じ特徴を出していれば、実機サーベイの結果はこの PC 評価と揃うはず。
 
-usage: python sim/eval_stamp_session.py stamp_20260926_quick1_wav [...] [--model sim_export/solist_ds/board_model_frontend_32cls.npz]
+usage: python sim/eval_stamp_session.py stamp_20260926_quick1_wav [...] [--model sim_export/solist_ds/board_model_frontend_32cls_best_s0.005.npz]
 """
 from __future__ import annotations
 
@@ -54,7 +54,7 @@ def class14(c):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("runs", nargs="+")
-    ap.add_argument("--model", default=str(ROOT / "sim_export" / "solist_ds" / "board_model_frontend_32cls.npz"))
+    ap.add_argument("--model", default=str(ROOT / "sim_export" / "solist_ds" / "board_model_frontend_32cls_best_s0.005.npz"))
     ap.add_argument("--fresh", action="store_true", help="特徴キャッシュを作り直す")
     a = ap.parse_args()
     z, qm, fq = load_model(a.model)

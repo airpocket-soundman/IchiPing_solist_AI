@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>body{margin:0;background:#fff}svg{font-family:"Noto Sans JP","Yu Gothic",sans-serif}</style></head><body>
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+<text x="40" y="52" font-size="34" font-weight="700" fill="#102a43">CNN を足しても、パラメータ数は PC の理想モデルの約 1/7</text>
+<text x="40" y="88" font-size="19" fill="#52606d">保存が必要なパラメータ数の比較。ELM の入力側パラメータ α(167×32 = 5,344 個)はチップが seed から作り直すので保存しない</text>
+
+<!-- scale: 300,000 -> 1000px, x0=520 -->
+<g font-size="22">
+<text x="490" y="205" text-anchor="end" font-weight="700" fill="#1f2933">PC の理想モデル</text>
+<text x="490" y="235" text-anchor="end" font-size="17" fill="#52606d">CNN XL(1024 ビン入力)</text>
+<path d="M520 170 H1516 Q1520 170 1520 174 V246 Q1520 250 1516 250 H520 Z" fill="#bcccdc"/>
+<text x="1500" y="220" text-anchor="end" font-size="26" font-weight="700" fill="#102a43">約 300,000</text>
+
+<text x="490" y="355" text-anchor="end" font-weight="700" fill="#1f2933">オリジナル IchiPing</text>
+<text x="490" y="385" text-anchor="end" font-size="17" fill="#52606d">4 層 CNN(NXP の NPU)</text>
+<path d="M520 320 H863 Q867 320 867 324 V396 Q867 400 863 400 H520 Z" fill="#bcccdc"/>
+<text x="885" y="370" font-size="26" font-weight="700" fill="#102a43">約 104,000</text>
+
+<text x="490" y="505" text-anchor="end" font-weight="700" fill="#0f3d73">本作(Solist-AI)</text>
+<text x="490" y="535" text-anchor="end" font-size="17" fill="#52606d">int8 CNN 前段 + ELM β</text>
+<path d="M520 470 H661 Q665 470 665 474 V546 Q665 550 661 550 H520 Z" fill="#1d5fa8"/>
+<path d="M665 470 H666 Q670 470 670 474 V546 Q670 550 666 550 H665 Z" fill="#f59e0b"/>
+<text x="690" y="508" font-size="26" font-weight="700" fill="#0f3d73">約 43,600</text>
+<text x="690" y="538" font-size="17" fill="#52606d">CNN 前段 42,528(Cortex-M0+)+ β 1,024(AxlCORE)</text>
+</g>
+<line x1="520" y1="150" x2="520" y2="570" stroke="#9aa5b1" stroke-width="1.5"/>
+
+<rect x="40" y="620" width="1520" height="240" rx="16" fill="#eaf2fb"/>
+<text x="70" y="664" font-size="22" font-weight="700" fill="#0f3d73">当初の想定と、実際にしたこと</text>
+<text x="70" y="704" font-size="20" fill="#1f2933">・当初は ELM だけ(学習するのは β のみ)で当てられると考えていた。公式シミュレータでは 14 クラス 99.4%</text>
+<text x="70" y="740" font-size="20" fill="#1f2933">・ところが学習外のセッションでは、32 クラス分類の正解率が 66% どまり。ELM だけでは汎化しきれなかった</text>
+<text x="70" y="776" font-size="20" fill="#1f2933">・Cortex-M0+ に小さな int8 CNN 前段を追加し、特徴を 32 次元に絞ってから ELM へ → 同じ評価で正解率 90%</text>
+<text x="70" y="812" font-size="20" fill="#1f2933">・実機データも足して、閉じた扉の向こうも含む 32 クラスの推論に実機で 100% 成功。それでもパラメータ数は理想モデルの約 1/7</text>
+<text x="70" y="846" font-size="16" fill="#52606d">66% と 90% は学習外のセッションでの 32 クラス分類の正解率(PC 上で実機と同じ計算を再現)。</text>
+</svg></body></html>

@@ -2,7 +2,7 @@
 
 Solist がサーボで全閉 → baseline → 32 状態を順に作り、Stamp で PRBS 再生・録音した音から
 その場で推論して結果を送る。本スクリプトは受信して正解率・状態別結果・混同を
-docs/board_survey.{md,json} に書く。
+docs/results/board_survey.{md,json} に書く。
 
 UART フレーム (ichi_protocol.h 形式):
   0x40 SURVEY_START  rounds u8 | baseline u8 | states u8 | calibrate u8
@@ -57,7 +57,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--port", default="COM3")
     ap.add_argument("--timeout", type=float, default=3600.0)
-    ap.add_argument("--out", default=str(ROOT / "docs" / "board_survey"))
+    ap.add_argument("--out", default=str(ROOT / "docs" / "results" / "board_survey"))
     ap.add_argument("--wait-exec", action="store_true", help="PC から開始せず、EXEC が押されるのを待つ")
     a = ap.parse_args()
     s = serial.Serial(a.port, 115200, timeout=0.2)

@@ -8,7 +8,7 @@
 
 --infer N で PC から 'I' を送り、推論を N 回続けて実行させる (EXEC を押すのと同じ。結果が届くたびに次を送る)。
 
-usage: python firmware/IchiPingInference/tools/infer_monitor.py --port COM3 [--log docs/board_infer_log.jsonl] [--seconds 0]
+usage: python firmware/IchiPingInference/tools/infer_monitor.py --port COM3 [--log docs/results/board_infer_log.jsonl] [--seconds 0]
        [--infer N]
 """
 from __future__ import annotations

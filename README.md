@@ -1,58 +1,62 @@
-# IchiPing → Solist-AI 移植
+# IchiPing on Solist-AI
 
-能動音響（PRBS 励振音）による扉/窓の開閉状態センシング **IchiPing** を、ROHM **Solist-AI（ML63Q2557）** へ移植するプロジェクト。移植元の深い1D-CNNを、PCで学習してSolist-AIで推論する浅い **ELM（α乱数固定・βのみ学習）** に置き換える。
+![IchiPing on Solist-AI](docs/protopedia/fig_hero.jpg)
 
-## 📊 検証レポート（GitHub Pages）
+スピーカから 1 発の Ping(PRBS)を鳴らし、1 個のマイクで拾った反響から、3 部屋の窓 3 枚・扉 2 枚の開閉状態 32 通りを当てるエッジ AI。
+特徴抽出・推論・その場での学び直し(オンデバイス学習)まで、ROHM Solist-AI 評価ボード(DT-EBML63Q2557 / ML63Q2557)の上で動く。
+[IchiPing](https://protopedia.net/prototype/8470)(NXP FRDM-MCXN947 版)を Solist-AI へ移植した作品。
 
-**https://airpocket-soundman.github.io/IchiPing_solist_AI/**
+- 作品ページ(ProtoPedia):https://protopedia.net/prototype/8556
+- PV(YouTube):https://youtu.be/eih0WZhSuuw
+- ROHM EDGE HACK CHALLENGE 2026:https://rehc.jp/
 
-> 公開設定：Settings → Pages → Source = `main` ブランチ `/docs` フォルダ
+## 結果
 
-モデル構造・特徴抽出/学習パイプライン・シミュレーション結果・実機ハードウェア構成を SVG 図つきで解説（`docs/index.html`）。
+| 評価 | 32 クラス分類の正解率 | 14 クラス換算 |
+|---|---|---|
+| 実機サーベイ(事前学習モデル、2 回) | 100%(32/32、32/32) | 100% |
+| 実機サーベイ(現地校正の後) | 100%(32/32) | 100% |
+| 学習外のセッション(条件の異なる 4 グループ, PC で実機と同じ計算) | 99.2 / 99.9 / 95.8 / 100% → 平均 98.7% | 100% |
 
-## 結果サマリ（公式 Solist-AI Sim SLV1.00.04 で実証）
-
-| モデル | 運用 | フレーム精度 | 多数決精度 |
-|---|---|---|---|
-| **14cls** | 追加学習不要（事前学習 β のみ） | **99.4%** | **100%** |
-| **32cls** | 各状態を約10フレーム追加しPC再学習 | **99.1%** | **100%** |
-| 32cls（参考） | 現地データ追加前 | 77.8% | 81.2% |
-
-いずれも **m=32 / D=167 / AI RAM ~11KB**＝実機（SRAM 16KB / Flash 256KB）に収まる。移植元IchiPing CNNも現地校正で32cls最大100%を達成しており、本移植版は**学習をPCへ集約し、学習パラメータ約1/51の小型モデルを16KB MCUで推論**する構成とする。
+閉じた扉の向こうの状態(音響的には本来聞こえない)も含めて 32 クラスを当てている。保存するパラメータ数は約 4.36 万
+(int8 CNN 前段 42,528 + ELM の β 1,024)で、PC 上の理想的な CNN(約 30 万)の約 1/7。
 
 ## 構成
 
-```
-docs/        GitHub Pages 公開レポート（自己完結 HTML + SVG）
-  io_allocation.md             全公開端子監査と確定ピン割当
-IMPLEMENTATION_PLAN.md  実機実装計画（Solist-AI 主制御 + Stamp-S3A I²S音響／GPIO）
-hardware/stamp_s3a_interposer/  KiCad 10中間基板（回路接続表、配線済みPCB、BOM、検証スクリプト）
-sim/         検証パイプライン（純 numpy の Solist-AI 互換 ELM、特徴抽出、学習・評価スクリプト）
-  build_best_mcu.py / emit_best.py   最良モデルの構築・ロード用モデル生成
-  bench_v612.py / common.py / solist_elm.py / feats_diff.py   コア
-sim_export/  成果物（ベスト版のみ）
-  model1_BEST_14cls/            14cls 追加学習不要モデル（β=32×14）
-  model1_BEST_32cls_ondevice/   32cls 現地データ追加モデル（旧検証名を保持、β=32×32）
-  model1_BEST_32cls_factory/    32cls 校正前モデル
-  test_best_14cls.csv / test_BEST_32cls_*.csv   各検証用テスト
-  _alpha32_sim.npy / _best_models.pkl           再現用（Sim α / best β 記録）
-doc/         ROHM 仕様・アプリノート（著作権のため .gitignore＝ローカルのみ）
-```
+![システム構成と役割分担](docs/protopedia/fig_system.png)
 
-## モデル概要
+| 処理 | 担当 |
+|---|---|
+| 特徴抽出(2048 点 FFT → 全閉との差分 → 334 次元 int8) | Solist-AI(CPU) |
+| int8 CNN 前段(Conv1d 8/16/32 → FC 32) | Solist-AI(CPU) |
+| ELM による 32 クラス推論 | Solist-AI(AxlCORE) |
+| 現地校正(OS-ELM で β を逐次更新、float32、P・β は FRAM) | Solist-AI(CPU → AxlCORE) |
+| TFT 表示・サーボ(PCA9685 + SG90 ×5)・状態管理 | Solist-AI |
+| I²S のスピーカ再生・マイク録音、トグル / EXEC の読み取り | M5Stack Stamp-S3A |
 
-- 入力：`FFT(audio − baseline)` を 400–3000Hz にクロップ（D=167）、z-score 標準化。
-- α：(167×32) 一様乱数 U[−0.205,+0.205]（seed=1）。**学習せず**チップ上で `ODL_GenerateRandomNumber` により再生成（保存 0）。
-- β：(32×C)。PC で最小二乗（batch-LS）学習し焼き込み。学習パラメータは IchiPing CNN 比 約 1/51。
-- 演算 bfloat16 / 活性化 hard sigmoid / 入力スケール ×0.5（実効 scaleAlpha 0.1）。
+Stamp-S3A は、評価ボードに I²S が無く、拡張端子の信号ピンが TFT・I²C・PCA9685 OE で埋まるため、I/O を補うためだけに使う。
+詳しい設計判断・経緯・評価ルールは [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)。
 
-## 実機での進め方
+## リポジトリ構成
 
-実機は **Solist-AI を主制御、M5Stack Stamp-S3A を I²S音響・GPIO補完サブコントローラ**とする。DT-EBML63Q2557 は I²S を持たないため、現行INMP441マイクの収録、現行MAX98357AアンプへのPRBS再生、再生・収録同期は Stamp-S3A が担当する。5状態入力とEXECもStamp-S3Aへ直結し、G44=窓a、G2=窓b、G4=窓c、G6=扉AB、G8=扉BC、G10=EXEC_N（active Low）とする。Solist-AI は ILI9341 TFT（SPI）、PCA9685／5サーボ（I²C）、固定済みELMによる推論、システム状態を管理する。Stampは状態／EXECをSolistへ通知する。**学習モードではStamp-S3AからPCへUSB CDCでPCM原本とラベルを直接送り、PCでβを再学習してSolist-AIへ書き込む。** 推論モードは整列済みPCMをI²Cで渡してSolistでFFTする経路を基準とし、転送時間／SRAMの実測結果によっては、Stamp-S3Aで同一仕様のD=167 raw dB特徴まで計算してI²C送信する経路へ切り替える。標準化とELMはどちらもSolistで行う。
+| パス | 内容 |
+|---|---|
+| [firmware/IchiPingInference](firmware/IchiPingInference/README.md) | Solist-AI のファーム(推論 / サーベイ / データ採取)、PC 側ツール、書き込み用イメージ |
+| [firmware/StampMeasure](firmware/StampMeasure/platformio.ini) | Stamp-S3A のファーム(PRBS 再生・録音・I²C サーバ、PlatformIO) |
+| [hardware/stamp_s3a_interposer](hardware/stamp_s3a_interposer/README.md) | Stamp-S3A を載せる中間基板(KiCad)。発注データは [output/](output/jlcpcb/README.md) |
+| [sim/](sim/) | 学習・評価スクリプト(モデル生成、固定小数点の特徴計算の参照実装、Sim 段階の検証) |
+| [sim_export/](sim_export/README.md) | 完成版モデル・評価結果([solist_ds/](sim_export/solist_ds/README.md))と Sim 段階の成果物 |
+| [docs/](docs/) | 開発記録([DEVELOPMENT.md](docs/DEVELOPMENT.md))、端子割り当て([io_allocation.md](docs/io_allocation.md))、配線ガイド([solist_connection.html](docs/solist_connection.html))、部品表([bom_tht.html](docs/bom_tht.html))、実機サーベイ結果([results/](docs/results/))、Sim 段階の検証レポート([index.html](docs/index.html))、作品ページの画像([protopedia/](docs/protopedia/)) |
+| [media/](media/README.md) | PV と作品ページの素材(撮影動画・写真・図の原本)、PV の制作条件と再生成スクリプト |
+| [samples/](samples/README.md) | 特徴計算の照合用の音声サンプル |
 
-Stamp-S3Aは中間基板へはんだ付けせず、左列1x17・1.27 mm雌ソケットと右列1x6・2.54 mm雌ソケットへ部品面を上にして搭載する。2.54 mm 1x9列と左列の偶数接点用部品を併設すると樹脂が干渉するため、左列は1.27 mmへ全面置換する。中間基板を上面から見たソケット列は、公式のStamp-S3A部品面PinMapに対して**左右鏡像**になる。USB／アンテナ方向、M1 pad番号、pin 1を基準に照合する。JLCPCB PCBA実装版を優先し、対象ソケットを実装できない場合は未実装基板へTHTソケットを手はんだする版も用意する。端子ごとの接続は [デバイス別接続対応表](docs/io_allocation.md#2-使用デバイス別の接続対応表) を参照。
+動画と写真の原本(`media/`)は Git LFS で管理している(`git lfs pull`)。
 
-マイクとアンプは現行品を維持するが、制御基板、I²S実装、配線、設置条件が変わるため **データは再取得**。`IchiPing-UNO-Q` で得た I²S format確認、安全な音量校正、pre-roll、相互相関によるPRBS開始位置合わせ、3本のbaseline、古い推論結果の拒否、段階的bring-upの知見をStamp-S3A実装へ流用する。UNO Q固有のDevice Tree／ALSA実装は移植しない。詳細は [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)、[docs/io_allocation.md](docs/io_allocation.md)、[KiCad中間基板](hardware/stamp_s3a_interposer/README.md)、レポート §7–8 を参照。
+## 使い方(概要)
 
----
-*検証は IchiPing 既収集データ（v6–v12）に基づく。学習は公式 Sim のオンデバイス学習が安定しなかったため PC 自作パイプライン（batch-LS）で実施。*
+1. Stamp-S3A に `firmware/StampMeasure` を書き込む(PlatformIO)。
+2. Solist-AI に `firmware/IchiPingInference/prebuilt/ichiping_infer.flash.bin` を書き込む(`tools/flash.ps1`)。
+3. 電源を入れると全閉を 3 回測って基準にする。トグルで窓・扉を決めて EXEC を押すと推論、EXEC を 2 秒長押しすると現地校正。
+
+ビルド・サーベイ・データ採取の手順は [firmware/IchiPingInference/README.md](firmware/IchiPingInference/README.md)、
+モデルの再生成は [sim_export/solist_ds/README.md](sim_export/solist_ds/README.md)。

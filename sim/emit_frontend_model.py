@@ -1,7 +1,7 @@
 """実機 (ML63Q2557) 用の CNN 前段 (int8, CPU) + ELM ヘッド (AxlCORE) 32 クラスモデルを生成する。
 
-構成 (docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md):
-  PC : N333 特徴 (noise_diff_norm 400–3000 Hz, 334 bin) を標準化し int8 量子化して AI_INFER で送る
+構成 (docs/DEVELOPMENT.md):
+  MCU: N333 特徴 (noise_diff_norm 400–3000 Hz, 334 bin) を標準化し int8 量子化 (src/ichi_feature.c)
   CPU: Conv1d 層 (BN 融合, ReLU) → FC → 埋め込み (ReLU)。重み int8 (出力 ch 毎スケール)、活性化 int8 (層毎スケール)、
        int32 累積、再量子化は float32 (v = acc·M + B, v≤0→0, v≥126.5→127, それ以外 floor(v+0.5))
   AI : 埋め込みを標準化・スケールして bf16 化し 167 入力へゼロ埋め → ELM 167→32→32
@@ -13,11 +13,13 @@
 評価: UNO Q eval gray/evening/survey/crowd (学習に不使用)。
 
 出力 (firmware/IchiPingInference/generated/):
-  ichiping_model.h      前段 (int8 重み・層定義表) + ELM (β bf16) + 自己テスト 32 ケース (int8 入力)
+  ichiping_model.h      前段 (int8 重み・層定義表) + ELM (β bf16) + 参照入力 32 ケース (int8)
   ichi_feature_tables.h 実機の特徴計算の入力標準化 (in_mu / in_sd / s_in、このモデルの値)
-  golden_outputs.json   自己テスト golden (実機と同じ計算の PC 参照)
-  stream_cases.npz      評価 4 セット全 frame (int8 入力, 期待クラス, PC 参照出力)
-  sim_export/solist_ds/board_model_frontend_32cls.npz   全パラメータ
+  sim_export/solist_ds/board_model_frontend_32cls_<tag>.npz   全パラメータ (+ BOARD_FRONTEND_PC.json)
+
+完成版モデル (docs/DEVELOPMENT.md の手順):
+  python sim/emit_frontend_model.py --arch small --stamp <Stamp 13 セッション> --val stamp_20260927_s2_wav
+         --shift 0.005 --xbase 2 --tag best_s0.005
 
 実行: D:/GitHub/IchiPing/pc/.venv/Scripts/python.exe sim/emit_frontend_model.py [--arch b1|small] [--train unoq|all] [--seeds 3]
 """
@@ -215,30 +217,25 @@ def main():
           f"s_in={s_in:.4f} s_acts={[round(v, 4) for v in s_acts]}")
 
     # 評価 (学習に使っていない UNO Q eval 4 セット)
-    report, stream = {}, dict(inputs=[], y=[], set=[], ref=[], f32=[])
+    report = {}
     for r in UNOQ_EVAL:
         Xe, ye = data[r]["X"].astype(np.float32), data[r]["y"]
         Zp = elm_input(embed(Xe), mul, add)
         P_ref = mcu_reference(Zp, beta)
-        P_f32 = hard_sigmoid(Zp @ ALPHA) @ beta
         P_float = hard_sigmoid(elm_input(float_forward(std(Xe), layers, fc)[1], mul, add) @ ALPHA) @ beta
         report[EVAL_NAMES[r]] = dict(frames=len(ye),
                                      cnn_head_float=float(np.mean(logits(Xe).argmax(1) == ye)),
                                      elm_float_frontend=float(np.mean(P_float.argmax(1) == ye)),
                                      elm_int8_frontend_bf16_ref=float(np.mean(P_ref.argmax(1) == ye)))
-        stream["inputs"].append(quant_in(Xe)); stream["y"].append(ye)
-        stream["set"] += [EVAL_NAMES[r]] * len(ye); stream["ref"].append(P_ref); stream["f32"].append(P_f32)
     for k, v in report.items():
         print(f"  {k:8s} n={v['frames']:4d}  CNN(float)={v['cnn_head_float']:.3f}  "
               f"ELM(float 前段)={v['elm_float_frontend']:.3f}  ELM(int8 前段, 実機参照)={v['elm_int8_frontend_bf16_ref']:.3f}")
 
-    # 自己テスト: evening の各クラス先頭 frame
+    # 参照入力 (ヘッダに埋め込み、sim/board_fixed_feature.py が固定小数点の特徴計算と照合する): evening の各クラス先頭 frame
     ev = "uno_q_eval_20260912_evening_wav"
     ye = data[ev]["y"]
     case_idx = [int(np.flatnonzero(ye == c)[0]) for c in range(C)]
     cases = quant_in(data[ev]["X"][case_idx].astype(np.float32))
-    Zc = elm_input(int_forward(cases, qm, fq), mul, add)
-    P_case, P_case_f32 = mcu_reference(Zc, beta), hard_sigmoid(Zc @ ALPHA) @ beta
 
     write_header(spec, emb_dim, qm, fq, mul, add, beta, cases, ye[case_idx], args.arch)
     npz = OUT / (f"board_model_frontend_32cls_{args.tag}.npz" if args.tag else "board_model_frontend_32cls.npz")
@@ -248,7 +245,7 @@ def main():
     # 入力の標準化 (in_mu / in_sd / s_in) はモデル毎に違うので、実機の特徴計算用テーブルも同じ npz から作り直す
     from board_fixed_feature import emit_tables
     emit_tables(np.load(npz))
-    golden = dict(metadata=dict(
+    meta = dict(
         model=f"ichiping_frontend_{args.arch}_elm{ELM_IN}x{ELM_HIDDEN}x{C}", input_format="int8_frontend",
         input_count=int(N_IN), embedding=emb_dim, elm_input_count=ELM_IN, hidden_count=ELM_HIDDEN, output_count=C,
         eval_set="unoq eval gray+evening+survey+crowd", activation="hard_sigmoid", loss="mse",
@@ -257,17 +254,9 @@ def main():
         + (" + Stamp " + ", ".join(args.stamp) if args.stamp else "")
         + f"; shift aug +-{args.shift:g}, cross-baseline {args.xbase}, validation {val_session}",
         validation_accuracy=val_acc, seed=seed, pc_accuracy=report, model_sha256=hashlib.sha256(npz.read_bytes()).hexdigest(),
-        alpha_origin="ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167"),
-        cases=[dict(board_case_id=i, case_id=f"evening_frame{idx}_class{int(ye[idx])}", eval_index=idx,
-                    expected_class=int(ye[idx]), predicted_class=int(P_case[i].argmax()),
-                    outputs=P_case[i].astype(float).tolist(), outputs_float32=P_case_f32[i].astype(float).tolist())
-               for i, idx in enumerate(case_idx)])
-    (GEN / "golden_outputs.json").write_text(json.dumps(golden, indent=1), encoding="utf-8")
-    np.savez(GEN / "stream_cases.npz", inputs_int8=np.concatenate(stream["inputs"]),
-             expected_class=np.concatenate(stream["y"]), eval_set=np.array(stream["set"]),
-             outputs_ref=np.concatenate(stream["ref"]), outputs_f32=np.concatenate(stream["f32"]))
-    (OUT / "BOARD_FRONTEND_PC.json").write_text(json.dumps(golden["metadata"], indent=1, ensure_ascii=False), encoding="utf-8")
-    print(f"-> {GEN / 'ichiping_model.h'}  cases={C}  stream={sum(len(v) for v in stream['y'])} frames")
+        alpha_origin="ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167")
+    (OUT / "BOARD_FRONTEND_PC.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")
+    print(f"-> {GEN / 'ichiping_model.h'}  {npz.name}")
 
 
 # ------------------------------------------------------------------ C header

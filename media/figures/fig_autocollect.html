@@ -1,0 +1,89 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+body{margin:0;background:#fff}
+svg{font-family:"Noto Sans JP","Yu Gothic",sans-serif}
+.t{font-size:20px;fill:#1f2933}
+.s{font-size:16px;fill:#52606d}
+.b{font-size:22px;font-weight:700;fill:#102a43}
+.lab{font-size:17px;font-weight:700}
+</style></head><body>
+<svg width="1600" height="980" viewBox="0 0 1600 980" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#52606d"/></marker>
+ <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2f8a57"/></marker>
+</defs>
+<text x="40" y="52" font-size="34" font-weight="700" fill="#102a43">模型が自分で窓と扉を動かす:データ採取と学習の自動化</text>
+<text x="40" y="84" class="s" style="font-size:19px">サーボで開閉した状態がそのまま正解ラベルになるので、人が張り付かなくても条件の違う学習データが溜まる</text>
+
+<!-- loop -->
+<text x="40" y="136" class="lab" fill="#2f8a57" style="font-size:20px">① 1 フレームの採取(PC のスクリプトが全部回す)</text>
+<rect x="40" y="152" width="330" height="190" rx="14" fill="#f4f5f7" stroke="#7b8794" stroke-width="2"/>
+<text x="205" y="190" text-anchor="middle" class="b">PC</text>
+<text x="205" y="226" text-anchor="middle" class="t">次の状態を指示</text>
+<text x="205" y="254" text-anchor="middle" class="t">例:窓 a 開・扉 AB 開</text>
+<text x="205" y="300" text-anchor="middle" class="s">Gray code 順で 1 枚ずつ</text>
+<text x="205" y="322" text-anchor="middle" class="s">動かす(サーボの動きが最小)</text>
+
+<rect x="440" y="152" width="330" height="190" rx="14" fill="#eaf2fb" stroke="#1d5fa8" stroke-width="2.5"/>
+<text x="605" y="190" text-anchor="middle" class="b">Solist-AI</text>
+<text x="605" y="226" text-anchor="middle" class="t">PCA9685 でサーボを駆動</text>
+<text x="605" y="254" text-anchor="middle" class="t">模型の窓・扉が開閉</text>
+<text x="605" y="300" text-anchor="middle" class="s">保持 0.5 秒 + 静定 0.5 秒</text>
+
+<rect x="840" y="152" width="330" height="190" rx="14" fill="#fff6ec" stroke="#e07b14" stroke-width="2"/>
+<text x="1005" y="190" text-anchor="middle" class="b">Stamp-S3A</text>
+<text x="1005" y="226" text-anchor="middle" class="t">PRBS を再生して録音</text>
+<text x="1005" y="254" text-anchor="middle" class="t">PCM を USB で PC へ</text>
+<text x="1005" y="300" text-anchor="middle" class="s">wav + 状態ラベルを保存</text>
+
+<rect x="1240" y="152" width="320" height="190" rx="14" fill="#eef8f1" stroke="#2f8a57" stroke-width="2.5"/>
+<text x="1400" y="196" text-anchor="middle" class="b">1 セッション</text>
+<text x="1400" y="238" text-anchor="middle" font-size="30" font-weight="700" fill="#1e6b40">330 フレーム</text>
+<text x="1400" y="274" text-anchor="middle" class="t">32 状態 × 10 + 全閉 10</text>
+<text x="1400" y="310" text-anchor="middle" class="t">約 23 分・無人</text>
+<g stroke="#52606d" stroke-width="3" marker-end="url(#a)"><path d="M372 247 H436"/><path d="M772 247 H836"/><path d="M1172 247 H1236"/></g>
+<path d="M1005 344 V380 H205 V346" fill="none" stroke="#52606d" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#a)"/>
+<text x="605" y="372" text-anchor="middle" class="s" style="fill:#52606d">次の状態へ(途中で録音が欠けたら自動で撮り直し)</text>
+
+<!-- timeline -->
+<text x="40" y="450" class="lab" fill="#2f8a57" style="font-size:20px">② 気温・背景音の異なる 13 セッション = 4,290 フレーム(約 5 時間分の無人採取)</text>
+<g>
+<rect x="40" y="470" width="1520" height="150" rx="14" fill="#fafbfc" stroke="#d9e2ec"/>
+<!-- blocks -->
+<rect x="70" y="500" width="560" height="60" rx="8" fill="#fde68a"/>
+<text x="350" y="538" text-anchor="middle" class="b" style="font-size:20px">条件グループ A ×5</text>
+<rect x="650" y="500" width="440" height="60" rx="8" fill="#fdba74"/>
+<text x="870" y="538" text-anchor="middle" class="b" style="font-size:20px">B ×4</text>
+<rect x="1110" y="500" width="220" height="60" rx="8" fill="#93a8d6"/>
+<text x="1220" y="538" text-anchor="middle" class="b" style="font-size:20px">C ×2</text>
+<rect x="1350" y="500" width="190" height="60" rx="8" fill="#bae6fd"/>
+<text x="1445" y="538" text-anchor="middle" class="b" style="font-size:20px">D ×2</text>
+<text x="70" y="598" class="s">反響音は気温や背景音で変わり、セッションごとにデータがばらつく(気温では共鳴周波数が 0.1〜0.2% 程度ずれる)。このばらつきごと学ばせるため、条件を散らして収録した。</text>
+</g>
+
+<!-- train & deploy -->
+<text x="40" y="690" class="lab" fill="#2f8a57" style="font-size:20px">③ 事前学習 → 書き込み → 実機で自動採点</text>
+<rect x="40" y="706" width="560" height="240" rx="14" fill="#f4f5f7" stroke="#7b8794" stroke-width="2"/>
+<text x="64" y="744" class="b">セッション群ごとの hold-out で選ぶ</text>
+<text x="64" y="778" class="t">1 つの条件グループを丸ごと隠して学習し、隠した</text>
+<text x="64" y="806" class="t">グループで採点。一番汎化するモデルを採用</text>
+<g font-size="18">
+<text x="64" y="850" fill="#1f2933">A 99.2%</text><text x="184" y="850" fill="#1f2933">B 99.9%</text><text x="324" y="850" fill="#1f2933">C 95.8%</text><text x="444" y="850" fill="#1f2933">D 100%</text>
+</g>
+<text x="64" y="900" font-size="24" font-weight="700" fill="#1e6b40">平均 98.7%(学習外・32 クラス分類)</text>
+
+<rect x="640" y="706" width="400" height="240" rx="14" fill="#eaf2fb" stroke="#1d5fa8" stroke-width="2.5"/>
+<text x="840" y="750" text-anchor="middle" class="b">Solist-AI へ書き込み</text>
+<text x="840" y="790" text-anchor="middle" class="t">CNN 前段(int8)と</text>
+<text x="840" y="818" text-anchor="middle" class="t">ELM の β を Flash へ</text>
+<text x="840" y="866" text-anchor="middle" class="s">= 出荷時の「事前学習モデル」</text>
+<text x="840" y="892" class="s" text-anchor="middle">α はチップが seed から再生成</text>
+
+<rect x="1080" y="706" width="480" height="240" rx="14" fill="#eef8f1" stroke="#2f8a57" stroke-width="2.5"/>
+<text x="1320" y="750" text-anchor="middle" class="b">実機サーベイ</text>
+<text x="1320" y="790" text-anchor="middle" class="t">PC から 1 文字送るだけで、Solist-AI が</text>
+<text x="1320" y="818" text-anchor="middle" class="t">全 32 クラスの開閉を巡回して推論・採点</text>
+<text x="1320" y="880" text-anchor="middle" font-size="26" font-weight="700" fill="#1e6b40">32 クラスで 100%</text>
+<text x="1320" y="912" text-anchor="middle" class="s">閉じた扉の向こうも含めて全問正解</text>
+<g stroke="#52606d" stroke-width="3" marker-end="url(#a)"><path d="M602 826 H636"/><path d="M1042 826 H1076"/></g>
+</svg></body></html>

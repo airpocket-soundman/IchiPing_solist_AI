@@ -1,86 +1,64 @@
-# IchiPing 推論ファームウェア (DT-EBML63Q2557 / ML63Q2557)
+# IchiPing ファームウェア(DT-EBML63Q2557 / ML63Q2557)
 
-PC から特徴量を UART で送り、Solist-AI 上で 32 クラス (扉 5 枚の開閉状態) を推論して PC の参照計算と突き合わせる
-実機試験用ファーム。構成と根拠は [docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md](../../docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md)。
+Solist-AI 評価ボードで動く IchiPing 本体。Stamp-S3A([../StampMeasure](../StampMeasure))から I²C で録音を受け取り、
+特徴抽出・int8 CNN 前段(CPU)・ELM(AxlCORE)・現地校正(CPU float32 → AxlCORE)・TFT 表示・サーボ制御を行う。
+構成と設計判断は [docs/DEVELOPMENT.md](../../docs/DEVELOPMENT.md)。
 
-| 処理 | 実行場所 |
-|---|---|
-| N333 特徴 (log-PSD 差分 400–3000 Hz, 334 bin) の標準化・int8 量子化 | PC (`AI_INFER` で 334 B 送信。将来は Solist 上で計算) |
-| int8 CNN 前段 (Conv1d → FC → 埋め込み) | ML63Q2557 CPU (`ichi_inference.c`) |
-| ELM ヘッド 167→32→32 (埋め込みを 167 入力へゼロ埋め) | AxlCORE (α = Sim seed1 の 167 入力 α、実機一致確認済み) |
+## main(`tools/build.ps1 -Main`)
 
-## 構成
+| main | 用途 | PC 側ツール |
+|---|---|---|
+| `ichi_infer_main`(既定) | 製品の動作。トグル → EXEC で 1 回推論、EXEC 2 s 長押しで現地校正 | `tools/infer_monitor.py`(任意。ログ記録、PC から推論を起動) |
+| `ichi_survey_main` | サーボで 32 状態を巡回して推論・採点する実機サーベイ(校正あり / なし) | `tools/survey_monitor.py` → `docs/results/board_survey.{md,json}` |
+| `ichi_collect_main` | 学習データ採取。PC の指示でサーボを動かす | `tools/collect_session.py`(Stamp の USB から録音を保存) |
+
+## ソース
 
 | パス | 内容 |
 |---|---|
-| `src/ichi_protocol.c`, `include/ichi_protocol.h` | UART フレーム (COBS + CRC-32)。PC 側は `tools/ichi_serial.py` |
-| `src/ichi_inference.c`, `include/ichi_inference.h` | int8 CNN 前段 (層定義表を順に実行) と ELM (AxlCORE)。ELM のみのモデルにも対応 |
-| `src/ichi_app.c`, `include/ichi_app.h` | 要求処理 (HELLO / STATUS / AI_SELFTEST / AI_INFER) と LCD 表示 |
-| `src/ichi_main.c` | ベンダープロジェクトの `S_System/main.c` を置き換える main |
-| `generated/` | `ichiping_model.h` (モデル), `golden_outputs.json` (自己テスト期待値), `stream_cases.npz` (試験入力) |
-| `prebuilt/` | 書き込み用イメージ (`*.flash.bin`) と hex |
-| `tools/build.ps1` | ベンダープロジェクトの使い捨てコピーに `S_IchiPing/` を追加してビルド (元プロジェクトは変更しない) |
-| `tools/flash.ps1` | MCU-Link (CMSIS-DAP) + LEXIDE 同梱 OpenOCD で書き込み・検証 |
-| `tools/board_test.py` | 自己テスト + 試験入力の送信推論、結果を `docs/board_inference_test_cnn_frontend.{md,json}` へ |
-| `tools/probe_alpha.py` | 実機 α の読み出し (ELM のみの probe モデル用) |
+| `src/ichi_infer_main.c`, `ichi_survey_main.c`, `ichi_collect_main.c` | 各 main(ベンダープロジェクトの `S_System/main.c` を置き換える)。UART のメッセージ種別は各ファイル冒頭 |
+| `src/ichi_stamp_link.c` | Stamp-S3A との I²C(0x42):STATUS / MEASURE / READ |
+| `src/ichi_feature.c` | N333 特徴(2048 点 FFT int16 ブロック浮動小数点、Welch、dB、全閉差分、正規化、int8) |
+| `src/ichi_inference.c` | int8 CNN 前段、ELM(AxlCORE)、現地校正(OS-ELM float32、P・β は FRAM) |
+| `src/ichi_tft.c`, `ichi_ui.c` | ILI9341(ソフト SPI)と画面表示 |
+| `src/ichi_servo.c` | PCA9685 + SG90 ×5(OE は P42) |
+| `src/ichi_protocol.c` | UART フレーム(COBS + CRC-32)。PC 側は `tools/ichi_serial.py` |
+| `generated/ichiping_model.h` | 完成版モデル(CNN int8 重み・層定義、ELM β bf16) |
+| `generated/ichi_feature_tables.h` | 特徴計算の窓・余弦表と入力標準化(モデルごと) |
+| `generated/ichi_calib_prior.h` | 現地校正の初期 P(事前学習の Gram 行列) |
+| `prebuilt/ichiping_{infer,survey,collect}.flash.bin` | 書き込み用イメージ(完成版モデル、2026-09-27 ビルド) |
 
-UART は 115200 bps のバイナリ要求/応答のみ。
+generated/ は `sim/emit_frontend_model.py` と `sim/emit_calibration_prior.py` が作る(手順は sim_export/solist_ds/README.md)。
 
-| 要求 | 応答 |
-|---|---|
-| HELLO | HELLO `IchiPing` |
-| STATUS | version u8, frontend u8, 入力バイト数 u16, 出力数 u8, 自己テスト数 u8, 直近の処理時間 ms u16 |
-| AI_SELFTEST (case u8) / AI_INFER (入力) | AI_RESULT: case u8 (AI_INFER は 0xFE), class u8, AxlCORE µs u16, 全体 ms u16, 出力 float32 × N |
+## 書き込み
 
-LCD には推論結果 (状態ビット a b c AB BC とクラス番号) と処理時間を表示する。
-
-## 現在のモデル (2026-09-25)
-
-- 前段 `small`: Conv1d 8/16/32 (k9/7/5, stride 2) → FC 1216→32。int8 重み 42 KB、活性化 2×1.3 KB。
-- 学習: UNO Q train session1–8 (session4 を early stop・ハイパラ・seed 選択に使用)、周波数シフト aug ±2%。
-- ビルド: text 76 KB / bss 6.6 KB。
-- PC 参照精度 (int8 前段 + ELM、実機と同じ計算、校正なし): gray 87.5% / evening 61.9% / survey 89.1% / crowd 82.5%。
-- 大型前段 `b1` (Conv 16/32/64/64 → FC64, 約 174 KB) も同じファームで動く (`--arch b1`)。検証精度は小型と同等 (0.796 vs 0.804)。
-
-## 別 PC での試験手順
-
-ビルド環境が無くても `prebuilt/` のイメージをそのまま書き込める (LEXIDE の OpenOCD と MCU-Link ドライバ、ROHM DFP は必要)。
+ビルド環境が無くても prebuilt/ のイメージを書き込める(LEXIDE 同梱の OpenOCD、MCU-Link ドライバ、ROHM DFP が必要)。
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\flash.ps1 -Firmware firmware\IchiPingInference\prebuilt\ichiping_frontend_small_32cls.flash.bin -Execute
+powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\flash.ps1 -Firmware firmware\IchiPingInference\prebuilt\ichiping_infer.flash.bin -Execute
 ```
 
-```powershell
-python firmware\IchiPingInference\tools\board_test.py --port COM3
-```
+Stamp-S3A には `firmware/StampMeasure` を PlatformIO で書き込む(`pio run -t upload`。PowerShell では UTF-8 の出力設定が必要)。
 
-- `board_test.py` は pyserial と numpy だけで動く (acrylic_pan リポジトリは不要)。
-- 書き込まれたファームと `generated/` のモデルが一致しない場合は STATUS の照合で停止する。
-- 確認ポイント: 自己テストのクラス一致 32/32、Board と PC 参照の argmax 一致 ≈100%、評価セット別正解率が上の PC 参照値と一致。
-- 全 1056 frame の送信には時間がかかるので、まず `--stream-limit 100` で確認してもよい。
-
-## モデルの作り直しとビルド
+## ビルド
 
 ```powershell
-D:/GitHub/IchiPing/pc/.venv/Scripts/python.exe sim/emit_frontend_model.py --arch small   # GPU 学習 → generated/ を更新
-powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\build.ps1           # PowerShell から実行
+powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\build.ps1 -Main ichi_infer_main
 powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\flash.ps1 -Firmware <build.ps1 が表示する .elf> -Execute
 ```
 
-- `build.ps1` の `-SourceProject` は ROHM AIVibrationInference ベースの LEXIDE プロジェクト (Debug makefile 生成済み)。
-  ベンダーのドライバ・ライブラリだけを使い、アプリケーションは `S_IchiPing/` と `S_System/main.c` に差し替える。
-- `make clean` は使わない (Eclipse 生成の `.res` が消える)。
-- ELM のみのモデル (α プローブ等) は `python sim/emit_board_model.py ...` で `generated/` を上書きしてからビルドする。
+- `-SourceProject` は ROHM AIVibrationInference ベースの LEXIDE プロジェクト(Debug の makefile 生成済み)。
+  ベンダーのドライバ・ライブラリだけを使い、使い捨てのコピー(`.local/firmware-build/`)に IchiPing のソースを入れてビルドする。元のプロジェクトは変更しない。
+- `make clean` は使わない(Eclipse が生成した `.res` が消える)。
+- 書き込み用の flash.bin は flash.ps1 が .elf から作る(RAM 領域を含む HEX ではなく Flash 部分だけ)。
 
-## α プローブ
+## 使い方
 
-実機の α は seed/scaleAlpha に加えて inputSize に依存する (167 入力は Sim 採取値と一致、14 入力は別物)。
-`python sim/emit_board_model.py --probe <ni> --hidden <m>` でプローブ用モデルを生成・ビルド・書き込みし、
-`tools/probe_alpha.py --ni <ni> --m <m>` で α を読み出す (`sim_export/alpha_probe/`)。
-hidden=64 では 63 番ユニットの出力が常に 0 になるため、`emit_board_model.py` は α=0 の列を β から除外する。
-
-## 過去の結果
-
-- ELM のみ 167→32→14 (Sim α): [docs/board_inference_test.md](../../docs/board_inference_test.md) (2026-09-24) evening 64.4%
-- 線形前段 + ELM 14→64→14 (プローブ α): [docs/board_inference_test_frontend.md](../../docs/board_inference_test_frontend.md) (2026-09-25) evening 96.2%, PC 一致 100%
-  (いずれも旧 acrylic_pan オーバーレイ版ファームでの結果)
+- **推論**(`ichi_infer_main`):電源投入でサーボを全閉にし、全閉を 3 回測って baseline にする。トグルで窓・扉を決めて EXEC を押すと、
+  Listening(PRBS 2 s)→ Inferring(ゲージ)→ 結果。画面の 5 桁は左から c・BC・b・AB・a(1 = 開)、扉の奥で本来聞こえない桁は暗く表示。
+  判定は Complete Success(32 クラス一致)/ Conditional Success(14 クラス一致)/ Failure。
+- **現地校正**:EXEC を 2 s 長押し。扉と窓の開閉の組み合わせ全 32 クラスを巡回し(各 6 s の PRBS を 2 s × 5 窓)、β を逐次更新(約 30 分)。
+  途中で EXEC を押すと中断して事前学習の β に戻る。校正後の β は電源を切るまで有効。
+- **サーベイ**:`python firmware/IchiPingInference/tools/survey_monitor.py --port COM3`(PC から 'G' で開始、'X' で中断。`--wait-exec` なら EXEC で開始)。
+- **データ採取**:`python firmware/IchiPingInference/tools/collect_session.py --name s1 --solist COM3 --stamp COM13 [--rotate N] [--reverse]`
+  → `captures/stamp_<日付>_<name>_wav/`(全閉 10 + 32 状態 × 10 フレーム、Gray code 順、欠けたら撮り直し)。

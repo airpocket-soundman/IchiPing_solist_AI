@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#fff;font-family:"Noto Sans JP","Yu Gothic",sans-serif;width:1600px}
+h1{margin:0;padding:28px 40px 0;font-size:34px;color:#102a43}
+.sub{padding:6px 40px 0;font-size:19px;color:#52606d}
+.row{display:flex;gap:18px;padding:24px 40px 0}
+.p{flex:1;background:#f4f5f7;border-radius:14px;overflow:hidden}
+.p img{width:100%;height:270px;object-fit:cover;display:block}
+.c{padding:12px 16px 16px}
+.n{font-size:21px;font-weight:700;color:#0f3d73}
+.d{font-size:17px;color:#323f4b;margin-top:6px;line-height:1.5}
+.leg{margin:22px 40px 0;padding:18px 22px;background:#eaf2fb;border-radius:14px;font-size:18px;color:#1f2933;line-height:1.7}
+.b{display:inline-block;padding:1px 10px;border-radius:6px;color:#fff;font-weight:700;font-size:16px}
+</style></head><body>
+<h1>操作の流れ:スイッチを倒して、ボタンを押すだけ</h1>
+<div class="sub">トグルの状態が「正解」、画面の inf が Solist-AI の「推論」。両者を並べて表示するので、当たったかどうかがその場で分かる</div>
+<div class="row">
+<div class="p"><img src="frames/f829_3.5.jpg" style="object-position:30% 60%"><div class="c"><div class="n">① トグルで窓・扉を指定</div><div class="d">5 個のトグル=窓 a/b/c と扉 AB/BC。サーボが模型の窓・扉を実際に開閉する</div></div></div>
+<div class="p"><img src="frames/f829_10.jpg" style="object-position:50% 30%"><div class="c"><div class="n">② EXEC で Ping を鳴らす</div><div class="d">"Listening..." の間、スピーカが PRBS を 2 秒鳴らし、マイクが反響を録音</div></div></div>
+<div class="p"><img src="frames/f829_37.jpg" style="object-position:50% 50%"><div class="c"><div class="n">③ Solist-AI が推論</div><div class="d">"Inferring..." のゲージが進む間に、録音を受け取り FFT → CNN 前段 → ELM を実行</div></div></div>
+<div class="p"><img src="frames/f829_42.8.jpg" style="object-position:50% 50%"><div class="c"><div class="n">④ 結果を表示</div><div class="d">inf(推論)と act(正解)が一致すると Complete Success</div></div></div>
+</div>
+<div class="leg">
+<b>画面の読み方</b>:5 桁は左から <b>c・BC・b・AB・a</b>(模型の部屋の並びと同じ。1=開)。閉じた扉の向こうで「本来は聞こえない」桁は暗く表示。<br>
+判定:<span class="b" style="background:#1d4ed8">Complete Success</span> 32 状態すべて一致 /
+<span class="b" style="background:#15803d">Conditional Success</span> 聞こえる範囲(14 クラス)は一致 /
+<span class="b" style="background:#dc2626">Failure</span> 不一致。EXEC を 2 秒長押しすると現地校正モードに入る
+</div>
+</body></html>

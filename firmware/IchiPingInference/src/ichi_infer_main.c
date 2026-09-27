@@ -11,7 +11,7 @@
  *                record on the Stamp (firmware/StampMeasure), N333 feature + int8 CNN front-end
  *                on the CPU, ELM head on the AxlCORE; inf / act digit rows and the
  *                Complete / Conditional Success / Failure banner
- * Solist-AI addition, on-site calibration (docs/HANDOFF_SOLIST_CNN_FRONTEND_20260925.md), only
+ * Solist-AI addition, on-site calibration (docs/DEVELOPMENT.md), only
  * needed after moving the device to a new place (the pre-trained model covers this rig):
  *   EXEC held 2 s -> the servos visit all 32 states (Gray code); per state one 6 s PRBS
  *                gives five 2 s windows (1 s hop) and each window is one OS-ELM update of the

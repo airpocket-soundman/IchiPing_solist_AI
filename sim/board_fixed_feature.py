@@ -189,7 +189,7 @@ def emit_tables(m) -> None:
              arr("int16_t", "ichi_win_q15", [int(v) for v in WIN_Q15], str),
              "/* cos(2*pi*k/2048) x 32767, k = 0..1023. */",
              arr("int16_t", "ichi_cos_q15", [int(v) for v in COS_Q15], str),
-             "/* Input standardization of the front-end (board_model_frontend_32cls.npz). */",
+             "/* Input standardization of the front-end (the model npz given to emit_tables). */",
              arr("float", "ichi_feat_in_mu", m["in_mu"], f32, 6),
              arr("float", "ichi_feat_in_sd", m["in_sd"], f32, 6),
              "#endif", ""]

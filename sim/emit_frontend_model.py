@@ -14,6 +14,7 @@
 
 出力 (firmware/IchiPingInference/generated/):
   ichiping_model.h      前段 (int8 重み・層定義表) + ELM (β bf16) + 自己テスト 32 ケース (int8 入力)
+  ichi_feature_tables.h 実機の特徴計算の入力標準化 (in_mu / in_sd / s_in、このモデルの値)
   golden_outputs.json   自己テスト golden (実機と同じ計算の PC 参照)
   stream_cases.npz      評価 4 セット全 frame (int8 入力, 期待クラス, PC 参照出力)
   sim_export/solist_ds/board_model_frontend_32cls.npz   全パラメータ
@@ -173,16 +174,28 @@ def main():
     ap.add_argument("--seeds", type=int, default=3, help="前段の学習 seed 数 (検証精度最大を採用)")
     ap.add_argument("--stamp", nargs="*", default=[],
                     help="学習に加えるこのハード (Stamp-S3A) のセッション (captures/stamp_*)。先頭を検証 session にする")
+    ap.add_argument("--val", default="", help="検証 session (既定: --stamp の先頭、なければ UNO Q session4)")
+    ap.add_argument("--shift", type=float, default=0.02, help="比例周波数シフト aug の最大 |ε| (0 = なし)")
+    ap.add_argument("--xbase", type=int, default=0,
+                    help="クロスベースライン: 学習 frame を同じ世代の別セッション K 本の baseline でも差分して増やす")
     ap.add_argument("--tag", default="", help="npz 名 board_model_frontend_32cls_<tag>.npz (空 = 既定名 board_model_frontend_32cls.npz を上書き)")
     args = ap.parse_args()
     spec, emb_dim = ARCHS[args.arch]
     train_runs = UNOQ_TRAIN + (FRDM_RUNS if args.train == "all" else []) + args.stamp
-    val_session = args.stamp[0] if args.stamp else VAL_SESSION
+    val_session = args.val or (args.stamp[0] if args.stamp else VAL_SESSION)
+    import eval_full_data
+    eval_full_data.SHIFT_MAX = args.shift                  # train_net の周波数シフト aug
     data = {r: build_run(r) for r in train_runs + UNOQ_EVAL}
     cat = lambda rs, k: np.concatenate([data[r][k] for r in rs])
     fit_runs = [r for r in train_runs if r != val_session]
-    X, y = cat(train_runs, "X").astype(np.float32), cat(train_runs, "y")
-    Xf, yf = cat(fit_runs, "X"), cat(fit_runs, "y")
+    if args.xbase > 0:
+        from eval_best_model import build_train          # クロスベースライン (sim/eval_best_model.py と同じ作り方)
+        X, y = build_train(train_runs, args.xbase, np.random.default_rng(0))
+        X = X.astype(np.float32)
+        Xf, yf = build_train(fit_runs, args.xbase, np.random.default_rng(0))
+    else:
+        X, y = cat(train_runs, "X").astype(np.float32), cat(train_runs, "y")
+        Xf, yf = cat(fit_runs, "X"), cat(fit_runs, "y")
     Xv, yv = data[val_session]["X"], data[val_session]["y"]
 
     # 前段の学習 (seed 毎) → int8 化 → ELM 選択。検証 session の精度が最も高い seed を採用する
@@ -232,13 +245,17 @@ def main():
     np.savez(npz, arch=args.arch, in_mu=mu, in_sd=sd, s_in=s_in, s_acts=np.array(s_acts), emb_mul=mul, emb_add=add,
              beta=beta, alpha=ALPHA, s_elm=s_elm, ridge=lam, fc_wq=fq["wq"], fc_M=fq["M"], fc_B=fq["B"],
              **{f"conv{i}_{k}": L[k] for i, L in enumerate(qm) for k in ("wq", "M", "B", "k", "s")})
+    # 入力の標準化 (in_mu / in_sd / s_in) はモデル毎に違うので、実機の特徴計算用テーブルも同じ npz から作り直す
+    from board_fixed_feature import emit_tables
+    emit_tables(np.load(npz))
     golden = dict(metadata=dict(
         model=f"ichiping_frontend_{args.arch}_elm{ELM_IN}x{ELM_HIDDEN}x{C}", input_format="int8_frontend",
         input_count=int(N_IN), embedding=emb_dim, elm_input_count=ELM_IN, hidden_count=ELM_HIDDEN, output_count=C,
         eval_set="unoq eval gray+evening+survey+crowd", activation="hard_sigmoid", loss="mse",
         scale_alpha_bf16=f"0x{SCALE_ALPHA_BF16:04X}", input_scale=s_in, elm_scale=s_elm, ridge=lam,
         train_data="UNO Q train session1-8" + (" + FRDM all runs" if args.train == "all" else "")
-        + (" + Stamp " + ", ".join(args.stamp) if args.stamp else ""),
+        + (" + Stamp " + ", ".join(args.stamp) if args.stamp else "")
+        + f"; shift aug +-{args.shift:g}, cross-baseline {args.xbase}, validation {val_session}",
         validation_accuracy=val_acc, seed=seed, pc_accuracy=report, model_sha256=hashlib.sha256(npz.read_bytes()).hexdigest(),
         alpha_origin="ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167"),
         cases=[dict(board_case_id=i, case_id=f"evening_frame{idx}_class{int(ye[idx])}", eval_index=idx,

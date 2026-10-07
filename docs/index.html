@@ -639,8 +639,11 @@
 <h2>モデル構造</h2>
 <p>N333 特徴(334 bin)を int8 の 3 層 Conv1d と全結合で 32 次元の埋め込みにし、ゼロ埋めで 167 入力にして ELM(隠れ 32 → 出力 32 クラス)へ渡す 2 段構成。</p>
 <div class="card"><img src="img/model_schematic.svg" alt="モデル構造の模式図" style="width:100%;height:auto"></div>
-<h3>全体図(層ごとの形状・パラメータ)</h3>
-<div class="card" style="text-align:center"><img src="img/model_netron.svg" alt="モデル全体図" style="max-width:100%;height:auto"></div>
+<h3>全体図(Netron で表示)</h3>
+<p>実機用の重み(int8 の Conv / FC、α、β)から構造確認用の ONNX を作り、Netron でそのまま表示した。
+Conv の前の Cast は int8 の重みを演算用に float へ変換する部分、Mul / Add / Clip は層ごとの再量子化(<code>v = acc·M + B</code>、0..127 に飽和)に当たる。
+ファームの実装(int8 演算)そのものではなく、構造の確認用:<a href="models/ichiping_frontend_elm.onnx">ichiping_frontend_elm.onnx</a>(<a href="https://netron.app/" target="_blank" rel="noopener">Netron</a> で開ける)。</p>
+<div class="card" style="text-align:center"><img src="img/model_netron.svg" alt="Netron で表示したモデル全体図" style="max-width:100%;width:420px;height:auto"></div>
 
 <h2>2. ROHM サンプル・Sim の利用範囲</h2>
 <ul>

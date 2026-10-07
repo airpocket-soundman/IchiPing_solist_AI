@@ -620,9 +620,9 @@
   <b>要点</b>
   <ul>
     <li>教師あり学習(32 通りの窓・扉の開閉状態をラベルとする分類)を行っている。</li>
-    <li>初期検証では ROHM 公開の教師あり学習サンプルと公式 Solist-AI Sim を参照して学習・推論を試した。</li>
-    <li>完成版のモデルは、ROHM のツールではなく <b>自作の PC 学習環境</b>(Python / numpy)で学習し、実機へ書き込んでいる。</li>
-    <li>CNN 前段は PC の CPU で独自に学習している。実機上の現地校正(ODL)は Cortex-M0+ の float32 で自前実装した。</li>
+    <li>モデルは「固定の特徴抽出(CNN)」と「現地で学び直せる最終層(Solist-AI の ELM ヘッド)」の 2 段。設置先の変化には、最終層の β(1,024 個)だけを更新して対応する(ODL)。</li>
+    <li>初期検証では ROHM 公開の教師あり学習サンプルと公式 Solist-AI Sim を参照した。完成版のモデルは <b>自作の PC 学習環境</b>(Python / numpy)で学習し、実機へ書き込んでいる。</li>
+    <li>現状、ODL の更新計算は AxlCORE ではなく Cortex-M0+ の float32 で行っている(AxlCORE 内蔵の学習は bf16 で発散したため)。AxlCORE は ELM の順伝播を担当する。</li>
   </ul>
 </div>
 
@@ -636,23 +636,36 @@
 <tr><td>E. 現地校正(ODL)</td><td>設置先で全 32 状態をサーボで巡回し、OS-ELM で β を逐次更新。AxlCORE 内蔵学習(bf16)は β が発散したため、更新だけ CPU の float32 で計算し、β を bf16 にして AxlCORE へ書き戻す。</td><td>自前実装(<code>firmware/IchiPingInference</code>)</td></tr>
 </table>
 
-<h2>モデル構造</h2>
-<p>N333 特徴(334 bin)を int8 の 3 層 Conv1d と全結合で 32 次元の埋め込みにし、ゼロ埋めで 167 入力にして ELM(隠れ 32 → 出力 32 クラス)へ渡す 2 段構成。</p>
-<div class="card"><img src="img/model_schematic.svg" alt="モデル構造の模式図" style="width:100%;height:auto"></div>
-<h3>全体図(Netron で表示)</h3>
-<p>実機用の重み(int8 の Conv / FC、α、β)から構造確認用の ONNX を作り、Netron でそのまま表示した。
-Conv の前の Cast は int8 の重みを演算用に float へ変換する部分、Mul / Add / Clip は層ごとの再量子化(<code>v = acc·M + B</code>、0..127 に飽和)に当たる。
-ファームの実装(int8 演算)そのものではなく、構造の確認用:<a href="models/ichiping_frontend_elm.onnx">ichiping_frontend_elm.onnx</a>(<a href="https://netron.app/" target="_blank" rel="noopener">Netron</a> で開ける)。</p>
-<div class="card" style="text-align:center"><img src="img/model_netron.svg" alt="Netron で表示したモデル全体図" style="max-width:100%;width:420px;height:auto"></div>
+<h2>2. Solist-AI の役割:現地で学び直せる最終層</h2>
+<p>N333 特徴(334 bin)を int8 の小型 CNN で 32 次元の埋め込みにし、ゼロ埋めで 167 入力にして ELM ヘッド(隠れ 32 → 出力 32 クラス)へ渡す 2 段構成。
+CNN は PC で事前学習して固定し、設置先で変わりうる部分は ELM の出力側 β だけに集約している。</p>
+<table>
+<tr><th>部分</th><th>担当</th><th>学習・更新</th><th>計算量(概算)</th></tr>
+<tr><td>CNN 前段(Conv 3 層 + FC, 42,528 個)</td><td>Cortex-M0+(int8)</td><td>PC で事前学習。実機では更新しない</td><td>約 22 万 MAC</td></tr>
+<tr><td>ELM の α(167×32)</td><td>AxlCORE</td><td>乱数で固定。seed から再生成するので保存しない</td><td rowspan="2">約 6 千 MAC</td></tr>
+<tr><td>ELM の β(32×32 = 1,024 個)</td><td>AxlCORE(順伝播)/ Cortex-M0+(ODL の更新)</td><td>事前学習 + 設置先で更新</td></tr>
+</table>
+<h3>現地校正(ODL)で得られる汎化</h3>
+<ul>
+  <li>事前学習に含めていない夜の条件で、32 クラス 89.4% → 100%(float32 の ODL, PC 検証。<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/sim_export/solist_ds/ODL_CALIBRATION.md">ODL_CALIBRATION.md</a>)。ラベル不要の補正(周波数シフト補正 + 埋め込み平均の補正)だけだと 93.8%。</li>
+  <li>CNN の大きな更新は不要で、更新対象は β の 1,024 個。全 32 状態を巡回して約 30 分で校正できる。</li>
+  <li>100% は、λ と重みを評価データで選んだ設定を含む表の値で、楽観的に見る必要がある。一部の状態だけを校正するとかえって悪化する(16 状態だけだと 82.8%)ため、全 32 クラスを校正する。</li>
+</ul>
+<h3>課題・未検証</h3>
+<ul>
+  <li>AxlCORE 内蔵の学習(ODL_StartTrain)は β と P を bf16 で持ち、160 回の更新で丸め誤差が積み重なって発散した。そのため更新は CPU の float32 に移し、結果の β を AxlCORE に書き戻している。</li>
+  <li>実機では、事前学習のモデルがすでに 32/32 だったため、ODL による改善は実機ではまだ示せていない(校正後も 32/32)。</li>
+  <li>計算量では CNN が大半を占める。AxlCORE と Cortex-M0+ の float32 で ELM 順伝播の時間・消費電力を比べる計測は未実施。</li>
+</ul>
 
-<h2>2. ROHM サンプル・Sim の利用範囲</h2>
+<h2>3. ROHM サンプル・Sim の利用範囲</h2>
 <ul>
   <li>参照・利用した範囲:Solist-AI Sim による ELM の学習・推論の動作確認、ELM(α 固定・β 学習)の仕様把握、ODL の仕様把握。α の再生成が Sim 出力と一致することも確認している(167 入力)。</li>
   <li>利用していない範囲:完成版モデルの学習そのもの(PC 上の自作環境)。CNN 前段の学習。実機での float32 ODL。</li>
   <li>Sim の on-device 学習は、本検証の条件では結果が信頼できなかったため、学習の根拠には使っていない。</li>
 </ul>
 
-<h2>3. 独自に行った学習・評価</h2>
+<h2>4. 独自に行った学習・評価</h2>
 <ul>
   <li><b>データ採取</b>:Stamp-S3A が PRBS を再生しながら録音、サーボで 32 状態を自動巡回して収録(<code>firmware/StampMeasure</code>)。</li>
   <li><b>特徴</b>:2048 点 FFT → Welch → dB → 全閉との差分 → frame 正規化 → 400–3000 Hz の 334 bin → int8(N333)。PC 参照実装はファームと同じ整数演算。</li>
@@ -661,7 +674,7 @@ Conv の前の Cast は int8 の重みを演算用に float へ変換する部�
   <li><b>実機検証</b>:サーボで 32 状態を 1 回ずつ作り Solist 単体で推論するサーベイを 9 回実施。最終版は実機 32/32 を複数回、校正後も 32/32(<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/tree/main/docs/results">results/</a>)。</li>
 </ul>
 
-<h2>4. REHC 事務局からの確認への回答(要約)</h2>
+<h2>5. REHC 事務局からの確認への回答(要約)</h2>
 <table>
 <tr><th>質問</th><th>回答</th></tr>
 <tr><td>① 教師あり学習を行っているか</td><td class="yes">Yes</td></tr>
@@ -669,7 +682,7 @@ Conv の前の Cast は int8 の重みを演算用に float へ変換する部�
 <tr><td>③ その他の手法で共有できる内容</td><td>PC 上の独自 CNN 前段学習、実機採取データでの再学習、時間帯 hold-out による選定、float32 による現地校正(ODL)。上記のとおり公開。</td></tr>
 </table>
 
-<h2>5. 資料の所在</h2>
+<h2>6. 資料の所在</h2>
 <table>
 <tr><th>内容</th><th>場所</th></tr>
 <tr><td>学習・評価スクリプト</td><td><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/tree/main/sim"><code>sim/</code></a></td></tr>

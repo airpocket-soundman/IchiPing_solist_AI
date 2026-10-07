@@ -625,7 +625,7 @@
   </table>
   <div class="note"><b>学習の実行場所:</b>完成版モデルは、Simulator の GUI で求めた β ではなく、Sim と同じ固定 α の ELM(hard sigmoid、bf16 境界)を Python / numpy で再現した自作スクリプトで学習している。CNN 前段は PyTorch で PC 上で学習した。両者の区別は以下の各節に書く。</div>
 
-  <h2>1. 学習の流れ</h2>
+  <h2>1. AIモデル開発の流れ</h2>
   <table>
   <tr><th>段階</th><th>内容</th><th>使ったもの</th></tr>
   <tr><td>A. 事前調査(2026-06)</td><td>ROHM 資料と教師あり学習サンプルを参照し、公式 Sim で ELM の学習・推論を再現。D167 特徴(時間波形 baseline 差分 → 1024 点 FFT → 167 点)で 14 クラス 99.4%(同一日の別セッション)、32 クラスは現地データ追加で 99.1%。</td><td>Solist-AI Sim SLV1.00.04、ROHM 資料</td></tr>

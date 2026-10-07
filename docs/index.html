@@ -636,6 +636,44 @@
   </table>
 
   <h2>2. CPU・Solist-AI・PC の担当範囲</h2>
+  <p>N333 特徴を int8 の CNN で 32 次元の埋め込みにし、167 入力にゼロ埋めして ELM ヘッド(隠れ 32 → 出力 32 クラス)へ渡す 2 段構成。</p>
+  <div class="card" style="padding:12px 8px">
+  <svg viewBox="0 0 960 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="モデル構造:CNN 前段から ELM ヘッドへ" style="width:100%;height:auto;font-family:inherit;font-size:13px">
+    <defs><marker id="lg-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5c6b7b"/></marker></defs>
+    <rect x="6" y="8" width="578" height="200" rx="10" fill="#eef3f9" stroke="#1565c0" stroke-dasharray="5 4"/>
+    <text x="18" y="28" fill="#1565c0" font-weight="700">Cortex-M0+(int8)・PC で事前学習して固定</text>
+    <rect x="596" y="8" width="358" height="200" rx="10" fill="#fdf3e6" stroke="#d9822b" stroke-dasharray="5 4"/>
+    <text x="608" y="28" fill="#b5781a" font-weight="700">Solist-AI ELM ヘッド(AxlCORE)</text>
+    <g stroke-width="1.5">
+      <rect x="18" y="70" width="84" height="96" rx="8" fill="#e6ebf2" stroke="#5c6b7b"/>
+      <rect x="130" y="70" width="190" height="96" rx="8" fill="#cfe2f7" stroke="#1565c0"/>
+      <rect x="348" y="70" width="84" height="96" rx="8" fill="#cfe2f7" stroke="#1565c0"/>
+      <rect x="460" y="70" width="108" height="96" rx="8" fill="#e6ebf2" stroke="#5c6b7b"/>
+      <rect x="610" y="70" width="104" height="96" rx="8" fill="#fdebd3" stroke="#d9822b"/>
+      <rect x="738" y="70" width="90" height="96" rx="8" fill="#fdebd3" stroke="#d9822b"/>
+      <rect x="852" y="70" width="90" height="96" rx="8" fill="#d8f0e3" stroke="#1f8a5b"/>
+    </g>
+    <g text-anchor="middle" fill="#1b2632">
+      <text x="60" y="100" font-weight="700">入力</text><text x="60" y="120">N333</text><text x="60" y="138" fill="#5c6b7b" font-size="12">334 bin</text>
+      <text x="225" y="96" font-weight="700">CNN 前段</text><text x="225" y="116">Conv1d 8 → 16 → 32</text><text x="225" y="134" fill="#5c6b7b" font-size="12">k9 / k7 / k5, stride 2</text><text x="225" y="152" fill="#5c6b7b" font-size="12">+ ReLU(42,528 個)</text>
+      <text x="390" y="96" font-weight="700">FC</text><text x="390" y="116">1216 → 32</text><text x="390" y="134" fill="#5c6b7b" font-size="12">埋め込み</text>
+      <text x="514" y="100" font-weight="700">ゼロ埋め</text><text x="514" y="120">32 → 167</text><text x="514" y="138" fill="#5c6b7b" font-size="12">bf16</text>
+      <text x="662" y="96" font-weight="700">α(固定)</text><text x="662" y="116">167 × 32</text><text x="662" y="134" fill="#5c6b7b" font-size="12">Seed 1 と同一</text><text x="662" y="152" fill="#5c6b7b" font-size="12">保存しない</text>
+      <text x="783" y="96" font-weight="700">隠れ層</text><text x="783" y="116">32</text><text x="783" y="134" fill="#5c6b7b" font-size="12">hard sigmoid</text>
+      <text x="897" y="96" font-weight="700">β(学習)</text><text x="897" y="116">32 × 32</text><text x="897" y="134" fill="#5c6b7b" font-size="12">1,024 個</text><text x="897" y="152" fill="#1f8a5b" font-size="12">ODL で更新</text>
+    </g>
+    <g stroke="#5c6b7b" stroke-width="1.5" marker-end="url(#lg-a)">
+      <line x1="102" y1="118" x2="128" y2="118"/><line x1="320" y1="118" x2="346" y2="118"/><line x1="432" y1="118" x2="458" y2="118"/><line x1="568" y1="118" x2="608" y2="118"/><line x1="714" y1="118" x2="736" y2="118"/><line x1="828" y1="118" x2="850" y2="118"/>
+    </g>
+    <text x="897" y="190" text-anchor="middle" fill="#1b2632">→ 32 クラス</text>
+    <text x="897" y="206" text-anchor="middle" fill="#5c6b7b" font-size="11">窓 3・扉 2 の開閉</text>
+    <g font-size="12" fill="#33455a">
+      <rect x="10" y="226" width="12" height="12" fill="#cfe2f7" stroke="#1565c0"/><text x="28" y="237">PC で事前学習(int8 で書き込み)</text>
+      <rect x="260" y="226" width="12" height="12" fill="#fdebd3" stroke="#d9822b"/><text x="278" y="237">乱数で固定</text>
+      <rect x="380" y="226" width="12" height="12" fill="#d8f0e3" stroke="#1f8a5b"/><text x="398" y="237">事前学習 + 設置先で更新(ODL)</text>
+    </g>
+  </svg>
+  </div>
   <table>
   <tr><th>部分</th><th>担当</th><th>学習・更新</th></tr>
   <tr><td>特徴(2048 点 FFT → N333 の 334 bin → int8)</td><td>Cortex-M0+</td><td>—(標準化係数は事前学習で固定)</td></tr>

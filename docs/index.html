@@ -614,7 +614,7 @@
   <div class="crumb">レポート ／ 学習方法のまとめ</div>
   <h1>学習方法のまとめ</h1>
 <p class="lead">IchiPing on Solist-AI(REHC2026 応募作品)で、どのデータを使い、どこで・どの手法で学習したかの整理。
-詳細な経緯は <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">開発記録</a>、初期検証(公式 Sim)の報告は <a href="index.html">移植レポート</a> を参照。</p>
+詳細な経緯は <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">開発記録</a>、初期検証(公式 Sim)の報告は <a href="#overview">移植レポート</a> を参照。</p>
 
 <div class="card">
   <b>要点</b>
@@ -655,7 +655,7 @@
   <li><b>特徴</b>:2048 点 FFT → Welch → dB → 全閉との差分 → frame 正規化 → 400–3000 Hz の 334 bin → int8(N333)。PC 参照実装はファームと同じ整数演算。</li>
   <li><b>CNN 前段</b>:PC の CPU で学習 → int8 量子化 → C 配列としてファームへ出力。</li>
   <li><b>評価ルール</b>:評価セッションは学習・標準化・ハイパーパラメータ選択に使わない。セッション単位の leave-one-out と、時間帯ブロック hold-out で採点(<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">開発記録 §4</a>)。</li>
-  <li><b>実機検証</b>:サーボで 32 状態を 1 回ずつ作り Solist 単体で推論するサーベイを 9 回実施。最終版は実機 32/32 を複数回、校正後も 32/32(<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/results">results/</a>)。</li>
+  <li><b>実機検証</b>:サーボで 32 状態を 1 回ずつ作り Solist 単体で推論するサーベイを 9 回実施。最終版は実機 32/32 を複数回、校正後も 32/32(<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/tree/main/docs/results">results/</a>)。</li>
 </ul>
 
 <h2>4. REHC 事務局からの確認への回答(要約)</h2>
@@ -669,9 +669,9 @@
 <h2>5. 資料の所在</h2>
 <table>
 <tr><th>内容</th><th>場所</th></tr>
-<tr><td>学習・評価スクリプト</td><td><code>sim/</code></td></tr>
-<tr><td>探索結果(IMPROVE_LODO, IDEAL_VS_SOLIST, TINY / CNN_FRONTEND_LODO, STAMP_MIX, RUN_SHIFT, ODL_CALIBRATION, BEST_MODEL)</td><td><code>sim_export/solist_ds/*.md</code></td></tr>
-<tr><td>推論・校正ファーム</td><td><code>firmware/IchiPingInference</code></td></tr>
+<tr><td>学習・評価スクリプト</td><td><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/tree/main/sim"><code>sim/</code></a></td></tr>
+<tr><td>探索結果(IMPROVE_LODO, IDEAL_VS_SOLIST, TINY / CNN_FRONTEND_LODO, STAMP_MIX, RUN_SHIFT, ODL_CALIBRATION, BEST_MODEL)</td><td><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/tree/main/sim_export/solist_ds"><code>sim_export/solist_ds/*.md</code></a></td></tr>
+<tr><td>推論・校正ファーム</td><td><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/tree/main/firmware/IchiPingInference"><code>firmware/IchiPingInference</code></a></td></tr>
 <tr><td>開発記録</td><td><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">docs/DEVELOPMENT.md</a></td></tr>
 </table>
 

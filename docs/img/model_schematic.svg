@@ -1,0 +1,53 @@
+<svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Meiryo,sans-serif" font-size="13">
+<rect width="1000" height="400" fill="#ffffff"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5c6b7b"/></marker></defs>
+<text x="20" y="28" font-size="16" font-weight="700" fill="#1b2632">モデル構造の模式図(CNN 前段 + ELM ヘッド)</text>
+<rect x="10" y="50" width="640" height="260" rx="10" fill="#eef3f9" stroke="#1565c0" stroke-dasharray="5 4"/>
+<text x="22" y="70" fill="#1565c0" font-weight="700">CNN 前段(Cortex-M0+ / int8)— 事前学習・固定</text>
+<rect x="665" y="50" width="325" height="260" rx="10" fill="#fdf3e6" stroke="#d9822b" stroke-dasharray="5 4"/>
+<text x="677" y="70" fill="#b5781a" font-weight="700">ELM ヘッド(AxlCORE / bf16)</text>
+<rect x="25" y="160" width="14" height="120" fill="#cfd9e6" stroke="#5c6b7b"/>
+<text x="32" y="150" text-anchor="middle" font-weight="600">入力</text>
+<text x="32" y="298" text-anchor="middle" font-size="11" fill="#5c6b7b">334 bin</text>
+<text x="32" y="312" text-anchor="middle" font-size="11" fill="#5c6b7b">(N333)</text>
+<rect x="100" y="140" width="46" height="150" fill="#9fc3ea" stroke="#1565c0"/>
+<text x="123" y="130" text-anchor="middle" font-weight="600">Conv1d</text>
+<text x="123" y="312" text-anchor="middle" font-size="11">8ch × 163</text>
+<text x="123" y="326" text-anchor="middle" font-size="11" fill="#5c6b7b">k9 s2 + ReLU</text>
+<rect x="215" y="170" width="46" height="90" fill="#7fb0e6" stroke="#1565c0"/>
+<text x="238" y="130" text-anchor="middle" font-weight="600">Conv1d</text>
+<text x="238" y="312" text-anchor="middle" font-size="11">16ch × 79</text>
+<text x="238" y="326" text-anchor="middle" font-size="11" fill="#5c6b7b">k7 s2 + ReLU</text>
+<rect x="330" y="195" width="46" height="40" fill="#5b9ae0" stroke="#1565c0"/>
+<text x="353" y="130" text-anchor="middle" font-weight="600">Conv1d</text>
+<text x="353" y="312" text-anchor="middle" font-size="11">32ch × 38</text>
+<text x="353" y="326" text-anchor="middle" font-size="11" fill="#5c6b7b">k5 s2 + ReLU</text>
+<rect x="445" y="150" width="14" height="130" fill="#cfd9e6" stroke="#5c6b7b"/>
+<text x="452" y="130" text-anchor="middle" font-weight="600">Flatten</text>
+<text x="452" y="312" text-anchor="middle" font-size="11">1216</text>
+<rect x="540" y="195" width="14" height="40" fill="#2f7bd0" stroke="#1565c0"/>
+<text x="547" y="130" text-anchor="middle" font-weight="600">FC</text>
+<text x="547" y="312" text-anchor="middle" font-size="11">埋め込み 32</text>
+<text x="547" y="326" text-anchor="middle" font-size="11" fill="#5c6b7b">(CNN 全体で 42,528 個)</text>
+<rect x="610" y="150" width="14" height="130" fill="#e6ebf2" stroke="#5c6b7b"/>
+<rect x="610" y="150" width="14" height="22" fill="#2f7bd0"/>
+<text x="617" y="130" text-anchor="middle" font-weight="600">ゼロ埋め</text>
+<text x="617" y="298" text-anchor="middle" font-size="11">167</text>
+<g fill="#f3b36a" stroke="#d9822b"><circle cx="760" cy="150" r="9"/><circle cx="760" cy="180" r="9"/><circle cx="760" cy="210" r="9"/><circle cx="760" cy="240" r="9"/><circle cx="760" cy="270" r="9"/></g>
+<text x="760" y="130" text-anchor="middle" font-weight="600">隠れ層</text>
+<text x="760" y="312" text-anchor="middle" font-size="11">32 ユニット</text>
+<text x="760" y="326" text-anchor="middle" font-size="11" fill="#5c6b7b">hard sigmoid</text>
+<g fill="#1f8a5b" stroke="#176b46"><circle cx="900" cy="165" r="9"/><circle cx="900" cy="195" r="9"/><circle cx="900" cy="225" r="9"/><circle cx="900" cy="255" r="9"/></g>
+<text x="900" y="130" text-anchor="middle" font-weight="600">出力</text>
+<text x="900" y="312" text-anchor="middle" font-size="11">32 クラス</text>
+<text x="900" y="326" text-anchor="middle" font-size="11" fill="#5c6b7b">窓3・扉2 の開閉</text>
+<g stroke="#5c6b7b" stroke-width="1.5" marker-end="url(#a)"><line x1="42" y1="220" x2="98" y2="220"/><line x1="156" y1="220" x2="213" y2="220"/><line x1="271" y1="220" x2="328" y2="220"/><line x1="386" y1="220" x2="443" y2="220"/><line x1="462" y1="215" x2="538" y2="215"/><line x1="558" y1="215" x2="608" y2="215"/><line x1="628" y1="215" x2="742" y2="215"/><line x1="780" y1="215" x2="880" y2="215"/></g>
+<text x="685" y="200" text-anchor="middle" font-size="12" fill="#b5781a" font-weight="600">α(固定)</text>
+<text x="685" y="236" text-anchor="middle" font-size="11" fill="#5c6b7b">seed から再生成</text>
+<text x="830" y="200" text-anchor="middle" font-size="12" fill="#1f8a5b" font-weight="600">β(学習)</text>
+<text x="830" y="236" text-anchor="middle" font-size="11" fill="#5c6b7b">1,024 個・ODL で更新</text>
+<rect x="20" y="352" width="14" height="14" fill="#5b9ae0" stroke="#1565c0"/><text x="40" y="364" font-size="12">PC で事前学習(int8 で書き込み)</text>
+<rect x="300" y="352" width="14" height="14" fill="#f3b36a" stroke="#d9822b"/><text x="320" y="364" font-size="12">乱数で固定(保存しない)</text>
+<rect x="520" y="352" width="14" height="14" fill="#1f8a5b"/><text x="540" y="364" font-size="12">事前学習 + 設置先で更新(ODL)</text>
+<text x="20" y="388" font-size="11" fill="#5c6b7b">保存パラメータ:CNN 42,528 + β 1,024 ≒ 43,600(α 5,344 は seed から再生成)</text>
+</svg>

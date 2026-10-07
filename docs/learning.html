@@ -49,6 +49,12 @@
 <tr><td>E. 現地校正(ODL)</td><td>設置先で全 32 状態をサーボで巡回し、OS-ELM で β を逐次更新。AxlCORE 内蔵学習(bf16)は β が発散したため、更新だけ CPU の float32 で計算し、β を bf16 にして AxlCORE へ書き戻す。</td><td>自前実装(<code>firmware/IchiPingInference</code>)</td></tr>
 </table>
 
+<h2>モデル構造</h2>
+<p>N333 特徴(334 bin)を int8 の 3 層 Conv1d と全結合で 32 次元の埋め込みにし、ゼロ埋めで 167 入力にして ELM(隠れ 32 → 出力 32 クラス)へ渡す 2 段構成。</p>
+<div class="card"><img src="img/model_schematic.svg" alt="モデル構造の模式図" style="width:100%;height:auto"></div>
+<h3>全体図(層ごとの形状・パラメータ)</h3>
+<div class="card" style="text-align:center"><img src="img/model_netron.svg" alt="モデル全体図" style="max-width:100%;height:auto"></div>
+
 <h2>2. ROHM サンプル・Sim の利用範囲</h2>
 <ul>
   <li>参照・利用した範囲:Solist-AI Sim による ELM の学習・推論の動作確認、ELM(α 固定・β 学習)の仕様把握、ODL の仕様把握。α の再生成が Sim 出力と一致することも確認している(167 入力)。</li>

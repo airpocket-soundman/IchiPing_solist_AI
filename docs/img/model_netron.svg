@@ -1,0 +1,86 @@
+<svg viewBox="0 0 800 1348" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Meiryo,sans-serif" font-size="13">
+<rect width="800" height="1348" fill="#ffffff"/>
+<text x="20" y="28" font-size="16" font-weight="700" fill="#1b2632">モデル全体図(Netron 風)</text>
+<rect x="250" y="50" width="300" height="58" rx="8" fill="#e6ebf2" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="400.0" y="72" text-anchor="middle" font-weight="700" fill="#1b2632">Input</text>
+<text x="400.0" y="89" text-anchor="middle" font-size="12" fill="#33455a">feature int8 [1x334]</text>
+<text x="400.0" y="103" text-anchor="middle" font-size="11" fill="#5c6b7b">N333(全閉との差分 dB・frame 正規化)</text>
+<line x1="400.0" y1="108" x2="400.0" y2="142" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="129.0" font-size="11" fill="#5c6b7b">1x334</text>
+<rect x="250" y="142" width="300" height="58" rx="8" fill="#cfe2f7" stroke="#1565c0" stroke-width="1.5"/>
+<text x="400.0" y="164" text-anchor="middle" font-weight="700" fill="#1b2632">Conv1d</text>
+<text x="400.0" y="181" text-anchor="middle" font-size="12" fill="#33455a">W 8x1x9 · B 8</text>
+<text x="400.0" y="195" text-anchor="middle" font-size="11" fill="#5c6b7b">stride 2, valid</text>
+<line x1="400.0" y1="200" x2="400.0" y2="234" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="221.0" font-size="11" fill="#5c6b7b">8x163</text>
+<rect x="250" y="234" width="300" height="58" rx="8" fill="#e6f4ec" stroke="#1f8a5b" stroke-width="1.5"/>
+<text x="400.0" y="256" text-anchor="middle" font-weight="700" fill="#1b2632">ReLU + requant</text>
+<text x="400.0" y="273" text-anchor="middle" font-size="12" fill="#33455a">int8 → int8</text>
+<text x="400.0" y="287" text-anchor="middle" font-size="11" fill="#5c6b7b">v = acc·M + B, clamp 0..127</text>
+<line x1="400.0" y1="292" x2="400.0" y2="326" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="313.0" font-size="11" fill="#5c6b7b">8x163</text>
+<rect x="250" y="326" width="300" height="58" rx="8" fill="#cfe2f7" stroke="#1565c0" stroke-width="1.5"/>
+<text x="400.0" y="348" text-anchor="middle" font-weight="700" fill="#1b2632">Conv1d</text>
+<text x="400.0" y="365" text-anchor="middle" font-size="12" fill="#33455a">W 16x8x7 · B 16</text>
+<text x="400.0" y="379" text-anchor="middle" font-size="11" fill="#5c6b7b">stride 2, valid</text>
+<line x1="400.0" y1="384" x2="400.0" y2="418" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="405.0" font-size="11" fill="#5c6b7b">16x79</text>
+<rect x="250" y="418" width="300" height="58" rx="8" fill="#e6f4ec" stroke="#1f8a5b" stroke-width="1.5"/>
+<text x="400.0" y="440" text-anchor="middle" font-weight="700" fill="#1b2632">ReLU + requant</text>
+<text x="400.0" y="457" text-anchor="middle" font-size="12" fill="#33455a">int8 → int8</text>
+<line x1="400.0" y1="476" x2="400.0" y2="510" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="497.0" font-size="11" fill="#5c6b7b">16x79</text>
+<rect x="250" y="510" width="300" height="58" rx="8" fill="#cfe2f7" stroke="#1565c0" stroke-width="1.5"/>
+<text x="400.0" y="532" text-anchor="middle" font-weight="700" fill="#1b2632">Conv1d</text>
+<text x="400.0" y="549" text-anchor="middle" font-size="12" fill="#33455a">W 32x16x5 · B 32</text>
+<text x="400.0" y="563" text-anchor="middle" font-size="11" fill="#5c6b7b">stride 2, valid</text>
+<line x1="400.0" y1="568" x2="400.0" y2="602" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="589.0" font-size="11" fill="#5c6b7b">32x38</text>
+<rect x="250" y="602" width="300" height="58" rx="8" fill="#e6f4ec" stroke="#1f8a5b" stroke-width="1.5"/>
+<text x="400.0" y="624" text-anchor="middle" font-weight="700" fill="#1b2632">ReLU + requant</text>
+<text x="400.0" y="641" text-anchor="middle" font-size="12" fill="#33455a">int8 → int8</text>
+<line x1="400.0" y1="660" x2="400.0" y2="694" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="681.0" font-size="11" fill="#5c6b7b">32x38</text>
+<rect x="250" y="694" width="300" height="58" rx="8" fill="#e6ebf2" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="400.0" y="716" text-anchor="middle" font-weight="700" fill="#1b2632">Flatten</text>
+<text x="400.0" y="747" text-anchor="middle" font-size="11" fill="#5c6b7b">32x38 → 1216</text>
+<line x1="400.0" y1="752" x2="400.0" y2="786" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="773.0" font-size="11" fill="#5c6b7b">1216</text>
+<rect x="250" y="786" width="300" height="58" rx="8" fill="#cfe2f7" stroke="#1565c0" stroke-width="1.5"/>
+<text x="400.0" y="808" text-anchor="middle" font-weight="700" fill="#1b2632">Gemm (FC)</text>
+<text x="400.0" y="825" text-anchor="middle" font-size="12" fill="#33455a">W 32x1216 · B 32</text>
+<text x="400.0" y="839" text-anchor="middle" font-size="11" fill="#5c6b7b">→ embedding 32</text>
+<line x1="400.0" y1="844" x2="400.0" y2="878" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="865.0" font-size="11" fill="#5c6b7b">32</text>
+<rect x="250" y="878" width="300" height="58" rx="8" fill="#e6ebf2" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="400.0" y="900" text-anchor="middle" font-weight="700" fill="#1b2632">Pad</text>
+<text x="400.0" y="917" text-anchor="middle" font-size="12" fill="#33455a">zero pad, bf16</text>
+<text x="400.0" y="931" text-anchor="middle" font-size="11" fill="#5c6b7b">32 → 167</text>
+<line x1="400.0" y1="936" x2="400.0" y2="970" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="957.0" font-size="11" fill="#5c6b7b">167</text>
+<rect x="250" y="970" width="300" height="58" rx="8" fill="#fdebd3" stroke="#d9822b" stroke-width="1.5"/>
+<text x="400.0" y="992" text-anchor="middle" font-weight="700" fill="#1b2632">MatMul α</text>
+<text x="400.0" y="1009" text-anchor="middle" font-size="12" fill="#33455a">α 167x32(固定乱数, seed 1)</text>
+<text x="400.0" y="1023" text-anchor="middle" font-size="11" fill="#5c6b7b">AxlCORE</text>
+<line x1="400.0" y1="1028" x2="400.0" y2="1062" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="1049.0" font-size="11" fill="#5c6b7b">32</text>
+<rect x="250" y="1062" width="300" height="58" rx="8" fill="#fdebd3" stroke="#d9822b" stroke-width="1.5"/>
+<text x="400.0" y="1084" text-anchor="middle" font-weight="700" fill="#1b2632">HardSigmoid</text>
+<text x="400.0" y="1101" text-anchor="middle" font-size="12" fill="#33455a">h = hsig(0.2·x·α + 0.5)</text>
+<text x="400.0" y="1115" text-anchor="middle" font-size="11" fill="#5c6b7b">hidden 32</text>
+<line x1="400.0" y1="1120" x2="400.0" y2="1154" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="1141.0" font-size="11" fill="#5c6b7b">32</text>
+<rect x="250" y="1154" width="300" height="58" rx="8" fill="#d8f0e3" stroke="#1f8a5b" stroke-width="1.5"/>
+<text x="400.0" y="1176" text-anchor="middle" font-weight="700" fill="#1b2632">MatMul β</text>
+<text x="400.0" y="1193" text-anchor="middle" font-size="12" fill="#33455a">β 32x32(学習・ODL 更新)</text>
+<text x="400.0" y="1207" text-anchor="middle" font-size="11" fill="#5c6b7b">AxlCORE</text>
+<line x1="400.0" y1="1212" x2="400.0" y2="1246" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="410.0" y="1233.0" font-size="11" fill="#5c6b7b">32</text>
+<rect x="250" y="1246" width="300" height="58" rx="8" fill="#e6ebf2" stroke="#5c6b7b" stroke-width="1.5"/>
+<text x="400.0" y="1268" text-anchor="middle" font-weight="700" fill="#1b2632">ArgMax</text>
+<text x="400.0" y="1299" text-anchor="middle" font-size="11" fill="#5c6b7b">→ 32 classes(窓3・扉2)</text>
+<rect x="222" y="136" width="6" height="714" fill="#1565c0" rx="3"/>
+<text x="212" y="493.0" text-anchor="end" font-size="12" fill="#1565c0" font-weight="600">CNN 前段(Cortex-M0+)</text>
+<rect x="222" y="964" width="6" height="254" fill="#d9822b" rx="3"/>
+<text x="212" y="1091.0" text-anchor="end" font-size="12" fill="#d9822b" font-weight="600">ELM(AxlCORE)</text>
+</svg>

@@ -102,9 +102,9 @@
     <a href="#hw"><span class="n">7</span>実機ハードウェア構成</a>
     <a href="#next"><span class="n">8</span>実機での進め方</a>
     <a href="#value"><span class="n">9</span>移植の意義・技術的価値</a>
+    <a href="#learning"><span class="n">10</span>学習方法のまとめ</a>
     <div class="navh">実機資料</div>
     <a href="solist_connection.html"><span class="n">↗</span>Solist-AI 接続ガイド</a>
-    <a href="learning.html"><span class="n">↗</span>学習方法のまとめ</a>
   </nav>
   <div class="foot">
     対象: ROHM Solist-AI (ML63Q2557)<br>
@@ -607,13 +607,81 @@
   </div>
   <div class="note"><b>面白さの核：</b>「αを学習できない」という制約を、前処理＋ランダム特徴＋PCでの小規模β学習に置き換えた。学習時はデータ品質と再現性をPCで確保し、運用時はSolist-AIが小さな固定モデルで独立推論する。</div>
 
-  <div class="pager"><a href="#next">← 実機での進め方</a><a class="empty">&nbsp;</a></div>
+  <div class="pager"><a href="#next">← 実機での進め方</a><a href="#learning">学習方法のまとめ →</a></div>
+</section>
+
+<section id="learning" class="article">
+  <div class="crumb">レポート ／ 学習方法のまとめ</div>
+  <h1>学習方法のまとめ</h1>
+<p class="lead">IchiPing on Solist-AI(REHC2026 応募作品)で、どのデータを使い、どこで・どの手法で学習したかの整理。
+詳細な経緯は <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">開発記録</a>、初期検証(公式 Sim)の報告は <a href="index.html">移植レポート</a> を参照。</p>
+
+<div class="card">
+  <b>要点</b>
+  <ul>
+    <li>教師あり学習(32 通りの窓・扉の開閉状態をラベルとする分類)を行っている。</li>
+    <li>初期検証では ROHM 公開の教師あり学習サンプルと公式 Solist-AI Sim を参照して学習・推論を試した。</li>
+    <li>完成版のモデルは、ROHM のツールではなく <b>自作の PC 学習環境</b>(Python / numpy)で学習し、実機へ書き込んでいる。</li>
+    <li>CNN 前段は PC の CPU で独自に学習している。実機上の現地校正(ODL)は Cortex-M0+ の float32 で自前実装した。</li>
+  </ul>
+</div>
+
+<h2>1. 学習の流れ</h2>
+<table>
+<tr><th>段階</th><th>内容</th><th>使ったもの</th></tr>
+<tr><td>A. 事前調査(2026-06)</td><td>ROHM 資料(Solist-AI Sim 教師あり学習クイックスタート、ODL アプリケーションノートなど)と教師あり学習のサンプルを参照し、公式 Sim で ELM の学習・推論を再現。D167 特徴(時間波形 baseline 差分 → 1024 点 FFT → 167 点)で 14 クラス 99.4%(同一日の別セッション)、32 クラスは現地データ追加で 99.1%。</td><td>公式 Solist-AI Sim(SLV1.00.04)、サンプル、ROHM 資料</td></tr>
+<tr><td>B. 自作の PC 学習環境(2026-09)</td><td>Sim は GUI 操作が前提で大量の再学習・交差検証に向かないため、Sim の ELM(固定乱数 α、出力 β のみ学習)を numpy で再現し、PC で学習・評価するスクリプト群を整備(<code>sim/solist_elm.py</code> ほか)。</td><td>Python / numpy</td></tr>
+<tr><td>C. CNN 前段 + ELM(2026-09)</td><td>ELM だけでは日をまたぐ汎化が不足(32 クラス 66.3%)。int8 小型 CNN(Conv1d 8/16/32 → FC 32 次元, 約 42 KB)を PC の CPU で学習し、埋め込みを ELM ヘッドへ渡す構成へ変更(89.7%)。</td><td>PC(CPU)での独自学習、<code>sim/emit_frontend_model.py</code></td></tr>
+<tr><td>D. 事前学習モデルの選定</td><td>UNO Q 版データ 8 セッション + 実機ハード(Stamp-S3A)で採取した 13 セッション(4,290 フレーム)で学習。周波数シフト(±0.5%)と別セッション baseline 差分の水増しを併用。時間帯ブロック hold-out で選定し、平均 98.7%。</td><td><code>sim/eval_stamp_mix.py</code>、<code>BEST_MODEL.md</code></td></tr>
+<tr><td>E. 現地校正(ODL)</td><td>設置先で全 32 状態をサーボで巡回し、OS-ELM で β を逐次更新。AxlCORE 内蔵学習(bf16)は β が発散したため、更新だけ CPU の float32 で計算し、β を bf16 にして AxlCORE へ書き戻す。</td><td>自前実装(<code>firmware/IchiPingInference</code>)</td></tr>
+</table>
+
+<h2>モデル構造</h2>
+<p>N333 特徴(334 bin)を int8 の 3 層 Conv1d と全結合で 32 次元の埋め込みにし、ゼロ埋めで 167 入力にして ELM(隠れ 32 → 出力 32 クラス)へ渡す 2 段構成。</p>
+<div class="card"><img src="img/model_schematic.svg" alt="モデル構造の模式図" style="width:100%;height:auto"></div>
+<h3>全体図(層ごとの形状・パラメータ)</h3>
+<div class="card" style="text-align:center"><img src="img/model_netron.svg" alt="モデル全体図" style="max-width:100%;height:auto"></div>
+
+<h2>2. ROHM サンプル・Sim の利用範囲</h2>
+<ul>
+  <li>参照・利用した範囲:Solist-AI Sim による ELM の学習・推論の動作確認、ELM(α 固定・β 学習)の仕様把握、ODL の仕様把握。α の再生成が Sim 出力と一致することも確認している(167 入力)。</li>
+  <li>利用していない範囲:完成版モデルの学習そのもの(PC 上の自作環境)。CNN 前段の学習。実機での float32 ODL。</li>
+  <li>Sim の on-device 学習は、本検証の条件では結果が信頼できなかったため、学習の根拠には使っていない。</li>
+</ul>
+
+<h2>3. 独自に行った学習・評価</h2>
+<ul>
+  <li><b>データ採取</b>:Stamp-S3A が PRBS を再生しながら録音、サーボで 32 状態を自動巡回して収録(<code>firmware/StampMeasure</code>)。</li>
+  <li><b>特徴</b>:2048 点 FFT → Welch → dB → 全閉との差分 → frame 正規化 → 400–3000 Hz の 334 bin → int8(N333)。PC 参照実装はファームと同じ整数演算。</li>
+  <li><b>CNN 前段</b>:PC の CPU で学習 → int8 量子化 → C 配列としてファームへ出力。</li>
+  <li><b>評価ルール</b>:評価セッションは学習・標準化・ハイパーパラメータ選択に使わない。セッション単位の leave-one-out と、時間帯ブロック hold-out で採点(<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">開発記録 §4</a>)。</li>
+  <li><b>実機検証</b>:サーボで 32 状態を 1 回ずつ作り Solist 単体で推論するサーベイを 9 回実施。最終版は実機 32/32 を複数回、校正後も 32/32(<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/results">results/</a>)。</li>
+</ul>
+
+<h2>4. REHC 事務局からの確認への回答(要約)</h2>
+<table>
+<tr><th>質問</th><th>回答</th></tr>
+<tr><td>① 教師あり学習を行っているか</td><td class="yes">Yes</td></tr>
+<tr><td>② ROHM の教師あり学習サンプルソフトを使用したか</td><td class="yes">Yes(初期検証で参照・利用。完成版の学習は自作の PC 環境)</td></tr>
+<tr><td>③ その他の手法で共有できる内容</td><td>PC 上の独自 CNN 前段学習、実機採取データでの再学習、時間帯 hold-out による選定、float32 による現地校正(ODL)。上記のとおり公開。</td></tr>
+</table>
+
+<h2>5. 資料の所在</h2>
+<table>
+<tr><th>内容</th><th>場所</th></tr>
+<tr><td>学習・評価スクリプト</td><td><code>sim/</code></td></tr>
+<tr><td>探索結果(IMPROVE_LODO, IDEAL_VS_SOLIST, TINY / CNN_FRONTEND_LODO, STAMP_MIX, RUN_SHIFT, ODL_CALIBRATION, BEST_MODEL)</td><td><code>sim_export/solist_ds/*.md</code></td></tr>
+<tr><td>推論・校正ファーム</td><td><code>firmware/IchiPingInference</code></td></tr>
+<tr><td>開発記録</td><td><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/docs/DEVELOPMENT.md">docs/DEVELOPMENT.md</a></td></tr>
+</table>
+
+  <div class="pager"><a href="#value">← 移植の意義・技術的価値</a><a class="empty">&nbsp;</a></div>
 </section>
 
 </main>
 
 <script>
-  var ids=["overview","model","feature","train","result","spec","hw","next","value"];
+  var ids=["overview","model","feature","train","result","spec","hw","next","value","learning"];
   function route(){
     var h=(location.hash||"#overview").replace("#","");
     if(ids.indexOf(h)<0)h="overview";

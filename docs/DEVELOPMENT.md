@@ -141,3 +141,14 @@ baseline は dB スペクトル 2 KB で済み、サンプル同期も不要に�
 | 実機サーベイ(最終 3 回) | `docs/results/` |
 | 端子割り当て・中間基板・発注データ | `docs/io_allocation.md`, `docs/solist_connection.html`, `docs/bom_tht.html`, `hardware/`, `output/` |
 | PV・作品ページの素材と制作条件 | `media/README.md` |
+
+## 8. 開発環境の共有
+
+Acrylic Pan と同じPC(`C:\Users\yamas\Documents\GitHub`)で保守する。公式Solist-AI Simulator、MATLAB Runtime、
+LEXIDE-Ω、ML63Q25x7_DFP、書き込み環境は両プロジェクトで共有できる。導入状況と手順は
+acrylic_pan の `docs/maintenance-environment.md` にまとめている。
+
+- 2026-10-28 時点で、このPCには LEXIDE-Ω、公式Simulator、MATLAB Runtime が未導入。ファームのビルドとSim上の確認は、導入後に行う。
+- Python は acrylic_pan の `.venv` を学習に使える。IchiPing の学習に必要な追加ライブラリは、別の venv を作って入れる。
+- acrylic_pan 側の学習スクリプトが参照する `sim_export\_alpha32_sim.npy` は、このPCでは
+  `C:\Users\yamas\Documents\GitHub\IchiPing_solist_AI\sim_export\_alpha32_sim.npy` にある。

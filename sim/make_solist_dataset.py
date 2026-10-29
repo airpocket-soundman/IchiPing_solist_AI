@@ -46,8 +46,8 @@ from freq_shift import IRShifter, prbs16k, shift_db_spectrum, fit_shift  # noqa:
 ROOT = HERE.parent
 CACHE = HERE / "_cache"
 OUT = ROOT / "sim_export" / "solist_ds"
-UNOQ = Path(r"D:/GitHub/IchiPing-UNO-Q/pc/captures")
-FRDM = Path(r"D:/GitHub/IchiPing/pc/captures")
+UNOQ = (Path(__file__).resolve().parents[2] / "IchiPing-UNO-Q" / "pc" / "captures")
+FRDM = (Path(__file__).resolve().parents[2] / "IchiPing" / "pc" / "captures")
 
 NFFT, HOP = 1024, 512
 BIN_HZ = 16_000 / NFFT

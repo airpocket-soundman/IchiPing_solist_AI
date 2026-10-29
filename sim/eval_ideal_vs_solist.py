@@ -31,7 +31,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / "sim" / "_cache"
 OUT = ROOT / "sim_export" / "solist_ds"
-CAPTURES = Path(r"D:/GitHub/IchiPing/pc/captures")
+CAPTURES = (Path(__file__).resolve().parents[2] / "IchiPing" / "pc" / "captures")
 ALPHA32 = np.load(ROOT / "sim_export" / "_alpha32_sim.npy").astype(np.float64)
 
 BIN_HZ = 16_000.0 / 1024

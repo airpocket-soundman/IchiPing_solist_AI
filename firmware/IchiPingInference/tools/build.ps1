@@ -76,9 +76,12 @@ $ichiInclude = "-I`"$stagedFwd/S_IchiPing`""
 $projRe = '[A-Za-z]:[\\/]Users[\\/][^\\/"]+[\\/]lexide[\\/]workspace_omega_v2[\\/]' + [regex]::Escape((Split-Path -Leaf $SourceProject))
 $cmsisRe = '[A-Za-z]:/Users/[^/"]+/AppData/Local/Arm/Packs/ARM/CMSIS/[^/"]+/CMSIS/Core/Include'
 $cmsisFwd = (Resolve-Path -LiteralPath $CmsisInclude).Path.Replace('\', '/')
+$buildToolsVer = (Get-ChildItem "C:\LAPIS\LEXIDE\BuildTools" -Directory -Filter "Ver.*" | Sort-Object Name -Descending | Select-Object -First 1).Name
 function Repoint([string]$text) {
     $text = [regex]::Replace($text, $projRe, { param($m) if ($m.Value.Contains('\')) { $staged } else { $stagedFwd } })
-    return [regex]::Replace($text, $cmsisRe, { param($m) $cmsisFwd })
+    $text = [regex]::Replace($text, $cmsisRe, { param($m) $cmsisFwd })
+    # the vendor project names the LEXIDE build tools version it was generated with; use the one installed here
+    return [regex]::Replace($text, 'BuildTools([\\/])Ver\.\d+', { param($m) "BuildTools$($m.Groups[1].Value)$buildToolsVer" })
 }
 $mkPath = Join-Path $buildDir "makefile"
 Write-Utf8 $mkPath (Repoint ([IO.File]::ReadAllText($mkPath)))
@@ -107,7 +110,8 @@ Write-Utf8 $mk $m
 # 4) Build (stale objects of replaced sources are removed first).
 Remove-Item -Path (Join-Path $buildDir "*.hex"), (Join-Path $buildDir "*.elf"), (Join-Path $buildDir "*.map") -Force -ErrorAction SilentlyContinue
 Remove-Item -Path (Join-Path $buildDir "S_System\main.o"), (Join-Path $buildDir "S_System\main.asm") -Force -ErrorAction SilentlyContinue
-$env:Path = "C:\LAPIS\LEXIDE\Bin;C:\LAPIS\LEXIDE\BuildTools\Ver.20260317\Bin;C:\LAPIS\LEXIDE\Utilities\Bin;" + $env:Path
+$buildToolsBin = Join-Path (Get-ChildItem "C:\LAPIS\LEXIDE\BuildTools" -Directory -Filter "Ver.*" | Sort-Object Name -Descending | Select-Object -First 1).FullName "Bin"   # newest installed LEXIDE build tools
+$env:Path = "C:\LAPIS\LEXIDE\Bin;$buildToolsBin;C:\LAPIS\LEXIDE\Utilities\Bin;" + $env:Path
 Push-Location $buildDir
 try {
     & $makeExe all -j

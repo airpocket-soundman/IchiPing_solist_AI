@@ -22,7 +22,7 @@ from pathlib import Path
 import numpy as np
 
 # --- v1 リポへのパス -------------------------------------------------------
-ICHIPING_ROOT = Path(r"D:/GitHub/IchiPing")
+ICHIPING_ROOT = (Path(__file__).resolve().parents[2] / "IchiPing")
 CAPTURES_ROOT = ICHIPING_ROOT / "pc" / "captures"
 TRAINING_DIR = ICHIPING_ROOT / "pc" / "training"
 

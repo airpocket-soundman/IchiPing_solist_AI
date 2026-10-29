@@ -42,8 +42,8 @@ import torch.nn as nn  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "sim_export" / "solist_ds"
 CACHE = ROOT / "sim" / "_cache"
-FRDM = Path(r"D:/GitHub/IchiPing/pc/captures")
-UNOQ = Path(r"D:/GitHub/IchiPing-UNO-Q/pc/captures")
+FRDM = (Path(__file__).resolve().parents[2] / "IchiPing" / "pc" / "captures")
+UNOQ = (Path(__file__).resolve().parents[2] / "IchiPing-UNO-Q" / "pc" / "captures")
 STAMP = ROOT / "captures"
 DEV = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 NFFT, HOP = 2048, 1024

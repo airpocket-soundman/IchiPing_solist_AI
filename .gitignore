@@ -44,3 +44,9 @@ captures/
 
 # PV build output (media/pv/make_pv.py で再生成)
 media/pv/build/
+
+# 学習用 venv (ローカル)
+.venv/
+
+# 学習用の収録データ (容量が大きいため git 管理外。docs/TRAINING_ENV.md 参照)
+captures/

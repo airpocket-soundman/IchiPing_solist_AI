@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Firmware,
     [string]$OpenOcdExe = "C:\LAPIS\LEXIDE\gdb\openocd_arm.exe",
-    [string]$ObjcopyExe = "C:\LAPIS\LEXIDE\BuildTools\Ver.20260317\Bin\llvm-objcopy.exe",
+    [string]$ObjcopyExe = ((Get-ChildItem "C:\LAPIS\LEXIDE\BuildTools\Ver.*\Bin\llvm-objcopy.exe" -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1).FullName),
     [string]$InterfaceCfg = "C:\LAPIS\LEXIDE\Cfg\cmsis-dap.cfg",
     [string]$TargetCfg = "$env:LOCALAPPDATA\Arm\Packs\ROHM\ML63Q25x7_DFP\1.1.0\Cfg\ml63q25x7.cfg",
     [switch]$Execute

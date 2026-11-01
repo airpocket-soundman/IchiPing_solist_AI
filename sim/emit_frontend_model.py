@@ -169,36 +169,54 @@ def build_candidate(spec, emb_dim, X, Xf, yf, Xv, yv, seed):
 
 # ------------------------------------------------------------------ main
 def main():
+    global OUT, GEN, BLO, BHI
     ap = argparse.ArgumentParser()
     ap.add_argument("--arch", default="b1", choices=tuple(ARCHS))
-    ap.add_argument("--train", default="unoq", choices=("unoq", "all"),
+    ap.add_argument("--train", default="unoq", choices=("stamp", "unoq", "all"),
                     help="unoq: UNO Q session1-8 のみ (既定, session4 の検証精度で選定済み) / all: + FRDM 全 run")
     ap.add_argument("--seeds", type=int, default=3, help="前段の学習 seed 数 (検証精度最大を採用)")
     ap.add_argument("--stamp", nargs="*", default=[],
                     help="学習に加えるこのハード (Stamp-S3A) のセッション (captures/stamp_*)。先頭を検証 session にする")
     ap.add_argument("--val", default="", help="検証 session (既定: --stamp の先頭、なければ UNO Q session4)")
+    ap.add_argument('--val-sessions', nargs='+', help='Session-disjoint validation union for early stopping and seed selection')
     ap.add_argument("--shift", type=float, default=0.02, help="比例周波数シフト aug の最大 |ε| (0 = なし)")
     ap.add_argument("--xbase", type=int, default=0,
                     help="クロスベースライン: 学習 frame を同じ世代の別セッション K 本の baseline でも差分して増やす")
     ap.add_argument("--tag", default="", help="npz 名 board_model_frontend_32cls_<tag>.npz (空 = 既定名 board_model_frontend_32cls.npz を上書き)")
+    ap.add_argument('--feature-noise-std', type=float, default=0.0)
+    ap.add_argument('--baseline-reference', nargs='+', help='Ordered fixed reference-session pool for cross-baseline augmentation')
+    ap.add_argument('--input-bin-lo', type=int, default=BLO, help='Zero-based bin offset; input width remains unchanged')
+    ap.add_argument('--output-dir', default='', help='Isolated candidate directory; does not overwrite firmware headers')
     args = ap.parse_args()
+    if args.output_dir:
+        OUT = Path(args.output_dir)
+        GEN = OUT / 'generated'
+        GEN.mkdir(parents=True, exist_ok=True)
     spec, emb_dim = ARCHS[args.arch]
-    train_runs = UNOQ_TRAIN + (FRDM_RUNS if args.train == "all" else []) + args.stamp
+    train_runs = ([] if args.train == 'stamp' else UNOQ_TRAIN) + (FRDM_RUNS if args.train == "all" else []) + args.stamp
     val_session = args.val or (args.stamp[0] if args.stamp else VAL_SESSION)
+    val_sessions = args.val_sessions or [val_session]
     import eval_full_data
     eval_full_data.SHIFT_MAX = args.shift                  # train_net の周波数シフト aug
-    data = {r: build_run(r) for r in train_runs + UNOQ_EVAL}
+    eval_full_data.FEATURE_NOISE_STD = args.feature_noise_std
+    BLO = args.input_bin_lo
+    BHI = BLO + N_IN
+    if BLO < 0 or BHI > 1024: raise ValueError('Input band outside spectrum')
+    eval_full_data.BLO, eval_full_data.BHI = BLO, BHI
+    data = {r: build_run(r) for r in train_runs + UNOQ_EVAL + val_sessions}
     cat = lambda rs, k: np.concatenate([data[r][k] for r in rs])
-    fit_runs = [r for r in train_runs if r != val_session]
+    fit_runs = [r for r in train_runs if r not in val_sessions]
     if args.xbase > 0:
         from eval_best_model import build_train          # クロスベースライン (sim/eval_best_model.py と同じ作り方)
+        import eval_best_model
+        eval_best_model.BASELINE_REFERENCE_RUNS = args.baseline_reference
         X, y = build_train(train_runs, args.xbase, np.random.default_rng(0))
         X = X.astype(np.float32)
         Xf, yf = build_train(fit_runs, args.xbase, np.random.default_rng(0))
     else:
         X, y = cat(train_runs, "X").astype(np.float32), cat(train_runs, "y")
         Xf, yf = cat(fit_runs, "X"), cat(fit_runs, "y")
-    Xv, yv = data[val_session]["X"], data[val_session]["y"]
+    Xv, yv = cat(val_sessions, 'X'), cat(val_sessions, 'y')
 
     # 前段の学習 (seed 毎) → int8 化 → ELM 選択。検証 session の精度が最も高い seed を採用する
     cands = []
@@ -239,20 +257,20 @@ def main():
 
     write_header(spec, emb_dim, qm, fq, mul, add, beta, cases, ye[case_idx], args.arch)
     npz = OUT / (f"board_model_frontend_32cls_{args.tag}.npz" if args.tag else "board_model_frontend_32cls.npz")
-    np.savez(npz, arch=args.arch, in_mu=mu, in_sd=sd, s_in=s_in, s_acts=np.array(s_acts), emb_mul=mul, emb_add=add,
+    np.savez(npz, arch=args.arch, bin_lo=BLO, bin_hi=BHI, in_mu=mu, in_sd=sd, s_in=s_in, s_acts=np.array(s_acts), emb_mul=mul, emb_add=add,
              beta=beta, alpha=ALPHA, s_elm=s_elm, ridge=lam, fc_wq=fq["wq"], fc_M=fq["M"], fc_B=fq["B"],
              **{f"conv{i}_{k}": L[k] for i, L in enumerate(qm) for k in ("wq", "M", "B", "k", "s")})
     # 入力の標準化 (in_mu / in_sd / s_in) はモデル毎に違うので、実機の特徴計算用テーブルも同じ npz から作り直す
     from board_fixed_feature import emit_tables
-    emit_tables(np.load(npz))
+    emit_tables(np.load(npz), output_dir=GEN)
     meta = dict(
         model=f"ichiping_frontend_{args.arch}_elm{ELM_IN}x{ELM_HIDDEN}x{C}", input_format="int8_frontend",
         input_count=int(N_IN), embedding=emb_dim, elm_input_count=ELM_IN, hidden_count=ELM_HIDDEN, output_count=C,
         eval_set="unoq eval gray+evening+survey+crowd", activation="hard_sigmoid", loss="mse",
         scale_alpha_bf16=f"0x{SCALE_ALPHA_BF16:04X}", input_scale=s_in, elm_scale=s_elm, ridge=lam,
-        train_data="UNO Q train session1-8" + (" + FRDM all runs" if args.train == "all" else "")
+        train_data=("Stamp only" if args.train == 'stamp' else "UNO Q train session1-8") + (" + FRDM all runs" if args.train == "all" else "")
         + (" + Stamp " + ", ".join(args.stamp) if args.stamp else "")
-        + f"; shift aug +-{args.shift:g}, cross-baseline {args.xbase}, validation {val_session}",
+        + f"; shift aug +-{args.shift:g}, cross-baseline {args.xbase}, validation {','.join(val_sessions)}",
         validation_accuracy=val_acc, seed=seed, pc_accuracy=report, model_sha256=hashlib.sha256(npz.read_bytes()).hexdigest(),
         alpha_origin="ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167")
     (OUT / "BOARD_FRONTEND_PC.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")

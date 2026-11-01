@@ -1,0 +1,32 @@
+[
+  {
+    "seed": 0,
+    "sessions": {
+      "stamp_20260927_s2_wav": 1.0,
+      "stamp_20261030_speed500_s2_wav": 1.0,
+      "stamp_20261030_speed500_s3_retry_wav": 1.0
+    },
+    "worst": 1.0,
+    "mean": 1.0
+  },
+  {
+    "seed": 1,
+    "sessions": {
+      "stamp_20260927_s2_wav": 1.0,
+      "stamp_20261030_speed500_s2_wav": 1.0,
+      "stamp_20261030_speed500_s3_retry_wav": 1.0
+    },
+    "worst": 1.0,
+    "mean": 1.0
+  },
+  {
+    "seed": 2,
+    "sessions": {
+      "stamp_20260927_s2_wav": 1.0,
+      "stamp_20261030_speed500_s2_wav": 1.0,
+      "stamp_20261030_speed500_s3_retry_wav": 1.0
+    },
+    "worst": 1.0,
+    "mean": 1.0
+  }
+]

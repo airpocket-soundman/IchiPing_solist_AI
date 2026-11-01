@@ -81,13 +81,16 @@ def feats(d: dict, base: np.ndarray) -> np.ndarray:
     return norm_diff(d["db"], base).astype(np.float16)
 
 
+BASELINE_REFERENCE_RUNS = None
+
 def build_train(runs, xbase, rng, stamp_rep=1):
     X, y = [], []
     for r in runs:
         d = run_db(r)
         bases = [d["base"]]
         if xbase > 0:
-            others = [o for o in runs if o != r and family(o) == family(r)]
+            pool = runs if BASELINE_REFERENCE_RUNS is None else [o for o in BASELINE_REFERENCE_RUNS if o in runs]
+            others = [o for o in pool if o != r and family(o) == family(r)]
             for o in rng.choice(others, size=min(xbase, len(others)), replace=False) if others else []:
                 bases.append(run_db(str(o))["base"])
         rep = stamp_rep if family(r) == "stamp" else 1
@@ -104,6 +107,7 @@ def score(P, y):
 
 def run_config(a):
     efd.SHIFT_MAX = a.shift
+    efd.FEATURE_NOISE_STD = getattr(a, 'feature_noise_std', 0.0)
     spec, emb_dim = ARCHS[a.arch]
     pre = {"stamp": [], "unoq": UNOQ_TRAIN, "all": FRDM_RUNS + UNOQ_TRAIN}[a.data]
     res = {}
@@ -154,7 +158,7 @@ def run_config(a):
     a32 = [v["acc32"] for v in res.values()]
     a14 = [v["acc14"] for v in res.values()]
     row = dict(name=a.name, data=a.data, shift=a.shift, xbase=a.xbase, arch=a.arch, seeds=a.seeds, seed_offset=a.seed_offset, ensemble=a.ensemble,
-               stamp_rep=a.stamp_rep, mean32=float(np.mean(a32)), worst32=float(np.min(a32)),
+               stamp_rep=a.stamp_rep, feature_noise_std=efd.FEATURE_NOISE_STD, mean32=float(np.mean(a32)), worst32=float(np.min(a32)),
                mean14=float(np.mean(a14)), worst14=float(np.min(a14)), blocks=res,
                seconds=round(time.time() - t0))
     OUT.mkdir(parents=True, exist_ok=True)

@@ -1,14 +1,14 @@
 """このハード (Solist サーボ + Stamp-S3A の PRBS 再生・INMP441 録音) で 32 状態のセッションを採取する。
 
 Solist に ichi_collect_main を書き込んでおく (build.ps1 -Main ichi_collect_main)。
-PC が Solist (UART, 'S' + 状態) でサーボを動かし、Stamp (USB CDC, firmware/StampMeasure) に
-'M' で測定させ 'D' で揃えた 2 秒 16 kHz フレームを受け取る。保存形式は UNO Q の captures と同じ:
+PC は Solist (UART) だけへ接続する。'S' + 状態でサーボを動かし、'M' でSolistにStampの
+I2C測定とPCM中継をさせる。StampのUSB CDC接続は不要。保存形式は UNO Q の captures と同じ:
   <out>/sXXXXX/frame_NNNNNN.wav (16 kHz mono int16) + meta.json (全閉の先頭 baseline 枚は group=baseline)
   (sXXXXX の k 文字目 = bit k-1: a b c AB BC, 1 = OPEN)
 順序は UNO Q collector と同じく全閉 baseline → Gray code で 32 状態 (各状態 --frames 枚連続)。
 
 usage: python firmware/IchiPingInference/tools/collect_session.py --name s1 [--frames 10] [--baseline 10]
-       [--solist COM3] [--stamp COM13] [--rotate 0]
+       [--solist COM3] [--rotate 0]
 """
 from __future__ import annotations
 
@@ -36,8 +36,8 @@ def dirname(c: int) -> str:
 
 
 class Solist:
-    def __init__(self, port):
-        self.s = serial.Serial(port, 115200, timeout=0.2, write_timeout=2.0)
+    def __init__(self, port, baud=500000):
+        self.s = serial.Serial(port, baud, timeout=0.2, write_timeout=2.0)
         self.buf = bytearray()
 
     def move(self, state: int, timeout=30.0) -> bool:
@@ -60,50 +60,56 @@ class Solist:
     def release(self):
         self.s.write(b"R")
 
+    def _frame(self, timeout: float):
+        """Read one valid COBS frame emitted by the collection firmware."""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            # Drain available bytes immediately; read(512) waits for its timeout
+            # at the end of every short UART chunk.
+            if 0 not in self.buf:
+                self.buf += self.s.read(max(1, self.s.in_waiting))
+            while 0 in self.buf:
+                i = self.buf.index(0)
+                raw, self.buf[:] = bytes(self.buf[:i]), self.buf[i + 1:]
+                try:
+                    f = decode_frame(raw)
+                except Exception:
+                    continue
+                if f is not None:
+                    return f
+        raise TimeoutError("Solist: no collection frame")
 
-class Stamp:
-    def __init__(self, port):
-        self.s = serial.Serial(port, 115200, timeout=1.0)
-        time.sleep(0.3); self.s.reset_input_buffer()
-
-    def line(self, timeout):
-        t = time.time()
-        while time.time() - t < timeout:
-            l = self.s.readline()
-            if l:
-                return l.decode(errors="replace").strip()
-        raise TimeoutError("Stamp: no reply")
-
-    def measure(self, retries=3):
-        for _ in range(retries):
+    def measure(self, retries=2) -> np.ndarray:
+        """Ask Solist to measure through Stamp I2C and relay the complete PCM frame."""
+        for attempt in range(retries):
             try:
-                return self._measure_once()
-            except (TimeoutError, ValueError) as e:       # USB CDC の取りこぼし (END 未着など) は測り直す
+                self.s.reset_input_buffer(); self.buf.clear()
+                self.s.write(b"M")
+                header = self._frame(20.0)
+                if header.type != 0x49 or len(header.payload) != 3:
+                    raise ValueError("unexpected capture header")
+                ok, samples = header.payload[0], int.from_bytes(header.payload[1:3], "little")
+                if not ok or samples != 32000:
+                    raise ValueError(f"Stamp capture failed (ok={ok}, samples={samples})")
+                pcm = bytearray(2 * samples)
+                offset = 0
+                while offset < samples:
+                    f = self._frame(20.0)
+                    if f.type != 0x4A or len(f.payload) < 4:
+                        raise ValueError("unexpected PCM frame")
+                    got_offset = int.from_bytes(f.payload[0:2], "little")
+                    count = int.from_bytes(f.payload[2:4], "little")
+                    raw = f.payload[4:]
+                    if got_offset != offset or count == 0 or len(raw) != 2 * count or offset + count > samples:
+                        raise ValueError("invalid PCM chunk")
+                    pcm[2 * offset:2 * (offset + count)] = raw
+                    offset += count
+                return np.frombuffer(pcm, "<i2").copy()
+            except (TimeoutError, ValueError) as e:
+                if attempt + 1 == retries:
+                    raise RuntimeError(f"Solist/Stamp measurement failed: {e}") from e
                 print(f"    {e} -> retry", flush=True)
                 time.sleep(1.0)
-                self.s.reset_input_buffer()
-        raise RuntimeError("Stamp: measurement failed")
-
-    def _measure_once(self):
-        self.s.reset_input_buffer()
-        self.s.write(b"M\n")
-        l = ""
-        t = time.time()
-        while not l.startswith("MEAS") and time.time() - t < 10:
-            l = self.line(10)
-        if " ok " not in l:
-            raise ValueError(f"{l}")
-        info = dict(kv.split("=") for kv in l.split() if "=" in kv)
-        self.s.write(b"D\n")
-        h = self.line(5)
-        if not h.startswith("PCM16"):
-            raise ValueError(f"unexpected header {h!r}")
-        n = int(h.split()[1])
-        data = self.s.read(2 * n)
-        end = self.line(5)
-        if len(data) != 2 * n or end != "END":
-            raise ValueError("short dump")
-        return np.frombuffer(data, "<i2").copy(), int(info["onset"]), float(info["rms"])
 
 
 def write_wav(p: Path, x: np.ndarray):
@@ -119,35 +125,44 @@ def main():
     ap.add_argument("--rotate", type=int, default=0, help="Gray code 列の開始位置 (セッション毎に変えると順序効果が散る)")
     ap.add_argument("--reverse", action="store_true")
     ap.add_argument("--solist", default="COM3")
-    ap.add_argument("--stamp", default="COM13")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--states", nargs="+", type=int, choices=range(32), help="Capture selected numeric state masks only")
     args = ap.parse_args()
 
     out = Path(args.out) if args.out else ROOT / "captures" / f"stamp_{dt.date.today():%Y%m%d}_{args.name}_wav"
     if out.exists():
         raise SystemExit(f"already exists: {out}")
     out.mkdir(parents=True)
-    solist, stamp = Solist(args.solist), Stamp(args.stamp)
+    solist = Solist(args.solist)
     order = [(p ^ (p >> 1)) for p in range(32)]
     order = order[args.rotate:] + order[:args.rotate]
     if args.reverse:
         order = order[::-1]
+    if args.states:
+        order = [c for c in order if c in args.states]
     metas: dict[int, dict] = {}
     t0 = time.time()
+    completed = 0
+    total = args.baseline + len(order) * args.frames
 
     def grab(state, group):
+        nonlocal completed
+        print(f"[{args.name}] {completed}/{total}, remaining {total-completed}: {dirname(state)} recording/transfer", flush=True)
         d = out / dirname(state)
         d.mkdir(exist_ok=True)
-        m = metas.setdefault(state, dict(label=dirname(state), source="Stamp-S3A StampMeasure 'M'+'D'",
+        m = metas.setdefault(state, dict(label=dirname(state), source="Stamp-S3A via Solist I2C/UART relay",
                                          quantize="int16", capture="Stamp-S3A I2S 48k -> FIR 16k, x16 scale",
                                          frames=[]))
-        x, onset, rms = stamp.measure()
+        x = solist.measure()
         name = f"frame_{len(m['frames']):06d}.wav"
         write_wav(d / name, x)
         m["frames"].append(dict(wav=name, group=group, time=dt.datetime.now().isoformat(timespec="seconds"),
-                                onset=onset, rms=rms / 32768.0, clipped_samples=int(np.sum(np.abs(x) >= 32767))))
+                                clipped_samples=int(np.sum(np.abs(x) >= 32767))))
         (d / "meta.json").write_text(json.dumps(m, indent=1), encoding="utf-8")
-        return rms
+        completed += 1
+        elapsed = time.time() - t0
+        print(f"[{args.name}] {completed}/{total}, remaining {total-completed}, elapsed {elapsed/60:.1f} min, ETA {elapsed/completed*(total-completed)/60:.1f} min", flush=True)
+        return float(np.sqrt(np.mean(x.astype(np.float64) ** 2)))
 
     try:
         if not solist.move(0):

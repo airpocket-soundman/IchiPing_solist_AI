@@ -1,0 +1,56 @@
+{
+  "sessions": [
+    "stamp_20260926_s1_wav",
+    "stamp_20260926_s2_wav",
+    "stamp_20260926_s3_wav",
+    "stamp_20260926_s4_wav",
+    "stamp_20260926_s5_wav",
+    "stamp_20260926_s6_wav",
+    "stamp_20260926_s7_wav",
+    "stamp_20260926_s8_wav",
+    "stamp_20260926_s9_wav",
+    "stamp_20260926_s10_wav",
+    "stamp_20260926_s11_wav",
+    "stamp_20260927_s1_wav",
+    "stamp_20260927_s2_wav",
+    "stamp_20261030_speed500_s1_wav",
+    "stamp_20261030_speed500_s2_wav",
+    "stamp_20261030_speed500_s3_retry_wav",
+    "stamp_20261031_current_train_20261031_s1_wav",
+    "stamp_20261031_current_train_20261031_s2_wav",
+    "stamp_20261031_current_train_post_sweep_20261031_s1_wav",
+    "stamp_20261101_additional_train_20261101_s1_wav",
+    "stamp_20261101_additional_train_20261101_s2_wav"
+  ],
+  "excluded_session": "stamp_20261031_hidden_c_targeted_20261031_s1_wav",
+  "baseline_reference": [
+    "stamp_20260926_s1_wav",
+    "stamp_20260926_s2_wav",
+    "stamp_20260926_s3_wav",
+    "stamp_20260926_s4_wav",
+    "stamp_20260926_s5_wav",
+    "stamp_20260926_s6_wav",
+    "stamp_20260926_s7_wav",
+    "stamp_20260926_s8_wav",
+    "stamp_20260926_s9_wav",
+    "stamp_20260926_s10_wav",
+    "stamp_20260926_s11_wav",
+    "stamp_20260927_s1_wav",
+    "stamp_20260927_s2_wav",
+    "stamp_20261030_speed500_s1_wav",
+    "stamp_20261030_speed500_s2_wav",
+    "stamp_20261030_speed500_s3_retry_wav"
+  ],
+  "cross_counts": [
+    4,
+    8,
+    16
+  ],
+  "evaluation_sessions": [
+    "stamp_20261031_holdout_eval_20261031_s1_wav",
+    "stamp_20261031_holdout_eval_20261031_s2_wav",
+    "stamp_20261031_holdout_eval_fresh_20261031_wav",
+    "stamp_20261031_holdout_eval_post_sweep_20261031_s1_wav",
+    "stamp_20261101_holdout_eval_20261101_s1_wav"
+  ]
+}

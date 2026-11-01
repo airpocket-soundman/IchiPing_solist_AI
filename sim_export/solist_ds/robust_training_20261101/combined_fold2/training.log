@@ -1,0 +1,9 @@
+  seed 0: validation acc=1.000
+  seed 1: validation acc=1.000
+  seed 2: validation acc=0.969
+arch=small train=stamp: seed 0 validation acc=1.000  ELM s=0.25 ridge=1.0  s_in=0.0359 s_acts=[0.0652, 0.0334, 0.0434]
+  gray     n=  96  CNN(float)=0.990  ELM(float 前段)=0.990  ELM(int8 前段, 実機参照)=0.979
+  evening  n= 320  CNN(float)=0.769  ELM(float 前段)=0.791  ELM(int8 前段, 実機参照)=0.778
+  survey   n= 320  CNN(float)=0.994  ELM(float 前段)=0.963  ELM(int8 前段, 実機参照)=0.969
+  crowd    n= 320  CNN(float)=0.950  ELM(float 前段)=0.947  ELM(int8 前段, 実機参照)=0.947
+-> C:\Users\yamas\Documents\GitHub\IchiPing_solist_AI\sim_export\solist_ds\robust_training_20261101\combined_fold2\generated\ichiping_model.h  board_model_frontend_32cls_combined_fold2.npz

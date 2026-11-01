@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "version": 1,
+    "identity": "DDFDF0BB0F58921A4E947BDB5E70D32C5ECECAB69BCCC0B79598BBB925BE2FFB030A81FC9020ABC9970FC593AB997F314B8FDADE4016883DBAF0AD213DC4DFA6E3C7831615815540CA27B3912EED1A6658C2C94626BA7F56714ED40EFF3C5B4D",
+    "total": 10240,
+    "chunks": 80
+  },
+  "calibration": {
+    "correct_before": 156,
+    "samples": 160,
+    "ok": true,
+    "seconds": 1811
+  },
+  "done": {
+    "correct": 0,
+    "total": 0,
+    "aborted": 0,
+    "seconds": 1853
+  },
+  "model": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\sim_export\\solist_ds\\candidates_20261101\\lowband_full21_no_targeted_fixedbase_xbase16\\board_model_frontend_32cls_lowband_full21_no_targeted_fixedbase_xbase16.npz",
+  "model_sha256": "69e2445cdf3c2e8f131c893c13d34ab1ff2c5179fb8417750c48f120a7c03f6f",
+  "payload_sha256": "ca6e9adc8be6efb3937c51426b83af7bf4ee3a0b33e662bf4d8a0ccc93b8502e",
+  "bytes": 10240,
+  "verified": true
+}

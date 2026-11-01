@@ -1,0 +1,8 @@
+﻿{
+    "selected":  "2026-11-01T10:40:59.0660072+09:00",
+    "identity_header":  "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\.local\\firmware-build\\20261101_104046\\AIVibrationInference\\S_IchiPing\\ichi_model_identity.h",
+    "model_sha256":  "69e2445cdf3c2e8f131c893c13d34ab1ff2c5179fb8417750c48f120a7c03f6f",
+    "mode":  "device_odl_only_pc_evaluation",
+    "model":  "lowband_full21_no_targeted_fixedbase_xbase16",
+    "firmware":  "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\.local\\firmware-build\\20261101_104046\\AIVibrationInference\\Debug\\AIVibrationInference.elf"
+}

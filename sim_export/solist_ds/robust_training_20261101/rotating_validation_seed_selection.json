@@ -1,0 +1,37 @@
+{
+  "folds": [
+    [
+      "stamp_20260927_s2_wav",
+      "stamp_20261030_speed500_s2_wav",
+      "stamp_20261030_speed500_s3_retry_wav"
+    ],
+    [
+      "stamp_20260926_s2_wav",
+      "stamp_20260926_s8_wav",
+      "stamp_20261031_current_train_20261031_s1_wav"
+    ],
+    [
+      "stamp_20260926_s11_wav",
+      "stamp_20261030_speed500_s1_wav",
+      "stamp_20261031_current_train_post_sweep_20261031_s1_wav"
+    ]
+  ],
+  "rankings": [
+    {
+      "seed": 0,
+      "worst": 0.996875,
+      "mean": 0.9996527777777777
+    },
+    {
+      "seed": 1,
+      "worst": 0.996875,
+      "mean": 0.9996527777777777
+    },
+    {
+      "seed": 2,
+      "worst": 0.9875,
+      "mean": 0.9986111111111112
+    }
+  ],
+  "selected_seed": 0
+}

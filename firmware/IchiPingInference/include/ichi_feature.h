@@ -32,6 +32,8 @@ void IchiFeatureBaselineReset(void);
 bool IchiFeatureFrame(IchiPcmReader reader, uint16_t total_samples);
 /* Adds the last frame to the baseline as one of frame_count baseline frames. */
 void IchiFeatureBaselineAdd(uint8_t frame_count);
+/* Current baseline, int16 little-endian with scale 256 dB, 2048 bytes. */
+bool IchiFeatureBaselineRead(uint16_t offset, uint8_t *data, uint16_t count);
 /* Quantized front-end input of the last frame (consumes the dB buffer). */
 void IchiFeatureInput(int8_t out[ICHI_FEAT_INPUTS]);
 /* Largest block-floating-point exponent of the last frame (diagnostics). */

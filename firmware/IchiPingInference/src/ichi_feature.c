@@ -16,6 +16,13 @@ int8_t ichi_shared_scratch[ICHI_FEAT_NFFT * 2U] __attribute__((aligned(4)));
 static float power_db[ICHI_FEAT_BINS];      /* power sum -> mean -> dB -> normalized */
 static int16_t baseline_q[ICHI_FEAT_BINS];  /* 1/256 dB */
 static uint8_t last_exponent;
+bool IchiFeatureBaselineRead(uint16_t offset, uint8_t *data, uint16_t count)
+{
+    uint16_t i;
+    if (offset > sizeof(baseline_q) || count > sizeof(baseline_q) - offset) { return false; }
+    for (i = 0U; i < count; i++) { data[i] = ((const uint8_t *)(const void *)baseline_q)[offset + i]; }
+    return true;
+}
 
 static int32_t cos_q(uint32_t k)            /* cos(2 pi k / 2048) x 32767 */
 {

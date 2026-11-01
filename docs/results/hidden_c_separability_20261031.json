@@ -1,0 +1,5245 @@
+{
+  "method": "C-only diagnostic classifier; not 32-class model accuracy; leave-one-session-out",
+  "pairs": [
+    {
+      "closed": "h00101",
+      "opened": "h10101",
+      "bands": {
+        "raw_db_below100": {
+          "mean": 0.49375,
+          "worst": 0.2,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.2
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.85
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.75
+            }
+          ]
+        },
+        "raw_db_low_30_100": {
+          "mean": 0.490625,
+          "worst": 0.2,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.2
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.8
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.75
+            }
+          ]
+        },
+        "raw_db_low_50_100": {
+          "mean": 0.465625,
+          "worst": 0.25,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.8
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.55
+            }
+          ]
+        },
+        "raw_db_low_100_400": {
+          "mean": 0.9375,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_30_2700": {
+          "mean": 0.796875,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.9
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.85
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.9
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_50_2700": {
+          "mean": 0.8,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.85
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.9
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_100_2700": {
+          "mean": 0.803125,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.85
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_below100": {
+          "mean": 0.5125000000000001,
+          "worst": 0.1,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.1
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.85
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.8
+            }
+          ]
+        },
+        "normalized_low_30_100": {
+          "mean": 0.475,
+          "worst": 0.2,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.2
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.75
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.75
+            }
+          ]
+        },
+        "normalized_low_50_100": {
+          "mean": 0.45937500000000003,
+          "worst": 0.25,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.8
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "normalized_low_100_400": {
+          "mean": 0.965625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_band_30_2700": {
+          "mean": 0.878125,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.55
+            }
+          ]
+        },
+        "normalized_band_50_2700": {
+          "mean": 0.878125,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.55
+            }
+          ]
+        },
+        "normalized_band_100_2700": {
+          "mean": 0.878125,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.55
+            }
+          ]
+        }
+      },
+      "raw_db_top_bins": [
+        {
+          "hz": 343.75,
+          "effect": -2.599931478500366
+        },
+        {
+          "hz": 351.5625,
+          "effect": -2.1323328018188477
+        },
+        {
+          "hz": 1835.9375,
+          "effect": 2.0934314727783203
+        },
+        {
+          "hz": 421.875,
+          "effect": 1.8514032363891602
+        },
+        {
+          "hz": 429.6875,
+          "effect": 1.7152423858642578
+        },
+        {
+          "hz": 1804.6875,
+          "effect": -1.6388601064682007
+        },
+        {
+          "hz": 414.0625,
+          "effect": 1.5891072750091553
+        },
+        {
+          "hz": 437.5,
+          "effect": 1.5283948183059692
+        },
+        {
+          "hz": 1843.75,
+          "effect": 1.3822283744812012
+        },
+        {
+          "hz": 273.4375,
+          "effect": -1.254701852798462
+        },
+        {
+          "hz": 1796.875,
+          "effect": -1.1965618133544922
+        },
+        {
+          "hz": 359.375,
+          "effect": -1.1665555238723755
+        }
+      ],
+      "normalized_top_bins": [
+        {
+          "hz": 343.75,
+          "effect": -2.735462188720703
+        },
+        {
+          "hz": 1835.9375,
+          "effect": 2.1432414054870605
+        },
+        {
+          "hz": 351.5625,
+          "effect": -2.095458984375
+        },
+        {
+          "hz": 421.875,
+          "effect": 1.9598485231399536
+        },
+        {
+          "hz": 1804.6875,
+          "effect": -1.843981146812439
+        },
+        {
+          "hz": 414.0625,
+          "effect": 1.8230035305023193
+        },
+        {
+          "hz": 429.6875,
+          "effect": 1.6687679290771484
+        },
+        {
+          "hz": 437.5,
+          "effect": 1.5483452081680298
+        },
+        {
+          "hz": 1796.875,
+          "effect": -1.3080793619155884
+        },
+        {
+          "hz": 1843.75,
+          "effect": 1.3034298419952393
+        },
+        {
+          "hz": 273.4375,
+          "effect": -1.2079087495803833
+        },
+        {
+          "hz": 406.25,
+          "effect": 1.2064379453659058
+        }
+      ]
+    },
+    {
+      "closed": "h00110",
+      "opened": "h10110",
+      "bands": {
+        "raw_db_below100": {
+          "mean": 0.565625,
+          "worst": 0.35,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.8
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "raw_db_low_30_100": {
+          "mean": 0.55,
+          "worst": 0.3,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.8
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.6
+            }
+          ]
+        },
+        "raw_db_low_50_100": {
+          "mean": 0.565625,
+          "worst": 0.35,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.8
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "raw_db_low_100_400": {
+          "mean": 0.96875,
+          "worst": 0.6,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.6
+            }
+          ]
+        },
+        "raw_db_band_30_2700": {
+          "mean": 0.934375,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "raw_db_band_50_2700": {
+          "mean": 0.934375,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "raw_db_band_100_2700": {
+          "mean": 0.934375,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "normalized_below100": {
+          "mean": 0.546875,
+          "worst": 0.4,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.75
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.45
+            }
+          ]
+        },
+        "normalized_low_30_100": {
+          "mean": 0.5625,
+          "worst": 0.4,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.75
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.45
+            }
+          ]
+        },
+        "normalized_low_50_100": {
+          "mean": 0.575,
+          "worst": 0.4,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.8
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.55
+            }
+          ]
+        },
+        "normalized_low_100_400": {
+          "mean": 0.996875,
+          "worst": 0.95,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_band_30_2700": {
+          "mean": 0.965625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_band_50_2700": {
+          "mean": 0.965625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_band_100_2700": {
+          "mean": 0.965625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        }
+      },
+      "raw_db_top_bins": [
+        {
+          "hz": 437.5,
+          "effect": 2.4929416179656982
+        },
+        {
+          "hz": 1796.875,
+          "effect": -2.311213493347168
+        },
+        {
+          "hz": 445.3125,
+          "effect": 2.1526103019714355
+        },
+        {
+          "hz": 429.6875,
+          "effect": 1.9914294481277466
+        },
+        {
+          "hz": 726.5625,
+          "effect": -1.8165268898010254
+        },
+        {
+          "hz": 1804.6875,
+          "effect": -1.7502367496490479
+        },
+        {
+          "hz": 1007.8125,
+          "effect": -1.6815444231033325
+        },
+        {
+          "hz": 757.8125,
+          "effect": 1.6603288650512695
+        },
+        {
+          "hz": 421.875,
+          "effect": 1.65907883644104
+        },
+        {
+          "hz": 1015.625,
+          "effect": -1.6461098194122314
+        },
+        {
+          "hz": 343.75,
+          "effect": -1.4368021488189697
+        },
+        {
+          "hz": 281.25,
+          "effect": 1.4324951171875
+        }
+      ],
+      "normalized_top_bins": [
+        {
+          "hz": 1796.875,
+          "effect": -2.687135934829712
+        },
+        {
+          "hz": 437.5,
+          "effect": 2.610203981399536
+        },
+        {
+          "hz": 445.3125,
+          "effect": 2.194392442703247
+        },
+        {
+          "hz": 429.6875,
+          "effect": 2.1581130027770996
+        },
+        {
+          "hz": 1007.8125,
+          "effect": -2.0177714824676514
+        },
+        {
+          "hz": 421.875,
+          "effect": 1.841525673866272
+        },
+        {
+          "hz": 1804.6875,
+          "effect": -1.8305714130401611
+        },
+        {
+          "hz": 2031.25,
+          "effect": -1.8015941381454468
+        },
+        {
+          "hz": 1015.625,
+          "effect": -1.7930673360824585
+        },
+        {
+          "hz": 2023.4375,
+          "effect": -1.7330011129379272
+        },
+        {
+          "hz": 726.5625,
+          "effect": -1.6960904598236084
+        },
+        {
+          "hz": 2039.0625,
+          "effect": -1.6884173154830933
+        }
+      ]
+    },
+    {
+      "closed": "h01001",
+      "opened": "h11001",
+      "bands": {
+        "raw_db_below100": {
+          "mean": 0.434375,
+          "worst": 0.25,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.6
+            }
+          ]
+        },
+        "raw_db_low_30_100": {
+          "mean": 0.409375,
+          "worst": 0.15,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.2
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.15
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "raw_db_low_50_100": {
+          "mean": 0.403125,
+          "worst": 0.1,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.1
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.2
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.45
+            }
+          ]
+        },
+        "raw_db_low_100_400": {
+          "mean": 0.965625,
+          "worst": 0.6,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.9
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_30_2700": {
+          "mean": 0.76875,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_50_2700": {
+          "mean": 0.76875,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_100_2700": {
+          "mean": 0.771875,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.75
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_below100": {
+          "mean": 0.41875,
+          "worst": 0.2,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.2
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "normalized_low_30_100": {
+          "mean": 0.40312499999999996,
+          "worst": 0.15,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.15
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "normalized_low_50_100": {
+          "mean": 0.37812500000000004,
+          "worst": 0.1,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.15
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.1
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.25
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.45
+            }
+          ]
+        },
+        "normalized_low_100_400": {
+          "mean": 0.940625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_band_30_2700": {
+          "mean": 0.98125,
+          "worst": 0.7,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_band_50_2700": {
+          "mean": 0.98125,
+          "worst": 0.7,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_band_100_2700": {
+          "mean": 0.98125,
+          "worst": 0.7,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        }
+      },
+      "raw_db_top_bins": [
+        {
+          "hz": 1398.4375,
+          "effect": 1.8858811855316162
+        },
+        {
+          "hz": 382.8125,
+          "effect": -1.7664079666137695
+        },
+        {
+          "hz": 1406.25,
+          "effect": 1.6445913314819336
+        },
+        {
+          "hz": 1390.625,
+          "effect": 1.5411592721939087
+        },
+        {
+          "hz": 375.0,
+          "effect": -1.4242537021636963
+        },
+        {
+          "hz": 367.1875,
+          "effect": -1.2924059629440308
+        },
+        {
+          "hz": 187.5,
+          "effect": 1.2537087202072144
+        },
+        {
+          "hz": 1320.3125,
+          "effect": -1.2286949157714844
+        },
+        {
+          "hz": 281.25,
+          "effect": 1.224470853805542
+        },
+        {
+          "hz": 1328.125,
+          "effect": -1.1973533630371094
+        },
+        {
+          "hz": 523.4375,
+          "effect": 1.1760822534561157
+        },
+        {
+          "hz": 195.3125,
+          "effect": 1.0710967779159546
+        }
+      ],
+      "normalized_top_bins": [
+        {
+          "hz": 1398.4375,
+          "effect": 2.2427263259887695
+        },
+        {
+          "hz": 1390.625,
+          "effect": 1.798727035522461
+        },
+        {
+          "hz": 382.8125,
+          "effect": -1.7718364000320435
+        },
+        {
+          "hz": 1320.3125,
+          "effect": -1.7390692234039307
+        },
+        {
+          "hz": 1406.25,
+          "effect": 1.6472625732421875
+        },
+        {
+          "hz": 375.0,
+          "effect": -1.4367445707321167
+        },
+        {
+          "hz": 632.8125,
+          "effect": -1.379071831703186
+        },
+        {
+          "hz": 187.5,
+          "effect": 1.3473039865493774
+        },
+        {
+          "hz": 1328.125,
+          "effect": -1.3174723386764526
+        },
+        {
+          "hz": 367.1875,
+          "effect": -1.2983098030090332
+        },
+        {
+          "hz": 640.625,
+          "effect": -1.2856684923171997
+        },
+        {
+          "hz": 4851.5625,
+          "effect": 1.2334333658218384
+        }
+      ]
+    },
+    {
+      "closed": "h01101",
+      "opened": "h11101",
+      "bands": {
+        "raw_db_below100": {
+          "mean": 0.525,
+          "worst": 0.15,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.75
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.15
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.7
+            }
+          ]
+        },
+        "raw_db_low_30_100": {
+          "mean": 0.48125,
+          "worst": 0.05,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.05
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.55
+            }
+          ]
+        },
+        "raw_db_low_50_100": {
+          "mean": 0.471875,
+          "worst": 0.0,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "raw_db_low_100_400": {
+          "mean": 0.934375,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "raw_db_band_30_2700": {
+          "mean": 0.965625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_50_2700": {
+          "mean": 0.965625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "raw_db_band_100_2700": {
+          "mean": 0.965625,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 1.0
+            }
+          ]
+        },
+        "normalized_below100": {
+          "mean": 0.5125,
+          "worst": 0.3,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.3
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.35
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.65
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.85
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "normalized_low_30_100": {
+          "mean": 0.478125,
+          "worst": 0.05,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.05
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.4
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.7
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.55
+            }
+          ]
+        },
+        "normalized_low_50_100": {
+          "mean": 0.47187500000000004,
+          "worst": 0.0,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 0.6
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 0.55
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.45
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "normalized_low_100_400": {
+          "mean": 0.934375,
+          "worst": 0.5,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 0.95
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 0.5
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.5
+            }
+          ]
+        },
+        "normalized_band_30_2700": {
+          "mean": 0.98125,
+          "worst": 0.7,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.7
+            }
+          ]
+        },
+        "normalized_band_50_2700": {
+          "mean": 0.98125,
+          "worst": 0.7,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.7
+            }
+          ]
+        },
+        "normalized_band_100_2700": {
+          "mean": 0.98125,
+          "worst": 0.7,
+          "sessions": [
+            {
+              "session": "stamp_20260926_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s3_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s4_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s5_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s6_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s7_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s8_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s9_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s10_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260926_s11_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20260927_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s1_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s2_wav",
+              "n": 20,
+              "accuracy": 1.0
+            },
+            {
+              "session": "stamp_20261030_speed500_s3_retry_wav",
+              "n": 20,
+              "accuracy": 0.7
+            }
+          ]
+        }
+      },
+      "raw_db_top_bins": [
+        {
+          "hz": 390.625,
+          "effect": -2.452082872390747
+        },
+        {
+          "hz": 382.8125,
+          "effect": -2.2552268505096436
+        },
+        {
+          "hz": 640.625,
+          "effect": -1.9174469709396362
+        },
+        {
+          "hz": 1812.5,
+          "effect": -1.7428635358810425
+        },
+        {
+          "hz": 648.4375,
+          "effect": -1.6849830150604248
+        },
+        {
+          "hz": 742.1875,
+          "effect": -1.5916208028793335
+        },
+        {
+          "hz": 398.4375,
+          "effect": -1.4936585426330566
+        },
+        {
+          "hz": 1851.5625,
+          "effect": 1.4459128379821777
+        },
+        {
+          "hz": 734.375,
+          "effect": -1.4389184713363647
+        },
+        {
+          "hz": 328.125,
+          "effect": 1.3943270444869995
+        },
+        {
+          "hz": 265.625,
+          "effect": -1.3686870336532593
+        },
+        {
+          "hz": 375.0,
+          "effect": -1.3402206897735596
+        }
+      ],
+      "normalized_top_bins": [
+        {
+          "hz": 640.625,
+          "effect": -2.95076060295105
+        },
+        {
+          "hz": 390.625,
+          "effect": -2.626692533493042
+        },
+        {
+          "hz": 648.4375,
+          "effect": -2.5636446475982666
+        },
+        {
+          "hz": 742.1875,
+          "effect": -2.328073263168335
+        },
+        {
+          "hz": 632.8125,
+          "effect": -2.222745656967163
+        },
+        {
+          "hz": 382.8125,
+          "effect": -2.198084831237793
+        },
+        {
+          "hz": 734.375,
+          "effect": -2.1224045753479004
+        },
+        {
+          "hz": 1812.5,
+          "effect": -1.7873907089233398
+        },
+        {
+          "hz": 398.4375,
+          "effect": -1.7062511444091797
+        },
+        {
+          "hz": 546.875,
+          "effect": 1.665777564048767
+        },
+        {
+          "hz": 1851.5625,
+          "effect": 1.4984426498413086
+        },
+        {
+          "hz": 328.125,
+          "effect": 1.3978620767593384
+        }
+      ]
+    }
+  ]
+}

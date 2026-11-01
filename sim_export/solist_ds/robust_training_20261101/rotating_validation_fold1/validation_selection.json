@@ -1,0 +1,32 @@
+[
+  {
+    "seed": 0,
+    "sessions": {
+      "stamp_20260926_s2_wav": 1.0,
+      "stamp_20260926_s8_wav": 1.0,
+      "stamp_20261031_current_train_20261031_s1_wav": 0.996875
+    },
+    "worst": 0.996875,
+    "mean": 0.9989583333333334
+  },
+  {
+    "seed": 1,
+    "sessions": {
+      "stamp_20260926_s2_wav": 1.0,
+      "stamp_20260926_s8_wav": 1.0,
+      "stamp_20261031_current_train_20261031_s1_wav": 0.996875
+    },
+    "worst": 0.996875,
+    "mean": 0.9989583333333334
+  },
+  {
+    "seed": 2,
+    "sessions": {
+      "stamp_20260926_s2_wav": 1.0,
+      "stamp_20260926_s8_wav": 1.0,
+      "stamp_20261031_current_train_20261031_s1_wav": 1.0
+    },
+    "worst": 1.0,
+    "mean": 1.0
+  }
+]

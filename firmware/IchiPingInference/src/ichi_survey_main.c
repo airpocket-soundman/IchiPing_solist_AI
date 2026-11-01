@@ -42,6 +42,7 @@
 #include "ichi_calib_prior.h"
 #include "ichi_feature.h"
 #include "ichi_inference.h"
+#include "ichi_model_identity.h"
 #include "ichi_protocol.h"
 #include "ichi_servo.h"
 #include "ichi_stamp_link.h"
@@ -53,12 +54,21 @@
 #include "wdt.h"
 
 #define SURVEY_BASELINE (3U)
+#ifndef SURVEY_ROUNDS
 #define SURVEY_ROUNDS   (1U)
+#endif
+#ifndef SURVEY_CALIBRATE
 #define SURVEY_CALIBRATE (0U)          /* 1: on-site calibration before the survey */
+#endif
 #define SURVEY_STATES   (32U)
+#ifndef SURVEY_EXPORT_ODL
+#define SURVEY_EXPORT_ODL (0U)
+#endif
 #define FRAME_SAMPLES   (32000U)
 #define SERVO_HOLD      (50U)          /* x10 ms: hold 500 ms, then release (UNO Q) */
 #define SETTLE          (50U)          /* x10 ms after the last move before recording */
+#define ODL_SETTLE      (10U)          /* pulse is already held 500 ms; keep only 100 ms acoustic settling */
+#define ODL_WINDOWS     (5U)           /* retain all five labelled windows for every state */
 
 #define MSG_START  (0x40U)
 #define MSG_BASE   (0x41U)
@@ -116,6 +126,32 @@ static void put_u16(uint8_t *p, uint32_t v) { p[0] = (uint8_t)v; p[1] = (uint8_t
 static void put_u32(uint8_t *p, uint32_t v) { put_u16(p, v); put_u16(&p[2], v >> 16); }
 static void put_dec(char *d, uint32_t v, uint8_t n) { while (n-- > 0U) { d[n] = (char)('0' + v % 10U); v /= 10U; } }
 
+/* Export-only ODL mode: no live survey, 8 KB P/beta + 2 KB baseline. */
+static bool export_odl(void)
+{
+    uint32_t off, hash = 2166136261UL;
+    uint16_t i;
+    put_u16(payload, 1U); put_u16(&payload[2], 32U);
+    put_u16(&payload[4], 32U); put_u16(&payload[6], 1024U);
+    put_u32(&payload[8], 10240UL); put_u32(&payload[12], 80U);
+    memcpy(&payload[16], ICHI_MODEL_IDENTITY, 192U);
+    send(0x47U, 208U);
+    for (off = 0U; off < 10240UL; off += 128UL)
+    {
+        put_u32(payload, off);
+        if (off < 8192UL) {
+            if (!IchiInferenceCalibrationRead(off, &payload[4], 128U)) { return false; }
+        } else {
+            if (!IchiFeatureBaselineRead((uint16_t)(off - 8192UL), &payload[4], 128U)) { return false; }
+        }
+        for (i = 4U; i < 132U; i++) { hash = (hash ^ payload[i]) * 16777619UL; }
+        send(0x48U, 132U); wdt_clear();
+    }
+    put_u32(payload, hash); put_u32(&payload[4], 10240UL);
+    send(0x49U, 8U);
+    return true;
+}
+
 static void state_label(char *dst, uint8_t state)       /* "h" + C BC B AB A (ichi_ui.c) */
 {
     IchiUiStateLabel(dst, state);
@@ -166,7 +202,7 @@ static bool move_one(uint8_t channel, bool open)
 }
 
 /* Moves only the changed channels: CLOSE BC -> a, then OPEN a -> BC (UNO Q order). */
-static bool drive_to(uint8_t target)
+static bool drive_to(uint8_t target, uint32_t settle_ticks)
 {
     int8_t ch;
     bool moved = false;
@@ -192,7 +228,7 @@ static bool drive_to(uint8_t target)
         }
     }
     servo_state = target;
-    if (moved) { wait_ticks(SETTLE); }
+    if (moved) { wait_ticks(settle_ticks); }
     return true;
 }
 
@@ -284,11 +320,11 @@ static uint8_t calibrate(void)
         state_label(&info[10], state);
         IchiUiInfoLine(info, ICHI_MAGENTA);
         lcd(info, "EXEC: abort");
-        if (!drive_to(state)) { stage = 6U; report_error(6U, state); break; }
+        if (!drive_to(state, ODL_SETTLE)) { stage = 6U; report_error(6U, state); break; }
         IchiUiShowState(state, ICHI_UI_NONE);
         if (abort_request) { break; }
         if (!IchiStampMeasure(ICHI_MEASURE_CALIBRATION)) { stage = 3U; report_error(3U, state); break; }
-        for (w = 0U; (w < ICHI_CAL_PER_STATE) && !abort_request; w++)
+        for (w = 0U; (w < ODL_WINDOWS) && !abort_request; w++)
         {
             float output[ICHI_INFERENCE_OUTPUT_COUNT];
             uint32_t t0 = tick_10ms;
@@ -335,7 +371,7 @@ static void run_survey(void)
 
     IchiUiBanner("Closing all", ICHI_YELLOW, ICHI_BLACK);
     lcd("survey: close", "all servos");
-    if (!drive_to(0U)) { report_error(6U, 0U); stage = 6U; }
+    if (!drive_to(0U, SETTLE)) { report_error(6U, 0U); stage = 6U; }
     else { IchiUiShowState(0U, ICHI_UI_NONE); }
 
     IchiFeatureBaselineReset();
@@ -362,7 +398,12 @@ static void run_survey(void)
         stage = calibrate();
     }
 
-    for (round = 0U; (stage == 0U) && (round < SURVEY_ROUNDS) && !abort_request; round++)
+    if ((SURVEY_EXPORT_ODL != 0U) && (stage == 0U) && !abort_request)
+    {
+        if (!IchiInferenceCalibrationSave() || !export_odl()) { stage = 8U; report_error(stage, 0U); }
+    }
+
+    for (round = 0U; (SURVEY_EXPORT_ODL == 0U) && (stage == 0U) && (round < SURVEY_ROUNDS) && !abort_request; round++)
     {
         for (i = 0U; (i < SURVEY_STATES) && !abort_request; i++)
         {
@@ -382,7 +423,7 @@ static void run_survey(void)
             lcd(&text[6], "moving / measure");
 
             IchiUiBanner("Moving...", ICHI_YELLOW, ICHI_BLACK);
-            if (!drive_to(state)) { report_error(6U, state); stage = 6U; break; }
+            if (!drive_to(state, SETTLE)) { report_error(6U, state); stage = 6U; break; }
             if (abort_request) { break; }
             IchiUiShowState(state, ICHI_UI_NONE);
             IchiUiBanner("Listening...", ICHI_CYAN, ICHI_BLACK);

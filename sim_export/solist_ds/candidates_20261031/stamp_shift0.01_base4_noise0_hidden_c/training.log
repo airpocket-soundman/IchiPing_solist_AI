@@ -1,0 +1,11 @@
+  cached stamp_20261031_hidden_c_targeted_20261031_s1_wav: (120, 1024)
+  cached dB stamp_20261031_hidden_c_targeted_20261031_s1_wav: (120, 1024)
+  seed 0: validation acc=0.997
+  seed 1: validation acc=1.000
+  seed 2: validation acc=0.969
+arch=small train=stamp: seed 1 validation acc=1.000  ELM s=0.25 ridge=1.0  s_in=0.0320 s_acts=[0.0643, 0.0313, 0.0493]
+  gray     n=  96  CNN(float)=0.948  ELM(float 前段)=0.885  ELM(int8 前段, 実機参照)=0.896
+  evening  n= 320  CNN(float)=0.734  ELM(float 前段)=0.659  ELM(int8 前段, 実機参照)=0.675
+  survey   n= 320  CNN(float)=0.631  ELM(float 前段)=0.609  ELM(int8 前段, 実機参照)=0.681
+  crowd    n= 320  CNN(float)=0.816  ELM(float 前段)=0.816  ELM(int8 前段, 実機参照)=0.806
+-> C:\Users\yamas\Documents\GitHub\IchiPing_solist_AI\sim_export\solist_ds\candidates_20261031\stamp_shift0.01_base4_noise0_hidden_c\generated\ichiping_model.h  board_model_frontend_32cls_stamp_shift0.01_base4_noise0_hidden_c.npz

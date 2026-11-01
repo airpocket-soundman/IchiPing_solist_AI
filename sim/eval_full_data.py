@@ -51,6 +51,7 @@ BIN_HZ = 16_000 / NFFT
 BLO, BHI = int(round(400 / BIN_HZ)) - 1, int(round(3000 / BIN_HZ))     # 1024-bin 上の 400–3000 Hz (333 bin)
 C = 32
 SHIFT_MAX = 0.02
+FEATURE_NOISE_STD = 0.0  # standardized feature noise; not waveform/SNR augmentation
 
 FRDM_RUNS = ([f"full_32_train_v{i}" for i in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 21, 22, 23, 24, 25)]
              + ["full_32_train_v5_part2", "eval_quiet", "eval_noise_low", "eval_noise_high", "full_32_eval_v1"])
@@ -214,7 +215,12 @@ def train_net(spec, fc, Xtr, ytr, Xva, yva, seed, epochs=200, patience=20):
             b = perm[i:i + 512]
             eps = (torch.rand(len(b), device=DEV) * 2 - 1) * SHIFT_MAX
             opt.zero_grad(set_to_none=True)
-            lossf(net(prep(shift_batch(Xt[b], eps))), yt[b]).backward(); opt.step()
+            inputs = prep(shift_batch(Xt[b], eps))
+            if FEATURE_NOISE_STD > 0:
+                # Per-frame random strength; validation remains unperturbed.
+                strength = torch.rand((len(b), 1, 1), device=DEV) * FEATURE_NOISE_STD
+                inputs = inputs + torch.randn_like(inputs) * strength
+            lossf(net(inputs), yt[b]).backward(); opt.step()
         net.eval()
         with torch.no_grad():
             vl = float(nn.functional.cross_entropy(net(Xv), yv))

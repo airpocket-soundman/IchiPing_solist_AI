@@ -4,6 +4,12 @@
 
 ## モデル
 
+2026-11-01の現行モデルは `board_model_frontend_32cls_full21_cross16_20261101.npz`。
+フル21セッション（Stampのみ、窓C限定を除外）、クロス16、参照元16セッション固定、低域約100〜2700 Hz、±1%シフト、ノイズ追加なし。
+標準ファームの生成ヘッダもこのモデルであり、`BOARD_FRONTEND_PC.json`に正確なセッション一覧とPC評価を記録している。
+評価専用5セッション1600件で、ODL前99.3125%、実機ODL後99.5625%（PC上で同じ音声を評価）。
+以下の旧モデルと再生成例は過去の比較記録。現行手順と保存状態は[ファームREADME](../../firmware/IchiPingInference/README.md)を参照。
+
 | ファイル | 内容 |
 |---|---|
 | `board_model_frontend_32cls_best_s0.005.npz` | **完成版**。UNO Q 8 セッション + Stamp 13 セッション、周波数シフト ±0.5%、cross-baseline 2、前段 small。実機 32 クラス 100% |

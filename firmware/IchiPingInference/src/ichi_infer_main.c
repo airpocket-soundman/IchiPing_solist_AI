@@ -19,7 +19,8 @@
  *                starting from the pre-trained beta and P0 = w (G_f + lambda I)^-1
  *                (generated/ichi_calib_prior.h).
  *                EXEC during calibration aborts and restores the pre-trained beta.
- *   The calibrated beta lasts until power off.
+ *   Successful calibration is saved to FRAM and restored on boot if the
+ *   model identity and snapshot checksum match.
  * UART1 (tools/infer_monitor.py): a raw 'I' byte from the PC starts one inference (like EXEC);
  * frames as in ichi_protocol.h:
  *   0x50 BASE     index u8 | exponent u8 | transfer ms u32
@@ -59,6 +60,8 @@
 #define FRAME_SAMPLES   (32000U)
 #define SERVO_HOLD      (50U)          /* x10 ms: hold 500 ms, then release (UNO Q) */
 #define SETTLE          (50U)          /* x10 ms after the last move before recording */
+#define ODL_SETTLE      (10U)          /* x10 ms: pulse already held 500 ms; only 100 ms acoustic settling */
+#define ODL_WINDOWS     (5U)           /* retain all five labelled windows for every state */
 #define LONG_PRESS      (200U)         /* x10 ms: EXEC held this long starts calibration */
 
 #define MSG_BASE     (0x50U)
@@ -82,12 +85,14 @@ static bool calibrated;
 static void periodic_10ms(void) { tick_10ms++; }
 
 static volatile bool pc_infer_request;
+static volatile bool pc_calibration_request;
 
 /* PC command, a raw byte outside the COBS frames: 'I' = one inference (same as an EXEC press). */
 static void receive_byte(uint32_t value, uint16_t error_status)
 {
     (void)error_status;
     if (value == (uint32_t)'I') { pc_infer_request = true; }
+    if (value == (uint32_t)'C') { pc_calibration_request = true; }
 }
 
 static void transmit_complete(uint32_t count, uint16_t error_status)
@@ -241,7 +246,7 @@ static bool move_one(uint8_t channel, bool open)
 }
 
 /* Moves only the changed channels: CLOSE BC -> a, then OPEN a -> BC (UNO Q order). */
-static bool drive_to(uint8_t target)
+static bool drive_to(uint8_t target, uint32_t settle_ticks)
 {
     int8_t ch;
     bool moved = false;
@@ -268,7 +273,7 @@ static bool drive_to(uint8_t target)
         }
     }
     servo_state = target;
-    if (moved) { wait_ticks(SETTLE); }
+    if (moved) { wait_ticks(settle_ticks); }
     settle_until = tick_10ms;
     return true;
 }
@@ -294,12 +299,19 @@ static void report_error(uint8_t stage, uint8_t state)
 #define GAUGE_CHUNK ICHI_STAMP_READ_MAX   /* one I2C READ per gauge step (~270 steps) */
 /* IchiFeatureFrame reads NFFT-sample segments every HOP samples (each sample twice):
    the gauge follows the samples read so far, not the offset (which steps back). */
-#define GAUGE_TOTAL (((FRAME_SAMPLES - ICHI_FEAT_NFFT) / ICHI_FEAT_HOP + 1U) * ICHI_FEAT_NFFT)
+#define GAUGE_TOTAL ((((FRAME_SAMPLES - ICHI_FEAT_NFFT) / ICHI_FEAT_HOP) * ICHI_FEAT_HOP) + ICHI_FEAT_NFFT)
 static bool gauge_on;
 static uint32_t gauge_read;
 
 static void gauge(uint16_t permille)
 {
+    /* Software-SPI redraws are expensive on the M0+.  Quantize only the
+       presentation to 5% steps; PCM reads and inference are unchanged.
+       Reset on zero so every inference starts a fresh progress display. */
+    static uint16_t last_drawn;
+    uint16_t step = (uint16_t)(permille / 50U);
+    if ((permille != 0U) && (permille != 1000U) && (step == last_drawn)) { return; }
+    last_drawn = step;
     IchiUiProgress(GAUGE_TEXT, permille, GAUGE_FILL, GAUGE_BACK, ICHI_WHITE);
 }
 
@@ -416,11 +428,11 @@ static void calibrate(void)
         state_label(&info[10], state);
         IchiUiInfoLine(info, ICHI_MAGENTA);
         lcd(info, "EXEC: abort");
-        if (!drive_to(state)) { stage = 6U; report_error(6U, state); break; }
+        if (!drive_to(state, ODL_SETTLE)) { stage = 6U; report_error(6U, state); break; }
         IchiUiShowState(state, ICHI_UI_NONE);
         if (abort_request) { break; }
         if (!IchiStampMeasure(ICHI_MEASURE_CALIBRATION)) { stage = 3U; report_error(3U, state); break; }
-        for (w = 0U; (w < ICHI_CAL_PER_STATE) && !abort_request; w++)
+        for (w = 0U; (w < ODL_WINDOWS) && !abort_request; w++)
         {
             float output[ICHI_INFERENCE_OUTPUT_COUNT];
             uint32_t ms = 0U;
@@ -449,7 +461,7 @@ static void calibrate(void)
     }
     else
     {
-        calibrated = true;
+        calibrated = IchiInferenceCalibrationSave();
         IchiUiBanner("Calibrated", ICHI_GREEN, ICHI_WHITE);
         {
             char info[] = "calibrated 000/000";
@@ -499,6 +511,7 @@ int32_t main(void)
     SysTick->VAL = 0UL;
     SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
     IchiInferenceInitialize();
+    calibrated = IchiInferenceCalibrationRestore();
 
     IchiTftInitialize();
     IchiUiInitialize();
@@ -517,7 +530,7 @@ int32_t main(void)
         IchiUiBanner("Stamp not ready", ICHI_YELLOW, ICHI_BLACK);
         wait_ticks(50U);
     }
-    if (!drive_to(0U)) { report_error(6U, 0U); }
+    if (!drive_to(0U, SETTLE)) { report_error(6U, 0U); }
     IchiUiShowState(0U, ICHI_UI_NONE);
     while (!baseline())
     {
@@ -543,15 +556,16 @@ int32_t main(void)
 
         /* EXEC: short press = inference, held LONG_PRESS = on-site calibration. */
         if (exec_down && !was_down) { press_start = tick_10ms; long_done = false; }
-        if (exec_down && !long_done && ((tick_10ms - press_start) >= LONG_PRESS))
+        if ((exec_down && !long_done && ((tick_10ms - press_start) >= LONG_PRESS)) || pc_calibration_request)
         {
+            pc_calibration_request = false;
             long_done = true;
             if (!servo_finish()) { report_error(6U, servo_target); }
             calibrate();
             (void)poll_switches();
             if (switch_state != (uint8_t)servo_state)          /* back to the switch state */
             {
-                if (!drive_to(switch_state)) { report_error(6U, switch_state); }
+                if (!drive_to(switch_state, SETTLE)) { report_error(6U, switch_state); }
             }
             IchiUiShowState((uint8_t)servo_state, ICHI_UI_NONE);
             shown_actual = servo_state;

@@ -47,6 +47,10 @@ def main():
     ap.add_argument("--cal-per-state", type=int, default=5)
     ap.add_argument("--model", default=str(MODEL), help="前段+ELM の npz (emit_frontend_model.py の出力)")
     ap.add_argument("--stamp", nargs="*", default=[], help="そのモデルの学習に加えた Stamp セッション (G に含める)")
+    ap.add_argument('--stamp-only', action='store_true')
+    ap.add_argument('--xbase', type=int, default=0)
+    ap.add_argument('--baseline-reference', nargs='+')
+    ap.add_argument('--output', default=str(OUT))
     ap.add_argument("--prior-ridge", type=float, default=10.0,
                     help="P0 の λ。β の ridge (0.1) のままだと G の小さい固有値方向で P0 が大きくなり、"
                          "AxlCORE の bf16 更新で β が発散する (2026-09-26 実機・PC で確認)")
@@ -61,8 +65,17 @@ def main():
     mu, sd, s_in = z["in_mu"], z["in_sd"], float(z["s_in"])
     lam = a.prior_ridge
 
-    X = np.concatenate([build_run(r)["X"].astype(np.float32) for r in UNOQ_TRAIN + a.stamp])
-    xq = np.clip(np.round(((X[:, BLO:BHI] - mu) / sd) / s_in), -127, 127).astype(np.int8)
+    runs=([] if a.stamp_only else UNOQ_TRAIN)+a.stamp
+    if a.xbase:
+        import eval_best_model as eb
+        eb.BASELINE_REFERENCE_RUNS=a.baseline_reference
+        X,_=eb.build_train(runs,a.xbase,np.random.default_rng(0))
+        X=X.astype(np.float32)
+    else:
+        X = np.concatenate([build_run(r)["X"].astype(np.float32) for r in runs])
+    lo=int(z['bin_lo']) if 'bin_lo' in z else BLO
+    hi=int(z['bin_hi']) if 'bin_hi' in z else BHI
+    xq = np.clip(np.round(((X[:, lo:hi] - mu) / sd) / s_in), -127, 127).astype(np.int8)
     E = np.concatenate([int_forward(xq[i:i + 2048], qm, fq) for i in range(0, len(xq), 2048)])
     H = hard_sigmoid(elm_input(E, z["emb_mul"], z["emb_add"]).astype(np.float64) @ ALPHA.astype(np.float64))
     n_cal = 32 * a.cal_per_state
@@ -82,8 +95,8 @@ def main():
          "   reproduce the factory head for a factory-vs-calibrated comparison. */",
          f"#define ICHI_CAL_ALPHA_ROWS {emb}",
          c_array("ichi_calib_alpha", to_bf16_bits(ALPHA[:emb].astype(np.float32))), "#endif"]
-    OUT.write_text("\n".join(h) + "\n", encoding="ascii", newline="\n")
-    print(f"-> {OUT}")
+    Path(a.output).write_text("\n".join(h) + "\n", encoding="ascii", newline="\n")
+    print(f"-> {a.output}")
 
 
 if __name__ == "__main__":

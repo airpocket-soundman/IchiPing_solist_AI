@@ -4,13 +4,30 @@ Solist-AI 評価ボードで動く IchiPing 本体。Stamp-S3A([../StampMeasure]
 特徴抽出・int8 CNN 前段(CPU)・ELM(AxlCORE)・現地校正(CPU float32 → AxlCORE)・TFT 表示・サーボ制御を行う。
 構成と設計判断は [docs/DEVELOPMENT.md](../../docs/DEVELOPMENT.md)。
 
+## 現在の完成状態（2026-11-01）
+
+- 標準の生成ヘッダと `prebuilt/ichiping_infer.flash.bin` は、実機確認済みのフル21セッション・クロス16モデル。
+  Stampのフルセッションのみを使い、窓C限定セッションとUNO Q学習音声は除外。帯域は約100〜2700 Hz、334入力、周波数シフト±1%、追加ノイズなし。
+- クロスベースラインの参照元は元の16セッションに固定。学習・検証セッションの一覧は
+  [モデル情報](../../sim_export/solist_ds/BOARD_FRONTEND_PC.json)に記録。
+- 実機ODLの160更新後、P・β・基準音スペクトルをPCへ取得。評価専用5セッション1600件の32クラス精度は
+  ODL前1589/1600（99.3125%）、ODL後1593/1600（99.5625%）。14クラスは前後とも100%。
+  各評価セッション自身の基準音を使ったPC評価であり、実機サーベイの精度ではない。
+- 通常推論用ファームへの切り替え後、保存ODLの復元と1回の正しい実機推論を確認。
+  初回・電源投入時は全閉の基準音を3回取り直す。通常推論はEXEC短押しで1回。
+- [ODL状態NPZ](../../docs/results/full21_device_odl_state_20261101.npz)と
+  [PC比較結果](../../docs/results/full21_pc_odl_comparison_20261101.json)を保存。
+  フラッシュイメージには各個体のFRAM状態を含まないため、新しいデバイスではODLを実施する。
+- PCM重複転送を減らすFRAMキャッシュ案は `experimental/ichi_feature_overlap.c` に保管。
+  標準ビルドは今回の実機・ODL検証で使用した特徴抽出方式と一致させている。
+
 ## main(`tools/build.ps1 -Main`)
 
 | main | 用途 | PC 側ツール |
 |---|---|---|
 | `ichi_infer_main`(既定) | 製品の動作。トグル → EXEC で 1 回推論、EXEC 2 s 長押しで現地校正 | `tools/infer_monitor.py`(任意。ログ記録、PC から推論を起動) |
 | `ichi_survey_main` | サーボで 32 状態を巡回して推論・採点する実機サーベイ(校正あり / なし) | `tools/survey_monitor.py` → `docs/results/board_survey.{md,json}` |
-| `ichi_collect_main` | 学習データ採取。PC の指示でサーボを動かす | `tools/collect_session.py`(Stamp の USB から録音を保存) |
+| `ichi_collect_main` | 学習データ採取。PC の指示でサーボを動かす | `tools/collect_session.py`（Solist経由でPCMを保存、Stamp USB不要） |
 
 ## ソース
 
@@ -26,7 +43,9 @@ Solist-AI 評価ボードで動く IchiPing 本体。Stamp-S3A([../StampMeasure]
 | `generated/ichiping_model.h` | 完成版モデル(CNN int8 重み・層定義、ELM β bf16) |
 | `generated/ichi_feature_tables.h` | 特徴計算の窓・余弦表と入力標準化(モデルごと) |
 | `generated/ichi_calib_prior.h` | 現地校正の初期 P(事前学習の Gram 行列) |
-| `prebuilt/ichiping_{infer,survey,collect}.flash.bin` | 書き込み用イメージ(完成版モデル、2026-09-27 ビルド) |
+| `prebuilt/ichiping_infer.flash.bin` | 現行クロス16モデル、ODL保存・復元対応の推論用イメージ（2026-11-01） |
+| `prebuilt/ichiping_collect.flash.bin` | Solist経由採取・UART 500000 bpsの動作確認済みイメージ |
+| `prebuilt/ichiping_survey.flash.bin` | 過去モデルのサーベイ用。現行モデルを測る場合は再ビルドする |
 
 generated/ は `sim/emit_frontend_model.py` と `sim/emit_calibration_prior.py` が作る(手順は sim_export/solist_ds/README.md)。
 
@@ -58,7 +77,21 @@ powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\flash.
   Listening(PRBS 2 s)→ Inferring(ゲージ)→ 結果。画面の 5 桁は左から c・BC・b・AB・a(1 = 開)、扉の奥で本来聞こえない桁は暗く表示。
   判定は Complete Success(32 クラス一致)/ Conditional Success(14 クラス一致)/ Failure。
 - **現地校正**:EXEC を 2 s 長押し。扉と窓の開閉の組み合わせ全 32 クラスを巡回し(各 6 s の PRBS を 2 s × 5 窓)、β を逐次更新(約 30 分)。
-  途中で EXEC を押すと中断して事前学習の β に戻る。校正後の β は電源を切るまで有効。
+  途中で EXEC を押すと中断して事前学習の β に戻る。成功時はP・βをFRAMへ保存し、モデル識別情報とチェックサムが一致する場合に起動時復元する。
 - **サーベイ**:`python firmware/IchiPingInference/tools/survey_monitor.py --port COM3`(PC から 'G' で開始、'X' で中断。`--wait-exec` なら EXEC で開始)。
-- **データ採取**:`python firmware/IchiPingInference/tools/collect_session.py --name s1 --solist COM3 --stamp COM13 [--rotate N] [--reverse]`
-  → `captures/stamp_<日付>_<name>_wav/`(全閉 10 + 32 状態 × 10 フレーム、Gray code 順、欠けたら撮り直し)。
+- **データ採取**:`python firmware/IchiPingInference/tools/collect_session.py --name s1 --solist COM3 [--rotate N] [--reverse]`
+  → `captures/stamp_<日付>_<name>_wav/`(全閉 10 + 32 状態 × 10 フレーム、Gray code 順、欠けたら撮り直し)。`ichi_collect_main` はStampへI²Cで測定を指示し、PCMをSolist UARTでPCへ中継するため、StampのUSB接続は不要。
+
+## 実機ODL状態をPCで評価する
+
+`build.ps1 -Main ichi_survey_main -SurveyCalibrate -SurveyExportOdl` で、サーベイをせずODLと状態送信だけを行う。
+`-ModelGeneratedDir` で指定したモデルのヘッダ・特徴テーブル・ODL初期行列を揃える。
+
+```powershell
+python firmware/IchiPingInference/tools/export_odl_state.py --port COM3 --model <model.npz> --identity-header <build>/S_IchiPing/ichi_model_identity.h --out docs/results/odl_state
+python sim/evaluate_exported_odl.py --model <model.npz> --odl docs/results/odl_state.npz --sessions <評価セッション名...> --out docs/results/odl_comparison.json
+```
+
+UARTは115200 bps。モデル識別情報、80チャンクの順序、10240バイト全体のチェックサムを検証し、
+float32のP・β各4096バイトとint16の基準スペクトル2048バイトを保存する。
+主評価 `session_baseline` と、実機ODL時の基準音を共通使用する補足評価 `device_odl_baseline` は分けて報告する。

@@ -1,0 +1,9 @@
+  seed 0: validation acc=0.978
+  seed 1: validation acc=0.972
+  seed 2: validation acc=0.991
+arch=small train=unoq: seed 2 validation acc=0.991  ELM s=0.25 ridge=1.0  s_in=0.0329 s_acts=[0.0636, 0.0227, 0.0455]
+  gray     n=  96  CNN(float)=0.969  ELM(float 前段)=0.958  ELM(int8 前段, 実機参照)=0.938
+  evening  n= 320  CNN(float)=0.853  ELM(float 前段)=0.850  ELM(int8 前段, 実機参照)=0.847
+  survey   n= 320  CNN(float)=0.919  ELM(float 前段)=0.884  ELM(int8 前段, 実機参照)=0.850
+  crowd    n= 320  CNN(float)=0.897  ELM(float 前段)=0.875  ELM(int8 前段, 実機参照)=0.872
+-> C:\Users\yamas\Documents\GitHub\IchiPing_solist_AI\sim_export\solist_ds\candidates_20261031\unoq_shift0.02_base2_noise0\generated\ichiping_model.h  board_model_frontend_32cls_unoq_shift0.02_base2_noise0.npz

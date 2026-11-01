@@ -10,6 +10,8 @@
 #include "Fram.h"
 #include "SoftSpi.h"
 #include "ichi_calib_prior.h"
+#include "ichi_model_identity.h"
+#include <string.h>
 
 extern int8_t ichi_shared_scratch[];                    /* ichi_feature.c (4 KB, aligned) */
 
@@ -84,6 +86,76 @@ void IchiInferenceUseFactory(void)
 #define CAL_ROW_BYTES_BETA ((int)(ICHI_MODEL_OUTPUT_SIZE * 4U))
 
 static bool fram_ready;
+static bfloat16 float_to_bf16_bits(float value);
+
+/* Separate committed snapshot; work matrices may be overwritten during ODL.
+   Header is invalidated first and committed last. Interrupted saves are rejected. */
+#define SAVE_DATA (110000UL)
+#define SAVE_META (119000UL)
+static void ensure_fram(void)
+{
+    if (!fram_ready) { SoftSpiPeripheralInit(); FramInit(); fram_ready = true; }
+}
+static uint32_t hash_bytes(uint32_t h, const void *data, uint32_t n)
+{
+    const uint8_t *p = (const uint8_t *)data;
+    while (n-- != 0U) { h = (h ^ *p++) * 16777619UL; }
+    return h;
+}
+static uint32_t model_id(void)
+{
+    return hash_bytes(2166136261UL, ICHI_MODEL_IDENTITY, sizeof(ICHI_MODEL_IDENTITY));
+}
+bool IchiInferenceCalibrationRead(uint32_t offset, uint8_t *data, uint16_t count)
+{
+    if (offset > 8192UL || count > 8192UL - offset) { return false; }
+    ensure_fram();
+    FramReadBlock(CAL_FRAM_P + offset, data, count);
+    return true;
+}
+bool IchiInferenceCalibrationSave(void)
+{
+    uint8_t *buf = (uint8_t *)(void *)ichi_shared_scratch;
+    uint32_t off, h = 2166136261UL;
+    uint32_t meta[4] = {0U, 1U, 0U, 0U};
+    ensure_fram();
+    FramWriteBlock(SAVE_META, meta, sizeof(meta));
+    for (off = 0U; off < 8192UL; off += 128UL) {
+        FramReadBlock(CAL_FRAM_P + off, buf, 128);
+        h = hash_bytes(h, buf, 128U);
+        FramWriteBlock(SAVE_DATA + off, buf, 128);
+        wdt_clear();
+    }
+    meta[0] = 0x49434849UL; meta[2] = model_id(); meta[3] = h;
+    FramWriteBlock(SAVE_META, meta, sizeof(meta));
+    return true;
+}
+bool IchiInferenceCalibrationRestore(void)
+{
+    uint8_t *buf = (uint8_t *)(void *)ichi_shared_scratch;
+    bfloat16 *bf = (bfloat16 *)(void *)(buf + 128);
+    uint32_t meta[4], off, h = 2166136261UL;
+    uint16_t r, c;
+    ensure_fram();
+    FramReadBlock(SAVE_META, meta, sizeof(meta));
+    if (meta[0] != 0x49434849UL || meta[1] != 1U || meta[2] != model_id()) { return false; }
+    for (off = 0U; off < 8192UL; off += 128UL) {
+        FramReadBlock(SAVE_DATA + off, buf, 128);
+        h = hash_bytes(h, buf, 128U); wdt_clear();
+    }
+    if (h != meta[3]) { return false; }
+    for (off = 0U; off < 8192UL; off += 128UL) {
+        FramReadBlock(SAVE_DATA + off, buf, 128);
+        FramWriteBlock(CAL_FRAM_P + off, buf, 128); wdt_clear();
+    }
+    for (r = 0U; r < ICHI_MODEL_HIDDEN_SIZE; r++) {
+        FramReadBlock(CAL_FRAM_BETA + (uint32_t)r * CAL_ROW_BYTES_BETA, buf, CAL_ROW_BYTES_BETA);
+        for (c = 0U; c < ICHI_MODEL_OUTPUT_SIZE; c++) { bf[c] = float_to_bf16_bits(((float *)(void *)buf)[c]); }
+        ODL_SetWeightBeta(bf, AI_INSTANCE, (uint32_t)r * ICHI_MODEL_OUTPUT_SIZE * 2U, ICHI_MODEL_OUTPUT_SIZE * 2U);
+        wdt_clear();
+    }
+    return true;
+}
 
 static bfloat16 float_to_bf16_bits(float value)
 {

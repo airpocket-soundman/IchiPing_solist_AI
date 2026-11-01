@@ -1,0 +1,47 @@
+{
+ "model": "ichiping_frontend_small_elm167x32x32",
+ "input_format": "int8_frontend",
+ "input_count": 334,
+ "embedding": 32,
+ "elm_input_count": 167,
+ "hidden_count": 32,
+ "output_count": 32,
+ "eval_set": "unoq eval gray+evening+survey+crowd",
+ "activation": "hard_sigmoid",
+ "loss": "mse",
+ "scale_alpha_bf16": "0x3E52",
+ "input_scale": 0.03302343189716339,
+ "elm_scale": 0.25,
+ "ridge": 10.0,
+ "train_data": "UNO Q train session1-8 + Stamp stamp_20260926_s1_wav, stamp_20260926_s2_wav, stamp_20260926_s3_wav, stamp_20260926_s4_wav, stamp_20260926_s5_wav, stamp_20260926_s6_wav, stamp_20260926_s7_wav, stamp_20260926_s8_wav, stamp_20260926_s9_wav, stamp_20260926_s10_wav, stamp_20260926_s11_wav, stamp_20260927_s1_wav, stamp_20260927_s2_wav, stamp_20261030_speed500_s1_wav, stamp_20261030_speed500_s2_wav, stamp_20261030_speed500_s3_retry_wav; shift aug +-0.01, cross-baseline 4, validation stamp_20261030_speed500_s3_retry_wav",
+ "validation_accuracy": 1.0,
+ "seed": 0,
+ "pc_accuracy": {
+  "gray": {
+   "frames": 96,
+   "cnn_head_float": 0.875,
+   "elm_float_frontend": 0.8854166666666666,
+   "elm_int8_frontend_bf16_ref": 0.8854166666666666
+  },
+  "evening": {
+   "frames": 320,
+   "cnn_head_float": 0.55625,
+   "elm_float_frontend": 0.5625,
+   "elm_int8_frontend_bf16_ref": 0.496875
+  },
+  "survey": {
+   "frames": 320,
+   "cnn_head_float": 0.590625,
+   "elm_float_frontend": 0.515625,
+   "elm_int8_frontend_bf16_ref": 0.53125
+  },
+  "crowd": {
+   "frames": 320,
+   "cnn_head_float": 0.7625,
+   "elm_float_frontend": 0.76875,
+   "elm_int8_frontend_bf16_ref": 0.765625
+  }
+ },
+ "model_sha256": "29346cc9a42726bf87844249a1e326f752a878446e2820ae4695653a8c355e88",
+ "alpha_origin": "ROHM Solist-AI Simulator seed=1 capture (sim_export/_alpha32_sim.npy), inputSize=167"
+}

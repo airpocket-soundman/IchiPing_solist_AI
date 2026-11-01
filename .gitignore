@@ -9,6 +9,13 @@ sim/_cache/
 # 実機試験に必要な生成物は追跡する (board_test.py の入力・生成モデル)
 !firmware/IchiPingInference/generated/*.npz
 !sim_export/solist_ds/board_model_*.npz
+!sim_export/solist_ds/candidates_20261031/*/board_model_*.npz
+!sim_export/solist_ds/candidates_20261101/*/board_model_*.npz
+!sim_export/solist_ds/lowband_multival_20261031/board_model_*.npz
+!sim_export/solist_ds/lowband_singleval_20261031/board_model_*.npz
+!sim_export/solist_ds/multival_20261031/board_model_*.npz
+!sim_export/solist_ds/robust_training_20261101/*/board_model_*.npz
+!docs/results/full21_device_odl_state_20261101.npz
 
 # 一時 / クラッシュ / ロック
 *.stackdump

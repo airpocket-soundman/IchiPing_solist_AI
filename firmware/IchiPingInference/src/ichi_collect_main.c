@@ -6,7 +6,9 @@
  * the Solist moves the PCA9685 servos exactly as ichi_survey_main (UNO Q angles and order,
  * 500 ms hold then release, 500 ms settle) and answers
  *   0x48 MOVED  state u8 | ok u8
- * then the PC records through the Stamp-S3A USB port (firmware/StampMeasure 'M' / 'C' + 'D').
+ * then Solist asks the Stamp to measure over I2C and relays the 16 kHz PCM to the PC
+ * as framed UART messages.  Thus the Stamp needs only its I2C connection in both
+ * collection and inference use; its USB CDC is not part of this path.
  * 'R' disables the servo outputs.  No feature / inference here.
  */
 #include <stdbool.h>
@@ -36,6 +38,9 @@
 #define SETTLE          (50U)          /* x10 ms after the last move before recording */
 
 #define MSG_MOVED  (0x48U)
+#define MSG_CAPTURE (0x49U)  /* status u8, samples u16 */
+#define MSG_PCM     (0x4AU)  /* offset u16, count u16, little-endian int16 PCM */
+#define PCM_CHUNK   (128U)   /* 4 + 128 * 2 fits ICHI_TX_PAYLOAD_CAPACITY */
 
 
 static volatile uint32_t tick_10ms;
@@ -46,16 +51,19 @@ static uint32_t sequence;
 static int16_t servo_state = -1;       /* unknown until the first move */
 static volatile int16_t move_request = -1;
 static volatile bool expect_state;
+static volatile bool measure_request;
 
 static void periodic_10ms(void) { tick_10ms++; }
 
 /* PC commands, raw bytes outside the COBS frames: 'S' + state byte (0..31, bit0..4 =
-   a b c AB BC, 1 = OPEN) moves the servos; 'R' releases them (0xFF). */
+   a b c AB BC, 1 = OPEN) moves the servos; 'M' captures and relays one frame;
+   'R' releases them (0xFF). */
 static void receive_byte(uint32_t value, uint16_t error_status)
 {
     (void)error_status;
     if (expect_state) { expect_state = false; move_request = (int16_t)(value & 0xFFU); return; }
     if (value == (uint32_t)'S') { expect_state = true; }
+    if (value == (uint32_t)'M') { measure_request = true; }
     if (value == (uint32_t)'R') { move_request = 0xFF; }
 }
 
@@ -153,6 +161,39 @@ static bool drive_to(uint8_t target)
     return true;
 }
 
+/* The Stamp keeps the complete aligned frame in its I2C buffer.  Relay it in
+   small UART frames: this avoids a second USB cable while keeping loss/offset
+   checking possible on the PC. */
+static bool capture_and_send(void)
+{
+    uint16_t offset;
+    IchiStampInfo info;
+    if (!IchiStampGetInfo(&info) || (info.samples == 0U) || !IchiStampMeasure(ICHI_MEASURE_FRAME))
+    {
+        payload[0] = 0U;
+        put_u16(&payload[1], 0U);
+        send(MSG_CAPTURE, 3U);
+        return false;
+    }
+    payload[0] = 1U;
+    put_u16(&payload[1], info.samples);
+    send(MSG_CAPTURE, 3U);
+    IchiStampSelectClip(0U);
+    for (offset = 0U; offset < info.samples; )
+    {
+        int16_t pcm[PCM_CHUNK];
+        uint16_t n = (uint16_t)(((uint32_t)info.samples - offset > PCM_CHUNK) ? PCM_CHUNK : info.samples - offset);
+        uint16_t i;
+        if (!IchiStampReadPcm(offset, pcm, n)) { return false; }
+        put_u16(&payload[0], offset);
+        put_u16(&payload[2], n);
+        for (i = 0U; i < n; i++) { put_u16(&payload[4U + 2U * i], (uint16_t)pcm[i]); }
+        send(MSG_PCM, (uint16_t)(4U + 2U * n));
+        offset = (uint16_t)(offset + n);
+    }
+    return true;
+}
+
 
 int32_t main(void)
 {
@@ -219,6 +260,15 @@ int32_t main(void)
             payload[0] = (uint8_t)request;
             payload[1] = ok ? 1U : 0U;
             send(MSG_MOVED, 2U);
+        }
+        if (measure_request)
+        {
+            bool ok;
+            measure_request = false;
+            IchiUiBanner("Recording...", ICHI_CYAN, ICHI_BLACK);
+            lcd("collect: record", "Stamp via I2C");
+            ok = capture_and_send();
+            IchiUiBanner(ok ? "PCM sent to PC" : "Stamp error", ok ? ICHI_CYAN : ICHI_RED, ICHI_BLACK);
         }
         wait_ticks(1U);
     }

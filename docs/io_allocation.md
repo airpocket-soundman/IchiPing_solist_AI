@@ -190,7 +190,7 @@ Stampは収録中に送信せず、48 kHz I²S DMAから逐次16 kHz monoへ変�
 
 `START_CAPTURE`で出力形式、`feature_schema_id`、`baseline_id`／SHA-256、`normalization_id`、`model_id`を指定し、応答にはStampがGPIOから確定した5-bit `committed_state`、同じID群、capture ID、window数、payload長、health flags、CRCを含める。不一致やcapture途中の形式変更は拒否する。出力形式はSolistだけがcapture開始前に選び、Stampは自動切替しない。Stamp特徴経路にはSolistと同じ時間波形baselineを配備する必要があり、モデル／PRBS／音量／配線versionと一体で管理する。
 
-`TRAINING` modeでは同じ64 KB PCMをSolistへ迂回させず、Stampのnative USB CDCからPCへ直接送る。USB転送は `META`、4 KiB単位の`DATA`、`END`で構成し、capture ID、5-bit state maskと`sABCDE` label、sample条件、PRBS識別子／振幅、onset、scale、RMS／peak／clip、DMA health、firmware版、offset／sequence、chunk CRC32、全体CRC32を保持する。PCはCRCと32,000 sampleを確認してから `.part` を既存学習器互換の `captures/<session>/sABCDE/frame_NNNNNN.wav` へatomic renameし、詳細を`records.jsonl`へ追記する。
+`TRAINING` modeでは、StampがI²Cで保持する同じ64 KB PCMをSolistがUARTでPCへ中継する。PCはSolistだけに接続し、Stampのnative USB CDCは不要とする。Solistの収録ファームはPCMをoffset付きの小チャンクで送り、PCは連続性と32,000 sampleを確認してから既存学習器互換の `captures/<session>/sABCDE/frame_NNNNNN.wav` へ保存する。これにより推論時と学習データ取得時のStamp配線は共通のI²Cだけになる。
 
 2 modeは排他でboot時は`INFERENCE`とする。Solistをmode／capture ID／サーボの唯一の所有者とし、PCまたはUIの収集要求を受けたSolistがI²Cで`SET_MODE(TRAINING)`と`START_CAPTURE(capture_id, committed_state)`を送る。StampのUSB commandにはサーボ操作やmode変更を持たせない。学習用bulk PCMのI²C readは拒否し、USBのPC ACKを受けるまでStampはbufferを再利用しない。
 
@@ -199,7 +199,7 @@ Stampは収録中に送信せず、48 kHz I²S DMAから逐次16 kHz monoへ変�
 - Stampは3秒の48 kHz stereo rawを保持せず、DMA ringから16 kHz monoへ逐次変換する。
 - 中間基板はF.Cu/B.Cuの両面をGNDベタとし、GNDパッドは低インピーダンス優先で直結する。Stamp-S3Aアンテナ直下は両面とも銅箔を除外する。
 - PCM推論時、Solistは64 KBを一括保持せず、I²C ping-pong buffer、baseline chunk、FFT窓だけを使う。Stamp特徴推論時は668 byteもchunk受信する。
-- PC学習時はUSB CDCへ直接送信し、Solistは学習もPCM中継もしない。
+- PC学習時はSolist UARTを通じてPCMを取得し、StampのUSB CDCは使わない。
 - reset/未arm時はStamp AMP SD=Low、Solist PCA OE=High、TFT CS=High、表示unknown。
 - I²C timeout/CRC error/状態変更では推論を破棄し、PCA OEをHigh、StampへABORTを送る。
 - AMP SDは外付けpull-down、PCA OEは**PCA9685の3.3 V VCCへ**外付けpull-upとし、firmwareやI²Cに依存しない既定停止を作る。PCA9685のlogic `VCC=3.3 V` とservo `V+=外部5 V`を混同しない。

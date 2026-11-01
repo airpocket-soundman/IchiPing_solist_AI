@@ -1,0 +1,27 @@
+{
+  "name": "unoq_shift0.01_base2_noise0.05",
+  "sessions": [
+    "stamp_20260926_s1_wav",
+    "stamp_20260926_s2_wav",
+    "stamp_20260926_s3_wav",
+    "stamp_20260926_s4_wav",
+    "stamp_20260926_s5_wav",
+    "stamp_20260926_s6_wav",
+    "stamp_20260926_s7_wav",
+    "stamp_20260926_s8_wav",
+    "stamp_20260926_s9_wav",
+    "stamp_20260926_s10_wav",
+    "stamp_20260926_s11_wav",
+    "stamp_20260927_s1_wav",
+    "stamp_20260927_s2_wav",
+    "stamp_20261030_speed500_s1_wav",
+    "stamp_20261030_speed500_s2_wav",
+    "stamp_20261030_speed500_s3_retry_wav"
+  ],
+  "validation": "stamp_20261030_speed500_s3_retry_wav",
+  "shift": 0.01,
+  "cross_baseline": 2,
+  "feature_noise_std": 0.05,
+  "data": "unoq",
+  "seeds": 3
+}

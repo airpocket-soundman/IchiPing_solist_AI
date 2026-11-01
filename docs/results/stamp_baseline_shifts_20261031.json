@@ -1,0 +1,424 @@
+{
+  "reference": "stamp_20260926_s1_wav",
+  "method": "One baseline frame per session; Welch FFT8192, power smoothing ~31Hz; relative dilation fit +/-6%; temperature equivalence is illustrative, not measured temperature",
+  "rows": [
+    {
+      "session": "stamp_20260926_s1_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T11:45:36",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -2.350877405234975e-06,
+          "correlation": 0.9999999999999999,
+          "temperature_equivalent_degC_at20": -1.3828690619029265e-05
+        },
+        "400_3000": {
+          "shift_percent": -4.971454733626967e-06,
+          "correlation": 1.0,
+          "temperature_equivalent_degC_at20": -2.9243851374276276e-05
+        },
+        "1000_6000": {
+          "shift_percent": 3.425164453139853e-05,
+          "correlation": 0.9999999999999999,
+          "temperature_equivalent_degC_at20": 0.00020148026194940314
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s2_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T12:08:32",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.010929885681977622,
+          "correlation": 0.999921092078774,
+          "temperature_equivalent_degC_at20": -0.06429344518810366
+        },
+        "400_3000": {
+          "shift_percent": -0.011090445064917027,
+          "correlation": 0.9999542961263033,
+          "temperature_equivalent_degC_at20": -0.06523791214657075
+        },
+        "1000_6000": {
+          "shift_percent": -0.022303102834633035,
+          "correlation": 0.9998995109774561,
+          "temperature_equivalent_degC_at20": -0.13119472255666492
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s3_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T12:31:31",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.0305053260894501,
+          "correlation": 0.9999143051140088,
+          "temperature_equivalent_degC_at20": -0.17944309464382413
+        },
+        "400_3000": {
+          "shift_percent": -0.026971561172861896,
+          "correlation": 0.999918139159848,
+          "temperature_equivalent_degC_at20": -0.15865624219330526
+        },
+        "1000_6000": {
+          "shift_percent": -0.04872080604276252,
+          "correlation": 0.9997104813106795,
+          "temperature_equivalent_degC_at20": -0.2865929767221325
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s4_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T12:54:43",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.018122521659989035,
+          "correlation": 0.9999101661123773,
+          "temperature_equivalent_degC_at20": -0.1066030685881708
+        },
+        "400_3000": {
+          "shift_percent": -0.014551942771437475,
+          "correlation": 0.9998787233071605,
+          "temperature_equivalent_degC_at20": -0.08559966336139692
+        },
+        "1000_6000": {
+          "shift_percent": -0.04380674714059312,
+          "correlation": 0.9997118943448811,
+          "temperature_equivalent_degC_at20": -0.2576867478858419
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s5_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T13:17:42",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.0329370924330657,
+          "correlation": 0.9997237678609528,
+          "temperature_equivalent_degC_at20": -0.19374760254744533
+        },
+        "400_3000": {
+          "shift_percent": -0.02459402655648653,
+          "correlation": 0.9994897801654437,
+          "temperature_equivalent_degC_at20": -0.14467074444992076
+        },
+        "1000_6000": {
+          "shift_percent": -0.0778273761083284,
+          "correlation": 0.9991595185195058,
+          "temperature_equivalent_degC_at20": -0.457808094754873
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s6_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T16:24:24",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.03795512753454602,
+          "correlation": 0.9987279192968629,
+          "temperature_equivalent_degC_at20": -0.22326545608556483
+        },
+        "400_3000": {
+          "shift_percent": -0.013483574112586327,
+          "correlation": 0.997391610810245,
+          "temperature_equivalent_degC_at20": -0.07931514183874311
+        },
+        "1000_6000": {
+          "shift_percent": -0.04897095621300275,
+          "correlation": 0.9966142606363866,
+          "temperature_equivalent_degC_at20": -0.2880644483117809
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s7_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T16:47:23",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.043375563631362836,
+          "correlation": 0.9993833004508773,
+          "temperature_equivalent_degC_at20": -0.25515037430213433
+        },
+        "400_3000": {
+          "shift_percent": -0.019610184054379177,
+          "correlation": 0.9969894333578572,
+          "temperature_equivalent_degC_at20": -0.11535402384928929
+        },
+        "1000_6000": {
+          "shift_percent": -0.07005297870235,
+          "correlation": 0.9965087661724288,
+          "temperature_equivalent_degC_at20": -0.4120763453079412
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s8_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T17:10:53",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.05318267959139116,
+          "correlation": 0.9989841025700634,
+          "temperature_equivalent_degC_at20": -0.31283929171406566
+        },
+        "400_3000": {
+          "shift_percent": -0.02062997713529131,
+          "correlation": 0.9960824167471602,
+          "temperature_equivalent_degC_at20": -0.12135280667818417
+        },
+        "1000_6000": {
+          "shift_percent": -0.07964542142165575,
+          "correlation": 0.9957200376399669,
+          "temperature_equivalent_degC_at20": -0.4685024789509161
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s9_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T17:33:52",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.07768710263172675,
+          "correlation": 0.9990884349292699,
+          "temperature_equivalent_degC_at20": -0.45698295665721617
+        },
+        "400_3000": {
+          "shift_percent": -0.041579080760686414,
+          "correlation": 0.995469625623518,
+          "temperature_equivalent_degC_at20": -0.24458282800403777
+        },
+        "1000_6000": {
+          "shift_percent": -0.13373545970945222,
+          "correlation": 0.9949054824722109,
+          "temperature_equivalent_degC_at20": -0.7866791747614836
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s10_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T21:24:21",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.25501801567437843,
+          "correlation": 0.9965108447234795,
+          "temperature_equivalent_degC_at20": -1.5001059745551673
+        },
+        "400_3000": {
+          "shift_percent": -0.16849070433076163,
+          "correlation": 0.9892103461991424,
+          "temperature_equivalent_degC_at20": -0.9911217901809509
+        },
+        "1000_6000": {
+          "shift_percent": -0.3494879547979268,
+          "correlation": 0.987698491893666,
+          "temperature_equivalent_degC_at20": -2.0558114988113343
+        }
+      }
+    },
+    {
+      "session": "stamp_20260926_s11_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-26T21:47:18",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.24089738263191435,
+          "correlation": 0.9970930511500207,
+          "temperature_equivalent_degC_at20": -1.417043427246555
+        },
+        "400_3000": {
+          "shift_percent": -0.16271353165000793,
+          "correlation": 0.9895759761584437,
+          "temperature_equivalent_degC_at20": -0.9571384214706349
+        },
+        "1000_6000": {
+          "shift_percent": -0.33414352718718987,
+          "correlation": 0.9887587478519264,
+          "temperature_equivalent_degC_at20": -1.9655501599246465
+        }
+      }
+    },
+    {
+      "session": "stamp_20260927_s1_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-27T07:12:35",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.06613770645483585,
+          "correlation": 0.9986923926290869,
+          "temperature_equivalent_degC_at20": -0.3890453320872697
+        },
+        "400_3000": {
+          "shift_percent": -0.040704196800672166,
+          "correlation": 0.9966127851017763,
+          "temperature_equivalent_degC_at20": -0.2394364517686598
+        },
+        "1000_6000": {
+          "shift_percent": -0.0870641867262449,
+          "correlation": 0.9953107654266308,
+          "temperature_equivalent_degC_at20": -0.5121422748602642
+        }
+      }
+    },
+    {
+      "session": "stamp_20260927_s2_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-09-27T07:54:20",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.0932000133617901,
+          "correlation": 0.9988255600326806,
+          "temperature_equivalent_degC_at20": -0.5482353727164124
+        },
+        "400_3000": {
+          "shift_percent": -0.0603838620227871,
+          "correlation": 0.9967706302225282,
+          "temperature_equivalent_degC_at20": -0.3551991883693359
+        },
+        "1000_6000": {
+          "shift_percent": -0.10756489889540348,
+          "correlation": 0.9956727333012924,
+          "temperature_equivalent_degC_at20": -0.6327346993847264
+        }
+      }
+    },
+    {
+      "session": "stamp_20261030_speed500_s1_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-10-30T20:41:52",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.9494186088706532,
+          "correlation": 0.9834282446117811,
+          "temperature_equivalent_degC_at20": -5.58481534629796
+        },
+        "400_3000": {
+          "shift_percent": -0.8579450034564251,
+          "correlation": 0.9792356112932719,
+          "temperature_equivalent_degC_at20": -5.04673531444956
+        },
+        "1000_6000": {
+          "shift_percent": -0.934627056193918,
+          "correlation": 0.9735538265772125,
+          "temperature_equivalent_degC_at20": -5.4978062129054
+        }
+      }
+    },
+    {
+      "session": "stamp_20261030_speed500_s2_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-10-30T21:27:46",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.9261385109911906,
+          "correlation": 0.9836435206625541,
+          "temperature_equivalent_degC_at20": -5.447873594065827
+        },
+        "400_3000": {
+          "shift_percent": -0.8354348472260843,
+          "correlation": 0.9786873659771163,
+          "temperature_equivalent_degC_at20": -4.9143226307416725
+        },
+        "1000_6000": {
+          "shift_percent": -0.9389138534291306,
+          "correlation": 0.9742023411558347,
+          "temperature_equivalent_degC_at20": -5.5230226672301805
+        }
+      }
+    },
+    {
+      "session": "stamp_20261030_speed500_s3_retry_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-10-30T23:17:19",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.9814031114857095,
+          "correlation": 0.982955594796836,
+          "temperature_equivalent_degC_at20": -5.772959479327703
+        },
+        "400_3000": {
+          "shift_percent": -0.8635816909529793,
+          "correlation": 0.9777735022165157,
+          "temperature_equivalent_degC_at20": -5.079892299723408
+        },
+        "1000_6000": {
+          "shift_percent": -0.95729118450344,
+          "correlation": 0.9725723593755974,
+          "temperature_equivalent_degC_at20": -5.631124614726118
+        }
+      }
+    },
+    {
+      "session": "stamp_20261031_current_train_20261031_s1_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-10-31T11:45:21",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.727311381617182,
+          "correlation": 0.9821836811557597,
+          "temperature_equivalent_degC_at20": -4.278302244806953
+        },
+        "400_3000": {
+          "shift_percent": -0.8068736439331012,
+          "correlation": 0.981638846394997,
+          "temperature_equivalent_degC_at20": -4.746315552547655
+        },
+        "1000_6000": {
+          "shift_percent": -0.6117184826812955,
+          "correlation": 0.9802725904931775,
+          "temperature_equivalent_degC_at20": -3.598344015772326
+        }
+      }
+    },
+    {
+      "session": "stamp_20261031_current_train_20261031_s2_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-10-31T13:34:40",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.5911547848547093,
+          "correlation": 0.9726066091508486,
+          "temperature_equivalent_degC_at20": -3.477381087380643
+        },
+        "400_3000": {
+          "shift_percent": -0.5865701876935943,
+          "correlation": 0.9727930698429773,
+          "temperature_equivalent_degC_at20": -3.4504128687858486
+        },
+        "1000_6000": {
+          "shift_percent": -0.528881792913612,
+          "correlation": 0.9788821505314576,
+          "temperature_equivalent_degC_at20": -3.1110693700800707
+        }
+      }
+    },
+    {
+      "session": "stamp_20261031_hidden_c_targeted_20261031_s1_wav",
+      "wav": "frame_000000.wav",
+      "time": "2026-10-31T12:57:31",
+      "bands": {
+        "100_2700": {
+          "shift_percent": -0.7392899019958771,
+          "correlation": 0.9809685989634945,
+          "temperature_equivalent_degC_at20": -4.348764129387512
+        },
+        "400_3000": {
+          "shift_percent": -0.8089314054648167,
+          "correlation": 0.9798696369980162,
+          "temperature_equivalent_degC_at20": -4.75842003214598
+        },
+        "1000_6000": {
+          "shift_percent": -0.5460888924032296,
+          "correlation": 0.9805726268244669,
+          "temperature_equivalent_degC_at20": -3.212287602371939
+        }
+      }
+    }
+  ]
+}

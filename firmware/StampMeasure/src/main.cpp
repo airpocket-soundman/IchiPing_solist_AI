@@ -73,18 +73,31 @@ static void i2s_start()
     i2s_chan_config_t chan = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER);
     chan.auto_clear = true;
     ESP_ERROR_CHECK(i2s_new_channel(&chan, &tx, &rx));
-    i2s_std_config_t std = {
-        .clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG(RATE),
-        .slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_STEREO),
-        .gpio_cfg = {
-            .mclk = I2S_GPIO_UNUSED,
-            .bclk = (gpio_num_t)PIN_BCLK,
-            .ws = (gpio_num_t)PIN_WS,
-            .dout = (gpio_num_t)PIN_DOUT,
-            .din = (gpio_num_t)PIN_DIN,
-            .invert_flags = {.mclk_inv = false, .bclk_inv = false, .ws_inv = false},
-        },
-    };
+    /* Assign fields individually: GCC for Arduino-ESP32 3.x rejects the
+       macro-expanded designated initializer order used by the older IDF. */
+    i2s_std_config_t std = {};
+    std.clk_cfg.sample_rate_hz = RATE;
+    std.clk_cfg.clk_src = I2S_CLK_SRC_DEFAULT;
+    std.clk_cfg.ext_clk_freq_hz = 0;
+    std.clk_cfg.mclk_multiple = I2S_MCLK_MULTIPLE_256;
+    std.slot_cfg.data_bit_width = I2S_DATA_BIT_WIDTH_32BIT;
+    std.slot_cfg.slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO;
+    std.slot_cfg.slot_mode = I2S_SLOT_MODE_STEREO;
+    std.slot_cfg.slot_mask = I2S_STD_SLOT_BOTH;
+    std.slot_cfg.ws_width = I2S_DATA_BIT_WIDTH_32BIT;
+    std.slot_cfg.ws_pol = false;
+    std.slot_cfg.bit_shift = true;
+    std.slot_cfg.left_align = true;
+    std.slot_cfg.big_endian = false;
+    std.slot_cfg.bit_order_lsb = false;
+    std.gpio_cfg.mclk = I2S_GPIO_UNUSED;
+    std.gpio_cfg.bclk = (gpio_num_t)PIN_BCLK;
+    std.gpio_cfg.ws = (gpio_num_t)PIN_WS;
+    std.gpio_cfg.dout = (gpio_num_t)PIN_DOUT;
+    std.gpio_cfg.din = (gpio_num_t)PIN_DIN;
+    std.gpio_cfg.invert_flags.mclk_inv = false;
+    std.gpio_cfg.invert_flags.bclk_inv = false;
+    std.gpio_cfg.invert_flags.ws_inv = false;
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(tx, &std));
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(rx, &std));
     ESP_ERROR_CHECK(i2s_channel_enable(tx));

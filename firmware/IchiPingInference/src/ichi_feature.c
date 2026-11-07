@@ -16,6 +16,10 @@ int8_t ichi_shared_scratch[ICHI_FEAT_NFFT * 2U] __attribute__((aligned(4)));
 static float power_db[ICHI_FEAT_BINS];      /* power sum -> mean -> dB -> normalized */
 static int16_t baseline_q[ICHI_FEAT_BINS];  /* 1/256 dB */
 static uint8_t last_exponent;
+/* FFT overwrites its input, so preserve the raw overlap before each FFT. */
+#ifdef ICHI_PCM_OVERLAP_CACHE
+static int16_t pcm_overlap[ICHI_FEAT_NFFT - ICHI_FEAT_HOP];
+#endif
 bool IchiFeatureBaselineRead(uint16_t offset, uint8_t *data, uint16_t count)
 {
     uint16_t i;
@@ -184,10 +188,21 @@ bool IchiFeatureFrame(IchiPcmReader reader, uint16_t total_samples)
     for (offset = 0U; (uint32_t)offset + ICHI_FEAT_NFFT <= total_samples;
          offset = (uint16_t)(offset + ICHI_FEAT_HOP))
     {
-        if (!reader(offset, z, (uint16_t)ICHI_FEAT_NFFT))
+#ifdef ICHI_PCM_OVERLAP_CACHE
+        uint16_t retained = (segments == 0U) ? 0U : (ICHI_FEAT_NFFT - ICHI_FEAT_HOP);
+        for (k = 0U; k < retained; k++) { z[k] = pcm_overlap[k]; }
+        if (!reader((uint16_t)(offset + retained), z + retained,
+                    (uint16_t)(ICHI_FEAT_NFFT - retained)))
         {
             return false;
         }
+        for (k = 0U; k < ICHI_FEAT_NFFT - ICHI_FEAT_HOP; k++)
+        {
+            pcm_overlap[k] = z[ICHI_FEAT_HOP + k];
+        }
+#else
+        if (!reader(offset, z, (uint16_t)ICHI_FEAT_NFFT)) { return false; }
+#endif
         accumulate_segment(z);
         segments++;
         wdt_clear();

@@ -2,8 +2,9 @@
 
   0x50 BASE     index u8 | exponent u8 | transfer ms u32
   0x51 RESULT   actual u8 | pred u8 | calibrated u8 | exponent u8 | transfer ms u32 | outputs float32 x 32
-  0x52 CAL_STEP state u8 | window u8 | pred before update u8 | 0 | transfer ms u32
-  0x53 CAL_DONE correct-before u16 | samples u16 | aborted u8 | seconds u16
+  0x52 CAL_STEP state u8 | window u8 | pred u8 | flags u8 | transfer ms u32
+  0x53 CAL_DONE correct u16 | samples u16 | aborted u8 | seconds u16 | optional flags u8
+  flags bit 0: counts/predictions are after updating that sample (legacy: before).
   0x54 ERROR    stage u8 | state u8
 
 --infer N で PC から 'I' を送り、推論を N 回続けて実行させる (EXEC を押すのと同じ。結果が届くたびに次を送る)。
@@ -80,13 +81,17 @@ def main():
                         if left > 0:
                             s.write(b"I"); t_req = time.time()
                 elif fr.type == 0x52:
-                    st, w, pred, _, ms = struct.unpack_from("<BBBBI", p)
-                    rec.update(kind="cal_step", state=st, window=w, pred_before=pred, transfer_ms=ms)
-                    print(f"  校正 {label(st)} 窓{w}: 更新前の推論 {label(pred)} {'○' if pred == st else '×'}  (転送 {ms} ms)")
+                    st, w, pred, flags, ms = struct.unpack_from("<BBBBI", p)
+                    after = bool(flags & 1)
+                    rec.update(kind="cal_step", state=st, window=w, transfer_ms=ms)
+                    rec['pred_after' if after else 'pred_before'] = pred
+                    print(f"  校正 {label(st)} 窓{w}: 更新{'後' if after else '前'}の推論 {label(pred)} {'○' if pred == st else '×'}  (転送 {ms} ms)")
                 elif fr.type == 0x53:
                     c, n, ab, sec = struct.unpack_from("<HHBH", p)
-                    rec.update(kind="cal_done", correct_before=c, samples=n, aborted=bool(ab), seconds=sec)
-                    print(f"校正{'中断' if ab else '完了'}: 更新前の正解 {c}/{n}, {sec} 秒")
+                    after = len(p) > 7 and bool(p[7] & 1)
+                    rec.update(kind="cal_done", samples=n, aborted=bool(ab), seconds=sec)
+                    rec['correct_after' if after else 'correct_before'] = c
+                    print(f"校正{'中断' if ab else '完了'}: 更新{'後' if after else '前'}の正解 {c}/{n}, {sec} 秒")
                 elif fr.type == 0x54:
                     rec.update(kind="error", stage=p[0], state=p[1])
                     print(f"エラー: {STAGES.get(p[0], p[0])} ({label(p[1])})")

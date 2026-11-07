@@ -25,7 +25,7 @@ Solist-AI 評価ボードで動く IchiPing 本体。Stamp-S3A([../StampMeasure]
 
 | main | 用途 | PC 側ツール |
 |---|---|---|
-| `ichi_infer_main`(既定) | 製品の動作。トグル → EXEC で 1 回推論、EXEC 2 s 長押しで現地校正 | `tools/infer_monitor.py`(任意。ログ記録、PC から推論を起動) |
+| `ichi_infer_main`(既定) | トグル → EXECで推論。2秒長押しで追加ODL、10秒でODLリセットの確認へ | `tools/infer_monitor.py`(任意。ログ記録、PCから推論を起動) |
 | `ichi_survey_main` | サーボで 32 状態を巡回して推論・採点する実機サーベイ(校正あり / なし) | `tools/survey_monitor.py` → `docs/results/board_survey.{md,json}` |
 | `ichi_collect_main` | 学習データ採取。PC の指示でサーボを動かす | `tools/collect_session.py`（Solist経由でPCMを保存、Stamp USB不要） |
 
@@ -76,8 +76,15 @@ powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\flash.
 - **推論**(`ichi_infer_main`):電源投入でサーボを全閉にし、全閉を 3 回測って baseline にする。トグルで窓・扉を決めて EXEC を押すと、
   Listening(PRBS 2 s)→ Inferring(ゲージ)→ 結果。画面の 5 桁は左から c・BC・b・AB・a(1 = 開)、扉の奥で本来聞こえない桁は暗く表示。
   判定は Complete Success(32 クラス一致)/ Conditional Success(14 クラス一致)/ Failure。
-- **現地校正**:EXEC を 2 s 長押し。扉と窓の開閉の組み合わせ全 32 クラスを巡回し(各 6 s の PRBS を 2 s × 5 窓)、β を逐次更新(約 30 分)。
-  途中で EXEC を押すと中断して事前学習の β に戻る。成功時はP・βをFRAMへ保存し、モデル識別情報とチェックサムが一致する場合に起動時復元する。
+- **追加ODL**:EXECが2秒に達すると「Release: add ODL」を一度表示する。2秒以上10秒未満で離すと確認画面へ。
+  全トグルOPENでEXECをもう一度押すと開始、それ以外のトグル状態で押すとキャンセルする。確認中はトグルでサーボを動かさない。
+  保存済みのP・βを引き継ぎ、保存状態がない場合は事前学習モデルから開始する。
+  全32状態×6秒PRBSの5窓、計160更新（約30分）。中断・失敗時は直前の保存ODLへ戻す。成功時は更新後のP・βをFRAMへ保存する。
+  完了時の `post-update 133/160` は、各窓を学習した直後に同じ窓を再推論した正解数の累計。
+  未使用の評価音声で測る精度とは区別する。画面とUARTモニタには更新後の正解数だけを表示する。
+- **ODLリセット**:EXECを10秒押し続けると「Reset ODL?」の確認画面へ。いったん離して、全トグルOPENでEXECを再度押した場合だけ、保存ODLを無効化し事前学習モデルへ戻す。それ以外ならキャンセル。
+  リセット操作自体ではODLを始めない。その後の2秒長押しと確認操作で、新規ODLを開始できる。5秒判定はない。
+  電源投入時にEXECが押されていた場合は、一度離すまで長押しを受け付けない。
 - **サーベイ**:`python firmware/IchiPingInference/tools/survey_monitor.py --port COM3`(PC から 'G' で開始、'X' で中断。`--wait-exec` なら EXEC で開始)。
 - **データ採取**:`python firmware/IchiPingInference/tools/collect_session.py --name s1 --solist COM3 [--rotate N] [--reverse]`
   → `captures/stamp_<日付>_<name>_wav/`(全閉 10 + 32 状態 × 10 フレーム、Gray code 順、欠けたら撮り直し)。`ichi_collect_main` はStampへI²Cで測定を指示し、PCMをSolist UARTでPCへ中継するため、StampのUSB接続は不要。
@@ -95,3 +102,10 @@ python sim/evaluate_exported_odl.py --model <model.npz> --odl docs/results/odl_s
 UARTは115200 bps。モデル識別情報、80チャンクの順序、10240バイト全体のチェックサムを検証し、
 float32のP・β各4096バイトとint16の基準スペクトル2048バイトを保存する。
 主評価 `session_baseline` と、実機ODL時の基準音を共通使用する補足評価 `device_odl_baseline` は分けて報告する。
+
+通常推論ビルドは `ICHI_PCM_OVERLAP_CACHE` を有効にする。FFTで上書きする前に後半1024点を2KBのRAMへ保存し、次の窓で再利用するため、2秒フレームのI2C読出しは61440点から31744点になる。FFTへ渡す30窓の内容は同じ。RAM確保のため、使用していない旧IEPE→SPIストリーミングライブラリを通常推論のリンクから外し、その未使用入力コールバックはBUSYを返す。収録・サーベイビルドのリンク構成は従来通り。
+
+`python firmware/IchiPingInference/tests/test_pcm_overlap.py` は実際の窓読出しループをARMで実行し、FFTによる入力破壊後も全窓のPCMが一致すること、読出し点数、フレーム切替、転送失敗後の再開を検証する。2026-11-07の26版実機測定では、転送・FFT区間が従来8540msから6760〜6770msになった（3回とも正解）。
+
+長押し・確認操作のテストは `python firmware/IchiPingInference/tests/test_exec_control.py` で実行する
+（LEXIDEとPythonの`unicorn`が必要）。実際のCコードをARMとしてコンパイルし、エミュレータ上で2秒/10秒の境界、確認・キャンセル、起動時の押しっぱなし、時刻カウンタの周回を検証する。

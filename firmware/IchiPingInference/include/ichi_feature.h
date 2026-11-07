@@ -11,7 +11,10 @@
      -> float16 rounding -> bins 50..383 standardized and quantized to int8.
 
    RAM: 4 KB FFT work (shared with the front-end activations, see
-   ichi_shared_scratch), 4 KB power/dB, 2 KB baseline. */
+   ichi_shared_scratch), 4 KB power/dB, 2 KB baseline, and optionally 2 KB raw PCM
+   overlap (ICHI_PCM_OVERLAP_CACHE, enabled by the normal inference build).
+   Overlap is saved before the destructive FFT; each needed PCM sample is read
+   only once per frame (31744 samples for a 32000-sample frame). */
 
 #include <stdbool.h>
 #include <stdint.h>

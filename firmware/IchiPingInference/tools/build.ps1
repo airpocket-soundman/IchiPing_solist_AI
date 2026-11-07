@@ -129,6 +129,7 @@ Write-Utf8 (Join-Path $ichiBuild "subdir.mk") $mkText
 # 2) Compiler response files: point every .res at the staged project, and use
 #    S_IchiPing instead of S_AcrylicPan as the application include directory.
 $ichiInclude = "-I`"$stagedFwd/S_IchiPing`""
+if ($Main -eq 'ichi_infer_main') { $ichiInclude += ' -DICHI_PCM_OVERLAP_CACHE' }
 $projRe = '[A-Za-z]:[\\/]Users[\\/][^\\/"]+[\\/]lexide[\\/]workspace_omega_v2[\\/]' + [regex]::Escape((Split-Path -Leaf $SourceProject))
 $cmsisRe = '[A-Za-z]:/Users/[^/"]+/AppData/Local/Arm/Packs/ARM/CMSIS/[^/"]+/CMSIS/Core/Include'
 $cmsisFwd = (Resolve-Path -LiteralPath $CmsisInclude).Path.Replace('\', '/')
@@ -159,6 +160,12 @@ foreach ($s in $sources) {
 # 3) makefile: build S_IchiPing instead of S_AcrylicPan.
 $mk = Join-Path $buildDir "makefile"
 $m = [IO.File]::ReadAllText($mk)
+if ($Main -eq 'ichi_infer_main') {
+    # Normal inference uses Stamp I2C + UART, never the legacy IEPE SPI stream.
+    # Its IRQ reference otherwise retains the entire vendor library and 1 KB FIFO.
+    # ichi_infer_main supplies the inactive IEPE callback instead.
+    $m = [regex]::Replace($m, '"[^"\r\n]*HighSpeedComLib\.a"', '')
+}
 if ($m.Contains("-include S_AcrylicPan/subdir.mk")) { $m = $m.Replace("-include S_AcrylicPan/subdir.mk", "-include S_IchiPing/subdir.mk") }
 elseif (-not $m.Contains("-include S_IchiPing/subdir.mk")) { $m = $m.Replace("-include RTE/subdir.mk", "-include S_IchiPing/subdir.mk`r`n-include RTE/subdir.mk") }
 Write-Utf8 $mk $m

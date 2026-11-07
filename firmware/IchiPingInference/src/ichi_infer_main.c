@@ -13,12 +13,17 @@
  *                Complete / Conditional Success / Failure banner
  * Solist-AI addition, on-site calibration (docs/DEVELOPMENT.md), only
  * needed after moving the device to a new place (the pre-trained model covers this rig):
- *   EXEC held 2 s -> the servos visit all 32 states (Gray code); per state one 6 s PRBS
+ *   EXEC held 2 s -> show add-ODL hint; release -> confirmation. All switches OPEN
+ *                plus a new EXEC press starts ODL; any other switch state cancels.
+ *                A 10 s hold requests reset instead, with the same confirmation.
+ *                Confirmed reset clears saved ODL and restores the factory model.
+ *                ODL visits all 32 states (Gray code); per state one 6 s PRBS
  *                gives five 2 s windows (1 s hop) and each window is one OS-ELM update of the
  *                ELM beta (float32 on the CPU, P and beta in the FRAM, see ichi_inference.c),
- *                starting from the pre-trained beta and P0 = w (G_f + lambda I)^-1
- *                (generated/ichi_calib_prior.h).
- *                EXEC during calibration aborts and restores the pre-trained beta.
+ *                continuing the saved beta/P, or starting from pre-trained beta
+ *                and P0 if no valid saved state exists (generated/ichi_calib_prior.h).
+ *                EXEC during calibration aborts and restores the last committed ODL,
+ *                or the factory model when no saved ODL exists.
  *   Successful calibration is saved to FRAM and restored on boot if the
  *   model identity and snapshot checksum match.
  * UART1 (tools/infer_monitor.py): a raw 'I' byte from the PC starts one inference (like EXEC);
@@ -26,8 +31,8 @@
  *   0x50 BASE     index u8 | exponent u8 | transfer ms u32
  *   0x51 RESULT   actual u8 | pred u8 | calibrated u8 | exponent u8 | transfer ms u32 |
  *                 outputs float32 x 32
- *   0x52 CAL_STEP state u8 | window u8 | pred before update u8 | 0 | transfer ms u32
- *   0x53 CAL_DONE correct-before u16 | samples u16 | aborted u8 | seconds u16
+ *   0x52 CAL_STEP state u8 | window u8 | pred after update u8 | 1 | transfer ms u32
+ *   0x53 CAL_DONE correct-after u16 | samples u16 | aborted u8 | seconds u16 | 1
  *   0x54 ERROR    stage u8 | state u8  (1 Stamp, 3 measure, 4 PCM, 5 inference, 6 servo, 7 train)
  */
 #include <stdbool.h>
@@ -35,6 +40,7 @@
 #include <string.h>
 
 #include "Lcd.h"
+#include "HighSpeedCom.h"
 #include "PeriodicHandler10ms.h"
 #include "Regulator5VOutput.h"
 #include "SoftwareInterrupt.h"
@@ -46,6 +52,7 @@
 #include "ichi_calib_prior.h"
 #include "ichi_feature.h"
 #include "ichi_inference.h"
+#include "ichi_exec_control.h"
 #include "ichi_protocol.h"
 #include "ichi_servo.h"
 #include "ichi_stamp_link.h"
@@ -62,7 +69,6 @@
 #define SETTLE          (50U)          /* x10 ms after the last move before recording */
 #define ODL_SETTLE      (10U)          /* x10 ms: pulse already held 500 ms; only 100 ms acoustic settling */
 #define ODL_WINDOWS     (5U)           /* retain all five labelled windows for every state */
-#define LONG_PRESS      (200U)         /* x10 ms: EXEC held this long starts calibration */
 
 #define MSG_BASE     (0x50U)
 #define MSG_RESULT   (0x51U)
@@ -81,6 +87,16 @@ static uint8_t switch_state;
 static bool exec_down;
 static bool abort_request;             /* new EXEC press during a long operation */
 static bool calibrated;
+
+/* The vendor SAD interrupt references its legacy IEPE-to-SPI streaming API.
+   This application never enables IEPE streaming or initializes that SPI slave:
+   audio comes from Stamp over I2C, and PC results use UART. Avoid retaining the
+   unused vendor streaming library and its 1 KB FIFO; use that RAM for PCM reuse. */
+HIGH_SPEED_COM_RESULT HighSpeedComInputRtData(uint16_t data)
+{
+    (void)data;
+    return HIGH_SPEED_COM_RESULT_BUSY;
+}
 
 static void periodic_10ms(void) { tick_10ms++; }
 
@@ -291,17 +307,19 @@ static void report_error(uint8_t stage, uint8_t state)
     lcd(text, line);
 }
 
-/* "Inferring..." gauge: after the sound has stopped the banner fills left to right while the
-   PCM comes over I2C (0..90 %, the slow part), then feature (95 %) and inference (100 %). */
-#define GAUGE_TEXT  "Inferring..."
+/* Transfer includes the streaming Welch FFT; final normalization and model run are
+   presented as inference. Only model completion fills the gauge completely. */
+#define GAUGE_TRANSFER_TEXT  "Transferring..."
+#define GAUGE_INFERENCE_TEXT "Inferring..."
 #define GAUGE_BACK  ICHI_RGB565(0, 0, 72)
 #define GAUGE_FILL  ICHI_RGB565(0, 150, 255)
 #define GAUGE_CHUNK ICHI_STAMP_READ_MAX   /* one I2C READ per gauge step (~270 steps) */
-/* IchiFeatureFrame reads NFFT-sample segments every HOP samples (each sample twice):
-   the gauge follows the samples read so far, not the offset (which steps back). */
-#define GAUGE_TOTAL ((((FRAME_SAMPLES - ICHI_FEAT_NFFT) / ICHI_FEAT_HOP) * ICHI_FEAT_HOP) + ICHI_FEAT_NFFT)
+/* The feature extractor retains overlapping PCM in RAM and reads each sample once. */
+#define GAUGE_SEGMENTS (((FRAME_SAMPLES - ICHI_FEAT_NFFT) / ICHI_FEAT_HOP) + 1UL)
+#define GAUGE_TOTAL (ICHI_FEAT_NFFT + (GAUGE_SEGMENTS - 1UL) * ICHI_FEAT_HOP)
 static bool gauge_on;
 static uint32_t gauge_read;
+static const char *gauge_stage_text = GAUGE_TRANSFER_TEXT;
 
 static void gauge(uint16_t permille)
 {
@@ -309,10 +327,12 @@ static void gauge(uint16_t permille)
        presentation to 5% steps; PCM reads and inference are unchanged.
        Reset on zero so every inference starts a fresh progress display. */
     static uint16_t last_drawn;
+    static const char *last_stage;
     uint16_t step = (uint16_t)(permille / 50U);
-    if ((permille != 0U) && (permille != 1000U) && (step == last_drawn)) { return; }
+    if ((permille != 0U) && (permille != 1000U) && (step == last_drawn) && (last_stage == gauge_stage_text)) { return; }
     last_drawn = step;
-    IchiUiProgress(GAUGE_TEXT, permille, GAUGE_FILL, GAUGE_BACK, ICHI_WHITE);
+    last_stage = gauge_stage_text;
+    IchiUiProgress(gauge_stage_text, permille, GAUGE_FILL, GAUGE_BACK, ICHI_WHITE);
 }
 
 /* IchiStampReadPcm in GAUGE_CHUNK pieces so the gauge moves smoothly. */
@@ -326,7 +346,12 @@ static bool read_pcm(uint16_t offset, int16_t *dst, uint16_t count)
         dst += n;
         count = (uint16_t)(count - n);
         gauge_read += n;
-        if (gauge_on) { gauge((uint16_t)((gauge_read * 900UL) / GAUGE_TOTAL)); }
+        if (gauge_on)
+        {
+            uint32_t progress = (gauge_read * 900UL) / GAUGE_TOTAL;
+            /* Only successful IchiInferenceRun() may advance the gauge to 100%. */
+            gauge((uint16_t)((progress > 900UL) ? 900UL : progress));
+        }
     }
     return true;
 }
@@ -383,13 +408,17 @@ static void infer(void)
     IchiUiBanner("Listening...", ICHI_CYAN, ICHI_BLACK);
     lcd("Listening...", "");
     if (!IchiStampMeasure(ICHI_MEASURE_FRAME)) { report_error(3U, actual); return; }
+    gauge_stage_text = GAUGE_TRANSFER_TEXT;
     gauge(0U);                                           /* the sound has stopped */
-    lcd("Inferring...", "");
+    lcd("Transferring...", "");
     gauge_on = true;
     gauge_read = 0U;
     stage = read_window(0U, &ms);
     gauge_on = false;
     if (stage != 0U) { report_error(stage, actual); return; }
+    gauge_stage_text = GAUGE_INFERENCE_TEXT;
+    gauge(900U);
+    lcd("Inferring...", "");
     IchiFeatureInput(feature);
     gauge(950U);
     if (!IchiInferenceRun((const uint8_t *)feature, output, &pred)) { report_error(5U, actual); return; }
@@ -414,11 +443,12 @@ static void calibrate(void)
     uint32_t start = tick_10ms;
     uint16_t correct = 0U, samples = 0U;
     uint8_t i, w, stage = 0U;
+    bool continued = false;
 
     abort_request = false;
-    IchiUiBanner("On-site calibration", ICHI_MAGENTA, ICHI_WHITE);
-    lcd("calibration", "EXEC: abort");
-    if (!IchiInferenceCalibrationBegin()) { stage = 7U; report_error(7U, 0U); }   /* FRAM not usable */
+    if (!IchiInferenceCalibrationContinue(&continued)) { stage = 7U; report_error(7U, 0U); }
+    IchiUiBanner(continued ? "Additional ODL" : "New ODL", ICHI_MAGENTA, ICHI_WHITE);
+    lcd(continued ? "additional ODL" : "new ODL", "EXEC: abort");
     calibrated = false;
     for (i = 0U; (i < 32U) && (stage == 0U) && !abort_request; i++)
     {
@@ -440,14 +470,14 @@ static void calibrate(void)
             stage = read_window(w, &ms);
             if (stage != 0U) { report_error(stage, state); break; }
             IchiFeatureInput(feature);
-            (void)IchiInferenceRun((const uint8_t *)feature, output, &pred);   /* before the update */
             if (!IchiInferenceTrain((const uint8_t *)feature, state)) { stage = 7U; report_error(7U, state); break; }
+            if (!IchiInferenceRun((const uint8_t *)feature, output, &pred)) { stage = 5U; report_error(5U, state); break; }
             samples++;
             if (pred == state) { correct++; }
             payload[0] = state;
             payload[1] = w;
             payload[2] = pred;
-            payload[3] = 0U;
+            payload[3] = 1U; /* prediction is after this sample's update */
             put_u32(&payload[4], ms);
             send(MSG_CAL_STEP, 8U);
             (void)poll_switches();
@@ -455,34 +485,36 @@ static void calibrate(void)
     }
     if (abort_request || (stage != 0U))
     {
-        IchiInferenceUseFactory();
+        calibrated = IchiInferenceCalibrationRestore();
+        if (!calibrated) { IchiInferenceUseFactory(); }
         IchiUiBanner(abort_request ? "Calibration aborted" : "Calibration failed", ICHI_RED, ICHI_WHITE);
-        IchiUiInfoLine("pretrained", ICHI_WHITE);
+        IchiUiInfoLine(calibrated ? "Previous ODL restored" : "pretrained", ICHI_WHITE);
     }
     else
     {
         calibrated = IchiInferenceCalibrationSave();
-        IchiUiBanner("Calibrated", ICHI_GREEN, ICHI_WHITE);
+        if (!calibrated) { stage = 7U; report_error(7U, 0U); IchiInferenceUseFactory(); }
+        else { IchiUiBanner("Calibrated", ICHI_GREEN, ICHI_WHITE); }
         {
-            char info[] = "calibrated 000/000";
-            put_dec(&info[11], correct, 3U);
-            put_dec(&info[15], samples, 3U);
+            char info[] = "post-update 000/000";
+            put_dec(&info[12], correct, 3U);
+            put_dec(&info[16], samples, 3U);
             IchiUiInfoLine(info, ICHI_WHITE);
         }
     }
     put_u16(&payload[0], correct);
     put_u16(&payload[2], samples);
-    payload[4] = abort_request ? 1U : 0U;
+    payload[4] = (abort_request || (stage != 0U)) ? 1U : 0U;
     put_u16(&payload[5], (tick_10ms - start) / 100UL);
-    send(MSG_CAL_DONE, 7U);
+    payload[7] = 1U; /* correct-after, rather than legacy correct-before */
+    send(MSG_CAL_DONE, 8U);
     abort_request = false;
     lcd(calibrated ? "calibrated" : "pretrained", "EXEC: infer");
 }
 
 int32_t main(void)
 {
-    uint32_t press_start = 0U;
-    bool was_down = false, long_done = false;
+    IchiExecControl exec_control;
 
     __disable_irq();
     wdt_init(WDT_2S);
@@ -538,31 +570,62 @@ int32_t main(void)
     }
     Uart1StartReadByte(receive_byte);
     exec_down = true;                  /* ignore an EXEC held since power on */
-    was_down = true;
-    long_done = true;
+    IchiExecControlInit(&exec_control, true);
 
     for (;;)
     {
         static uint32_t last_poll = 0U;
+        IchiExecAction action;
         if (tick_10ms != last_poll) { last_poll = tick_10ms; (void)poll_switches(); }   /* every 10 ms */
 
         /* The screen follows the switches at once; the servos catch up in the background. */
-        if ((servo_state >= 0) && !exec_down)
+        if ((servo_state >= 0) && !exec_down && (exec_control.pending == 0U))
         {
             show_switch_state(switch_state);
             servo_target = switch_state;
         }
         if (!servo_step()) { report_error(6U, servo_target); }
 
-        /* EXEC: short press = inference, held LONG_PRESS = on-site calibration. */
-        if (exec_down && !was_down) { press_start = tick_10ms; long_done = false; }
-        if ((exec_down && !long_done && ((tick_10ms - press_start) >= LONG_PRESS)) || pc_calibration_request)
+        action = IchiExecControlUpdate(&exec_control, tick_10ms, exec_down, switch_state == 31U);
+        if (pc_calibration_request)
         {
             pc_calibration_request = false;
-            long_done = true;
+            IchiExecRequestAdd(&exec_control, exec_down);
+            action = ICHI_EXEC_CONFIRM_ADD;
+        }
+        if (action == ICHI_EXEC_SHOW_ADD)
+        {
+            IchiUiBanner("Release: add ODL", ICHI_MAGENTA, ICHI_WHITE);
+            IchiUiInfoLine("Hold 10s: reset ODL", ICHI_WHITE);
+            lcd("Release: add ODL", "Hold 10s: reset");
+        }
+        if ((action == ICHI_EXEC_CONFIRM_ADD) || (action == ICHI_EXEC_CONFIRM_RESET))
+        {
+            IchiUiBanner((action == ICHI_EXEC_CONFIRM_ADD) ? "Add ODL?" : "Reset ODL?", ICHI_MAGENTA, ICHI_WHITE);
+            IchiUiInfoLine("All OPEN + EXEC: yes", ICHI_WHITE);
+            lcd("All OPEN: yes", "other: no + EXEC");
+        }
+        if (action == ICHI_EXEC_CANCEL)
+        {
+            IchiUiBanner("Canceled", ICHI_YELLOW, ICHI_BLACK);
+            IchiUiInfoLine(calibrated ? "calibrated" : "pretrained", ICHI_WHITE);
+            lcd("Canceled", "EXEC: infer");
+        }
+        if (action == ICHI_EXEC_RESET_ODL)
+        {
+            if (IchiInferenceCalibrationClear()) {
+                calibrated = false;
+                IchiUiBanner("ODL reset", ICHI_GREEN, ICHI_WHITE);
+                IchiUiInfoLine("Pretrained model", ICHI_WHITE);
+                lcd("ODL reset", "Hold 2s: ODL");
+            } else { report_error(7U, (uint8_t)servo_state); }
+        }
+        if (action == ICHI_EXEC_START_ADD)
+        {
             if (!servo_finish()) { report_error(6U, servo_target); }
-            calibrate();
+            else { calibrate(); }
             (void)poll_switches();
+            IchiExecControlInit(&exec_control, exec_down);
             if (switch_state != (uint8_t)servo_state)          /* back to the switch state */
             {
                 if (!drive_to(switch_state, SETTLE)) { report_error(6U, switch_state); }
@@ -570,14 +633,13 @@ int32_t main(void)
             IchiUiShowState((uint8_t)servo_state, ICHI_UI_NONE);
             shown_actual = servo_state;
         }
-        if ((!exec_down && was_down && !long_done) || pc_infer_request)
+        if ((action == ICHI_EXEC_INFER) || (pc_infer_request && exec_control.pending == 0U))
         {
             pc_infer_request = false;
             abort_request = false;
             if (!servo_finish()) { report_error(6U, servo_target); }
             else { infer(); }
         }
-        was_down = exec_down;
         abort_request = false;
         wdt_clear();
     }

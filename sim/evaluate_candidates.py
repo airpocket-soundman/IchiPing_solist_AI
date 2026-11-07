@@ -16,6 +16,7 @@ parser.add_argument('--extra',nargs='*',default=[])
 parser.add_argument('--sessions',nargs='+',default=[f'stamp_20261031_holdout_eval_20261031_s{i}_wav' for i in (1,2)])
 parser.add_argument('--only-extra',action='store_true')
 parser.add_argument('--report-name',default='holdout_evaluation')
+parser.add_argument('--report-date',default='20261031')
 args=parser.parse_args()
 sessions=args.sessions
 data={s:build_run(s) for s in sessions}
@@ -46,5 +47,5 @@ for directory in ([] if args.only_extra else sorted(folder.iterdir()))+extra:
     print(directory.name, f"{np.trace(matrix)}/{matrix.sum()} = {row['accuracy32']:.3%}",flush=True)
     (directory/(args.report_name+'.json')).write_text(json.dumps(row,indent=2))
 rows.sort(key=lambda r:(r['accuracy32'],r['worst_session']),reverse=True)
-(root/'docs/results'/('candidate_'+args.report_name+'_20261031.json')).write_text(json.dumps(rows,indent=2))
+(root/'docs/results'/('candidate_'+args.report_name+'_'+args.report_date+'.json')).write_text(json.dumps(rows,indent=2))
 print('BEST',rows[0]['name'],rows[0]['accuracy32'],flush=True)

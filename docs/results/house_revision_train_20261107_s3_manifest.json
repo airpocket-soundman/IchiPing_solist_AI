@@ -1,0 +1,1337 @@
+{
+  "name": "house_revision_train_20261107_s3",
+  "role": "training",
+  "rotate": 25,
+  "reverse": false,
+  "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav",
+  "revision": {
+    "id": "house_revision_20261107",
+    "description": "Minor house design/stiffness revision; additive training requested by user; retain prior full sessions."
+  },
+  "completed": "2026-11-07T16:06:59.201964",
+  "wav_count": 330,
+  "baseline_frames": 10,
+  "state_frames": 320,
+  "files": [
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000000.wav",
+      "sha256": "d4bfb3580e44196fdb8f25ccde7ba93b05fe2d29442b5a0098488c4a6e33c49c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000001.wav",
+      "sha256": "fb870f4141cf2113bcf3ab995f90134ed142097dcbb0099222fdaa9eb24485d6"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000002.wav",
+      "sha256": "445631f4224ffbab1e59264ad534311b0137f86f85325fafc5d4a1a45858a178"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000003.wav",
+      "sha256": "a2672484476742bfc313efd2ee44b39a20106362f58378bfafd49918528e6ae6"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000004.wav",
+      "sha256": "7cc60326d18d2545bccfc189647415fe86a65bcc5b50bd10bb129ca245f60d53"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000005.wav",
+      "sha256": "9eddb42d0a8078eff7ac88e639f4c74c68dce6d4c0c8c251df79b4e65cdb72af"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000006.wav",
+      "sha256": "d86b5a9819b5f1371233cd49e8909bb808f6e1d22e132c65c13c6252c4d37883"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000007.wav",
+      "sha256": "5aa9cad70779389c6d608369197212a9f267d064e39de503ae108d85202848f4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000008.wav",
+      "sha256": "bdeee9eba896b5349b5b9e0b0e526095bc142a6983054cc0f672d8f06c1a7157"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000009.wav",
+      "sha256": "0814ad8553b60b848096718fd69400d77011f41cae84aa7ac065447b9f390f4c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000010.wav",
+      "sha256": "88cfe7eee5ebbd8bad8f287e145bd6a26572245fc1e3089b9a83c526040202d1"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000011.wav",
+      "sha256": "f85169d09d5262fe6064f5d0d0f47b36ccce59e77e52f78343cce02f3ad0ca1c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000012.wav",
+      "sha256": "ce6171969c4d5d891e363b7516610266fac2ab868b26051cfbb0170c9b494dff"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000013.wav",
+      "sha256": "11c119b7bc4903c76e01768917f3b635ba1059bb681ca2536142d1ca252093c6"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000014.wav",
+      "sha256": "369eb5ef2bad2da00b8a7cfbe1784e3586ab66d81f81b78223c9bf95da6f4531"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000015.wav",
+      "sha256": "4e7cff0dd8c78f5fab88135096c5df0abe61060c735f61b0ad2f7775f7c11e6a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000016.wav",
+      "sha256": "a3dff4242fe25de934b67cee224741edec77560ea97f1765736051eb329ed44d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000017.wav",
+      "sha256": "16b2fc242f722ab3c2b78bc1ba717e0cd8e989debf98de5db8f2542692213e1a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000018.wav",
+      "sha256": "7c28229c92fd19d6a66d0715e2412f308d0a67389bf8c94d59b87e693bb911ef"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00000\\frame_000019.wav",
+      "sha256": "0ba75d9847b1c495eac3ea6ba72c17c6b5cf075e84e5f28ce6488693d20d847b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000000.wav",
+      "sha256": "313da75c47380c1ead5f65e20ea9e7a7ba6f5216291d8b7cedfe7eea74ef518f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000001.wav",
+      "sha256": "19554dc9fd26d1b1a38a3ec697de12ad8f886335eecc91685ce5221fbe41db96"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000002.wav",
+      "sha256": "d79ac3dc208145f3b0ccd4a1f8c61bbbc465d971363f4988a975256c175dce5b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000003.wav",
+      "sha256": "d4bd538ccc9ed47be212aac0a00ccbba0bffc1f0cd69567c536516b189f05a4c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000004.wav",
+      "sha256": "9abce8f98f6008ecb62708bfa9fa11e45d3c47b0a1dd3cd9099d8b60e0470ca3"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000005.wav",
+      "sha256": "a410c2dfadc9958be03b1c26721d8d3d269143d2ccaa1bc2b4c026f976be740c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000006.wav",
+      "sha256": "846940a021af5c49a2ec0137e8e9b490a908390ccc156928eeca9917bdeb658c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000007.wav",
+      "sha256": "28e062414cfe7ece6ac9ed847ffd9846ab40e61594f4511aa76f757d5e1f1fd0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000008.wav",
+      "sha256": "3f8d63d82ce4b6abeb6a34292dd67e0001c9d340fc8f9d326b4668cf62acb9a1"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00001\\frame_000009.wav",
+      "sha256": "91a72bbde6225bccd6cb69a24b3b184875ecc00b9bd7d3e57e377ca58e185d3c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000000.wav",
+      "sha256": "fa247c0c83e6eca5be5258dc5d12c9660625d53799988ce93b02e72196df5eff"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000001.wav",
+      "sha256": "2d2e0ac9ae399150346be6ca1e6ed2770e1b84de1a4ca7a67459b76756e2b44f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000002.wav",
+      "sha256": "dd78f98963ed15e8dc5183beb74be4316de37aa49cd97da2a5ce1c6443988b38"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000003.wav",
+      "sha256": "ab2d799725e78a92c4ad6bc9a35925ff6c38fb09039ec7a57d64ecdb63d2486b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000004.wav",
+      "sha256": "1a7c7727cbbe27eb063c3201f0cd4bd073bf2414caa5bc3a5f432f0af5479721"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000005.wav",
+      "sha256": "77e57351b97daa87a58fbef3959f9cea8434d6766ace3b75ee8c308f4eba83aa"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000006.wav",
+      "sha256": "89b3c326981b632f39f5a3e318f66467e48c55144902cef43ad79fe36e2d6b6f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000007.wav",
+      "sha256": "78566f0caa2790c3f0c86941e6da01a0565ca773a73c271204174817f69a2a19"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000008.wav",
+      "sha256": "c312a69947c70a2f831bfc20863f89c2b81022a6560f6eea173341f0fe24c8a8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00010\\frame_000009.wav",
+      "sha256": "14b1d8d1e34574b737fca941a2039403c27bd91c5e0d44debf3b868449407cec"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000000.wav",
+      "sha256": "102f93aebedd56417a24e60137c2f40e5c5ac418d432061d270b736c47ec37ba"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000001.wav",
+      "sha256": "ee4c9209d46506974c09acc8fdb438ec40d2aeeeed12321a7635e00ae47f28fa"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000002.wav",
+      "sha256": "26bc18794b8a0cfb8b3eab60698b30d970e94798e6079ba06a26fe386daaf33f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000003.wav",
+      "sha256": "5f5dfb10dddff9c3edcdb6e742f08407758a1a2cb26808476b34174957fcc841"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000004.wav",
+      "sha256": "c5bf619397fa82965a98da1733c4411dd569d89a764514fe9622969989dbaec2"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000005.wav",
+      "sha256": "c3314758aeb0f66e0a2e1e7015edd95407f2106d9cbbf70e1eae3fb585622687"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000006.wav",
+      "sha256": "b4e34a67a5b051b8395de4aa54d41189d83870985d72d692d9bf8c0dd1cd9fea"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000007.wav",
+      "sha256": "7848b97895741dd804cf6571a37be1177d21d6353f84be3bfcd97cc71d30262e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000008.wav",
+      "sha256": "9ec6b4b136ba0b73d5c83431de5eb4e5097f56bfe4e197865f08587049261b82"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00011\\frame_000009.wav",
+      "sha256": "fd52764996c9c8eae43696742b00ef946d9ca28dc52c1b894902fb628ae429fe"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000000.wav",
+      "sha256": "d32e0cf50b6db555905384d45f442c0bb778020e792aa6935062ede6e6ea003f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000001.wav",
+      "sha256": "31288fb563d36a75280136140aab117d2c15c4fd43c1d9bd46535fb67892e68a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000002.wav",
+      "sha256": "6040b5409e3c8f84c38fdf656c2dcc41bb12a96a65bc1e0d3fc776212adcb272"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000003.wav",
+      "sha256": "8a1e193f961ee084376891a808b3099dc5d315934145d1b5eed78a6c610fa317"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000004.wav",
+      "sha256": "2b947f4075d4b9c5fe0581dc59ca44f203a27cdeab24ad420ee52ca8053be353"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000005.wav",
+      "sha256": "6969285778110f0e8ef7729a22cad0177763b1963b2e181133ebe87a837ec3dd"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000006.wav",
+      "sha256": "de3d70e0e3e85ee9338e687b1b6ad0da23a5cd76229df872d8e20bc7992ea0cb"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000007.wav",
+      "sha256": "3558f021bb7c6b09a0cd52512e59ab7241e4b6b5938cd9c79bed6954297f0618"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000008.wav",
+      "sha256": "7867960572121986764a32eb87da53fbc89882214d6673acaff649e15b484d07"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00100\\frame_000009.wav",
+      "sha256": "c5ea7d49ce9824f61551f9a01a9a8a177db3df4a2cdf09128f7ea98c1da50024"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000000.wav",
+      "sha256": "8f9967263ff609d9152d8e8cbe27c4476056af5b1e67bee8b96ffb26a03b4280"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000001.wav",
+      "sha256": "d1b6ed87c8bcfad3a19f276b79007ddd5e92c3a1aaf7080582271a2a022a7c5c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000002.wav",
+      "sha256": "537cd65c86a83ff81160d8c297a80df7321a176758545fa8d219849f55528837"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000003.wav",
+      "sha256": "54d4a14c9f345ca1ae651dab0e3e149b96d8345f83f9fb950c2959c4c411df66"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000004.wav",
+      "sha256": "88c6d1eca21b6a95a3c4a6f48702d8f6941f1e8064268ba24c352f98afeda2ea"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000005.wav",
+      "sha256": "f1082c88f3ea1ee2fd4cf43291dc76e3bd23448e17a2c496962b208607c0b2e7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000006.wav",
+      "sha256": "56e8e91167fd689e7a9bd693af0849b433a96e2fb44afef85f5f4fd3d559bd25"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000007.wav",
+      "sha256": "3ad1e2882a7b39ac3cc334e995f62b5f44f8dcb19c1788e6536d69675b411700"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000008.wav",
+      "sha256": "5faf2ba198707d1263fbd5a5c2908a15d6f5b472adbbb6cfa7c3e57540126d32"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00101\\frame_000009.wav",
+      "sha256": "eee7fd7af0ca23f8190f70c64647b4ef4a2f28b741238c6680dbd0b98cdb37c7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000000.wav",
+      "sha256": "c7b5286b64019a62c619d298ccb4909e5094ad1a5826b6dd10904b6c959e28d1"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000001.wav",
+      "sha256": "5dd958e79e6dd07e31f63477c0798374308fbb6a27fd21c20ac0e499db70a8cd"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000002.wav",
+      "sha256": "78f08d0ce655d073aebb50c4d51d79d8f3636335fb148250e70ffdd4e62468c7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000003.wav",
+      "sha256": "ac34ca28e2ed736df8cef95cb10e7451be450eeaa5c71e8effddc6d6db5aeb10"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000004.wav",
+      "sha256": "dd901089934543ba765700729d3e7225e15bcb91b8838ff402655c5db29391dd"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000005.wav",
+      "sha256": "327baed4c684202d546bbe4253548a3ddd7eff6e9e9d8e36f54d333151cd58a8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000006.wav",
+      "sha256": "c57f292877f18b722c1f3359143e354bdb5e86f62f40e7e7836348e799f1d4c7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000007.wav",
+      "sha256": "cb8b7164981b286208ec07f903c17e4bcc5ab96ac5119475682748af26e07483"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000008.wav",
+      "sha256": "15c6f0ae67abfa54d39079085752d3173eb76a0220a4ca15d84b071a0f26fb03"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00110\\frame_000009.wav",
+      "sha256": "fda7e8956a00c14fdf36fc765965742cbe3e30595cfbfa9935c2318e9ddd307a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000000.wav",
+      "sha256": "a7a6fef90f497c46ddf372fbfd70b8e8db28b13ebba4e9b9818ddd8d276c1c94"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000001.wav",
+      "sha256": "25f7619149f11719fd74394fe2dc5fbcaec4954194c7f9727c9fbcc137745fe6"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000002.wav",
+      "sha256": "eb98c740fc19721348cc9b601af0966fa757c01e370e74cfac6a33d2593a7b01"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000003.wav",
+      "sha256": "6622b450ad95c4a1a06bb1297f49dbcc444c0c51ee2b5d30579ae66dc5ecafc5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000004.wav",
+      "sha256": "3adfd70b3249f2126ed41be14d959bb48feddf7670a6db17f3335e852dcfdf26"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000005.wav",
+      "sha256": "7224694d2fec711cb3dbd00d664393db573c570fe1b5c98a46fdb6db0b75aa08"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000006.wav",
+      "sha256": "daf26404f7366f7389b55bd8824e473232f167310008d2e593f20b1934bc9cfe"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000007.wav",
+      "sha256": "84ef22554277724e950a3680c6617e76a874cc3bf9f8d2cf85f2a8a941890f09"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000008.wav",
+      "sha256": "776ce6dc83f08b8cabec9fb1eec52cd211f0d81641bce85b43863e8c6ddefbe0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s00111\\frame_000009.wav",
+      "sha256": "286c5933edd940da444cfd250daa0ebb9f91a1bb762b154f5e068fffdae0cb79"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000000.wav",
+      "sha256": "67d2ec9fde74e34d9783e98d2bdc22da4a81d3f3668bac9856325c03c49fb65c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000001.wav",
+      "sha256": "ad7d44025ab0bdefe98da1f59130e34d21b007f37c08030df7d60c1cdaaaf40a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000002.wav",
+      "sha256": "fa9c585fb49a8919127014d2090f6489ac2935fa8205968a631e5ab6c5e1c1c6"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000003.wav",
+      "sha256": "edcd74e9b154641bf1652d7198b479bfcb3fcc9b477710c99d3fef0a90363db7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000004.wav",
+      "sha256": "0f1778217d2275dfff640a91458a9aecdfcc94e28be7dc35a0dc491e2d5df565"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000005.wav",
+      "sha256": "5c8d4f902a54043977112c0bed4eb34c8b039d01df51b765d51f2f0daa878586"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000006.wav",
+      "sha256": "13774ab28d6a72c29723f4a3751a74df5e361d998f03d7d5ca97d1dcc43feeab"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000007.wav",
+      "sha256": "a9244510e50f7ed6c1bfdd0ffd5a4e93bc1c7420eb11c05a10d7efaec0900f26"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000008.wav",
+      "sha256": "c68ceb0a69d7a73cfaee8a70cf9ae273e5850714b60fa8a6bd2c6cc231da0f96"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01000\\frame_000009.wav",
+      "sha256": "c7e1355ae8450f8a34849d847da8606ffee7e8d85194c2c6c375562b56abae0f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000000.wav",
+      "sha256": "26922f06dc2ddcf712ce9d59b564fbe98519527bd2b183abbeaa0cf36f85573b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000001.wav",
+      "sha256": "b09e6334044651c51ed7e88ffdd3d146139b3a6922244a8d12ccf74e12642e3d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000002.wav",
+      "sha256": "92fd3c081abf825e6b2e801a60f95d5eac322cd5601f0f0716f8e7a9750093c4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000003.wav",
+      "sha256": "72d517d2d37c1e9ff0b70f4c4f4881545d7d621a4d3ab88919d461c4e3de334a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000004.wav",
+      "sha256": "d1a836f9d035a943fd69449464a15a32a00e6b3083ade7ed8acec9b560ca80bb"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000005.wav",
+      "sha256": "d027eab2c2fe0d7fb73596769f5fc1719fd45083ffe882ab6f1f0a0ae161eae0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000006.wav",
+      "sha256": "63b205dc54eb1dfb70dd228931a77ee949c64136fec19f317b5b533c0410de71"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000007.wav",
+      "sha256": "6d5cb5bb3ba1b7052a05b0173b78ca12e98558c38e99b9c1985b5effe9cbcb0d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000008.wav",
+      "sha256": "41a46046ab99f2e931380901cd16c20af54cfbfeeaeb48ad143d09308eab5d0b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01001\\frame_000009.wav",
+      "sha256": "360f69f59b08d2ee0c3a6b53c2adb17f26b0daba3aede4745bc7e9b0783c08ba"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000000.wav",
+      "sha256": "7011a3bfd64fc0daf8e2768debdb6f5da5c98541c375d9b7e2c388cb0d6e3661"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000001.wav",
+      "sha256": "46f704ee34df434caa7ebc0e0137d8fa799e459a6fdb24824d5582c2053b398d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000002.wav",
+      "sha256": "c3df18055679cbc61de4e278104aa4c0b5c86caa2cc632b1ab8a9eb29aaedb6f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000003.wav",
+      "sha256": "9490f1066e1136ad49591cc1f4d012c120bc14c3683e35813db329b0f8bd31af"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000004.wav",
+      "sha256": "c0288f778d691d8137ff148d940f6d49631ad4c3620d4652d6944e9df2101a3f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000005.wav",
+      "sha256": "d85ec77d86e66b8ee40f54600431f142ffb088d163f3a7c8c03e02d1778c6d8e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000006.wav",
+      "sha256": "224e0d14bff7632050e204f1a3382c71008668e8095db68303b9e6f48b1b0835"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000007.wav",
+      "sha256": "136e7cb912f9f22cb85b1cbf0da91cb9538b1fd3e4a14438770a5c7fea6eb8b8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000008.wav",
+      "sha256": "89ecc66fd52794522f93423c87064a3a5b6e6cca142b27270f677f3deb86a843"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01010\\frame_000009.wav",
+      "sha256": "6f20c42a8b38ecdacf39c6c887399fae5fb67859b912095d363accd1101ca58e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000000.wav",
+      "sha256": "26fef44c25d2d3427e36393c9a146de2342eb3d9a053d4800c45453671afb886"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000001.wav",
+      "sha256": "b9a13cfe48c897daa1080ecff25a48302676f29caab8e1d3c5d05332199018cc"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000002.wav",
+      "sha256": "4e7f93785e6da0dd685b1b7cdcd845e4ccd3c535acc913d5a982eaf884e6c29f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000003.wav",
+      "sha256": "e3a680b1747902ea9f76a5ec319f0e279617e14c55374b9c4c73b39a0fc41401"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000004.wav",
+      "sha256": "ad34ccdbf92f410a19e5a3b53caa7f984230a6043c3093614e4b1402fe2a9924"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000005.wav",
+      "sha256": "ca46d52b86792f1f6b58e1e56a9fd148cbbe5ac7de459c66ea9a900213a8e1a4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000006.wav",
+      "sha256": "7c1c02fc37dccc454962fd16166fc2db5e58bf11910e7bd7cee5ba1694232c9b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000007.wav",
+      "sha256": "ea13eab8a2bd12c897be6bfe0042a4abb72160b2e48319240568217751febc19"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000008.wav",
+      "sha256": "a447c4b509f84b859919eb43a0c0d7e8f840f87f13a23955779b0a621a4ee24a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01011\\frame_000009.wav",
+      "sha256": "739226e970c4691cdb56a84d33ea9fce98b1629c6fa7cbeca62e89a1ea9d5a81"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000000.wav",
+      "sha256": "62f8300c6aa5279084e3cb026dbbfce643bbbe0e7671b86b21c0829467c316de"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000001.wav",
+      "sha256": "24cf277085233201c9c60a82d5a18477f07853d7c42e2cf443da9af3a1479ab7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000002.wav",
+      "sha256": "fc79aa451160d638f39e33ede09a8321b1cc0b15f2a6691b61f488f7fe981d2e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000003.wav",
+      "sha256": "b91cdfc146e7600fced3223ccae2179be20111169a6b53e7b655f1bcd4656111"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000004.wav",
+      "sha256": "aad3823e7f7079ec5166d537725b7a696865d9214d69318e9b29ae7109d6069b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000005.wav",
+      "sha256": "9a0b254f9e1f4cef9629c2cb864cfba37196ae70dd5296ba1aefedf646076dea"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000006.wav",
+      "sha256": "511cc98c6a2278afd09d4baad62372e14684af49a3dedf967fc9f7152211b78e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000007.wav",
+      "sha256": "03179b96726462cbf2b481468260fdbc0cbcf73785d78ffcbe57c6327b515bb1"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000008.wav",
+      "sha256": "5ff082020367bfba23088ed11c1302f39917235738f92257efb1301666552896"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01100\\frame_000009.wav",
+      "sha256": "bb6f34b7ffc5457f3be305557e2e941e414113b28fe91f528196f141b2581249"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000000.wav",
+      "sha256": "02b8bd92f6d068b600df327227eea8f34e46c28f39d3a62703983c08a0d31a31"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000001.wav",
+      "sha256": "b862ea0ab0d916bafb48b5a3992403ce3f39970369aaa38514471374e7dfc894"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000002.wav",
+      "sha256": "7fc41e8dac8be230411589e80f5d0af8a884f0bb72bbb5ad91e1c5f86c58d43e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000003.wav",
+      "sha256": "05d9c39d1d6ea129890b75a46e4872958e6b81def310aedf39ac99350164575d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000004.wav",
+      "sha256": "1962643a3d47c666877087ebc11f8a705d99559090c6152973c4ba9a5d6c2a0a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000005.wav",
+      "sha256": "ae59baf41c0049ed024334c5c90889fc9a5f279e03088c318324303dd8539c70"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000006.wav",
+      "sha256": "7df2e913192199c11c86ad89fca7b0b58736aad242cda8c154c25f692dd47f91"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000007.wav",
+      "sha256": "fa93047c7708929187b74ee4aff7a2214a4d9101d0a61dcac081316b15858618"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000008.wav",
+      "sha256": "80cd4c84778bdf1dea4b2bd043cf53f68345767bd2ded8dcd7837dc33d965a7a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01101\\frame_000009.wav",
+      "sha256": "1dac8a3e1d0eb9568ea2140aed56bb2528dd16bdfe08c882e8c23fb7a49342fa"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000000.wav",
+      "sha256": "3229e056452802977b81146bc1859f1b2211138077f3e4ebf462051ac3c1f683"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000001.wav",
+      "sha256": "1b60b05818d47aefebfac0fce98f31967b7908dd8d610b63bae06c670466c989"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000002.wav",
+      "sha256": "32a6c35e7bf4505d364623585bc96ed1929c926491b2a88cdbb429ab3a49516c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000003.wav",
+      "sha256": "80f1846faa216b3500128c94f42b17ec71842372ce55899672bfae2d0b4d963f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000004.wav",
+      "sha256": "505d0ac387d363aa45458f1c2a65ac575001fa0b69f051865e0f54bcc84a4c7e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000005.wav",
+      "sha256": "6b180c8f4b1a6e219dcbe2d154fc2607572792fbdbe3013d19158d75dc33c4ae"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000006.wav",
+      "sha256": "85226b462f1ac4f8b73ee225d34f9a2e797bd53bd6d013785de62f3b88b467d5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000007.wav",
+      "sha256": "ee3f0a65ac254e949ce51fa8be5866a673112916a945cd8975b2a6bcbdeaaa7c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000008.wav",
+      "sha256": "269810417cdd9b3b181b6ea280326d01ebc3879f441d4d336f6e0fce6fbfaff4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01110\\frame_000009.wav",
+      "sha256": "04dee64da763bfd7664f8344e9d8cbeceab3a20fe62600e0c5d66559dffa6848"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000000.wav",
+      "sha256": "e2a5630215adf29b54d7f9871bcddbe81af768ef30c962ee5296b57b9f4752bd"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000001.wav",
+      "sha256": "2d64fe55a3d655fcaa132e2adb5396ef4e5e6adf609c8f13b69218ebe45a364e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000002.wav",
+      "sha256": "26b0dcd26186047751885ff5f06fc5be51d033ce225be997856990844c0d6f60"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000003.wav",
+      "sha256": "f8ad42c2470b0e9fafdb252282dca381c490324132b2e8f43a02a61ccd6f7f28"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000004.wav",
+      "sha256": "35351c210dd6142d7b80c129c26d461850eb0991ecbfed8334e51f9243476c51"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000005.wav",
+      "sha256": "efb57a1ee2cb4fa4c4da6552f2b6d2711e7bc0e977bba5be3511e1490f7d927b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000006.wav",
+      "sha256": "242f29ceaf58ec609095ac4ae35edc41479b9dfc9bfa8be130d1e17760c0a3d0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000007.wav",
+      "sha256": "6ad31398fdff11977d2b89b60b06aa03b011905ff9b610f7c01c1ae68ac48da8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000008.wav",
+      "sha256": "a61eb288c1d2144f42dd1d3ee3bc889a9878050de2a2935671453ba544d87a54"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s01111\\frame_000009.wav",
+      "sha256": "e3b7417c5eac0a2cda6a4ae22852e77eb73ada287448d9278cc7a0f73f29be56"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000000.wav",
+      "sha256": "b897b26c728882cfab6db052c25b9953e735579e366ddb31f5de5a2e9689d47b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000001.wav",
+      "sha256": "8f35f7216bddb44e172d5f695c417932ddd88e3ab7e77b85cddaad4ae41f3bbd"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000002.wav",
+      "sha256": "81108a1d4e6cb78f2c730dadd84988453ef7a74fe606b3dab15a106063294a35"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000003.wav",
+      "sha256": "f052cd7b5f28866a98386e376fa937350a77c7b3f24d1b8bde501828a02023c4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000004.wav",
+      "sha256": "53acd54b49433cf03245fed5a3df9bd70f2759b74d9e8fbe14b407e7aebc5c45"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000005.wav",
+      "sha256": "6ce950e868716717b412ff221acc7a18488709e2d9a8abb09e5ec09e702cc5b0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000006.wav",
+      "sha256": "0317e08d54e962bf6bf757869910700e06c6d494a918c4bc8179da7dc6a1260a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000007.wav",
+      "sha256": "93c5ececf2debdb7937d9acd65b4195468b5f0e266b949e411969206997d68b5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000008.wav",
+      "sha256": "d6b55444d6e8eff286eaa7f9dedbcb415171b3fac5703e8d226cafedaf16e428"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10000\\frame_000009.wav",
+      "sha256": "55c9121b05b0e3f4c61636d9778afdc48c4c02911d8da333361ab9a50c481921"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000000.wav",
+      "sha256": "a517e66c5569292e7162d05407f94823268c8b3787e222ec07b29525c80bff8d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000001.wav",
+      "sha256": "88694cc891aea6eccfc240d80b72278565dbda5a8c22bf13eb617fb729bfe048"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000002.wav",
+      "sha256": "41ea2d8307c2e4afdc3fb1082ae524011c11b70c51da10156e5d0a8f43239ef5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000003.wav",
+      "sha256": "badb16e8244558630a60514375a0a575654e1bef12d0d17c36836aed0c53a271"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000004.wav",
+      "sha256": "9371946216f85b7efe7e4e409ad51031114055f8f449fc7306e20104c163ef82"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000005.wav",
+      "sha256": "fab69a593e9232b5d97dc5b42b7e85ebba788bbe6c2360ad880f2f646ed0edc3"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000006.wav",
+      "sha256": "f10351b3282c5253c25a6361bab4dab5f3d4ac6f9388f8556f9dfb211432085b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000007.wav",
+      "sha256": "6069125c73245c39045f359e3a05f6dd1dd84c1fe20e2f28893572ba6917c299"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000008.wav",
+      "sha256": "975ceaf6065c5a0ecc23ea2010a50db8b3e026491c4b7e68b902f7ce6b376e38"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10001\\frame_000009.wav",
+      "sha256": "94aa2583927bf28598db0405bf0722c7edf07549b330bff72885e2eaabf45c63"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000000.wav",
+      "sha256": "be05e01e776f71892f56cb2ba35689c815508db4f8d1aeefabfe4fffd365a233"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000001.wav",
+      "sha256": "48ee220fd7964ebed462a4430a85fcf4c52f83db50967dcf3468ff07c2f9fd47"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000002.wav",
+      "sha256": "d176056e4d95807732bb9ae7cd3cff791d8c92a54c56416c2aceb35c7d8e5767"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000003.wav",
+      "sha256": "55f1a678841c759972d1a77f2d36b5bb7c0bd9759d62abaf86a65806f95a4709"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000004.wav",
+      "sha256": "f75f9e798acf668d4350f2d308a63f7d7793e33bbe197075a172ed895d07a976"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000005.wav",
+      "sha256": "69d8da2de4db6876de6d2dafe9af0f9cdc5267ea7f7bcb838cf9891e8f2bc499"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000006.wav",
+      "sha256": "f7ed6dc025ff1000e1fb38f8f7078c2195e5326de2ac1545f142ac002ede6244"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000007.wav",
+      "sha256": "e3983fc27f06f10e5ea6af3b21d34dc00bb89c5c61adc2a4db983ecaa1a54f5e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000008.wav",
+      "sha256": "218974839ef58d18ed43ff6652658dce3d64acd4ee6fd7a9a7b6300f48f2ce59"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10010\\frame_000009.wav",
+      "sha256": "3f808a72b8ab60e6787f1154c1eabeec114f3f15124a3cd6bfde1968517171d4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000000.wav",
+      "sha256": "2d0d482e85629e295adaa557cfcbb32a7dfff40ef7b325ab7a52498cb87ec6cc"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000001.wav",
+      "sha256": "59854e1dd523923a7e6208fc03ec04090d1c1c5ccaa4019eb3d9000c255dbfc9"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000002.wav",
+      "sha256": "9933b3828713c9f089291fecd2d8d0a08c20551a5537cac5c78b98f9248f1f47"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000003.wav",
+      "sha256": "a5f8cc9255df8d47485b9d36a95f935c368b931c8a9fdbe73d9ad7b007fbf082"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000004.wav",
+      "sha256": "598a714e6583b0ee5a9ce43acd7d69db0646086e6b730f8578cf7a24e694c88e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000005.wav",
+      "sha256": "a6fdd3ca2f4453de1227e8e3c9b87932473c70e70611c4ef723253bacf9ff936"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000006.wav",
+      "sha256": "385fecb78599755870d32d2a250d7962a73d4f0098084821cadbab7b7a0d8fa9"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000007.wav",
+      "sha256": "70f2f990279fc61e60350ca2abb2316e73ff2ffaf357f35d0de6149ac7f89bba"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000008.wav",
+      "sha256": "2f8b8f645853cf1244b1a7bfe966d794b5a36e7563da032ae378165ff0df12b2"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10011\\frame_000009.wav",
+      "sha256": "2f9dec9aa1693f99bba7482d682fa2ac3347a71358da9560895f964175a0ed75"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000000.wav",
+      "sha256": "928c90757a9ba41f58e8b05511e78fee0cf88362e300536bf8119521fb8c7887"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000001.wav",
+      "sha256": "869d4ca037e20d50f79604b2e079c79af59e1b97d7eb4ade199909676b8bc2e2"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000002.wav",
+      "sha256": "f0d465d7d54c1e0a290004834a4a3a232207e27a1a66ce87977fee7ee3e7c2a8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000003.wav",
+      "sha256": "47ed89c0230f69c3d65b484a1d14d1c57aaf63a9f752bceed0a9fc11dcde9eee"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000004.wav",
+      "sha256": "f2704800d3d521d27320962ef16934c1d4227fdcbcc4532855056fb4b49efd9a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000005.wav",
+      "sha256": "2505124beb2a97e5a204e25676c16e92f09f327e24a9d348605efc105b21b516"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000006.wav",
+      "sha256": "35dce82effebd06326f077667329aa806a0dd8fd680dce0aefe09d895523f85e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000007.wav",
+      "sha256": "d13dbf2353f01fa3dfb7d84bfe218eece76f78003319126e47a091d86c041820"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000008.wav",
+      "sha256": "fc4cd2769d6803b69a8e7e64a80cd810e04689ec6077c5fa0ceb4e78d6b35ce4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10100\\frame_000009.wav",
+      "sha256": "911de2402af7e2c3a57d65deca7279c5761856f034539d844a2134aae0cad50b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000000.wav",
+      "sha256": "6e8f894eb81ad0106288090e7c7b847ceeafe9acba16d9419c79afd070e2d9b5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000001.wav",
+      "sha256": "aeacaee30ec2f62ea9e82a39ac5219e26d0db4227e57c9d3293c8850eaacaaf7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000002.wav",
+      "sha256": "f690298b9d4d5ed1426a2f639048d7578a7daac59ffa5168238ac3858719b46a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000003.wav",
+      "sha256": "0ad8468cba6c583e839a37f89eddcd1f9f43353347b0bb078c51fdd1ad5c720a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000004.wav",
+      "sha256": "ef26d35e6496babc3cac9761d1a2ccd7ac307865824d53172aa7cecc487137fe"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000005.wav",
+      "sha256": "cabecfde71ca90c628717961677e3eb2c717c2195b541dfe882b523a85bdc776"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000006.wav",
+      "sha256": "4a221dc9f52561f592d5983cfe2bbb5bc9989319f322f418c81f2038f6e214ed"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000007.wav",
+      "sha256": "b010a703f2d145263e754e248b20da2b6344c1e534af9e11835ef6898865bb6a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000008.wav",
+      "sha256": "6300f5e80f82ba4bd6fe234d6367afa6b4682cc25453c4d69e10ab0ed790f670"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10101\\frame_000009.wav",
+      "sha256": "d0baecad07dc068b8e22708e7bab8846f939e77c870404255f59cbe42f57be3a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000000.wav",
+      "sha256": "da0da4f54b2cdabaeb47aeddae9c73bfa0fe28e94fd3089c57ccaca58614d3fc"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000001.wav",
+      "sha256": "fb8d5ce4165cef009d2c2f09361a23d4b3dbaa86b8262ccddf90664d8820c885"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000002.wav",
+      "sha256": "c74838a495d12eed46ba7d819c4e8f609375f54cc017f2d3c3c33da28349cdf7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000003.wav",
+      "sha256": "65a10a6490e4067d08a587d242f43edb7939c334bb2bf4f261be64e2a934f0f0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000004.wav",
+      "sha256": "5bd5d5bcec280ed4cb9077d9029a7ab1bf1b0c4e548ee27ce8135efed6fda7cc"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000005.wav",
+      "sha256": "14e8cded9f11ea4f1761a67bf312032bba3858c4da125cec39a3fbbac530bf42"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000006.wav",
+      "sha256": "1c3cd3ec43a5b19904a8cf6ac149ef13338af67ef5c87ed1ddfdb692a1afaeae"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000007.wav",
+      "sha256": "fe3fcbb4438c8dc67725e4a1445ff54bf7a046820728073b880630d91d74c4c2"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000008.wav",
+      "sha256": "f957ead51c8cebfb06ce5efeb46adf86a3b1c525d552d2e5b1b507389ad1c318"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10110\\frame_000009.wav",
+      "sha256": "076b7bacb41f6bb727554e3f72bb8dfdc43ad3013b02b3e9dbe90100d1cf02e6"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000000.wav",
+      "sha256": "9baad5cf9e97117e5f1ee19030b6451d0abee57a8a67dcaa38b9a9f890313cf5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000001.wav",
+      "sha256": "16f32292a4e6be9c716b1d11dd1ae163c74f288962666b25ef5523348a6c3640"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000002.wav",
+      "sha256": "cd4d91bd41943102e6cbde0cefc6334a023ab8db2e8dfa80f91be98350158ebc"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000003.wav",
+      "sha256": "5861cb432274581677e50049ae5f1dd16359898fd04dd9bf0c8b08c99358c70d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000004.wav",
+      "sha256": "4a8ff81215b5138fd0fb9904b07d68e244395719e48b0de1873e7af2efdb23ea"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000005.wav",
+      "sha256": "51ab5b68da598fbfc4ea1e9c2d3c271989a38a0281201379c81aeed9586aa303"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000006.wav",
+      "sha256": "6bfddbdcac7614613bed66d13b63ba34d436200e60adf44860b85dbededeada9"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000007.wav",
+      "sha256": "145640198837c24913f223febf97d1bf69da1a6b4426bc63fcaf9fa434edca7a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000008.wav",
+      "sha256": "2df5af26d8a00c3652f16d1e92481dda7e78d81cc1ae8e5a4f3719b8cc0011c3"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s10111\\frame_000009.wav",
+      "sha256": "782844c5686f5a12f2de2b13ebc7f31a2a72def25c0df25e294fa4676b0c1fe7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000000.wav",
+      "sha256": "a291b6b3fafbc665e2898f45bcf80bc07eac54d6313b2293d97c8cd4c27f331a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000001.wav",
+      "sha256": "b998d284fabcc6b8de7e35587a0650977b55569f8d864a83e4fba2e07bfbaa1b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000002.wav",
+      "sha256": "c17cbf1cf135bcd605a5c17aa8eed3548bb58c468c6eb98b0d89e59bf657fb01"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000003.wav",
+      "sha256": "909144b71d56f54b6d99c5aade763a6129cf835df78191974a42db10e2d4fb7f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000004.wav",
+      "sha256": "fb5a97cae8e2e16ba14c0d8353adf0885c28edcc7858122946ab55adfa6ff4fb"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000005.wav",
+      "sha256": "644fb96e549c450fc793dde803f88fb7e49e359bb2c95e756856637f144fda68"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000006.wav",
+      "sha256": "25e6233ad66151e926d506ad687a1cc922ec0f3f3813e87333b2caa7f46a2e57"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000007.wav",
+      "sha256": "cc38ceb81274503778cd7f7295ff021a8a84c95ddb3b4c15b26e62ea28d6835b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000008.wav",
+      "sha256": "2e91c9c2c0476ff938aa17588e0ff98bdd64f4420c9ce2ab4c5269fb6e0f70fa"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11000\\frame_000009.wav",
+      "sha256": "670be69d03ed9bbb6acbb99b609b0b5952f8304a57b18c2d44eba66f02cb029c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000000.wav",
+      "sha256": "67eda52cce84002e8992ade30c0d1beed4e3dc0972614476df954edde4b7d8a0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000001.wav",
+      "sha256": "23fc4d6c984fce258727e9a54be0269bd1e3b6d63d6107de6254ed4414954adc"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000002.wav",
+      "sha256": "4e50dc1f074cbe7bc1de36d64777e0befca5ce3bbe34fdb4fe50b9628056f9e3"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000003.wav",
+      "sha256": "09850bae32e194b59b14951c3c79b9e50e723c23b88c6404c7c4aaef36a48dc4"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000004.wav",
+      "sha256": "73255ba9bc06b22b431cf4063b4808aea0f9171c156a02568f6e3a81498a77aa"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000005.wav",
+      "sha256": "ae97d194fe768595de63b62a971f5dac06d8c6cf40243823e95c0c87b6d4638d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000006.wav",
+      "sha256": "f270f5c963482f503fe9386adcd379854e74f9e3860576a665e0c28f654500f3"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000007.wav",
+      "sha256": "572bb924b0a2ce27667f249626aa434555e74fac52b312d97404eaea5b08f35a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000008.wav",
+      "sha256": "82e1faa4423e022cedd77070e18350efb666ed4492504242de39e3e955e3da33"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11001\\frame_000009.wav",
+      "sha256": "6d459fc05e485310e222a7206afc99f853a09b26f62c05daa1c61168691fe829"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000000.wav",
+      "sha256": "1becac1ef16d99c5452605f9d7ea5840f24719a8970489f3a721fe273598c666"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000001.wav",
+      "sha256": "c95b89b79cfecc6a476b8112a9cdd4cafabedfce840c0ad7ad65c272c54dbb9b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000002.wav",
+      "sha256": "e05d2fe1eb27c6c951f47c444f06a6365d89914848a7a4f7083e63f6a87877af"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000003.wav",
+      "sha256": "1bc77b2c9e549eaddb069d04756d3b73220895d7c9f16251eabe8196a35e982c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000004.wav",
+      "sha256": "9274287a572605b2661b10e30cb0dfd6c3ad7c4b773cdaed9db84b36ab35b138"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000005.wav",
+      "sha256": "392e975d8df1810ef4b27b5e722ee27f4d8cea543f684adcbd877f73b643defd"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000006.wav",
+      "sha256": "423f51ea8a0eaa8d0c91d0650eb4094d4487b324327d45e67597cf3b1018b9c0"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000007.wav",
+      "sha256": "a34a7c09a20d5ecdc5a119077fe4ebfcad22e1cdcc608736a0eaecaec0afdd25"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000008.wav",
+      "sha256": "d19f3c7d3f62f11395fcca82e209e0e94dd74bcb1676b3b0db93e470db9cd76c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11010\\frame_000009.wav",
+      "sha256": "9837d72c15ee1df6a241f3932b1aa8cc14b4a2134f0d1cd8cc387ceab4dfcbd6"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000000.wav",
+      "sha256": "ba39307ae349146a494695e55a3fbaf09035385798d84f0b4899eb7d3f7a6577"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000001.wav",
+      "sha256": "d06902d31a0d6da730ddbe6b6bbd1bab0896b1393ae391ddc77ec94b677438e8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000002.wav",
+      "sha256": "2d5358f2f2425b16b10a60c1eb24d495df98c13c4b96748c3cc41a5c86d7d665"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000003.wav",
+      "sha256": "c2183d3e457afedc25ed5ca69f07716cfb91ebe6dcef8d704d883fa48f14e496"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000004.wav",
+      "sha256": "a36785063ec35776e91e5a16bd631d172399701f58ecba21a2b0738c52986b2f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000005.wav",
+      "sha256": "f8f2ea8e3d20a17dcbc6082f3358ef02af197785b620bc1601a5863807dd451b"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000006.wav",
+      "sha256": "9fe574a20e610b6f5e058652b82a70152460167fec70bc4fbc478e89ee25e005"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000007.wav",
+      "sha256": "20a6af963fca3b1748881d271bdbb27e6d0a88ad97766df71a7823baed54e2e9"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000008.wav",
+      "sha256": "fca8fce39588276fac068c3d74c375038238975771e079dcd79bfecac1e84ca8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11011\\frame_000009.wav",
+      "sha256": "78b8adcbae7a18323f57b12b6505c3f25cdc46ea098125a8185b52a1c35c2fa2"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000000.wav",
+      "sha256": "cc9454fee92fd427f3dba0585cbc9f9f609f3ead89ff1dceb982f61cec42e09e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000001.wav",
+      "sha256": "40c5c115810b1a1ab6cdfc9d166661522b601b4aa90135e4e833f0670d77d9e2"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000002.wav",
+      "sha256": "f0212f493b8aaba0beee31b9624cd52d9f7adb780def7da17a625f0ca7879984"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000003.wav",
+      "sha256": "3f2cc0773cdba216e6c4dd35aff9465df8683bd0f01a9b9cd50e79aafd23bc11"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000004.wav",
+      "sha256": "ff469829d4d773fcd3f3f68dfdf72f3c16003b4ae6fbe9e005be6bfa951905ab"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000005.wav",
+      "sha256": "f2b99ad7d29ee749d385e584f5fffaf903f163aef84845e83b78cc02b71116ff"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000006.wav",
+      "sha256": "931a172f98e2ee56b01f5cdec86762fca69994f529983f87836699e2a9e328b9"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000007.wav",
+      "sha256": "af85d22ad8409ed00dfe150e6abe1d99027ec081756255fdb771c388bf85153a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000008.wav",
+      "sha256": "1ca86f092fde9d9a09a35081d73055b3021057a80ad9a3f09d07bebb47a1f277"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11100\\frame_000009.wav",
+      "sha256": "d5b3a88adfe4386f7cdd0ffdda272a6d0e75b8a9dfe9b64dc2d99d09f61659a1"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000000.wav",
+      "sha256": "16f500dda2dce97e56c9ab1bd5825563940492ecc7ff3d637be9c24fdc7a3fa2"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000001.wav",
+      "sha256": "31f15863d9c4fe44bd9796fc841b033c76bd98507b8df0afdde9aaec8ce7abc7"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000002.wav",
+      "sha256": "f3e72d7b7a609e82daa4f53fb51ebe8ff7ef45429b15c0af5460dfbc54af3822"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000003.wav",
+      "sha256": "214d264743e53cc2053bab4f339fc2c2d3de0627ec777dd4830911248cb557ec"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000004.wav",
+      "sha256": "eef3b8b3b62179f82300090a31824d7d42d64b70ef8f5524fe1626c1c752c7ea"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000005.wav",
+      "sha256": "ad1868e9f45c4214fb2478bdbc49a8585cf6b890cb0d26f8275b7284822c97ef"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000006.wav",
+      "sha256": "7d238546bc32d5f7e01fd2f7fa5e886f769aeaaa7018cfd13ddbfa43c86f6757"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000007.wav",
+      "sha256": "84110bdbf3ea4e881cf7faf6e39b733ee2c62ca326c002dcd7361bddd699d844"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000008.wav",
+      "sha256": "87d720a8e3645b11b0dd9b95bd3013bf4ea1e9579b92110ad92dd678a97a07e1"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11101\\frame_000009.wav",
+      "sha256": "6e572dba4ab90f8e5bd22fcc80e41826c9063aec14fb20c607bde8d88531237a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000000.wav",
+      "sha256": "5ac4594919597026ab87f8c281c576bfee636808e10edd610621baa3b3c4b4f5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000001.wav",
+      "sha256": "f9dbbf6abbaf5ae7a8490bea83009dc6dea0e329a05a2602904da47fb5c2e884"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000002.wav",
+      "sha256": "8d6058178f1f2eec078416b5fed4f6484994e8757e9fe8b1120437603cf34dd5"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000003.wav",
+      "sha256": "b395f32f062b1db2a104656ba6fb124abb6cd2f3e65926fb8071bbca182c0363"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000004.wav",
+      "sha256": "2afb26267317eb2a6b2dd13490095883824019cc74f606af12e5fc71474cffa8"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000005.wav",
+      "sha256": "c3f595d6708564809fd16c2f85f455564afe1bc80b7579cdfcce8e1b1293c77f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000006.wav",
+      "sha256": "c354193c51af8ec6dc9f88781d01f8c4ffa7113cb9281a0bd9bdfa4cf40a090a"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000007.wav",
+      "sha256": "34015d6dcec434ad82e1e340976d819baa4a179ff8aea65e392c7dbbce0ab63f"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000008.wav",
+      "sha256": "58826e834578d87aaa42e3b06501207a5f7e1af59d42fb8e5635499336955f78"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11110\\frame_000009.wav",
+      "sha256": "932242eae34e6fe0c5834d57fc606cd45aa75efdb75503c04c36312297a77220"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000000.wav",
+      "sha256": "acdc6417d1cd9242f2a726e520f24e0e63b2b24a02a7158582c55a448494ca8c"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000001.wav",
+      "sha256": "3e10ba45b08e3574b98b42082ac442b216c0d04c85fdbbcd5f46509d0387278e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000002.wav",
+      "sha256": "1ee9e58e40c89b15a8debbc320cf8c7b0aaf686369e6f83f8a2bd88b97fce492"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000003.wav",
+      "sha256": "3164a4b71047cd931a08eab82b2018e28ae9d02adbb7f26347614c56b95fc68e"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000004.wav",
+      "sha256": "a58e3c4b48b3db2c48c833a565dd0648594cad53bb9fdf6c88043a0a697c79ed"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000005.wav",
+      "sha256": "49a4b2598f4f175b29e2636c88f510803d95b8690ea62f540d24ec8c1a5b0b49"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000006.wav",
+      "sha256": "307ddefe61151a8ea637d1ccb6fb59babfdc250150a7161843839e571f127e02"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000007.wav",
+      "sha256": "8d2df654782e9710798264b179763f1044b6ad0c634c608f92fb7b14cb5f5a67"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000008.wav",
+      "sha256": "740de60c117c3df50d43bb4cd08e609628689ca4d35d2989a6c45cd109b61d1d"
+    },
+    {
+      "path": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\captures\\stamp_20261107_house_revision_train_20261107_s3_wav\\s11111\\frame_000009.wav",
+      "sha256": "877e2a32fc1f8d3c1eaabc9dc07159c358706724ae2464f534bc32c1d616b55c"
+    }
+  ]
+}

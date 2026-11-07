@@ -34,6 +34,10 @@ bool IchiInferenceRun(const uint8_t *input, float output[ICHI_INFERENCE_OUTPUT_C
    ichi_inference.c).  The calibrated beta stays in the accelerator until
    IchiInferenceUseFactory() or a reset. */
 bool IchiInferenceCalibrationBegin(void);
+/* Continue the last committed P/beta; initialize from factory if none is valid. */
+bool IchiInferenceCalibrationContinue(bool *continued);
+/* Invalidate saved calibration and immediately load factory beta. */
+bool IchiInferenceCalibrationClear(void);
 bool IchiInferenceCalibrationSave(void);
 bool IchiInferenceCalibrationRestore(void);
 /* Export current float32 P followed by beta (8192 bytes), bounded chunks. */

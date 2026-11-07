@@ -1,0 +1,16 @@
+{
+  "model": "lowband_full26_house_revision_fixedbase_xbase16",
+  "model_sha256": "10d89baeb0d18094fdf1e0552bb38883ad5f6d717dbbc07ee292371c1df9cb92",
+  "firmware": "C:\\Users\\yamas\\Documents\\GitHub\\IchiPing_solist_AI\\.local\\firmware-build\\20261107_185401\\AIVibrationInference\\Debug\\AIVibrationInference.elf",
+  "firmware_identity": "#define ICHI_MODEL_IDENTITY \"0232B146214AC1FCCAAB6F8DF8D2D84BE33251B6282BCA4D74F994F055435A0001A9F635F16CDC13D6B2C2FE4E881BB5AC4EAD866A2728B5F38B2FE3FC0149D7444AE0816DB5057D97A05AF158B06A793EC3F76108FB5B0CA1E6B3079ED47934\"",
+  "deployed": "2026-11-07T18:55:33.121974",
+  "verification": {
+    "time": "2026-11-07T18:55:32.996015",
+    "actual": 31,
+    "pred": 31,
+    "calibrated": false,
+    "correct": true,
+    "transfer_ms": 8540,
+    "inference_verified": true
+  }
+}

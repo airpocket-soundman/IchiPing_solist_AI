@@ -11,6 +11,7 @@ sim/_cache/
 !sim_export/solist_ds/board_model_*.npz
 !sim_export/solist_ds/candidates_20261031/*/board_model_*.npz
 !sim_export/solist_ds/candidates_20261101/*/board_model_*.npz
+!sim_export/solist_ds/candidates_20261107/*/board_model_*.npz
 !sim_export/solist_ds/lowband_multival_20261031/board_model_*.npz
 !sim_export/solist_ds/lowband_singleval_20261031/board_model_*.npz
 !sim_export/solist_ds/multival_20261031/board_model_*.npz

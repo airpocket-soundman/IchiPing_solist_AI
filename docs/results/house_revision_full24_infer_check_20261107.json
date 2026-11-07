@@ -1,0 +1,9 @@
+{
+  "time": "2026-11-07T17:05:35.453000",
+  "actual": 31,
+  "pred": 31,
+  "calibrated": false,
+  "correct": true,
+  "transfer_ms": 8540,
+  "inference_verified": true
+}

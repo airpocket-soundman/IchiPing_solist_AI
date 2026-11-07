@@ -1,0 +1,13 @@
+  cached stamp_20261107_house_revision_train_20261107_s4_wav: (320, 1024)
+  cached stamp_20261107_house_revision_train_20261107_s5_wav: (320, 1024)
+  cached dB stamp_20261107_house_revision_train_20261107_s4_wav: (320, 1024)
+  cached dB stamp_20261107_house_revision_train_20261107_s5_wav: (320, 1024)
+  seed 0: validation acc=1.000
+  seed 1: validation acc=1.000
+  seed 2: validation acc=1.000
+arch=small train=stamp: seed 0 validation acc=1.000  ELM s=0.25 ridge=0.1  s_in=0.0338 s_acts=[0.0633, 0.0361, 0.0423]
+  gray     n=  96  CNN(float)=1.000  ELM(float 前段)=1.000  ELM(int8 前段, 実機参照)=1.000
+  evening  n= 320  CNN(float)=0.928  ELM(float 前段)=0.900  ELM(int8 前段, 実機参照)=0.925
+  survey   n= 320  CNN(float)=0.988  ELM(float 前段)=0.978  ELM(int8 前段, 実機参照)=0.978
+  crowd    n= 320  CNN(float)=0.950  ELM(float 前段)=0.934  ELM(int8 前段, 実機参照)=0.934
+-> C:\Users\yamas\Documents\GitHub\IchiPing_solist_AI\sim_export\solist_ds\candidates_20261107\lowband_full26_house_revision_fixedbase_xbase16\generated\ichiping_model.h  board_model_frontend_32cls_lowband_full26_house_revision_fixedbase_xbase16.npz

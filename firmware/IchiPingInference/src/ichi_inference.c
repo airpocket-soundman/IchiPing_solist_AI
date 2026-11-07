@@ -165,6 +165,24 @@ static bfloat16 float_to_bf16_bits(float value)
     return (bfloat16)(c.bits >> 16);
 }
 
+bool IchiInferenceCalibrationContinue(bool *continued)
+{
+    bool restored = IchiInferenceCalibrationRestore();
+    if (continued != NULL) { *continued = restored; }
+    return restored || IchiInferenceCalibrationBegin();
+}
+
+bool IchiInferenceCalibrationClear(void)
+{
+    uint32_t meta[4] = {0U, 0U, 0U, 0U};
+    ensure_fram();
+    FramWriteBlock(SAVE_META, meta, sizeof(meta));
+    FramReadBlock(SAVE_META, meta, sizeof(meta));
+    if (meta[0] != 0U || meta[1] != 0U || meta[2] != 0U || meta[3] != 0U) { return false; }
+    load_model();
+    return true;
+}
+
 bool IchiInferenceCalibrationBegin(void)
 {
     float *row = (float *)(void *)ichi_shared_scratch;

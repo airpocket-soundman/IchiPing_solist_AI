@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="IchiPing on Solist-AIの簡易マニュアル。セッティング・推論・ODLの操作手順。">
+<title>IchiPing on Solist-AI 簡易マニュアル</title>
+<style>
+:root{--ink:#192d32;--muted:#526962;--line:#ccdcd5;--accent:#076d69;--soft:#edf5f0}
+*{box-sizing:border-box}html{scroll-padding-top:20px}body{margin:0;background:#f3f6f3;color:var(--ink);font:16px/1.8 "Yu Gothic",Meiryo,system-ui,sans-serif}
+a{color:var(--accent);text-underline-offset:3px}a:focus-visible,button:focus-visible{outline:3px solid #d88d2f;outline-offset:3px}
+main{max-width:940px;margin:32px auto;padding:0 24px 32px}header{padding:22px 26px;background:white;border:1px solid var(--line);border-top:4px solid var(--accent)}
+h1{font-size:26px;line-height:1.5;margin:0 0 6px}header p{font-size:12px;color:var(--muted);margin:0}nav{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}nav a{padding:8px 15px;background:white;border:1px solid var(--line);text-decoration:none;font-size:13px}
+.actions{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;margin-top:12px}.actions button{border:0;padding:0;background:none;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit}
+section{background:white;border:1px solid var(--line);padding:26px;margin-top:20px}h2{display:flex;gap:14px;font-size:23px;margin:0 0 20px;padding-bottom:12px;border-bottom:1px solid var(--line)}h2 span{color:var(--accent);font-size:14px;align-self:center}h3{font-size:16px;margin:20px 0 8px}p{margin:8px 0 12px}
+ol{padding-left:26px;margin:10px 0 18px}li{padding-left:3px;margin-bottom:13px}li strong{display:block}li p{margin:2px 0 0;font-size:14px}.note{padding:12px 16px;background:var(--soft);border-left:3px solid var(--accent);font-size:14px;margin:16px 0}.note p:last-child{margin-bottom:0}
+.screens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}figure{margin:0;padding:9px;background:#f4f7f4;border:1px solid var(--line)}figure img{display:block;width:100%;height:auto;border:5px solid #253936;image-rendering:pixelated}figcaption{font-size:12px;line-height:1.7;margin-top:8px}figcaption strong{display:block}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:12px 0}th,td{padding:9px 10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{background:var(--soft)}td:first-child{font-weight:700;width:30%}.small{font-size:12px;color:var(--muted)}code{font:12px Consolas,monospace;overflow-wrap:anywhere}footer{font-size:12px;color:var(--muted);margin-top:20px}.print-only{display:none}
+@media(max-width:600px){main{margin:14px auto;padding:0 14px 24px}header,section{padding:19px}h1{font-size:22px}h2{font-size:21px}.screens{grid-template-columns:1fr}figure{max-width:360px;width:100%;margin:auto}td:first-child{width:34%}}
+@page{size:A4 portrait;margin:14mm 14mm 18mm}
+@media print{
+ body{background:white;font-size:10.5pt;line-height:1.65}main{max-width:none;margin:0;padding:0}header{padding:0 0 4mm;border:0;border-bottom:1px solid var(--line)}h1{font-size:20pt}header p{font-size:8pt}.actions,nav,footer{display:none}.print-only{display:block;font-size:8pt;color:var(--muted);margin-top:2mm}
+ section{border:0;padding:0;margin:0;break-before:page}section:first-of-type{break-before:auto;padding-top:5mm}h2{font-size:18pt;margin-bottom:4mm;padding-bottom:3mm}h2 span{font-size:11pt}h3{font-size:11pt;margin:4mm 0 2mm}p{margin:2mm 0 3mm}ol{margin:2mm 0 4mm;padding-left:7mm}li{margin-bottom:3.5mm;break-inside:avoid}li p{font-size:10pt}.note{font-size:9.5pt;padding:3mm 4mm;margin:4mm 0;break-inside:avoid}
+ .screens{grid-template-columns:repeat(3,minmax(0,1fr));gap:3mm;margin:4mm 0;break-inside:avoid}figure{max-width:none;padding:2mm;break-inside:avoid}figure img{border-width:1.2mm}figcaption{font-size:8pt;margin-top:2mm}table{font-size:9.2pt;margin:3mm 0}th,td{padding:2.2mm}tr{break-inside:avoid}.small{font-size:8pt}code{font-size:8pt}h2,h3{break-after:avoid}.note,figure,th{print-color-adjust:exact;-webkit-print-color-adjust:exact}a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>IchiPing on Solist-AI 簡易マニュアル</h1>
+<p>EdgeTech+ 2026 / 操作仕様：08668a8 / 2026年11月16日</p>
+<div class="actions"><a href="ichiping_simple_a4.pdf" download>PDF版（A4縦・3ページ）</a><a href="./">詳細マニュアル</a><button type="button" onclick="window.print()">印刷</button></div>
+<div class="print-only">HTML版：https://airpocket-soundman.github.io/IchiPing_solist_AI/manual/simple.html</div>
+</header>
+<nav aria-label="目次"><a href="#setup">1 セッティング</a><a href="#inference">2 推論</a><a href="#odl">3 ODL</a></nav>
+
+<section id="setup">
+<h2><span>01</span>セッティング</h2>
+<p><strong>用意するもの：</strong>SolistAI本体、コントローラボックス、ハウス模型、電源（DC5V）。</p>
+<ol>
+<li><strong>平らな台に設置する</strong><p>ハウス模型とコントローラボックスを並べます。Solist-AIはコントローラボックス上部に設置されています。</p></li>
+<li><strong>電源を切った状態で配線を確認する</strong><p>ハウス模型とコントローラボックスのケーブルが接続されていることを確認します。</p></li>
+<li><strong>電源を接続する</strong><p>Solist-AIに電源供給用USB Type-Cケーブルを接続し、コントローラボックスにDC5V電源を接続します。</p></li>
+<li><strong>全閉・基準音取得の完了を待つ</strong><p>EXECを押さずに待ちます。窓・扉が自動で全閉となり、基準音を3回取得します。動作中はハウス模型に触れないでください。</p></li>
+</ol>
+<div class="note"><strong>Stamp not readyが表示された場合</strong><p>コントローラボックスへのDC5V電源を一度切り、再度投入してください。</p></div>
+<div class="screens">
+<figure><img src="assets/screens/closing.png" width="320" height="240" alt="Closing all：窓と扉を全閉にする"><figcaption><strong>Closing all</strong>窓・扉を閉じています。</figcaption></figure>
+<figure><img src="assets/screens/baseline.png" width="320" height="240" alt="Calibrating...：基準音を取得する"><figcaption><strong>Calibrating...</strong>基準音を3回取得します。ODLとは別の処理です。</figcaption></figure>
+<figure><img src="assets/screens/ready.png" width="320" height="240" alt="Baseline ready：基準音の取得完了"><figcaption><strong>Baseline ready</strong>起動完了。トグルの状態反映でこの帯が消える場合があります。</figcaption></figure>
+</div>
+</section>
+
+<section id="inference">
+<h2><span>02</span>推論</h2>
+<ol>
+<li><strong>トグルで窓・扉の開閉状態を選ぶ</strong><p>対応する窓・扉が動くことを確認します。ハウス模型の可動部を手で動かさないでください。</p></li>
+<li><strong>EXECを短押しして離す（2秒未満）</strong><p>離した時点で推論を開始します。</p></li>
+<li><strong>測定音が止まっても、結果が出るまで待つ</strong><p>Listening... → Transferring... → Inferring... → 結果の順です。処理中はトグル・EXECを操作しないでください。</p></li>
+</ol>
+<div class="note"><strong>画面の読み方</strong><p>上段inf＝AIの推定結果、下段act＝トグルの指定状態。<br>左から<strong>c・BC・b・AB・a</strong>。<strong>1＝開、0＝閉</strong>です。</p></div>
+<div class="screens">
+<figure><img src="assets/screens/complete.png" width="320" height="240" alt="Complete Success：完全一致"><figcaption><strong>Complete Success</strong>全5桁が一致しています。</figcaption></figure>
+<figure><img src="assets/screens/conditional.png" width="320" height="240" alt="Conditional Success：条件付き一致"><figcaption><strong>Conditional Success</strong>音響的に区別する14クラスで一致。閉じた扉の奥の桁は暗く表示します。</figcaption></figure>
+<figure><img src="assets/screens/failure.png" width="320" height="240" alt="Failure：不一致"><figcaption><strong>Failure</strong>不一致。トグル指定と窓・扉の動作を確認し、再測定します。</figcaption></figure>
+</div>
+<p>誤判定が続く場合は、機器間の接続と窓・扉の動作を確認し、次のODLを実施します。</p>
+</section>
+
+<section id="odl">
+<h2><span>03</span>ODL（現地校正）</h2>
+<p>設置環境に合わせて本体で追加学習します。<strong>所要時間は約30分</strong>を見込んでください。</p>
+<ol>
+<li><strong>EXECを約2秒押し、案内が出たら離す</strong><p>Release: add ODLが出たら離します。10秒まで押し続けないでください。</p></li>
+<li><strong>Add ODL?を確認し、5個のトグルをすべてOPENにする</strong><p>確認待ちの間は、トグルを切り替えても窓・扉は追従しません。</p></li>
+<li><strong>EXECをもう一度押して離す</strong><p>Additional ODLまたはNew ODLで開始します。窓・扉を自動で動かし、全32状態を学習します。</p></li>
+<li><strong>Calibratedの表示で完了を確認する</strong><p>結果は保存され、電源再投入後も復元されます。再度ODLすると、保存済みの学習状態に追加して学習します。</p></li>
+</ol>
+<div class="screens">
+<figure><img src="assets/screens/hold-add.png" width="320" height="240" alt="Release: add ODL：2秒で離す"><figcaption><strong>① 約2秒で離す</strong>この時点では学習は始まりません。</figcaption></figure>
+<figure><img src="assets/screens/confirm-add.png" width="320" height="240" alt="Add ODL?：全OPENにしてEXECで確認"><figcaption><strong>② 全OPEN＋EXEC</strong>再押下して開始します。</figcaption></figure>
+<figure><img src="assets/screens/odl-done.png" width="320" height="240" alt="Calibrated：ODL完了"><figcaption><strong>③ Calibratedで完了</strong>表示数値は例です。完了後は通常推論を試してください。</figcaption></figure>
+</div>
+<table><tbody>
+<tr><th scope="row">確認をキャンセル</th><td>1個以上のトグルをCLOSEにして、EXECを再度押します。</td></tr>
+<tr><th scope="row">学習中に中断</th><td>EXECを押し、処理の区切りまで待ちます。直前の保存状態に戻ります。</td></tr>
+<tr><th scope="row">保存ODLを消去</th><td>EXECを10秒押して離す → Reset ODL? → 全OPEN＋EXEC。事前学習モデルへ戻ります。</td></tr>
+</tbody></table>
+<p class="small">保存ODLがない場合は事前学習モデルから開始します。post-updateの正解数は学習直後の同じ音声による集計で、未知データへの精度ではありません。</p>
+<p class="small">改善しない場合は、その環境のデータセットを自動採取してPCで追加学習することもできます。<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI">GitHubリポジトリ</a>をクローンし、AIで資料・コードから方法を確認してください。</p>
+</section>
+<footer>画面画像は実UIコードから生成した表示例です。<a href="./">詳細マニュアル</a></footer>
+</main>
+</body>
+</html>

@@ -54,6 +54,8 @@ Stamp-S3A は、評価ボードに I²S が無く、拡張端子の信号ピン�
 
 ## 使い方(概要)
 
+展示当日の設置・起動・推論・追加ODL・片付けは、[EdgeTech+ 2026 展示・操作マニュアル](https://airpocket-soundman.github.io/IchiPing_solist_AI/manual/)を参照してください。外観写真の撮影リストと、実UIコードから生成した画面例を含みます。
+
 1. Stamp-S3A に `firmware/StampMeasure` を書き込む(PlatformIO)。
 2. Solist-AI に `firmware/IchiPingInference/prebuilt/ichiping_infer.flash.bin` を書き込む(`tools/flash.ps1`)。
 3. 電源を入れると全閉を 3 回測って基準にする。トグルで窓・扉を決めて EXEC を押すと推論、EXEC を 2 秒長押しすると現地校正。

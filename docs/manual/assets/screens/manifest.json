@@ -1,0 +1,82 @@
+{
+  "renderer": "Real ichi_ui.c / Cortex-M0+ Unicorn; firmware 08668a8; illustrative state values",
+  "ui_sha256": "9068ba7e4f61840fb398a37c67860d2a405bc51c94e5400f0e4ebfcf1e3eee8f",
+  "screens": [
+    {
+      "file": "closing.png",
+      "sha256": "1a55a84d5fd42b742120abf72c95936e9b7f46a9726c400b6d6917ba0f122733"
+    },
+    {
+      "file": "baseline.png",
+      "sha256": "608d5e9f34e8df83b805fc30de4f2d1c4b47ab338885d9dc5586153bf93f7d22"
+    },
+    {
+      "file": "ready.png",
+      "sha256": "8744ade900cdb2131c62e12083d10d5c266a2a54d9f459ed84b742b450a431fa"
+    },
+    {
+      "file": "listening.png",
+      "sha256": "730078e53f7771f3e77c77de6e1c839a1d097ec04f891b179684b33ce1d274f1"
+    },
+    {
+      "file": "transferring.png",
+      "sha256": "bd973789088062b9ab2d1329fdf4cd8e6a6ad182e1b835b2a91e6d7168808dc1"
+    },
+    {
+      "file": "inferring.png",
+      "sha256": "d02128632ed76f64502fdafe1f896cc385b7929de5e191df622a990595a08f1f"
+    },
+    {
+      "file": "complete.png",
+      "sha256": "cfb2c3c7fda01b89937eb557039d7c94f457b1b22a35d3e105bcec82bb4cb5b2"
+    },
+    {
+      "file": "conditional.png",
+      "sha256": "cc2eda9f954a10687f7c3a3d604d249b0f3c4c996894540369cf9e3c7d19c599"
+    },
+    {
+      "file": "failure.png",
+      "sha256": "0a1cc47669df24c5cde07fb359cc55b714edb140d0cc53a30ea84ec6a90b7ea1"
+    },
+    {
+      "file": "hold-add.png",
+      "sha256": "aa2dccc8a9331cf72eb05bd85f45e3ddc73a7ae66ddf56fbfad163e4c5fd7e18"
+    },
+    {
+      "file": "confirm-add.png",
+      "sha256": "e5b27b65b336db7fac9f8a35b3cf588425411ca08648b959926e0cd8a90af928"
+    },
+    {
+      "file": "odl-running.png",
+      "sha256": "23f01c2e12985e79c4463316510f483e7ce5052b37429da92d93b7ea50e23385"
+    },
+    {
+      "file": "odl-done.png",
+      "sha256": "566b8662606a09da89781d5f4445e87b5cc4a895f8a30164105a1ef025528427"
+    },
+    {
+      "file": "confirm-reset.png",
+      "sha256": "9a2c3ce9cf5148b66a1dc5c894ea3e6433fc038192e5219b3ceb78ffb4541baf"
+    },
+    {
+      "file": "reset-done.png",
+      "sha256": "21cc03117712a5b6757f1d25929c2c46e9464dcff329a79e4f58a41a058235a8"
+    },
+    {
+      "file": "canceled.png",
+      "sha256": "3bc9e029f953ff20be1dec6bd4ca6b04686eafecc3fd6989835d727ee0351c5c"
+    },
+    {
+      "file": "odl-aborted.png",
+      "sha256": "d5b182dfcd42162c72ec7bc4cba7dff019ea6d5e030344298a3df42bc2cc5e8f"
+    },
+    {
+      "file": "error.png",
+      "sha256": "8bf2df12b025780ef9d1cbc31cf3e542bdcfb0890b75584c2c2c58b2da4a8b66"
+    },
+    {
+      "file": "odl-new.png",
+      "sha256": "ede113269ba0c5b3547f0ff79711e804f1eef07bb4a6692979a3329635d34de9"
+    }
+  ]
+}

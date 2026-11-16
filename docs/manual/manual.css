@@ -13,3 +13,6 @@
 .hero{padding:26px 32px;background:white;color:var(--ink);border:1px solid var(--line);border-top:4px solid var(--teal)}.hero:after{display:none}.hero .eyebrow{color:var(--muted);letter-spacing:.5px}.hero h1{font-size:clamp(24px,2.5vw,34px);line-height:1.5;margin:10px 0 14px}.hero p{color:var(--muted);font-size:14px}.meta{margin-top:18px}.meta span{border-color:var(--line);color:var(--muted)}
 @media(max-width:760px){.hero{padding:22px}.hero h1{font-size:24px}}
 @media print{.hero{background:white!important;color:var(--ink);padding:7mm}.hero h1{font-size:24pt}.hero p{color:var(--muted)}}
+
+/* Preserve the native 320 x 240 proportions in web and print layouts. */
+figure.screen img,.demo img{height:auto}

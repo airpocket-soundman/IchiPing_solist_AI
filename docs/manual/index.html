@@ -68,7 +68,7 @@
 
 <section class="chapter" id="setup">
 <div class="chapter-head"><span class="num">03</span><h2>会場での設置と接続</h2></div>
-<ol class="steps"><li><strong>模型と操作部を安定した机に置く</strong><p>モデルハウスとコントローラボックスを並べて平らな台の上に置きます。<br>Solist-AIはコントローラボックス上部に設置されています。</p></li><li><strong>電源を切った状態で配線を確認する</strong><p>モデルハウスとコントローラボックスのケーブルが接続されていることを確認します。</p></li><li><strong>電源（DC5V）を接続する</strong><p>電源の接続先と向きは、下の写真P03・P04で示します。接続先の外観は写真受領後に追記します。</p></li><li><strong>ケーブルを固定し、起動する</strong><p>ケーブルが可動部に触れたり引っ掛かったりしないようにまとめ、次章の起動手順へ進みます。</p></li></ol>
+<ol class="steps"><li><strong>模型と操作部を安定した机に置く</strong><p>モデルハウスとコントローラボックスを並べて平らな台の上に置きます。<br>Solist-AIはコントローラボックス上部に設置されています。</p></li><li><strong>電源を切った状態で配線を確認する</strong><p>モデルハウスとコントローラボックスのケーブルが接続されていることを確認します。</p></li><li><strong>指定電源を接続する</strong><p>Solist-AIに電源供給用のUSB Type-Cケーブルを接続します。コントローラボックスにはDC5V電源を接続します。<br>ディスプレイに<code>Stamp not ready</code>と表示された場合は、コントローラボックスへのDC5V電源を一度切り、再度投入してください。</p></li><li><strong>ケーブルを固定し、起動する</strong><p>ケーブルが可動部に触れたり引っ掛かったりしないようにまとめ、次章の起動手順へ進みます。</p></li></ol>
 <div class="two"><figure><div class="photo" role="img" aria-label="写真P03の差し込み枠：本体の接続部"><span class="photo-id">PHOTO P03 / 接続部</span><strong>各機器の外部接続部の写真</strong><p>電源OFFの状態で、SolistAI本体、コントローラボックス、モデルハウスの外部コネクタと接続済みケーブルを撮影。機器を開けず、接続先のラベルが読める距離で。</p><span class="aspect">横位置・4:3・コネクタ全体</span></div><figcaption>機器間の接続先を、写真受領後に注記します。</figcaption></figure><figure><div class="photo" role="img" aria-label="写真P04の差し込み枠：電源一式"><span class="photo-id">PHOTO P04 / 電源一式</span><strong>電源とケーブルの接続先・定格</strong><p>展示で使うDC5V電源と給電ケーブルを、機器側の接続先と一緒に撮影。電源の定格・極性のラベルは別カットでも可。</p><span class="aspect">横位置・ラベルの接写を併用</span></div><figcaption>電源容量・現物スイッチの操作・通電順序は、この写真の照合後に確定します。</figcaption></figure></div>
 
 <figure><div class="photo" role="img" aria-label="写真P05の差し込み枠：モデルハウス"><span class="photo-id">PHOTO P05 / モデルハウス</span><strong>モデルハウスの窓・扉の位置</strong><p>モデルハウスを外側から撮影し、窓a・b・cと扉AB・BCの位置が分かる構図に。各部の名称を注記するため、窓・扉が見切れないようにしてください。内部部品の撮影は不要です。</p><span class="aspect">横位置・推奨 4:3・全5か所を含める</span></div><figcaption>窓・扉の名称と位置の確認に使います。</figcaption></figure>
@@ -151,7 +151,7 @@
 <p>まず画面の文言、操作直前の状態、電源と配線を確認します。配線を抜き差しするときは電源を切ってください。異常なサーボ動作がある場合は実演を止め、可動部を解放します。</p>
 <div class="table-wrap"><table><thead><tr><th>症状・表示</th><th>確認と対処</th></tr></thead><tbody>
 <tr><td>画面が点かない</td><td>SolistAI本体とコントローラボックスの給電・外部接続を確認。DC5V電源、ケーブル、コネクタを照合し、通電をやり直します。</td></tr>
-<tr><td>Stamp not ready</td><td>電源OFFでSolistAI本体とコントローラボックスの外部接続を点検し、再起動します。繰り返す場合は保守担当者へ。</td></tr>
+<tr><td>Stamp not ready</td><td>コントローラボックスへのDC5V電源を一度切り、再度投入します。改善しない場合は、電源を切った状態でモデルハウスとコントローラボックスの接続を確認し、保守担当者へ連絡してください。</td></tr>
 <tr><td>PCA9685 no ACK</td><td>この表示では起動処理が停止します。電源OFFで各機器の給電・外部接続を確認してから再起動します。繰り返す場合は保守担当者へ。</td></tr>
 <tr><td>音が出ない</td><td>測定開始のListening...表示を確認し、電源OFFでモデルハウスの外部接続を点検します。改善しない場合は保守担当者へ。</td></tr>
 <tr><td>actは変わるがモデルハウスが動かない</td><td>actは指定値です。モデルハウスの外部接続と窓・扉の引っ掛かりを確認します。可動部を無理に手で動かさないでください。</td></tr>

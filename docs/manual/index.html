@@ -17,7 +17,7 @@
 <nav aria-label="章一覧">
 <div class="toc-title">展示の準備と操作</div>
 <a href="#overview"><span>01</span>システム概要</a>
-<a href="#parts"><span>02</span>同梱品と各部の名称</a>
+<a href="#parts"><span>02</span>用意するもの</a>
 <a href="#setup"><span>03</span>設置と接続</a>
 <a href="#startup"><span>04</span>起動と動作確認</a>
 <a href="#operation"><span>05</span>通常の使い方</a>
@@ -30,7 +30,7 @@
 <a href="#photos"><span>C</span>撮影する写真の一覧</a>
 </nav>
 <div class="utility"><button id="print-manual">印刷 / PDF保存</button><a href="../index.html">技術レポート</a></div>
-<p class="small">HTML初版 · 2026.11.16<br>操作仕様：<code>08668a8</code><br>写真は撮影待ちの枠で掲載</p>
+<p class="small">HTML初版 · 2026.11.16<br>操作仕様：<code>08668a8</code><br>外観写真は撮影待ち</p>
 </aside>
 <main id="content">
 <header class="hero">
@@ -41,29 +41,26 @@
 </header>
 <div class="quicklinks"><a href="#quick">開場前の確認<small>チェックリストを開く →</small></a><a href="#operation">推論操作<small>実行手順と画面表示 →</small></a><a href="#odl">現地校正（ODL）<small>追加学習・中断・リセット →</small></a></div>
 <noscript><div class="note">本文と全画面例はJavaScriptなしで読めます。目次はこのページ内の各章見出しをご利用ください。</div></noscript>
-<div class="note"><strong>この版について</strong><p>最新の通常推論ファームを搭載した完成済みデバイスが対象です。外観は写真待ちの枠で示しています。電源の現物ラベル、電源スイッチの場所、トグルのOPEN方向は、写真受領後に照合して追記します。UIはファームの実コードをエミュレーションして生成した表示例で、実機撮影ではありません。</p></div>
+<div class="note"><strong>この版について</strong><p>最新の通常推論ファームを搭載した完成済みデバイスが対象です。外観は写真待ちの枠で示しています。DC5V電源の接続先、外部コネクタ、トグルのOPEN方向は、写真受領後に照合して追記します。UIはファームの実コードをエミュレーションして生成した表示例で、実機撮影ではありません。</p></div>
 
 <section class="chapter" id="overview">
 <div class="chapter-head"><span class="num">01</span><h2>システム概要</h2></div>
-<p class="lead">スピーカーから短い測定音を出し、1個のマイクで反響を聞いて、模型の窓と扉の開閉状態を推定します。</p>
+<p class="lead">スピーカーから短い測定音を出し、1個のマイクで反響を聞いて、モデルハウスの窓と扉の開閉状態を推定します。</p>
 <p>部屋A・B・Cにある窓a・b・cと、部屋をつなぐ扉AB・BCの計5か所を操作します。開閉の組み合わせは2の5乗＝32通り。本体のSolist-AIが特徴抽出とAI推論を行い、TFT画面に実際の状態と推定結果を表示します。</p>
-<figure><div class="photo wide" role="img" aria-label="写真P01の差し込み枠：展示物全体"><span class="photo-id">PHOTO P01 / 展示全景</span><strong>模型・操作部・画面が一緒に見える写真</strong><p>来場者側の斜め前から撮影。3部屋の模型、5個のトグル、EXEC、TFT、電源までを1枚に。机上の配置が分かる余白を残してください。</p><span class="aspect">横位置・推奨 16:9・長辺 2400px以上</span></div><figcaption>写真P01：完成した展示の配置をここに示します。</figcaption></figure>
+<figure><div class="photo wide" role="img" aria-label="写真P01の差し込み枠：展示物全体"><span class="photo-id">PHOTO P01 / 展示全景</span><strong>SolistAI本体・コントローラボックス・モデルハウスの全景写真</strong><p>来場者側の斜め前から、SolistAI本体、コントローラボックス、モデルハウス、電源（DC5V）を1枚に。機器間の接続と机上の配置が分かるように撮影してください。</p><span class="aspect">横位置・推奨 16:9・長辺 2400px以上</span></div><figcaption>写真P01：完成した展示の配置をここに示します。</figcaption></figure>
 <div class="flow" aria-label="展示の流れ"><span><b>設置する</b>配置・配線を確認</span><span><b>起動する</b>全閉の基準音を取得</span><span><b>現地校正</b>保存状態から追加学習</span><span><b>実演する</b>トグル → EXEC短押し</span></div>
-<div class="two"><div class="card"><h3>展示担当者が使う操作</h3><p>通常は5個のトグルとEXECだけを使います。PCはログ取得や保守が必要なときに接続します。</p></div><div class="card"><h3>自動動作中の注意</h3><p>起動時、推論中、ODL中は模型が自動で動いたり音が出たりします。窓・扉・サーボの動作範囲を空けてください。</p></div></div>
+<div class="two"><div class="card"><h3>展示担当者が使う操作</h3><p>通常は5個のトグルとEXECだけを使います。PCはログ取得や保守が必要なときに接続します。</p></div><div class="card"><h3>自動動作中の注意</h3><p>起動時、推論中、ODL中はモデルハウスが自動で動いたり音が出たりします。窓・扉の動作範囲を空けてください。</p></div></div>
 </section>
 
 <section class="chapter" id="parts">
-<div class="chapter-head"><span class="num">02</span><h2>同梱品と各部の名称</h2></div>
-<div class="table-wrap"><table><thead><tr><th>用意するもの</th><th>用途・確認すること</th></tr></thead><tbody>
-<tr><td>3部屋の模型・サーボ5個</td><td>窓a・b・c、扉AB・BC。可動部の外れや引っ掛かりがないこと。</td></tr>
-<tr><td>Solist-AI本体・TFT</td><td>推論、ODL、結果表示。通常推論用ファームが書き込まれていること。</td></tr>
-<tr><td>Stamp-S3A・中間基板</td><td>音の再生・録音、トグル・EXECの読み取り。基板とケーブルの固定を確認。</td></tr>
-<tr><td>マイク・アンプ・スピーカー</td><td>測定音の入出力。設置済みの位置と向きを維持。</td></tr>
-<tr><td>トグル5個・EXEC</td><td>トグルで状態を指定。EXEC短押しで推論、長押しでODL操作。</td></tr>
-<tr><td>指定電源・給電ケーブル</td><td>Solist側と中間基板・サーボ側。現物の出力電圧・容量・極性ラベルを照合。</td></tr>
-<tr><td>予備品・保守用PC（任意）</td><td>予備ケーブル、固定具、ログ取得環境。通常の実演にはPC不要。</td></tr>
+<div class="chapter-head"><span class="num">02</span><h2>用意するもの</h2></div>
+<div class="table-wrap"><table><thead><tr><th>用意するもの</th><th>用途</th></tr></thead><tbody>
+<tr><td>SolistAI本体</td><td>推論・ODLを実行します。</td></tr>
+<tr><td>コントローラボックス</td><td>開閉状態の指定、EXEC操作、画面での結果確認に使用します。</td></tr>
+<tr><td>モデルハウス</td><td>窓3枚・扉2枚の開閉状態を変更して測定します。</td></tr>
+<tr><td>電源（DC5V）</td><td>展示機への給電に使用します。</td></tr>
 </tbody></table></div>
-<figure><div class="photo" role="img" aria-label="写真P02の差し込み枠：操作パネル"><span class="photo-id">PHOTO P02 / 操作パネル</span><strong>5個のトグル・EXEC・TFTの正面写真</strong><p>窓a・扉AB・窓b・扉BC・窓cのラベルと、OPEN / CLOSE方向が読めるように。上下の向きを含め、パネル全体を正面から撮影してください。</p><span class="aspect">横位置・推奨 4:3・文字にピント</span></div><figcaption>写真P02：画面の桁順と操作パネルの位置関係を写真受領後に注記します。現時点では「上＝OPEN」などの向きは指定していません。</figcaption></figure>
+<figure><div class="photo" role="img" aria-label="写真P02の差し込み枠：操作パネル"><span class="photo-id">PHOTO P02 / コントローラボックス</span><strong>コントローラボックスの正面写真</strong><p>窓a・扉AB・窓b・扉BC・窓cのラベルと、OPEN / CLOSE方向が読めるように。上下の向きを含め、パネル全体を正面から撮影してください。</p><span class="aspect">横位置・推奨 4:3・文字にピント</span></div><figcaption>写真P02：画面の桁順と操作パネルの位置関係を写真受領後に注記します。現時点では「上＝OPEN」などの向きは指定していません。</figcaption></figure>
 <h3>部屋・窓・扉の名称と表示順</h3>
 <svg class="diagram" viewBox="0 0 820 225" role="img" aria-labelledby="rooms-title rooms-desc"><title id="rooms-title">部屋と窓・扉の概念図</title><desc id="rooms-desc">左から部屋C、扉BC、部屋B、扉AB、部屋A。画面も左からc BC b AB aの順。配置を説明する概念図で、実機の寸法や音響部品の位置は示さない。</desc><g fill="#edf5ef" stroke="#9cb9ac" stroke-width="2"><rect x="26" y="35" width="240" height="135" rx="5"/><rect x="290" y="35" width="240" height="135" rx="5"/><rect x="554" y="35" width="240" height="135" rx="5"/></g><g font-family="sans-serif" text-anchor="middle" fill="#244e43"><text x="146" y="92" font-size="25">部屋 C</text><text x="410" y="92" font-size="25">部屋 B</text><text x="674" y="92" font-size="25">部屋 A</text></g><g fill="#096d69"><rect x="96" y="28" width="100" height="14" rx="3"/><rect x="360" y="28" width="100" height="14" rx="3"/><rect x="624" y="28" width="100" height="14" rx="3"/><rect x="256" y="110" width="44" height="42" rx="3"/><rect x="520" y="110" width="44" height="42" rx="3"/></g><g text-anchor="middle" font-family="sans-serif" font-size="16" fill="#244e43"><text x="146" y="18">窓 c</text><text x="410" y="18">窓 b</text><text x="674" y="18">窓 a</text><text x="278" y="195">扉 BC</text><text x="542" y="195">扉 AB</text><text x="410" y="222" font-size="12">画面の左から：c → BC → b → AB → a　（配置の概念図）</text></g></svg>
 <p>画面では<strong>1＝OPEN（開）、0＝CLOSE（閉）</strong>です。小文字a・b・cは窓、AB・BCは扉を表します。</p>
@@ -71,10 +68,10 @@
 
 <section class="chapter" id="setup">
 <div class="chapter-head"><span class="num">03</span><h2>会場での設置と接続</h2></div>
-<ol class="steps"><li><strong>模型と操作部を安定した机に置く</strong><p>窓・扉・サーボの動作範囲を確保します。マイクとスピーカーの位置・向き、模型内の物の配置は、準備時の状態を維持してください。</p></li><li><strong>電源を切った状態で配線を確認する</strong><p>Solist-AIと中間基板の制御ケーブル、TFT、操作部、マイク・アンプ、サーボの接続を確認します。完成済みハーネスのラベルを合わせ、差し込み不足を点検します。</p></li><li><strong>指定電源を接続する</strong><p>Solist-AIのUSB電源入力はCN8です。中間基板・サーボ側は外部5 V系統を使用します。展示機の電源構成は下の写真枠P03・P04で現物照合する前提です。給電経路やジャンパを変更するときは保守担当者が確認します。</p></li><li><strong>ケーブルを固定し、次章の起動へ進む</strong><p>抜き差しや模型への接触が起きないように余長をまとめます。来場者がケーブルを引っ掛けない位置に置いてください。</p></li></ol>
-<div class="two"><figure><div class="photo" role="img" aria-label="写真P03の差し込み枠：本体の接続部"><span class="photo-id">PHOTO P03 / 接続部</span><strong>本体背面・側面の接続写真</strong><p>電源OFFの状態で、Solist CN8、CN9、CN3と接続済みケーブル、電源スイッチがある場合はその位置を撮影。現物ラベルが読める距離で。</p><span class="aspect">横位置・4:3・コネクタ全体</span></div><figcaption>CN8は電源、CN9はPC通信。外観の位置を写真で確定します。</figcaption></figure><figure><div class="photo" role="img" aria-label="写真P04の差し込み枠：電源一式"><span class="photo-id">PHOTO P04 / 電源一式</span><strong>電源とケーブルの接続先・定格</strong><p>展示で使うアダプタ・電源タップ・ケーブルを接続先と一緒に撮影。出力電圧、電流、極性のラベルは別カットでも可。JP_STAMP_5Vの実装状態も確認できる写真を添付。</p><span class="aspect">横位置・ラベルの接写を併用</span></div><figcaption>電源容量・現物スイッチの操作・通電順序は、この写真の照合後に確定します。</figcaption></figure></div>
-<div class="note warning"><strong>電源配線を変更する保守担当者へ</strong><p>中間基板のJ_PWR_LOGICとJ_PWR_SERVOは同じ5 Vレールです。接続する場合は同じ電源を使います。StampをUSB給電するときはJP_STAMP_5Vを開放し、外部5 Vから給電するときだけ短絡します。Solist CN3の5・8番は中間基板で未使用です。詳細は<a href="../solist_connection.html">配線ガイド</a>を参照してください。</p></div>
-<figure><div class="photo" role="img" aria-label="写真P05の差し込み枠：音響部と可動部"><span class="photo-id">PHOTO P05 / 模型の内部</span><strong>マイク・スピーカーと窓・扉の位置</strong><p>3部屋を上から撮影し、マイクとスピーカーの位置、5個の可動部とサーボが分かる構図に。屋根等を外す必要がある場合は保守担当者が対応してください。</p><span class="aspect">横位置・推奨 4:3・全5か所を含める</span></div><figcaption>音響部品の位置を保つための設置基準写真として使います。</figcaption></figure>
+<ol class="steps"><li><strong>SolistAI本体、コントローラボックス、モデルハウスを設置する</strong><p>安定した机に置き、モデルハウスの窓・扉が動く範囲を確保します。</p></li><li><strong>電源を切った状態で各機器を接続する</strong><p>各機器の接続ケーブルをラベルに合わせて接続し、差し込み不足がないことを確認します。</p></li><li><strong>電源（DC5V）を接続する</strong><p>電源の接続先と向きは、下の写真P03・P04で示します。接続先の外観は写真受領後に追記します。</p></li><li><strong>ケーブルを固定し、起動する</strong><p>ケーブルが可動部に触れたり引っ掛かったりしないようにまとめ、次章の起動手順へ進みます。</p></li></ol>
+<div class="two"><figure><div class="photo" role="img" aria-label="写真P03の差し込み枠：本体の接続部"><span class="photo-id">PHOTO P03 / 接続部</span><strong>各機器の外部接続部の写真</strong><p>電源OFFの状態で、SolistAI本体、コントローラボックス、モデルハウスの外部コネクタと接続済みケーブルを撮影。機器を開けず、接続先のラベルが読める距離で。</p><span class="aspect">横位置・4:3・コネクタ全体</span></div><figcaption>機器間の接続先を、写真受領後に注記します。</figcaption></figure><figure><div class="photo" role="img" aria-label="写真P04の差し込み枠：電源一式"><span class="photo-id">PHOTO P04 / 電源一式</span><strong>電源とケーブルの接続先・定格</strong><p>展示で使うDC5V電源と給電ケーブルを、機器側の接続先と一緒に撮影。電源の定格・極性のラベルは別カットでも可。</p><span class="aspect">横位置・ラベルの接写を併用</span></div><figcaption>電源容量・現物スイッチの操作・通電順序は、この写真の照合後に確定します。</figcaption></figure></div>
+
+<figure><div class="photo" role="img" aria-label="写真P05の差し込み枠：モデルハウス"><span class="photo-id">PHOTO P05 / モデルハウス</span><strong>モデルハウスの窓・扉の位置</strong><p>モデルハウスを外側から撮影し、窓a・b・cと扉AB・BCの位置が分かる構図に。各部の名称を注記するため、窓・扉が見切れないようにしてください。内部部品の撮影は不要です。</p><span class="aspect">横位置・推奨 4:3・全5か所を含める</span></div><figcaption>窓・扉の名称と位置の確認に使います。</figcaption></figure>
 </section>
 
 <section class="chapter" id="startup">
@@ -85,15 +82,15 @@
 <figure class="screen"><img src="assets/screens/baseline.png" width="320" height="240" alt="TFT：baseline 2/3、Calibrating..."><figcaption><strong>② Calibrating...</strong>全閉の基準音を取得中。baseline 1/3〜3/3を待ちます。</figcaption></figure>
 <figure class="screen"><img src="assets/screens/ready.png" width="320" height="240" alt="TFT：calibrated、Baseline ready"><figcaption><strong>③ Baseline ready</strong>基準取得完了の表示例。保存ODLがある場合はcalibrated、なければpretrainedと表示します。</figcaption></figure>
 </div>
-<div class="note"><strong>完了表示は切り替わることがあります</strong><p>起動処理後にトグルの状態が画面と模型へ反映されると、Baseline readyの帯は消えます。上段infが「-----」、下段actがトグルに応じた0/1になっていれば、状態を選びEXECを短押しして確認してください。</p></div>
-<ol class="steps"><li><strong>模型が全閉になり、測定音が3回出るのを確認</strong><p>模型や音響部品に触れずに待ちます。正確な所要時間は起動環境によって変わるため、画面の進行を目安にします。</p></li><li><strong>トグルを1か所ずつ切り替える</strong><p>actの桁が変わり、対応する窓・扉が動くことを確認します。actはスイッチ指定の表示で、位置センサーによる実測ではありません。実際の模型の動作も見てください。</p></li><li><strong>EXECを短く押して離し、1回推論する</strong><p>Listening...から転送・推論を経て結果が出ることを確認します。異常がなければ実演開始。会場で誤判定が続く場合は<a href="#trouble">対処手順</a>と<a href="#odl">追加ODL</a>へ進みます。</p></li></ol>
+<div class="note"><strong>完了表示は切り替わることがあります</strong><p>起動処理後にトグルの状態が画面とモデルハウスへ反映されると、Baseline readyの帯は消えます。上段infが「-----」、下段actがトグルに応じた0/1になっていれば、状態を選びEXECを短押しして確認してください。</p></div>
+<ol class="steps"><li><strong>モデルハウスが全閉になり、測定音が3回出るのを確認</strong><p>モデルハウスや音響部品に触れずに待ちます。正確な所要時間は起動環境によって変わるため、画面の進行を目安にします。</p></li><li><strong>トグルを1か所ずつ切り替える</strong><p>actの桁が変わり、対応する窓・扉が動くことを確認します。actはスイッチ指定の表示で、位置センサーによる実測ではありません。実際のモデルハウスの動作も見てください。</p></li><li><strong>EXECを短く押して離し、1回推論する</strong><p>Listening...から転送・推論を経て結果が出ることを確認します。異常がなければ実演開始。会場で誤判定が続く場合は<a href="#trouble">対処手順</a>と<a href="#odl">追加ODL</a>へ進みます。</p></li></ol>
 </section>
 
 <section class="chapter" id="operation">
 <div class="chapter-head"><span class="num">05</span><h2>通常の使い方</h2></div>
 <ol class="steps"><li><strong>5個のトグルで窓・扉の状態を選ぶ</strong><p>画面のactが先に切り替わり、サーボが追って動きます。状態を変えると前回の結果はクリアされます。</p></li><li><strong>EXECを短押しして離す（2秒未満）</strong><p>離した時点で推論を開始します。動いているサーボがあれば、動作と整定を待ってから測定します。</p></li><li><strong>音が止まっても結果が出るまで待つ</strong><p>Listening... → Transferring... → Inferring... → 結果の順です。測定音は約2秒。音が止まった後も処理が続きます。処理中はトグルとEXECの追加操作を控えてください。</p></li></ol>
 <div class="screen-grid">
-<figure class="screen"><img src="assets/screens/listening.png" width="320" height="240" alt="TFT：Listening..."><figcaption><strong>Listening...</strong>測定音を再生・録音中。周囲の状況と模型を変えずに待ちます。</figcaption></figure>
+<figure class="screen"><img src="assets/screens/listening.png" width="320" height="240" alt="TFT：Listening..."><figcaption><strong>Listening...</strong>測定音を再生・録音中。周囲の状況とモデルハウスを変えずに待ちます。</figcaption></figure>
 <figure class="screen"><img src="assets/screens/transferring.png" width="320" height="240" alt="TFT：Transferring...の進捗ゲージ"><figcaption><strong>Transferring...</strong>録音の転送と特徴計算中。帯が左から進みます。</figcaption></figure>
 <figure class="screen"><img src="assets/screens/inferring.png" width="320" height="240" alt="TFT：Inferring...の進捗ゲージ"><figcaption><strong>Inferring...</strong>特徴の仕上げとAI推論中。結果の帯に変わるまで待ちます。</figcaption></figure>
 </div>
@@ -115,7 +112,7 @@
 <p class="lead">ODLは、設置環境に合わせて本体で追加学習する機能です。全32状態を自動で巡回します。</p>
 <div class="note"><strong>最新仕様：2秒長押しだけでは開始しません</strong><p>離した後の確認画面で、<strong>全トグルをOPENにしてEXECをもう一度押す</strong>と開始します。保存済みODLがあれば引き継いで追加学習します。保存がなければ事前学習モデルから始めます。旧仕様の説明と混同しないでください。</p></div>
 <h3>6.1 実施するタイミング</h3>
-<p>会場へ移動した後、配置や音響条件が変わり、通常推論で誤判定が続く場合に実施します。まず接続・可動部・マイクとスピーカーの位置を確認してください。<strong>約30分の準備時間</strong>を確保し、開場前など模型を自動運転できる時間帯に行います。初期実測は約30分11秒で、最新版の所要時間を保証する値ではありません。</p>
+<p>会場へ移動した後、配置や音響条件が変わり、通常推論で誤判定が続く場合に実施します。まず機器間の接続と窓・扉の動作を確認してください。<strong>約30分の準備時間</strong>を確保し、開場前などモデルハウスを自動運転できる時間帯に行います。初期実測は約30分11秒で、最新版の所要時間を保証する値ではありません。</p>
 <h3>6.2 追加ODLを開始する</h3>
 <ol class="steps"><li><strong>EXECを約2秒押し、「Release: add ODL」が出たら離す</strong><p>2秒以上10秒未満で離してください。10秒まで押し続けるとリセット確認になります。</p></li><li><strong>「Add ODL?」を確認する</strong><p>ここではまだ学習は始まりません。画面に「All OPEN + EXEC: yes」と表示されます。</p></li><li><strong>5個のトグルをすべてOPENにし、EXECを再度押して離す</strong><p>確認待ちの間は、トグルを変えてもサーボはその指定に追従しません。物理的に窓を手で開く必要はありません。スイッチ指定を全OPENにしてください。</p></li><li><strong>「Additional ODL」または「New ODL」で学習開始を確認する</strong><p>保存状態を引き継ぐ場合はAdditional ODL、保存がない場合はNew ODL。自動で窓・扉が動き、各状態で6秒の測定音を出します。</p></li></ol>
 <div class="screen-grid">
@@ -124,7 +121,7 @@
 <figure class="screen"><img src="assets/screens/odl-running.png" width="320" height="240" alt="TFT：Additional ODL、cal 13/32 h00110"><figcaption><strong>③ 追加学習中</strong>cal 13/32は巡回中の13番目。h以下はその状態のラベルです。</figcaption></figure>
 </div>
 <h3>6.3 キャンセル・中断・完了</h3>
-<div class="table-wrap"><table><thead><tr><th>場面</th><th>操作と結果</th></tr></thead><tbody><tr><td>確認画面で取り消す</td><td>5個のうち少なくとも1個をCLOSEにしてEXECを再度押すとCanceled。トグルを変えるだけではキャンセルしません。</td></tr><tr><td>実行中に中断する</td><td>EXECを押します。検出後、Calibration abortedとなり、直前に保存したODLへ戻ります。保存がなければ事前学習モデルへ戻ります。処理の区切りまで反応に時間がかかることがあります。</td></tr><tr><td>正常に完了する</td><td>Calibratedとpost-updateの集計を表示し、P・βをFRAMへ保存します。模型は現在のトグル指定へ戻ります。</td></tr><tr><td>電源を入れ直す</td><td>モデル識別情報とチェックサムが一致すれば保存ODLを復元。全閉基準音は起動ごとに取り直します。</td></tr><tr><td>もう一度ODLする</td><td>同じ開始操作で、最後に正常保存したP・βから追加で学習します。</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>場面</th><th>操作と結果</th></tr></thead><tbody><tr><td>確認画面で取り消す</td><td>5個のうち少なくとも1個をCLOSEにしてEXECを再度押すとCanceled。トグルを変えるだけではキャンセルしません。</td></tr><tr><td>実行中に中断する</td><td>EXECを押します。検出後、Calibration abortedとなり、直前に保存したODLへ戻ります。保存がなければ事前学習モデルへ戻ります。処理の区切りまで反応に時間がかかることがあります。</td></tr><tr><td>正常に完了する</td><td>Calibratedとpost-updateの集計を表示し、P・βをFRAMへ保存します。モデルハウスは現在のトグル指定へ戻ります。</td></tr><tr><td>電源を入れ直す</td><td>モデル識別情報とチェックサムが一致すれば保存ODLを復元。全閉基準音は起動ごとに取り直します。</td></tr><tr><td>もう一度ODLする</td><td>同じ開始操作で、最後に正常保存したP・βから追加で学習します。</td></tr></tbody></table></div>
 <div class="screen-grid">
 <figure class="screen"><img src="assets/screens/odl-new.png" width="320" height="240" alt="TFT：New ODL、cal 01/32 h00000"><figcaption><strong>New ODL</strong>保存ODLがないときの新規学習。以後の巡回手順は同じです。</figcaption></figure>
 <figure class="screen"><img src="assets/screens/odl-done.png" width="320" height="240" alt="TFT：Calibrated、post-update 133/160の例"><figcaption><strong>Calibrated</strong>正常完了の表示例。133/160は説明用の値です。完了後の状態反映で帯が消える場合があります。</figcaption></figure>
@@ -145,20 +142,20 @@
 <section class="chapter" id="demo">
 <div class="chapter-head"><span class="num">07</span><h2>展示時の操作と確認</h2></div>
 <p>通常推論の操作と結果の確認手順を示します。窓・扉の状態変更はトグルで行います。</p>
-<ol class="steps"><li><strong>扉AB・BCをOPENにして推論する</strong><p>画面の5桁が明るく表示されることを確認し、EXEC短押しで1回推論します。窓を1個切り替え、actの対応する桁と模型の動作を確認して再推論します。</p></li><li><strong>トグル指定と模型の状態を確認する</strong><p>模型へ直接力を加えず、トグルで操作します。測定中は可動部や音響部品に触れず、結果表示まで待ちます。</p></li><li><strong>inf・actと判定帯を確認する</strong><p>Complete Successは5桁の一致、Conditional Successは14クラスの一致です。Failureの場合はトグル指定・模型の状態・音響部品の位置を確認して再測定します。</p></li></ol>
-<div class="two"><div class="card"><h3>センシング方式</h3><p>このデモはスピーカーの測定音と1個のマイクの反響を使います。開閉の推定にカメラは使いません。</p></div><div class="card"><h3>PC・ネットワーク接続</h3><p>推論と現地校正は本体で行います。実演にインターネットやPCは不要です。</p></div><div class="card"><h3>設置条件の変更</h3><p>反響は設置条件に影響されます。起動時に全閉の基準を取り、必要ならODLで追加学習します。</p></div><div class="card"><h3>開閉状態の指定</h3><p>トグルで操作します。actはスイッチ指定なので、模型を手で動かすと表示と実際の状態がずれる場合があります。</p></div></div>
+<ol class="steps"><li><strong>扉AB・BCをOPENにして推論する</strong><p>画面の5桁が明るく表示されることを確認し、EXEC短押しで1回推論します。窓を1個切り替え、actの対応する桁とモデルハウスの動作を確認して再推論します。</p></li><li><strong>トグル指定とモデルハウスの状態を確認する</strong><p>モデルハウスへ直接力を加えず、トグルで操作します。測定中は可動部や音響部品に触れず、結果表示まで待ちます。</p></li><li><strong>inf・actと判定帯を確認する</strong><p>Complete Successは5桁の一致、Conditional Successは14クラスの一致です。Failureの場合はトグル指定・モデルハウスの状態・音響部品の位置を確認して再測定します。</p></li></ol>
+<div class="two"><div class="card"><h3>センシング方式</h3><p>このデモはスピーカーの測定音と1個のマイクの反響を使います。開閉の推定にカメラは使いません。</p></div><div class="card"><h3>PC・ネットワーク接続</h3><p>推論と現地校正は本体で行います。実演にインターネットやPCは不要です。</p></div><div class="card"><h3>設置条件の変更</h3><p>反響は設置条件に影響されます。起動時に全閉の基準を取り、必要ならODLで追加学習します。</p></div><div class="card"><h3>開閉状態の指定</h3><p>トグルで操作します。actはスイッチ指定なので、モデルハウスを手で動かすと表示と実際の状態がずれる場合があります。</p></div></div>
 </section>
 
 <section class="chapter" id="trouble">
 <div class="chapter-head"><span class="num">08</span><h2>トラブルシューティング</h2></div>
 <p>まず画面の文言、操作直前の状態、電源と配線を確認します。配線を抜き差しするときは電源を切ってください。異常なサーボ動作がある場合は実演を止め、可動部を解放します。</p>
 <div class="table-wrap"><table><thead><tr><th>症状・表示</th><th>確認と対処</th></tr></thead><tbody>
-<tr><td>画面が点かない</td><td>Solist側とTFT・中間基板側の給電を確認。指定電源、ケーブル、コネクタを照合し、通電をやり直します。</td></tr>
-<tr><td>Stamp not ready</td><td>Stampの給電とSolist―Stamp間I²C接続を確認。電源OFFでコネクタを点検し、再起動。繰り返す場合は保守担当者へ。</td></tr>
-<tr><td>PCA9685 no ACK</td><td>サーボ制御基板の給電・I²C配線を確認。この表示では起動処理が停止します。接続を直してから再起動します。</td></tr>
-<tr><td>音が出ない</td><td>測定開始のListening...表示を確認。アンプ電源・スピーカー接続を点検。音量や音響部品の位置をその場でむやみに変更せず保守担当者へ。</td></tr>
-<tr><td>actは変わるが模型が動かない</td><td>actは指定値です。サーボ電源、PCA9685、サーボコネクタ、機械的な引っ掛かりを確認。無理に手で回さないでください。</td></tr>
-<tr><td>結果が外れる</td><td>指定と模型の状態が一致しているか、マイク・スピーカーがずれていないかを確認。同じ状態で再測定。環境変更後なら再起動で基準を取り直し、必要に応じて追加ODL。</td></tr>
+<tr><td>画面が点かない</td><td>SolistAI本体とコントローラボックスの給電・外部接続を確認。DC5V電源、ケーブル、コネクタを照合し、通電をやり直します。</td></tr>
+<tr><td>Stamp not ready</td><td>電源OFFでSolistAI本体とコントローラボックスの外部接続を点検し、再起動します。繰り返す場合は保守担当者へ。</td></tr>
+<tr><td>PCA9685 no ACK</td><td>この表示では起動処理が停止します。電源OFFで各機器の給電・外部接続を確認してから再起動します。繰り返す場合は保守担当者へ。</td></tr>
+<tr><td>音が出ない</td><td>測定開始のListening...表示を確認し、電源OFFでモデルハウスの外部接続を点検します。改善しない場合は保守担当者へ。</td></tr>
+<tr><td>actは変わるがモデルハウスが動かない</td><td>actは指定値です。モデルハウスの外部接続と窓・扉の引っ掛かりを確認します。可動部を無理に手で動かさないでください。</td></tr>
+<tr><td>結果が外れる</td><td>指定とモデルハウスの窓・扉の状態が一致しているかを確認。同じ状態で再測定。環境変更後なら再起動で基準を取り直し、必要に応じて追加ODL。</td></tr>
 <tr><td>2秒押しても学習しない</td><td>最新仕様は確認操作が必要です。2秒で離し、Add ODL?に進んで、全トグルOPEN＋再度EXEC。起動時から押しっぱなしなら一度離します。</td></tr>
 <tr><td>確認画面から戻らない</td><td>1個以上のトグルをCLOSEにして、EXECを押します。スイッチを変えるだけでは戻りません。</td></tr>
 <tr><td>ODLが長い / 中断したい</td><td>目安は約30分。画面のcal番号が進むか確認。中断はEXECを押して処理の区切りを待ちます。中断・失敗時は直前の保存ODLを復元します。</td></tr>
@@ -166,19 +163,19 @@
 </tbody></table></div>
 <h3>Error stageの意味</h3>
 <div class="two"><figure class="screen"><img src="assets/screens/error.png" width="320" height="240" alt="TFT：Error stage 4の例"><figcaption><strong>Error stage 4</strong>エラー番号を控えます。撮影する場合はこの画面と配線の状態を記録してください。</figcaption></figure><div class="table-wrap"><table><thead><tr><th>番号</th><th>処理</th></tr></thead><tbody><tr><td>1</td><td>Stamp応答</td></tr><tr><td>3</td><td>測定</td></tr><tr><td>4</td><td>PCM読み出し・特徴計算</td></tr><tr><td>5</td><td>推論</td></tr><tr><td>6</td><td>サーボ制御</td></tr><tr><td>7</td><td>ODL学習・保存等</td></tr></tbody></table></div></div>
-<div class="note"><strong>復旧後は1回推論して確認</strong><p>再起動後の全閉・基準音取得が完了し、模型がトグルに追従することを確かめてから、EXEC短押しで動作を確認します。ODLリセットは通常の復旧手順として毎回実行するものではありません。</p></div>
+<div class="note"><strong>復旧後は1回推論して確認</strong><p>再起動後の全閉・基準音取得が完了し、モデルハウスがトグルに追従することを確かめてから、EXEC短押しで動作を確認します。ODLリセットは通常の復旧手順として毎回実行するものではありません。</p></div>
 </section>
 
 <section class="chapter" id="shutdown">
 <div class="chapter-head"><span class="num">09</span><h2>終了・片付け・運搬</h2></div>
-<ol class="steps"><li><strong>実行中の処理を終える</strong><p>推論の結果を待ちます。ODL中ならEXECで中断し、復元処理の表示を待ちます。保存中の電源断を避けてください。</p></li><li><strong>トグルを全CLOSEにし、模型が閉じるのを待つ</strong><p>確認画面のままなら、先にキャンセルします。窓・扉を閉じた状態に整えてから給電を止めます。</p></li><li><strong>電源を切ってからケーブルを外す</strong><p>本体と中間基板・サーボ側の給電を止めます。ケーブルのラベルを残し、コネクタを持って抜きます。</p></li><li><strong>可動部と音響部品を保護する</strong><p>サーボ軸・窓・扉に荷重がかからないように梱包します。翌日は設置状態を戻し、起動と基準音取得、通常推論を再確認します。</p></li></ol>
-<figure><div class="photo" role="img" aria-label="写真P06の差し込み枠：収納方法"><span class="photo-id">PHOTO P06 / 収納・運搬</span><strong>閉じた模型と保護材・ケーブルの収納写真</strong><p>運搬用ケースに収めた状態を上から撮影。窓・扉・サーボを圧迫しない保護材と、電源・ケーブルの収納場所を見せてください。</p><span class="aspect">横位置・推奨 4:3・全収納物を含める</span></div><figcaption>写真P06：片付け後に同じ状態へ戻すための記録写真です。</figcaption></figure>
+<ol class="steps"><li><strong>実行中の処理を終える</strong><p>推論の結果を待ちます。ODL中ならEXECで中断し、復元処理の表示を待ちます。保存中の電源断を避けてください。</p></li><li><strong>トグルを全CLOSEにし、モデルハウスが閉じるのを待つ</strong><p>確認画面のままなら、先にキャンセルします。窓・扉を閉じた状態に整えてから給電を止めます。</p></li><li><strong>電源を切ってからケーブルを外す</strong><p>各機器へのDC5V給電を止めます。ケーブルのラベルを残し、コネクタを持って抜きます。</p></li><li><strong>可動部と音響部品を保護する</strong><p>窓・扉に荷重がかからないように梱包します。翌日は設置状態を戻し、起動と基準音取得、通常推論を再確認します。</p></li></ol>
+<figure><div class="photo" role="img" aria-label="写真P06の差し込み枠：収納方法"><span class="photo-id">PHOTO P06 / 収納・運搬</span><strong>閉じたモデルハウスと保護材・ケーブルの収納写真</strong><p>運搬用ケースに収めた状態を上から撮影。窓・扉を圧迫しない保護材と、電源・ケーブルの収納場所を見せてください。</p><span class="aspect">横位置・推奨 4:3・全収納物を含める</span></div><figcaption>写真P06：片付け後に同じ状態へ戻すための記録写真です。</figcaption></figure>
 </section>
 
 <section class="chapter" id="quick">
 <div class="chapter-head"><span class="num">A</span><h2>当日用クイックガイド</h2></div>
 <p>開場前に上から確認します。チェックはこのブラウザ内に保存されます。翌日の準備時はリセットしてください。</p>
-<ul class="checklist" data-checklist="opening"><li><label><input type="checkbox"><span>模型が安定し、窓・扉・サーボの動作範囲が空いている。</span></label></li><li><label><input type="checkbox"><span>マイク・スピーカーの位置と向き、ケーブルの固定を確認した。</span></label></li><li><label><input type="checkbox"><span>指定電源とコネクタを照合し、通電した。</span></label></li><li><label><input type="checkbox"><span>起動時に全閉となり、基準音を3回取得した。</span></label></li><li><label><input type="checkbox"><span>5個のトグルと対応する模型の動作を確認した。</span></label></li><li><label><input type="checkbox"><span>EXEC短押しで推論結果が出た。複数の状態で確認した。</span></label></li><li><label><input type="checkbox"><span>必要な場合は追加ODLを完了し、通常推論を再確認した。</span></label></li></ul>
+<ul class="checklist" data-checklist="opening"><li><label><input type="checkbox"><span>モデルハウスが安定し、窓・扉の動作範囲が空いている。</span></label></li><li><label><input type="checkbox"><span>SolistAI本体・コントローラボックス・モデルハウスの接続とケーブルの固定を確認した。</span></label></li><li><label><input type="checkbox"><span>指定電源とコネクタを照合し、通電した。</span></label></li><li><label><input type="checkbox"><span>起動時に全閉となり、基準音を3回取得した。</span></label></li><li><label><input type="checkbox"><span>5個のトグルと対応するモデルハウスの動作を確認した。</span></label></li><li><label><input type="checkbox"><span>EXEC短押しで推論結果が出た。複数の状態で確認した。</span></label></li><li><label><input type="checkbox"><span>必要な場合は追加ODLを完了し、通常推論を再確認した。</span></label></li></ul>
 <button class="reset-checks" data-reset="opening">開場前のチェックをリセット</button>
 <div class="table-wrap"><table><thead><tr><th>やりたいこと</th><th>操作</th></tr></thead><tbody><tr><td>1回推論</td><td>状態を選び、EXEC短押し（2秒未満）→離す。</td></tr><tr><td>追加ODL</td><td>EXEC約2秒→離す→Add ODL?→全OPEN＋EXEC再押下。</td></tr><tr><td>確認のキャンセル</td><td>1個以上CLOSE＋EXEC再押下。</td></tr><tr><td>実行中ODLの中断</td><td>EXECを押し、処理の区切りまで待つ。</td></tr><tr><td>ODL消去</td><td>EXEC10秒→離す→Reset ODL?→全OPEN＋EXEC再押下。</td></tr></tbody></table></div>
 <p><strong>画面の桁：</strong>左から c・BC・b・AB・a。1＝開、0＝閉。上段inf＝推定、下段act＝指定。青帯＝完全一致、緑帯＝条件付き一致、赤帯＝不一致。</p>
@@ -198,7 +195,7 @@
 <h3>ファームの復旧</h3>
 <p>通常実演は<code>ichi_infer_main</code>を使います。採取用・サーベイ用とは操作が異なります。書き換えは展示担当者の通常作業から外し、保守担当者が実施します。LEXIDEのOpenOCD、MCU-Linkドライバ、ROHM DFPを準備したPCで、推論用イメージを指定します。</p>
 <pre><code>powershell -ExecutionPolicy Bypass -File firmware\IchiPingInference\tools\flash.ps1 -Firmware firmware\IchiPingInference\prebuilt\ichiping_infer.flash.bin -Execute</code></pre>
-<p>Stamp側は<code>firmware/StampMeasure</code>のファームを使用します。Solistのフラッシュイメージに個体の保存ODLは含まれません。別個体へ書き込んだだけでは校正状態は移りません。モデル変更時は保存ODLが復元対象外になる場合があります。</p>
+<p>Solistのフラッシュイメージに個体の保存ODLは含まれません。別個体へ書き込んだだけでは校正状態は移りません。モデル変更時は保存ODLが復元対象外になる場合があります。</p>
 <h3>正本と関連資料</h3>
 <ul class="source-list"><li><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/08668a8/firmware/IchiPingInference/README.md">ファームの使い方・ビルド・書き込み</a></li><li><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/08668a8/firmware/IchiPingInference/include/ichi_exec_control.h">長押し・確認・キャンセルの状態機械</a></li><li><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/08668a8/firmware/IchiPingInference/src/ichi_infer_main.c">起動・推論・ODLと画面メッセージ</a></li><li><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/08668a8/firmware/IchiPingInference/src/ichi_inference.c">追加ODL・FRAM保存・復元・リセット</a></li><li><a href="../solist_connection.html">Solist・中間基板の配線ガイド</a> / <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/08668a8/hardware/stamp_s3a_interposer/CONNECTIONS.md">ハーネス接続表</a></li><li><a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/08668a8/docs/TRAINING_ENV.md">学習環境</a> / <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/08668a8/sim_export/solist_ds/README.md">モデルと再学習手順</a></li><li><a href="assets/screens/manifest.json">画面画像の生成記録とハッシュ</a> / <a href="https://github.com/airpocket-soundman/IchiPing_solist_AI/blob/main/tools/render_manual_ui.py">画面画像の再生成スクリプト</a></li></ul>
 </section>
@@ -206,7 +203,7 @@
 <section class="chapter" id="photos">
 <div class="chapter-head"><span class="num">C</span><h2>撮影する写真の一覧</h2></div>
 <p>各写真の枠を差し替えるための撮影リストです。画像ファイルにP01〜P06を付けると対応を確認しやすくなります。<strong>UI画面の撮影は不要</strong>です。P03・P04は接続先と電源の現物確認にも使います。</p>
-<div class="table-wrap"><table class="photo-register"><thead><tr><th>ID</th><th>撮影対象</th><th>必ず写してほしいもの</th></tr></thead><tbody><tr><td>P01</td><td>展示全景</td><td>模型・操作部・画面・机上配置。来場者側から斜め前。</td></tr><tr><td>P02</td><td>操作パネル正面</td><td>トグル5個、各名称、OPEN/CLOSE方向、EXEC、TFT。</td></tr><tr><td>P03</td><td>本体の接続部</td><td>CN8/CN9/CN3、実際に使うケーブルと接続先、電源スイッチ。</td></tr><tr><td>P04</td><td>電源と給電経路</td><td>アダプタの定格・極性、ケーブル接続先、JP_STAMP_5V。接写の追加可。</td></tr><tr><td>P05</td><td>模型内部の俯瞰</td><td>窓a/b/c、扉AB/BC、サーボ、マイク・スピーカーの固定位置。</td></tr><tr><td>P06</td><td>片付け後の状態</td><td>ケース内の配置、可動部の保護、電源とケーブルの収納場所。</td></tr></tbody></table></div>
+<div class="table-wrap"><table class="photo-register"><thead><tr><th>ID</th><th>撮影対象</th><th>必ず写してほしいもの</th></tr></thead><tbody><tr><td>P01</td><td>展示全景</td><td>SolistAI本体・コントローラボックス・モデルハウス・DC5V電源と接続。</td></tr><tr><td>P02</td><td>コントローラボックス正面</td><td>外観全体、各操作ラベル、OPEN/CLOSE方向、EXEC、画面。</td></tr><tr><td>P03</td><td>本体の接続部</td><td>3機器の外部コネクタ、接続ケーブルとラベル。内部撮影は不要。</td></tr><tr><td>P04</td><td>電源と給電経路</td><td>DC5V電源の定格・極性、給電ケーブルの接続先。接写の追加可。</td></tr><tr><td>P05</td><td>モデルハウスの外観</td><td>窓a/b/cと扉AB/BCの位置。内部部品の撮影は不要。</td></tr><tr><td>P06</td><td>片付け後の状態</td><td>ケース内の配置、可動部の保護、電源とケーブルの収納場所。</td></tr></tbody></table></div>
 <p class="small">推奨：横位置・長辺2400px以上。反射を避け、部品や文字が見切れない構図で撮影してください。公開ページに掲載するため、PC画面・名札などの個人情報が写り込まない写真を使います。</p>
 <a class="backtop" href="#top">↑ マニュアルの先頭へ戻る</a>
 </section>

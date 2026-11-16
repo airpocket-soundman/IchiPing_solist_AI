@@ -113,6 +113,7 @@
 <div class="note"><strong>最新仕様：2秒長押しだけでは開始しません</strong><p>離した後の確認画面で、<strong>全トグルをOPENにしてEXECをもう一度押す</strong>と開始します。保存済みODLがあれば引き継いで追加学習します。保存がなければ事前学習モデルから始めます。旧仕様の説明と混同しないでください。</p></div>
 <h3>6.1 実施するタイミング</h3>
 <p>会場へ移動した後、配置や音響条件が変わり、通常推論で誤判定が続く場合に実施します。まず機器間の接続と窓・扉の動作を確認してください。<strong>約30分の準備時間</strong>を確保し、開場前などハウス模型を自動運転できる時間帯に行います。初期実測は約30分11秒で、最新版の所要時間を保証する値ではありません。</p>
+<div class="note"><strong>精度が改善しない場合の追加学習</strong><p>ODLを行っても精度が改善しない場合は、設置環境で学習用データセットを自動採取し、そのデータを使ってPCで追加学習することもできます。追加学習の方法は、<a href="https://github.com/airpocket-soundman/IchiPing_solist_AI">GitHubリポジトリ</a>をクローンし、AIを使ってリポジトリ内の資料とコードから確認してください。</p></div>
 <h3>6.2 追加ODLを開始する</h3>
 <ol class="steps"><li><strong>EXECを約2秒押し、「Release: add ODL」が出たら離す</strong><p>2秒以上10秒未満で離してください。10秒まで押し続けるとリセット確認になります。</p></li><li><strong>「Add ODL?」を確認する</strong><p>ここではまだ学習は始まりません。画面に「All OPEN + EXEC: yes」と表示されます。</p></li><li><strong>5個のトグルをすべてOPENにし、EXECを再度押して離す</strong><p>確認待ちの間は、トグルを変えてもサーボはその指定に追従しません。物理的に窓を手で開く必要はありません。スイッチ指定を全OPENにしてください。</p></li><li><strong>「Additional ODL」または「New ODL」で学習開始を確認する</strong><p>保存状態を引き継ぐ場合はAdditional ODL、保存がない場合はNew ODL。自動で窓・扉が動き、各状態で6秒の測定音を出します。</p></li></ol>
 <div class="screen-grid">

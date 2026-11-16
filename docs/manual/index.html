@@ -11,19 +11,19 @@
 </head>
 <body id="top">
 <a class="skip" href="#content">本文へ移動</a>
-<div class="mobile-bar"><a href="#top">IchiPing / Guide</a><button id="menu-toggle" aria-controls="sidebar" aria-expanded="false">目次</button></div>
+<div class="mobile-bar"><a href="#top">IchiPing 操作マニュアル</a><button id="menu-toggle" aria-controls="sidebar" aria-expanded="false">目次</button></div>
 <aside class="sidebar" id="sidebar" aria-label="マニュアル目次">
-<a class="brand" href="#top">IchiPing<span class="edition">SOLIST-AI / EXHIBITION GUIDE</span></a>
+<a class="brand" href="#top">IchiPing<span class="edition">SOLIST-AI / 操作マニュアル</span></a>
 <nav aria-label="章一覧">
 <div class="toc-title">展示の準備と操作</div>
-<a href="#overview"><span>01</span>はじめに</a>
+<a href="#overview"><span>01</span>システム概要</a>
 <a href="#parts"><span>02</span>同梱品と各部の名称</a>
 <a href="#setup"><span>03</span>設置と接続</a>
 <a href="#startup"><span>04</span>起動と動作確認</a>
 <a href="#operation"><span>05</span>通常の使い方</a>
 <a href="#odl"><span>06</span>現地校正（ODL）</a>
-<a href="#demo"><span>07</span>来場者向けデモ</a>
-<a href="#trouble"><span>08</span>困ったとき</a>
+<a href="#demo"><span>07</span>展示時の操作と確認</a>
+<a href="#trouble"><span>08</span>トラブルシューティング</a>
 <a href="#shutdown"><span>09</span>終了と片付け</a>
 <a href="#quick"><span>A</span>当日用クイックガイド</a>
 <a href="#maintenance"><span>B</span>保守担当者向け情報</a>
@@ -34,22 +34,22 @@
 </aside>
 <main id="content">
 <header class="hero">
-<div class="eyebrow">EdgeTech+ 2026 · Operator's manual</div>
-<h1>会場に設置して、<br>音で窓と扉を当てる。</h1>
-<p>IchiPing on Solist-AI<br>展示担当者のためのセットアップ・操作マニュアル</p>
-<div class="meta"><span>PCなしで実演</span><span>窓3枚＋扉2枚 / 32状態</span><span>追加学習を本体で実行</span></div>
+<div class="eyebrow">EdgeTech+ 2026 展示機</div>
+<h1>IchiPing on Solist-AI<br>セットアップ・操作マニュアル</h1>
+<p>対象：通常推論ファーム ichi_infer_main<br>設置・接続、起動、推論、ODL、保存状態のリセット、障害対応</p>
+<div class="meta"><span>操作仕様：08668a8</span><span>対象状態：窓3・扉2 / 32クラス</span><span>更新日：2026-11-16</span></div>
 </header>
-<div class="quicklinks"><a href="#quick">開場前の確認<small>チェックリストを開く →</small></a><a href="#operation">まず1回動かす<small>短押しで推論 →</small></a><a href="#odl">会場に合わせる<small>追加ODLの操作 →</small></a></div>
+<div class="quicklinks"><a href="#quick">開場前の確認<small>チェックリストを開く →</small></a><a href="#operation">推論操作<small>実行手順と画面表示 →</small></a><a href="#odl">現地校正（ODL）<small>追加学習・中断・リセット →</small></a></div>
 <noscript><div class="note">本文と全画面例はJavaScriptなしで読めます。目次はこのページ内の各章見出しをご利用ください。</div></noscript>
 <div class="note"><strong>この版について</strong><p>最新の通常推論ファームを搭載した完成済みデバイスが対象です。外観は写真待ちの枠で示しています。電源の現物ラベル、電源スイッチの場所、トグルのOPEN方向は、写真受領後に照合して追記します。UIはファームの実コードをエミュレーションして生成した表示例で、実機撮影ではありません。</p></div>
 
 <section class="chapter" id="overview">
-<div class="chapter-head"><span class="num">01</span><h2>はじめに</h2></div>
+<div class="chapter-head"><span class="num">01</span><h2>システム概要</h2></div>
 <p class="lead">スピーカーから短い測定音を出し、1個のマイクで反響を聞いて、模型の窓と扉の開閉状態を推定します。</p>
 <p>部屋A・B・Cにある窓a・b・cと、部屋をつなぐ扉AB・BCの計5か所を操作します。開閉の組み合わせは2の5乗＝32通り。本体のSolist-AIが特徴抽出とAI推論を行い、TFT画面に実際の状態と推定結果を表示します。</p>
 <figure><div class="photo wide" role="img" aria-label="写真P01の差し込み枠：展示物全体"><span class="photo-id">PHOTO P01 / 展示全景</span><strong>模型・操作部・画面が一緒に見える写真</strong><p>来場者側の斜め前から撮影。3部屋の模型、5個のトグル、EXEC、TFT、電源までを1枚に。机上の配置が分かる余白を残してください。</p><span class="aspect">横位置・推奨 16:9・長辺 2400px以上</span></div><figcaption>写真P01：完成した展示の配置をここに示します。</figcaption></figure>
-<div class="flow" aria-label="展示の流れ"><span><b>設置する</b>配置・配線を確認</span><span><b>起動する</b>全閉の基準音を取得</span><span><b>必要なら校正</b>会場の音響に適応</span><span><b>実演する</b>トグル → EXEC短押し</span></div>
-<div class="two"><div class="card"><h3>展示担当者が使う操作</h3><p>通常は5個のトグルとEXECだけを使います。PCはログ取得や保守が必要なときに接続します。</p></div><div class="card"><h3>触れずに見守る場面</h3><p>起動時、推論中、ODL中は模型が自動で動いたり音が出たりします。窓・扉・サーボの動作範囲を空けてください。</p></div></div>
+<div class="flow" aria-label="展示の流れ"><span><b>設置する</b>配置・配線を確認</span><span><b>起動する</b>全閉の基準音を取得</span><span><b>現地校正</b>保存状態から追加学習</span><span><b>実演する</b>トグル → EXEC短押し</span></div>
+<div class="two"><div class="card"><h3>展示担当者が使う操作</h3><p>通常は5個のトグルとEXECだけを使います。PCはログ取得や保守が必要なときに接続します。</p></div><div class="card"><h3>自動動作中の注意</h3><p>起動時、推論中、ODL中は模型が自動で動いたり音が出たりします。窓・扉・サーボの動作範囲を空けてください。</p></div></div>
 </section>
 
 <section class="chapter" id="parts">
@@ -64,7 +64,7 @@
 <tr><td>予備品・保守用PC（任意）</td><td>予備ケーブル、固定具、ログ取得環境。通常の実演にはPC不要。</td></tr>
 </tbody></table></div>
 <figure><div class="photo" role="img" aria-label="写真P02の差し込み枠：操作パネル"><span class="photo-id">PHOTO P02 / 操作パネル</span><strong>5個のトグル・EXEC・TFTの正面写真</strong><p>窓a・扉AB・窓b・扉BC・窓cのラベルと、OPEN / CLOSE方向が読めるように。上下の向きを含め、パネル全体を正面から撮影してください。</p><span class="aspect">横位置・推奨 4:3・文字にピント</span></div><figcaption>写真P02：画面の桁順と操作パネルの位置関係を写真受領後に注記します。現時点では「上＝OPEN」などの向きは指定していません。</figcaption></figure>
-<h3>名前と表示順を覚える</h3>
+<h3>部屋・窓・扉の名称と表示順</h3>
 <svg class="diagram" viewBox="0 0 820 225" role="img" aria-labelledby="rooms-title rooms-desc"><title id="rooms-title">部屋と窓・扉の概念図</title><desc id="rooms-desc">左から部屋C、扉BC、部屋B、扉AB、部屋A。画面も左からc BC b AB aの順。配置を説明する概念図で、実機の寸法や音響部品の位置は示さない。</desc><g fill="#edf5ef" stroke="#9cb9ac" stroke-width="2"><rect x="26" y="35" width="240" height="135" rx="5"/><rect x="290" y="35" width="240" height="135" rx="5"/><rect x="554" y="35" width="240" height="135" rx="5"/></g><g font-family="sans-serif" text-anchor="middle" fill="#244e43"><text x="146" y="92" font-size="25">部屋 C</text><text x="410" y="92" font-size="25">部屋 B</text><text x="674" y="92" font-size="25">部屋 A</text></g><g fill="#096d69"><rect x="96" y="28" width="100" height="14" rx="3"/><rect x="360" y="28" width="100" height="14" rx="3"/><rect x="624" y="28" width="100" height="14" rx="3"/><rect x="256" y="110" width="44" height="42" rx="3"/><rect x="520" y="110" width="44" height="42" rx="3"/></g><g text-anchor="middle" font-family="sans-serif" font-size="16" fill="#244e43"><text x="146" y="18">窓 c</text><text x="410" y="18">窓 b</text><text x="674" y="18">窓 a</text><text x="278" y="195">扉 BC</text><text x="542" y="195">扉 AB</text><text x="410" y="222" font-size="12">画面の左から：c → BC → b → AB → a　（配置の概念図）</text></g></svg>
 <p>画面では<strong>1＝OPEN（開）、0＝CLOSE（閉）</strong>です。小文字a・b・cは窓、AB・BCは扉を表します。</p>
 </section>
@@ -101,7 +101,7 @@
 <h3>画面の読み方</h3>
 <div class="table-wrap"><table><thead><tr><th>表示</th><th>意味</th></tr></thead><tbody><tr><td>上段 inf</td><td>AIの推定結果。未推論時は「-----」。</td></tr><tr><td>下段 act</td><td>トグルで指定した実際の状態。サーボが正常に動いていることが前提。</td></tr><tr><td>左から c・BC・b・AB・a</td><td>窓c／扉BC／窓b／扉AB／窓a。1が開、0が閉。</td></tr><tr><td>infの緑 / 赤</td><td>桁ごとの一致 / 不一致。判定は下の帯の文言も合わせて確認。</td></tr><tr><td>暗く表示される桁</td><td>閉じた扉の奥にあり、音響的に聞き分ける対象から外れる箇所。故障や表示欠けではありません。</td></tr></tbody></table></div>
 <div class="scene-picker no-print" role="group" aria-label="結果表示の比較"><button data-scene="complete" aria-pressed="true">完全一致</button><button data-scene="conditional" aria-pressed="false">条件付き一致</button><button data-scene="failure" aria-pressed="false">不一致</button></div>
-<div class="demo no-print"><img id="demo-image" src="assets/screens/complete.png" width="320" height="240" alt="TFT再現：Complete Success"><div aria-live="polite"><span class="tag">RESULT VIEWER</span><h3 id="demo-title">Complete Success</h3><p id="demo-description">5桁すべて一致。窓・扉の32通りを完全に当てています。</p><p class="small">上のボタンで表示例を切り替えられます。実機への通信・操作は行いません。</p></div></div>
+<div class="demo no-print"><img id="demo-image" src="assets/screens/complete.png" width="320" height="240" alt="TFT再現：Complete Success"><div aria-live="polite"><span class="tag">判定表示例</span><h3 id="demo-title">Complete Success</h3><p id="demo-description">5桁すべて一致。窓・扉の32通りを完全に当てています。</p><p class="small">上のボタンで表示例を切り替えられます。実機への通信・操作は行いません。</p></div></div>
 <div class="screen-grid" style="margin-top:20px">
 <figure class="screen"><img src="assets/screens/complete.png" width="320" height="240" alt="TFT：infとactが11111でComplete Success"><figcaption><strong>Complete Success / 完全一致</strong>5桁すべてが一致。32クラスとして正解です。</figcaption></figure>
 <figure class="screen"><img src="assets/screens/conditional.png" width="320" height="240" alt="TFT：inf 10001、act 00001、Conditional Success"><figcaption><strong>Conditional Success / 条件付き一致</strong>14クラスでは一致。例では扉ABが閉じており、その奥の窓cの推定だけが異なります。</figcaption></figure>
@@ -111,7 +111,7 @@
 </section>
 
 <section class="chapter" id="odl">
-<div class="chapter-head"><span class="num">06</span><h2>会場に合わせた校正（ODL）</h2></div>
+<div class="chapter-head"><span class="num">06</span><h2>現地校正（ODL）</h2></div>
 <p class="lead">ODLは、設置環境に合わせて本体で追加学習する機能です。全32状態を自動で巡回します。</p>
 <div class="note"><strong>最新仕様：2秒長押しだけでは開始しません</strong><p>離した後の確認画面で、<strong>全トグルをOPENにしてEXECをもう一度押す</strong>と開始します。保存済みODLがあれば引き継いで追加学習します。保存がなければ事前学習モデルから始めます。旧仕様の説明と混同しないでください。</p></div>
 <h3>6.1 実施するタイミング</h3>
@@ -143,14 +143,14 @@
 </section>
 
 <section class="chapter" id="demo">
-<div class="chapter-head"><span class="num">07</span><h2>来場者向けデモの進め方</h2></div>
-<blockquote class="quote">「この模型は、音の響きで窓や扉の開閉を当てます。好きな状態に切り替えて、このボタンを短く押してみてください。上の段がAIの答え、下の段が指定した状態です。」</blockquote>
-<ol class="steps"><li><strong>まず扉を両方開けた状態で見せる</strong><p>部屋全体につながる例として、画面の5桁が明るく見える状態で1回推論します。窓を1個切り替えて、結果が変わることを示します。</p></li><li><strong>来場者に状態を選んでもらう</strong><p>模型へ直接力を加えず、トグルで操作してもらいます。担当者が可動部と測定のタイミングを見守ります。</p></li><li><strong>結果を一緒に読む</strong><p>完全一致なら5桁の一致を説明。条件付き一致なら「閉じた扉の奥は音で区別しにくいため、暗い桁は別扱い」と説明します。不一致はそのまま伝え、状態・音響条件を確認して再測定します。</p></li></ol>
-<div class="two"><div class="card"><h3>「カメラで見ているの？」</h3><p>このデモはスピーカーの測定音と1個のマイクの反響を使います。開閉の推定にカメラは使いません。</p></div><div class="card"><h3>「ネット接続が必要？」</h3><p>推論と現地校正は本体で行います。実演にインターネットやPCは不要です。</p></div><div class="card"><h3>「会場が変わっても動く？」</h3><p>反響は設置条件に影響されます。起動時に全閉の基準を取り、必要ならODLで追加学習します。</p></div><div class="card"><h3>「窓を直接動かしてよい？」</h3><p>トグルで操作します。actはスイッチ指定なので、模型を手で動かすと表示と実際の状態がずれる場合があります。</p></div></div>
+<div class="chapter-head"><span class="num">07</span><h2>展示時の操作と確認</h2></div>
+<p>通常推論の操作と結果の確認手順を示します。窓・扉の状態変更はトグルで行います。</p>
+<ol class="steps"><li><strong>扉AB・BCをOPENにして推論する</strong><p>画面の5桁が明るく表示されることを確認し、EXEC短押しで1回推論します。窓を1個切り替え、actの対応する桁と模型の動作を確認して再推論します。</p></li><li><strong>トグル指定と模型の状態を確認する</strong><p>模型へ直接力を加えず、トグルで操作します。測定中は可動部や音響部品に触れず、結果表示まで待ちます。</p></li><li><strong>inf・actと判定帯を確認する</strong><p>Complete Successは5桁の一致、Conditional Successは14クラスの一致です。Failureの場合はトグル指定・模型の状態・音響部品の位置を確認して再測定します。</p></li></ol>
+<div class="two"><div class="card"><h3>センシング方式</h3><p>このデモはスピーカーの測定音と1個のマイクの反響を使います。開閉の推定にカメラは使いません。</p></div><div class="card"><h3>PC・ネットワーク接続</h3><p>推論と現地校正は本体で行います。実演にインターネットやPCは不要です。</p></div><div class="card"><h3>設置条件の変更</h3><p>反響は設置条件に影響されます。起動時に全閉の基準を取り、必要ならODLで追加学習します。</p></div><div class="card"><h3>開閉状態の指定</h3><p>トグルで操作します。actはスイッチ指定なので、模型を手で動かすと表示と実際の状態がずれる場合があります。</p></div></div>
 </section>
 
 <section class="chapter" id="trouble">
-<div class="chapter-head"><span class="num">08</span><h2>困ったときの対処</h2></div>
+<div class="chapter-head"><span class="num">08</span><h2>トラブルシューティング</h2></div>
 <p>まず画面の文言、操作直前の状態、電源と配線を確認します。配線を抜き差しするときは電源を切ってください。異常なサーボ動作がある場合は実演を止め、可動部を解放します。</p>
 <div class="table-wrap"><table><thead><tr><th>症状・表示</th><th>確認と対処</th></tr></thead><tbody>
 <tr><td>画面が点かない</td><td>Solist側とTFT・中間基板側の給電を確認。指定電源、ケーブル、コネクタを照合し、通電をやり直します。</td></tr>

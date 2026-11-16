@@ -15,4 +15,4 @@
 @media print{.hero{background:white!important;color:var(--ink);padding:7mm}.hero h1{font-size:24pt}.hero p{color:var(--muted)}}
 
 /* Preserve the native 320 x 240 proportions in web and print layouts. */
-figure.screen img,.demo img{height:auto}
+figure.screen img,.demo img{height:auto;aspect-ratio:auto}
